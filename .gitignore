@@ -1,0 +1,7 @@
+.DS_Store
+cadonix.test.iml
+searchresults.log
+target/
+test-output/
+.idea/
+cucumberbdd.iml
