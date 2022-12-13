@@ -41,5 +41,32 @@ public class ViewGeneratorPage extends BasePage {
     @FindBy(css = "input[name=\"Cavity.generator.offsetx\"]") private WebElement cavityGeneratorXOrigin;
     @FindBy(css = "input[name=\"Cavity.generator.offsety\"]") private WebElement cavityGeneratorYOrigin;
     @FindBy(css = "input[name=\"Cavity.generator.centered\"]") private WebElement cavityGeneratorToggle;
+    @FindBy(css = "select[name=\"Cavity.generator.vertrect\"]") private WebElement cavityGeneratorNumberingDirection;
+    @FindBy(css = "select[name=\"Cavity.generator.dirx\"]") private WebElement cavityGeneratorElementPositionX;
+    @FindBy(css = "select[name=\"Cavity.generator.diry\"]") private WebElement cavityGeneratorElementPositionY;
+    @FindBy(css = "select[name=\"Cavity.generator.pinshape\"]") private WebElement cavityGeneratorShape;
+    @FindBy(css = "input[name=\"Cavity.generator.pinsize\"]") private WebElement cavityGeneratorSize;
+    @FindBy(css = "select[name=\"Cavity.generator.cavLblPos\"]") private WebElement cavityGeneratorLabelPosition;
+    //Cavity
+    @FindBy(id = "idaddpinrow") private WebElement cavityAddRow;
+    @FindBy(id = "iinvx") private WebElement cavityInvertX;
+    @FindBy(id = "ignd") private WebElement cavityGnd;
+    @FindBy(id = "irempin") private WebElement cavityRemoveOne;
+    @FindBy(id = "iremall") private WebElement cavityRemoveAll;
+    @FindBy(css = "input[name=\"Cavity.draw.x\"][rel=\"x\"]") private WebElement cavityDrawX;
+    @FindBy(css = "input[name=\"Cavity.draw.y\"][rel=\"y\"]") private WebElement cavityDrawY;
+    @FindBy(css = "input[name=\"Cavity.draw.name\"][rel=\"name\"]") private WebElement cavityDrawName;
+    @FindBy(css = "input[title=\"Cavity Name Visibility\"]") private WebElement cavityCheckboxNameVisibility;
+    @FindBy(css = "select[name=\"Cavity.draw.cavShape\"]") private WebElement cavityDrawShape;
+    @FindBy(css = "input[name=\"Cavity.draw.cavSize\"][rel=\"cavSize\"]") private WebElement cavitySize;
+    @FindBy(css = "input[name=\"Cavity.draw.cavHeight\"][rel=\"cavHeight\"]") private WebElement cavityHeight;
+    @FindBy(css = "button[title=\"Set Cavity Coordinates\"]") private WebElement cavitySetCoordinates;
+    @FindBy(id = "Cavity.cavStrokeWidth") private WebElement cavityStrokeWidth;
+    @FindBy(id = "Cavity.shellStrokeWidth") private WebElement svgStrokeWidth;
+    @FindBy(id = "Cavity.fontSize") private WebElement cavityFontSize;
+    @FindBy(id = "Cavity.wireleadfontSize") private WebElement cavityWireLeadFontSize;
+    @FindBy(id = "Cavity.connectorScale") private WebElement cavityonnectorScale;
+    @FindBy(css = "select[name=\"Cavity.generator.units\"]") private WebElement cavityGenUnits;
+
 }
 
