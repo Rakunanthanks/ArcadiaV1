@@ -22,9 +22,6 @@ public class AddNewComponentPage extends BasePage {
     @FindBy(css = "input[name=\"addrefs.Partnumber\"]") private WebElement referencesPartNumber;
     @FindBy(css = "input[name=\"addrefs.Type\"]") private WebElement referencesType;
     @FindBy(css = "input[name=\"addrefs.Company\"]") private WebElement referencesCompany;
-    @FindBy(css = "button[title=\"Move Up\"]") private WebElement buttonMoveUp;
-    @FindBy(css = "button[title=\"Move Down\"]") private WebElement buttonMoveDown;
-    @FindBy(css = "button[title=\"Delete\"]") private WebElement buttonDeleteReference;
     @FindBy(css = "input[name=\"price\"]") private WebElement bomPrice;
     @FindBy(css = "input[name=\"weight\"]") private WebElement bomWeight;
     @FindBy(css = "select[name=\"eachorpm\"]") private WebElement bomMeasure;
@@ -34,5 +31,4 @@ public class AddNewComponentPage extends BasePage {
     @FindBy(id = "btnReset") private WebElement resetButton;
     @FindBy(css = "button[value=\"Create New Component\"]") private WebElement createNewComponent;
     @FindBy(id = "idMsg") private WebElement alertSuccessMessage;
-    @FindBy(css = "button[value=\"Update Component\"]") private WebElement updateComponent;
 }

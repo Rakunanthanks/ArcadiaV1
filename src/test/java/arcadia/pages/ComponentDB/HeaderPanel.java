@@ -16,6 +16,6 @@ public class HeaderPanel extends BasePage {
     @FindBy(id = "customExport") private WebElement exportCustomFields;
     @FindBy(id = "btnaddsimilar") private WebElement addSimilar;
     @FindBy(id = "btnmove") private WebElement btnCopy;
-    @FindBy(id = "btnDelete") private WebElement btnDelete;
+    @FindBy(id = "btnDelete") private WebElement btnHeaderDelete;
     @FindBy(css = "select[name=\"company\"]") private WebElement selectBoxCompany;
 }
