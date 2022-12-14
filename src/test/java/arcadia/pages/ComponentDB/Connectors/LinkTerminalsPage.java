@@ -10,11 +10,11 @@ public class LinkTerminalsPage extends BasePage {
         super(driver);
     }
     @FindBy(id = "Link_Terminals_termsused") private WebElement tableTerminalsUsed;
-    @FindBy(css = "input[rel=\"partnumber\"]+div input") private WebElement terminalsPartNumber;
-    @FindBy(css = "input[rel=\"WireCSA\"]") private WebElement terminalsWireCsa;
-    @FindBy(css = "input[rel=\"WireINS\"]") private WebElement terminalsWireOd;
-    @FindBy(css = "input[rel=\"Finish\"]") private WebElement terminalsFinish;
-    @FindBy(css = "input[name=\"Link_Terminals.termsused.Cavities\"]") private WebElement terminalsCavities;
-    @FindBy(id = "idaddrow") private WebElement terminalsAddRow;
-    @FindBy(id = "loadDataDb") private WebElement terminalsLoadDataDB;
+    String terminalsPartNumber = "input[rel=\"partnumber\"]+div input";
+    String terminalsDescription = "input[rel=\"Desc\"]";
+    String terminalsWireCsa = "input[rel=\"WireCSA\"]";
+    String terminalsWireOd = "input[rel=\"WireINS\"]";
+    String terminalsFinish = "input[rel=\"Finish\"]";
+    String terminalsCavities = "input[name=\"Link_Terminals.termsused.Cavities\"]";
+    String buttonExpandTerminalsUsed = "table#Link_Terminals_termsused button.expand";
 }
