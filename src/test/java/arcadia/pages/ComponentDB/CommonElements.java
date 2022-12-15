@@ -15,4 +15,5 @@ public class CommonElements extends BasePage {
     String buttonMoveUp = "button[title=\"Move Up\"]";
     String buttonMoveDown = "button[title=\"Move Down\"]";
     String buttonDelete = "button[title=\"Delete\"]";
+    @FindBy(id = "btnReset") private WebElement resetButton;
 }

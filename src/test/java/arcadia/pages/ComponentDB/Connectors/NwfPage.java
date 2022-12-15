@@ -9,7 +9,7 @@ public class NwfPage extends BasePage {
     public NwfPage(WebDriver driver) {
         super(driver);
     }
-    @FindBy(id = "NWF_termsused") private WebElement tableCavityNwf;
+    @FindBy(css = "table#NWF_termsused") private WebElement tableCavityNwf;
     @FindBy(css = "input[rel=\"Cavity\"][title=\"A\"]") private WebElement cavityA;
     @FindBy(css = "input[rel=\"Cavity\"][title=\"B\"]") private WebElement cavityB;
     @FindBy(css = "input[name=\"NWF.termsused.nwf\"][title=\"A\"]") private WebElement NwfA;

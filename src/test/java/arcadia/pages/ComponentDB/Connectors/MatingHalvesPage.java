@@ -9,7 +9,7 @@ public class MatingHalvesPage extends BasePage {
     public MatingHalvesPage(WebDriver driver) {
         super(driver);
     }
-    @FindBy(id = "Mating_Halves_termsused") private WebElement tableMatingHalves;
+    @FindBy(css = "table#Mating_Halves_termsused") private WebElement tableMatingHalves;
     String matingHalvesPartNumber = "input[rel=\"partnumber\"]+div input";
     String matingDescription = "input[rel=\"Desc\"]";
     String matingColour = "input[rel=\"Colour\"]";

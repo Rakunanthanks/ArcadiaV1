@@ -10,7 +10,7 @@ public class ViewGeneratorPage extends BasePage {
         super(driver);
     }
     //Shell
-    @FindBy(id = "Cavity2_termsused") private WebElement cavityShellTable;
+    @FindBy(css = "table#Cavity2_termsused") private WebElement cavityShellTable;
     @FindBy(id = "gen-fit-shell") private WebElement fitShell;
     @FindBy(id = "isvgedit") private WebElement editSVG;
     @FindBy(id = "isvgcancel") private WebElement clearSVG;

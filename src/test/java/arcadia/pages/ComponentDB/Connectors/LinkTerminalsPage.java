@@ -9,7 +9,7 @@ public class LinkTerminalsPage extends BasePage {
     public LinkTerminalsPage(WebDriver driver) {
         super(driver);
     }
-    @FindBy(id = "Link_Terminals_termsused") private WebElement tableTerminalsUsed;
+    @FindBy(css = "table#Link_Terminals_termsused") private WebElement tableTerminalsUsed;
     String terminalsPartNumber = "input[rel=\"partnumber\"]+div input";
     String terminalsDescription = "input[rel=\"Desc\"]";
     String terminalsWireCsa = "input[rel=\"WireCSA\"]";

@@ -9,7 +9,7 @@ public class LinkSealsPage extends BasePage {
     public LinkSealsPage(WebDriver driver) {
         super(driver);
     }
-    @FindBy(id = "Link_Seals_termsused") private WebElement tableLinkSealsUsed;
+    @FindBy(css = "table#Link_Seals_termsused") private WebElement tableLinkSealsUsed;
     String selectSealType = "select[name=\"Link_Seals.termsused.SealType\"]";
     String sealsPartNumber = "input[rel=\"partnumber\"]+div input";
     String sealsDescription = "input[rel=\"Desc\"]";
