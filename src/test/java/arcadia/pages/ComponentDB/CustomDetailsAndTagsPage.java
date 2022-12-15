@@ -1,4 +1,4 @@
-package arcadia.pages.ComponentDB.Connectors;
+package arcadia.pages.ComponentDB;
 
 import arcadia.pages.BasePage;
 import org.openqa.selenium.WebDriver;

@@ -1,4 +1,4 @@
-package arcadia.pages.ComponentDB.Connectors;
+package arcadia.pages.ComponentDB;
 
 import arcadia.pages.BasePage;
 import org.openqa.selenium.WebDriver;
@@ -9,11 +9,9 @@ public class EquivalentsPage extends BasePage {
     public EquivalentsPage(WebDriver driver) {
         super(driver);
     }
-    @FindBy(id = "Equivalents_termsused") private WebElement tableEquivalentHalves;
+    @FindBy(css = "table#Equivalents_termsused") private WebElement tableEquivalentHalves;
     String equivalentHalvesPartNumber = "input[rel=\"partnumber\"]+div input";
     String equivalentDescription = "input[rel=\"Desc\"]";
     String equivalentColour = "input[rel=\"Colour\"]";
-    String equivalentHousingGender = "input[rel=\"housingGender\"]";
-    String equivalentTerminalGender = "input[rel=\"TermGender\"]";
-    String equivalentCavities = "input[rel=\"Cavities\"]";
+    String equivalentFamily = "input[rel=\"Family\"]";
 }

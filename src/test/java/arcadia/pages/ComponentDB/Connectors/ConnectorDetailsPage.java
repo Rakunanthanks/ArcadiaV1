@@ -57,5 +57,9 @@ public class ConnectorDetailsPage extends BasePage {
     @FindBy(css = "select[name=\"Connector.basePointOrientateIsometric\"]") private WebElement connectorSelectOrientateIsometric;
     @FindBy(css = "select[name=\"Connector.basePointOrientateCatalogue\"]") private WebElement connectorSelectOrientateCatalogue;
     @FindBy(css = "select[name=\"Connector.basePointOrientateSide\"]") private WebElement connectorSelectOrientateSide;
-
+    String buttonUploadFile = "button[title=\"Select/Upload File\"]";
+    String buttonDefaultImage = "button[title=\"Set Default Image\"]";
+    String buttonUndo = "button[title=\"Undo\"]";
+    String buttonSetBasePoint = "button[title=\"Set Base-Point\"]";
+    String buttonRotateBasePoint = "button[title=\"Rotate Base-Point\"]";
 }

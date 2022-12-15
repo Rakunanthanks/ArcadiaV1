@@ -1,4 +1,4 @@
-package arcadia.pages.ComponentDB.Connectors;
+package arcadia.pages.ComponentDB;
 
 import arcadia.pages.BasePage;
 import org.openqa.selenium.WebDriver;
@@ -9,7 +9,7 @@ public class AttachmentsPage extends BasePage {
     public AttachmentsPage(WebDriver driver) {
         super(driver);
     }
-    @FindBy(id = "Attachments") private WebElement tableAttachments;
+    @FindBy(css = "table#Attachments") private WebElement tableAttachments;
     @FindBy(css = "button[value=\"Select Files to Upload\"]") private WebElement buttonSelectFilesToUpload;
     String buttonDeleteAttachments = "button#btnRemove";
 }
