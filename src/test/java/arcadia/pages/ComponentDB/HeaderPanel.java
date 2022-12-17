@@ -18,4 +18,8 @@ public class HeaderPanel extends BasePage {
     @FindBy(id = "btnmove") private WebElement btnCopy;
     @FindBy(id = "btnDelete") private WebElement btnHeaderDelete;
     @FindBy(css = "select[name=\"company\"]") private WebElement selectBoxCompany;
+
+    public void openAddNewComponentPage(){
+        addNewComponent.click();
+    }
 }
