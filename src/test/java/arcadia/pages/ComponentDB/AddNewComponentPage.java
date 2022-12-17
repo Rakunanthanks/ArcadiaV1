@@ -1,14 +1,21 @@
 package arcadia.pages.ComponentDB;
 
+import arcadia.domainobjects.AddComponentForm;
 import arcadia.pages.BasePage;
+import arcadia.utils.SeleniumCustomCommand;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
+import java.util.List;
 
 public class AddNewComponentPage extends BasePage {
     public AddNewComponentPage(WebDriver driver) {
         super(driver);
     }
+    SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
+    CommonElements commonElements = new CommonElements(driver);
     @FindBy(css = "input[name=\"description\"]") private WebElement componentDeccription;
     @FindBy(css = "div#idDetails [name=\"family\"]+div input") private WebElement componentFamily;
     @FindBy(css = "select[name=\"typecode\"]") private WebElement componentTypeCode;
@@ -32,4 +39,44 @@ public class AddNewComponentPage extends BasePage {
     @FindBy(id = "idMsg") private WebElement alertSuccessMessage;
     @FindBy(css = "button[value=\"Delete Component\"]") private WebElement deleteComponent;
     @FindBy(css = "div#addnewcompmodal button.close") private WebElement buttonCloseAddModal;
+
+    public void createComponent(AddComponentForm addComponentForm) throws InterruptedException {
+        //Details
+        customCommand.enterText(componentDeccription,addComponentForm.getComponentDetails().getDescription());
+        customCommand.enterText(componentFamily,addComponentForm.getComponentDetails().getFamily());
+        customCommand.enterText(componentTypeCode,addComponentForm.getComponentDetails().getTypecode());
+        customCommand.enterText(componentProprietary,addComponentForm.getComponentDetails().getProprietary());
+        customCommand.enterText(componentPartType,addComponentForm.getComponentDetails().getParttype());
+        List<WebElement> listOfColours = driver.findElements(By.cssSelector(componentColour));
+        customCommand.selectDropDownByValue(listOfColours.get(0),addComponentForm.getComponentDetails().getPrimarycolour());
+        customCommand.selectDropDownByValue(listOfColours.get(1),addComponentForm.getComponentDetails().getSecondarycolour());
+        customCommand.selectDropDownByValue(listOfColours.get(2),addComponentForm.getComponentDetails().getTertiarycolour());
+        customCommand.selectDropDownByValue(componentMaterialCode,addComponentForm.getComponentDetails().getMaterialcode());
+        customCommand.selectDropDownByValue(componentUsage,addComponentForm.getComponentDetails().getUsage());
+        customCommand.selectDropDownByValue(componentPartCategory,addComponentForm.getComponentDetails().getPartcategory());
+
+        //Additional references
+        commonElements.buttonAddRow.click();
+        List<WebElement> listOfPartNumber = driver.findElements(By.cssSelector(referencesPartNumber));
+        customCommand.enterText(listOfPartNumber.get(0),addComponentForm.getAdditionalReferences().get(0).getReferencesPartNumber());
+        customCommand.enterText(listOfPartNumber.get(1),addComponentForm.getAdditionalReferences().get(1).getReferencesPartNumber());
+        List<WebElement> listOfType = driver.findElements(By.cssSelector(referencesType));
+        customCommand.selectDropDownByValue(listOfType.get(0),addComponentForm.getAdditionalReferences().get(0).getReferencesType());
+        customCommand.selectDropDownByValue(listOfType.get(1),addComponentForm.getAdditionalReferences().get(1).getReferencesType());
+        List<WebElement> listOfCompany = driver.findElements(By.cssSelector(referencesCompany));
+        customCommand.enterText(listOfCompany.get(0),addComponentForm.getAdditionalReferences().get(0).getReferencesCompany());
+        customCommand.enterText(listOfCompany.get(1),addComponentForm.getAdditionalReferences().get(1).getReferencesCompany());
+
+        //BomDetails
+        customCommand.enterText(bomPrice, String.valueOf(addComponentForm.getBomDetails().getBomPrice()));
+        customCommand.enterText(bomWeight, addComponentForm.getBomDetails().getBomWeight());
+        customCommand.selectDropDownByValue(bomMeasure, addComponentForm.getBomDetails().getBomMeasure());
+        customCommand.selectDropDownByValue(bomCurrency, addComponentForm.getBomDetails().getBomCurrency());
+        customCommand.selectDropDownByValue(bomUnits, addComponentForm.getBomDetails().getBomUnits());
+        customCommand.selectDropDownByValue(bomBillType, addComponentForm.getBomDetails().getBomBillType());
+    }
+
+    public void submitComponentDetails(){
+        createNewComponent.click();
+    }
 }

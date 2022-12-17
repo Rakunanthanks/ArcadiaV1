@@ -1,5 +1,8 @@
 package arcadia.pages;
 
+import arcadia.pages.ComponentDB.AddNewComponentPage;
+import arcadia.pages.ComponentDB.CommonElements;
+import arcadia.pages.ComponentDB.HeaderPanel;
 import org.openqa.selenium.WebDriver;
 
 public class PageFactoryManager {
@@ -12,6 +15,8 @@ public class PageFactoryManager {
     private static SearchWirePage searchWirePage;
     private static BundlePage bundlePage;
     private static SleeveTubeComponentDB sleeveTubeComponentDB;
+    private static AddNewComponentPage addNewComponentPage;
+    private static HeaderPanel headerPanel;
 
     public static SearchPartsDatabasePage getPartsDatabasePage(WebDriver driver){
         return searchPartsDatabasePage == null ? new SearchPartsDatabasePage(driver) : searchPartsDatabasePage;
@@ -42,6 +47,14 @@ public class PageFactoryManager {
 
     public static LoginPage getLoginPage(WebDriver driver){
         return loginPage == null ? new LoginPage(driver) : loginPage;
+    }
+
+    public static AddNewComponentPage getAddNewComponentPage(WebDriver driver){
+        return addNewComponentPage == null ? new AddNewComponentPage(driver) : addNewComponentPage;
+    }
+
+    public static HeaderPanel getHeaderPanel(WebDriver driver){
+        return headerPanel == null ? new HeaderPanel(driver) : headerPanel;
     }
 
 }
