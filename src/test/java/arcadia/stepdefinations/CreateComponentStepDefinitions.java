@@ -9,6 +9,7 @@ import arcadia.pages.ComponentDB.CommonElements;
 import arcadia.pages.ComponentDB.HeaderPanel;
 import arcadia.pages.PageFactoryManager;
 import arcadia.utils.FormulaCalculator;
+import arcadia.utils.StringHelper;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -16,6 +17,7 @@ import org.testng.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class CreateComponentStepDefinitions {
     private final TestContext context;
@@ -32,7 +34,7 @@ public class CreateComponentStepDefinitions {
     @When("User enters data on Add Component Page")
     public void enterComponentDetails() throws InterruptedException {
         AddComponentForm addComponentForm = new AddComponentForm();
-        ComponentDetails componentDetails = new ComponentDetails("testdescription","testfamily","IN REVIEW","","testproprietary","","BLACK","BLUE","BROWN","PVC","NOT SET","");
+        ComponentDetails componentDetails = new ComponentDetails(String.format("testdescription-%04d", new StringHelper().generateRandomDigit()),"testfamily","IN REVIEW","","testproprietary","","BLACK","BLUE","BROWN","PVC","NOT SET","");
         addComponentForm.setComponentDetails(componentDetails);
         List<AdditionalReferences> additionalReferencesList = new ArrayList<>();
         AdditionalReferences additionalReferences1 = new AdditionalReferences("1212","Manufacturer","testcompany");
