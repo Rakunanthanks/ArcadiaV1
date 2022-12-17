@@ -12,8 +12,4 @@ public class ProjectLandingStepDefinitions {
         this.context = context;
         projectLanding = PageFactoryManager.getProjectLanding(context.driver);
     }
-//    @And("Navigated to quickstart project")
-//    public void navigateToProjectQuickStart(){
-//        projectLanding.load(EndPoint.PROJECT.url);
-//    }
 }

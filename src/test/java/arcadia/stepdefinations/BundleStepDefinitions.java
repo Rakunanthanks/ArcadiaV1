@@ -3,16 +3,10 @@ package arcadia.stepdefinations;
 import arcadia.context.FlowContext;
 import arcadia.context.TestContext;
 import arcadia.domainobjects.*;
-import arcadia.mapperObjects.Bundle;
-import arcadia.mapperObjects.DBCheck;
-import arcadia.mapperObjects.TestMapper;
 import arcadia.pages.*;
 import arcadia.utils.ConversionUtil;
 import arcadia.utils.FormulaCalculator;
-import com.aventstack.extentreports.ExtentReports;
-import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
-import com.aventstack.extentreports.reporter.ExtentReporter;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import one.util.streamex.StreamEx;
@@ -23,9 +17,7 @@ import org.testng.asserts.SoftAssert;
 
 import java.awt.*;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Flow;
 import java.util.stream.Collectors;
 
 import static arcadia.context.FlowContext.defaultLineFont;

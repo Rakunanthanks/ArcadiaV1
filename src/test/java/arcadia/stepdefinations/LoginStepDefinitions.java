@@ -3,25 +3,20 @@ package arcadia.stepdefinations;
 import arcadia.constants.EndPoint;
 import arcadia.context.FlowContext;
 import arcadia.context.TestContext;
-import arcadia.domainobjects.Harness;
-import arcadia.domainobjects.HarnessBundleDisplay;
 import arcadia.mapperObjects.DrawingInstructor;
-import arcadia.mapperObjects.TestMapper;
 import arcadia.pages.*;
-import arcadia.utils.ConversionUtil;
+import arcadia.pages.ComponentDB.HeaderPanel;
 import arcadia.utils.DrawingHelper;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 
 import java.awt.*;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 public class LoginStepDefinitions {
     private final LoginPage loginPage;
     private final TestContext context;
-    DrawingHelper ins = new DrawingHelper();
     public LoginStepDefinitions(TestContext context){
         this.context = context;
         loginPage = PageFactoryManager.getLoginPage(context.driver);
@@ -35,9 +30,24 @@ public class LoginStepDefinitions {
     public void test_data_config_loaded_for_test_identifier(String string) throws IOException, InterruptedException {
         context.testIdentifier = string;
     }
+
+    @Given("Navigated to selected componentDB")
+    public void navigated_to_selected_component_db() {
+        String selectedComponentDB = System.getProperty("componentDB");
+        System.out.println("selectedComponentDB "+ selectedComponentDB);
+        String endpoint = EndPoint.COMPONENTDB.url.replace("componentDB",selectedComponentDB);
+        loginPage.load(endpoint);
+
+    }
+
     @And("Navigated to quickstart project")
     public void navigateToProjectQuickStart(){
         loginPage.load(EndPoint.PROJECT.url);
+    }
+
+    @Given("User selected {string} from componentDB")
+    public void user_selected_from_component_db(String menuName) {
+        new HeaderPanel(context.driver).invokeMainMenu(menuName);
     }
 
     @And("Harness bundle default values are captured")

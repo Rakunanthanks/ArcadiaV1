@@ -53,7 +53,8 @@ public class AddNewComponentPage extends BasePage {
         customCommand.selectDropDownByValue(listOfColours.get(2),addComponentForm.getComponentDetails().getTertiarycolour());
         customCommand.selectDropDownByValue(componentMaterialCode,addComponentForm.getComponentDetails().getMaterialcode());
         customCommand.selectDropDownByValue(componentUsage,addComponentForm.getComponentDetails().getUsage());
-        customCommand.selectDropDownByValue(componentPartCategory,addComponentForm.getComponentDetails().getPartcategory());
+
+        //customCommand.selectDropDownByValue(componentPartCategory,addComponentForm.getComponentDetails().getPartcategory());
 
         //Additional references
         commonElements.buttonAddRow.click();

@@ -1,9 +1,13 @@
 package arcadia.pages.ComponentDB;
 
 import arcadia.pages.BasePage;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
+import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class HeaderPanel extends BasePage {
     public HeaderPanel(WebDriver driver) {
@@ -22,4 +26,19 @@ public class HeaderPanel extends BasePage {
     public void openAddNewComponentPage(){
         addNewComponent.click();
     }
+
+    public void invokeMainMenu(String menuName){
+        List<WebElement> maninMenuNavigation = driver.findElements(By.cssSelector(".nav.navbar-nav.pull-right >li >a"));
+        AtomicReference<Boolean> searchMainMenu = new AtomicReference<>(true);
+        maninMenuNavigation.forEach(aTag-> {
+            if(searchMainMenu.get() && aTag.getAttribute("href").contains(menuName)){
+                searchMainMenu.set(false);
+                aTag.click();
+            }
+        });
+    }
+
+
+
+
 }
