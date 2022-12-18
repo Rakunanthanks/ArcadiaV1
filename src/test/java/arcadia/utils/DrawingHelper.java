@@ -8,6 +8,7 @@ import arcadia.mapperObjects.DrawingInstructor;
 import arcadia.pages.*;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
 import java.awt.*;
 import java.io.BufferedReader;
@@ -128,7 +129,7 @@ public class DrawingHelper {
             new BundlePage(driver).getValuesFromBundleForm(instructions.getComments().trim());
         }
         if(instructions.getCommand().equalsIgnoreCase("ChooseCovering") ){
-            boolean isMultipleCoveringTypePresent = instructions.getMultipleCoveringType()!=null &&!instructions.getMultipleCoveringType().isBlank() && !instructions.getMultipleCoveringType().isEmpty();
+            boolean isMultipleCoveringTypePresent = instructions.getMultipleCoveringType()!=null &&!StringUtils.isBlank(instructions.getMultipleCoveringType()) && !instructions.getMultipleCoveringType().isEmpty();
             int coveringRowNumber = instructions.getNodeNumber();
             new BundlePage(driver).chooseCovering(instructions.getCovering(),coveringRowNumber,isMultipleCoveringTypePresent);
         }

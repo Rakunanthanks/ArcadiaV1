@@ -8,6 +8,7 @@ import arcadia.domainobjects.NodeIdentifier;
 import arcadia.utils.FormulaCalculator;
 import arcadia.utils.SeleniumCustomCommand;
 import io.cucumber.java.eo.Do;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -21,6 +22,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import static arcadia.context.FlowContext.bundleFormData;
+import static java.util.stream.Collectors.toList;
 
 public class BundlePage extends BasePage {
     public BundlePage(WebDriver driver) {
@@ -131,7 +133,7 @@ public class BundlePage extends BasePage {
             for(WebElement bundleElement : bundleWebElement){
                 if(bundleElement.findElements(By.cssSelector("rect[etype=\"connector\"]")).isEmpty()){
                     if(!nodElementList.contains(bundleElement.getAttribute("id"))){
-                        if(!bundleElement.getAttribute("id").isEmpty() && !bundleElement.getAttribute("id").isBlank())
+                        if(!bundleElement.getAttribute("id").isEmpty() && ! StringUtils.isBlank(bundleElement.getAttribute("id")))
                         {
                             FlowContext.nodeIdentifierList.add( new NodeIdentifier(i+1,bundleElement.getAttribute("id")));
                             nodElementList.add(bundleElement.getAttribute("id"));
@@ -197,8 +199,8 @@ public class BundlePage extends BasePage {
 
 
     public List<NodeIdentifier> getFurtherNodeElementFromDrawingPage(List<NodeIdentifier> nodeIdentifierList){
-        List<String> nodeElementList = nodeIdentifierList.stream().map(x->x.getNodeElementId()).toList();
-        List<Integer> nodeNumberList = nodeIdentifierList.stream().map(x->x.getNodeNumber()).toList();
+        List<String> nodeElementList = nodeIdentifierList.stream().map(x->x.getNodeElementId()).collect(toList());
+        List<Integer> nodeNumberList = nodeIdentifierList.stream().map(x->x.getNodeNumber()).collect(toList());
         Integer max = nodeNumberList
                 .stream()
                 .mapToInt(v -> v)
