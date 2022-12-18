@@ -28,7 +28,7 @@ public class AddNewComponentPage extends BasePage {
     @FindBy(css = "input[type=\"text\"][name=\"groupcategory\"]") private WebElement componentPartCategory;
     String  referencesPartNumber = "input[name=\"addrefs.Partnumber\"]";
     String  referencesType = "[name=\"addrefs.Type\"]";
-    String  referencesCompany = "input[name=\"addrefs.Company\"]";
+    String  referencesCompany = "input[name=\"addrefs.Company\"] ~ div >div >input";
     @FindBy(css = "input[name=\"price\"]") private WebElement bomPrice;
     @FindBy(css = "input[name=\"weight\"]") private WebElement bomWeight;
     @FindBy(css = "select[name=\"eachorpm\"]") private WebElement bomMeasure;
@@ -77,7 +77,8 @@ public class AddNewComponentPage extends BasePage {
         customCommand.selectDropDownByValue(bomBillType, addComponentForm.getBomDetails().getBomBillType());
     }
 
-    public void submitComponentDetails(){
+    public void submitComponentDetails() throws InterruptedException {
+        new SeleniumCustomCommand().scrollIntoView(driver,createNewComponent);
         createNewComponent.click();
     }
 }

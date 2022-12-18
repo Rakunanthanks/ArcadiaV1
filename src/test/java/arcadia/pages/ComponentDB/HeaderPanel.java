@@ -28,17 +28,13 @@ public class HeaderPanel extends BasePage {
     }
 
     public void invokeMainMenu(String menuName){
-        List<WebElement> maninMenuNavigation = driver.findElements(By.cssSelector(".nav.navbar-nav.pull-right >li >a"));
-        AtomicReference<Boolean> searchMainMenu = new AtomicReference<>(true);
-        maninMenuNavigation.forEach(aTag-> {
-            if(searchMainMenu.get() && aTag.getAttribute("href").contains(menuName)){
-                searchMainMenu.set(false);
-                aTag.click();
+        List<WebElement> maninMenuElements = driver.findElements(By.cssSelector(".nav.navbar-nav.pull-right >li >a"));
+        for(WebElement element : maninMenuElements){
+            if(element.getAttribute("href").contains(menuName)){
+                element.click();
+                break;
             }
-        });
+        }
     }
-
-
-
 
 }
