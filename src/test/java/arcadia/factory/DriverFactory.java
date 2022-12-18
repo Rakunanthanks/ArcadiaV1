@@ -11,21 +11,17 @@ public class DriverFactory {
     public static WebDriver initializeDriver(String browser){
         WebDriver driver;
         switch (browser) {
-            case "chrome" -> {
-                WebDriverManager.chromedriver().setup();
-                driver = new ChromeDriver();
-
-            }
-            case "firefox" -> {
+            case "firefox":
                 WebDriverManager.firefoxdriver().setup();
                 driver = new FirefoxDriver();
-            }
-            default -> throw new IllegalStateException("INVALID BROWSER: " + browser);
+                driver.manage().window().maximize();
+                break;
+            default:
+                WebDriverManager.chromedriver().setup();
+                driver = new ChromeDriver();
+                driver.manage().window().maximize();
+                break;
         }
-        Dimension dem = new Dimension(1440,828);
-        //driver.manage().window().setSize(dem);
-        driver.manage().window().maximize();
-//        System.out.println("Window size is " + driver.manage().window().getSize());
         return driver;
     }
 }
