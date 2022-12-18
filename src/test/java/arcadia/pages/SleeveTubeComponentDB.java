@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import static java.util.stream.Collectors.toList;
+
 public class SleeveTubeComponentDB extends BasePage {
     public SleeveTubeComponentDB(WebDriver driver) {
         super(driver);
@@ -105,12 +107,12 @@ public class SleeveTubeComponentDB extends BasePage {
 
     public List<ComponentDB> getFilterByDefaultLineFont(List<ComponentDB> componentDBList , String filterValue){
         return componentDBList.stream()
-                .filter(e -> e.getDefaultLineFont().startsWith(filterValue)).toList();
+                .filter(e -> e.getDefaultLineFont().startsWith(filterValue)).collect(toList());
     }
 
     public List<ComponentDB> getFilterByInternalDiameterGreaterThanEqualTo(List<ComponentDB> componentDBList , Integer filterValue){
         return componentDBList.stream()
-                .filter(e -> e.getInternalDiameter()>=filterValue).toList();
+                .filter(e -> e.getInternalDiameter()>=filterValue).collect(toList());
     }
 
     public ComponentDB sortByIntDiaFindFirst(List<ComponentDB> componentDBList){

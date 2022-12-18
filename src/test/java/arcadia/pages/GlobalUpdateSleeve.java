@@ -3,6 +3,7 @@ package arcadia.pages;
 import arcadia.context.FlowContext;
 import arcadia.domainobjects.GlobalSleeve;
 import arcadia.utils.SeleniumCustomCommand;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -34,7 +35,7 @@ public class GlobalUpdateSleeve extends BasePage{
         List<WebElement> coveringTypeElements = driver.findElements(By.cssSelector("#globalSleeveTube >.formDiv >.dynformrow >select[name=\"material\"] >option") );
         for(WebElement item : coveringTypeElements){
             String optionValue = item.getAttribute("value").replace("%20"," ").trim();
-            if(optionValue!=null && !optionValue.isEmpty() && !optionValue.isBlank()){
+            if(optionValue!=null && !optionValue.isEmpty() && !StringUtils.isBlank(optionValue)){
                 materialList.add(optionValue);
             }
         }
@@ -51,7 +52,7 @@ public class GlobalUpdateSleeve extends BasePage{
         List<WebElement> colourElement = driver.findElements(By.cssSelector("#globalSleeveTube >.formDiv >.dynformrow >select[name=\"colour\"] >option") );
         for(WebElement item : colourElement){
             String optionValue = item.getAttribute("value").replace("%20"," ").trim();
-            if(optionValue!=null && !optionValue.isEmpty() && !optionValue.isBlank()){
+            if(optionValue!=null && !optionValue.isEmpty() && !StringUtils.isBlank(optionValue)){
                 colourList.add(optionValue);
             }
         }
@@ -64,7 +65,7 @@ public class GlobalUpdateSleeve extends BasePage{
         List<WebElement> coveringTypeElements = driver.findElements(By.cssSelector("#globalSleeveTube >.formDiv >.dynformrow >select[name=\"covering\"] >option") );
         for(WebElement element : coveringTypeElements){
             String colour = element.getAttribute("value");
-            if(colour!=null && !colour.isBlank() && !colour.isEmpty()){
+            if(colour!=null && ! StringUtils.isBlank(colour) && !colour.isEmpty()){
                 coveringType.add(element.getAttribute("value"));
             }
             }
@@ -74,17 +75,17 @@ public class GlobalUpdateSleeve extends BasePage{
         customCommand.waitClick(componentDB);
         customCommand.selectDropDownByValue(componentDB,componentDBValue);
         FlowContext.globalSleeveTubeUpdate = true;
-        if(coveringTypeValue!=null && !coveringTypeValue.isBlank() && !coveringTypeValue.isEmpty()){
+        if(coveringTypeValue!=null && !StringUtils.isBlank(coveringTypeValue) && !coveringTypeValue.isEmpty()){
             customCommand.waitClick(coveringType);
             customCommand.selectDropDownByValue(coveringType,coveringTypeValue);
             globalSleeve.setCoveringType(coveringTypeValue);
         }
-        if(materialValue!=null && !materialValue.isBlank() && !materialValue.isEmpty()){
+        if(materialValue!=null && !StringUtils.isBlank(materialValue) && !materialValue.isEmpty()){
             customCommand.waitClick(material);
             customCommand.selectDropDownByValue(material,materialValue);
             globalSleeve.setMaterial(materialValue);
         }
-        if(colourValue!=null && !colourValue.isBlank() && !colourValue.isEmpty()){
+        if(colourValue!=null && !StringUtils.isBlank(colourValue) && !colourValue.isEmpty()){
             customCommand.waitClick(colour);
             customCommand.selectDropDownByValue(colour,colourValue);
             globalSleeve.setColour(colourValue);

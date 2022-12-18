@@ -18,7 +18,7 @@ import org.testng.asserts.SoftAssert;
 import java.awt.*;
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
+import static java.util.stream.Collectors.toList;
 
 import static arcadia.context.FlowContext.defaultLineFont;
 
@@ -48,7 +48,7 @@ public class BundleStepDefinitions {
         for(Wire wItem : FlowContext.wirePropertiesList){
             if(wItem.getConnectorName().equalsIgnoreCase(connectorName)){
                 List<WireProperties> wireProperties = wItem.getWirePropertiesList();
-                Double expectedDiameter = new FormulaCalculator().getBundleDiameter(wireProperties.stream().map(x->x.getWireOuterDiameter()).toList());
+                Double expectedDiameter = new FormulaCalculator().getBundleDiameter(wireProperties.stream().map(x->x.getWireOuterDiameter()).collect(toList()));
                 Double actualDiameter = Double.valueOf(FlowContext.bundleFormData.stream().filter(x->x.getBundleFormName().equalsIgnoreCase(bundleFormName)).map(x->x.getBundleDiameter()).findFirst().get());
                 Assert.assertEquals(actualDiameter,expectedDiameter,bundleFormName);
             }
@@ -61,7 +61,7 @@ public class BundleStepDefinitions {
         for(Wire wItem : FlowContext.wirePropertiesList){
             if(wItem.getConnectorName().equalsIgnoreCase(connectorName)){
                 List<WireProperties> wireProperties = wItem.getWirePropertiesList();
-                new FormulaCalculator().getBundleDiameter(wireProperties.stream().map(x->x.getWireOuterDiameter()).toList());
+                new FormulaCalculator().getBundleDiameter(wireProperties.stream().map(x->x.getWireOuterDiameter()).collect(toList()));
 
             }
 
@@ -113,7 +113,7 @@ public class BundleStepDefinitions {
                         new SleeveTubeComponentDB(context.driver).filterComponentDB(internalDiaRange,filter);
                         sleeveTubeData= new SleeveTubeComponentDB(context.driver).getSleeveTubeData();
                         colour = FlowContext.globalSleeve.getColour();
-                        expectedData = new SleeveTubeComponentDB(context.driver).sortByIntDiaFindFirst(sleeveTubeData.stream().filter(x->x.getColour().equals(FlowContext.globalSleeve.getColour()) && x.getMaterial().equalsIgnoreCase(FlowContext.globalSleeve.getMaterial())).toList());
+                        expectedData = new SleeveTubeComponentDB(context.driver).sortByIntDiaFindFirst(sleeveTubeData.stream().filter(x->x.getColour().equals(FlowContext.globalSleeve.getColour()) && x.getMaterial().equalsIgnoreCase(FlowContext.globalSleeve.getMaterial())).collect(toList()));
 
                     }
                     if(!FlowContext.globalSleeveTubeUpdate) {
@@ -122,7 +122,7 @@ public class BundleStepDefinitions {
                         String internalDiaRange = String.valueOf(internalDiaStartRange) + "-" + String.valueOf(internalDiaEndRange);
                         new SleeveTubeComponentDB(context.driver).filterComponentDB(internalDiaRange, filter);
                         sleeveTubeData = new SleeveTubeComponentDB(context.driver).getSleeveTubeData();
-                        expectedData = new SleeveTubeComponentDB(context.driver).sortByIntDiaFindFirst(sleeveTubeData.stream().filter(x -> x.getColour().equals(inItem.getColour())).toList());
+                        expectedData = new SleeveTubeComponentDB(context.driver).sortByIntDiaFindFirst(sleeveTubeData.stream().filter(x -> x.getColour().equals(inItem.getColour())).collect(toList()));
 
                     }
                     ExtentCucumberAdapter.addTestStepLog("Covering Type "+ filter + " ComponentDB  - PartNumber:"+expectedData.getPartNumber() + " Description:"+expectedData.getDescription() + " internalDia:"+expectedData.getInternalDiameter());
@@ -141,7 +141,7 @@ public class BundleStepDefinitions {
                         new SleeveTubeComponentDB(context.driver).filterComponentDB(internalDiaRange,filter);
                         sleeveTubeData= new SleeveTubeComponentDB(context.driver).getSleeveTubeData();
                         colour = FlowContext.globalSleeve.getColour();
-                        expectedData = new SleeveTubeComponentDB(context.driver).sortByIntDiaFindFirst(sleeveTubeData.stream().filter(x->x.getColour().equals(FlowContext.globalSleeve.getColour()) && x.getMaterial().equalsIgnoreCase(FlowContext.globalSleeve.getMaterial())).toList());
+                        expectedData = new SleeveTubeComponentDB(context.driver).sortByIntDiaFindFirst(sleeveTubeData.stream().filter(x->x.getColour().equals(FlowContext.globalSleeve.getColour()) && x.getMaterial().equalsIgnoreCase(FlowContext.globalSleeve.getMaterial())).collect(toList()));
 
                     }
                     if(!FlowContext.globalSleeveTubeUpdate) {
@@ -150,7 +150,7 @@ public class BundleStepDefinitions {
                         String internalDiaRange = String.valueOf(internalDiaStartRange) + "-" + String.valueOf(internalDiaEndRange);
                         new SleeveTubeComponentDB(context.driver).filterComponentDB(internalDiaRange, filter);
                         sleeveTubeData = new SleeveTubeComponentDB(context.driver).getSleeveTubeData();
-                        expectedData = new SleeveTubeComponentDB(context.driver).sortByIntDiaFindFirst(sleeveTubeData.stream().filter(x -> x.getColour().equals(inItem.getColour())).toList());
+                        expectedData = new SleeveTubeComponentDB(context.driver).sortByIntDiaFindFirst(sleeveTubeData.stream().filter(x -> x.getColour().equals(inItem.getColour())).collect(toList()));
 
                     }
                     ExtentCucumberAdapter.addTestStepLog("Covering Type "+ filter + " ComponentDB  - PartNumber:"+expectedData.getPartNumber() + " Description:"+expectedData.getDescription() + " internalDia:"+expectedData.getInternalDiameter());
@@ -169,7 +169,7 @@ public class BundleStepDefinitions {
                         new SleeveTubeComponentDB(context.driver).filterComponentDB(internalDiaRange,filter);
                         sleeveTubeData= new SleeveTubeComponentDB(context.driver).getSleeveTubeData();
                         colour = FlowContext.globalSleeve.getColour();
-                        expectedData = new SleeveTubeComponentDB(context.driver).sortByIntDiaFindFirst(sleeveTubeData.stream().filter(x->x.getColour().equals(FlowContext.globalSleeve.getColour()) && x.getMaterial().equalsIgnoreCase(FlowContext.globalSleeve.getMaterial())).toList());
+                        expectedData = new SleeveTubeComponentDB(context.driver).sortByIntDiaFindFirst(sleeveTubeData.stream().filter(x->x.getColour().equals(FlowContext.globalSleeve.getColour()) && x.getMaterial().equalsIgnoreCase(FlowContext.globalSleeve.getMaterial())).collect(toList()));
 
                     }
                     if(!FlowContext.globalSleeveTubeUpdate) {
@@ -178,7 +178,7 @@ public class BundleStepDefinitions {
                         String internalDiaRange = String.valueOf(internalDiaStartRange) + "-" + String.valueOf(internalDiaEndRange);
                         new SleeveTubeComponentDB(context.driver).filterComponentDB(internalDiaRange, filter);
                         sleeveTubeData = new SleeveTubeComponentDB(context.driver).getSleeveTubeData();
-                        expectedData = new SleeveTubeComponentDB(context.driver).sortByIntDiaFindFirst(sleeveTubeData.stream().filter(x -> x.getColour().equals(inItem.getColour())).toList());
+                        expectedData = new SleeveTubeComponentDB(context.driver).sortByIntDiaFindFirst(sleeveTubeData.stream().filter(x -> x.getColour().equals(inItem.getColour())).collect(toList()));
 
                     }
                     ExtentCucumberAdapter.addTestStepLog("Covering Type "+ filter + " ComponentDB  - PartNumber:"+expectedData.getPartNumber() + " Description:"+expectedData.getDescription() + " internalDia:"+expectedData.getInternalDiameter());
@@ -197,7 +197,7 @@ public class BundleStepDefinitions {
                         new SleeveTubeComponentDB(context.driver).filterComponentDB(internalDiaRange,"PVC tube");
                         sleeveTubeData= new SleeveTubeComponentDB(context.driver).getSleeveTubeData();
                         colour = FlowContext.globalSleeve.getColour();
-                        expectedData = new SleeveTubeComponentDB(context.driver).sortByIntDiaFindFirst(sleeveTubeData.stream().filter(x->x.getColour().equals(FlowContext.globalSleeve.getColour()) && x.getMaterial().equalsIgnoreCase(FlowContext.globalSleeve.getMaterial())).toList());
+                        expectedData = new SleeveTubeComponentDB(context.driver).sortByIntDiaFindFirst(sleeveTubeData.stream().filter(x->x.getColour().equals(FlowContext.globalSleeve.getColour()) && x.getMaterial().equalsIgnoreCase(FlowContext.globalSleeve.getMaterial())).collect(toList()));
 
                     }
                     if(!FlowContext.globalSleeveTubeUpdate) {
@@ -206,7 +206,7 @@ public class BundleStepDefinitions {
                         String internalDiaRange = String.valueOf(internalDiaStartRange) + "-" + String.valueOf(internalDiaEndRange);
                         new SleeveTubeComponentDB(context.driver).filterComponentDB(internalDiaRange, "PVC tube");
                         sleeveTubeData = new SleeveTubeComponentDB(context.driver).getSleeveTubeData();
-                        expectedData = new SleeveTubeComponentDB(context.driver).sortByIntDiaFindFirst(sleeveTubeData.stream().filter(x -> x.getColour().equals(inItem.getColour())).toList());
+                        expectedData = new SleeveTubeComponentDB(context.driver).sortByIntDiaFindFirst(sleeveTubeData.stream().filter(x -> x.getColour().equals(inItem.getColour())).collect(toList()));
 
                     }
                     ExtentCucumberAdapter.addTestStepLog("Covering Type "+ filter + " ComponentDB  - PartNumber:"+expectedData.getPartNumber() + " Description:"+expectedData.getDescription() + " internalDia:"+expectedData.getInternalDiameter());
@@ -225,7 +225,7 @@ public class BundleStepDefinitions {
                         new SleeveTubeComponentDB(context.driver).filterComponentDBBasedOnSuppliedDia(suppliedDiaRange,defaultLineFont,"Shrinkable Tube");
                         sleeveTubeData= new SleeveTubeComponentDB(context.driver).getSleeveTubeData();
                         colour = FlowContext.globalSleeve.getColour();
-                        expectedData = new SleeveTubeComponentDB(context.driver).sortByExtDiaFindFirst(sleeveTubeData.stream().filter(x->x.getColour().equals(FlowContext.globalSleeve.getColour()) && x.getMaterial().equalsIgnoreCase(FlowContext.globalSleeve.getMaterial())).toList());
+                        expectedData = new SleeveTubeComponentDB(context.driver).sortByExtDiaFindFirst(sleeveTubeData.stream().filter(x->x.getColour().equals(FlowContext.globalSleeve.getColour()) && x.getMaterial().equalsIgnoreCase(FlowContext.globalSleeve.getMaterial())).collect(toList()));
 
                     }
                     if(!FlowContext.globalSleeveTubeUpdate) {
@@ -235,7 +235,7 @@ public class BundleStepDefinitions {
                         String suppliedDiaRange = String.valueOf(suppliedDiameterStartRange)+"-"+String.valueOf(suppliedDiameterEndRange);
                         new SleeveTubeComponentDB(context.driver).filterComponentDBBasedOnSuppliedDia(suppliedDiaRange,defaultLineFont,"Shrinkable Tube");
                         sleeveTubeData = new SleeveTubeComponentDB(context.driver).getSleeveTubeData();
-                        expectedData = new SleeveTubeComponentDB(context.driver).sortByExtDiaFindFirst(sleeveTubeData.stream().filter(x -> x.getColour().equals(inItem.getColour())).toList());
+                        expectedData = new SleeveTubeComponentDB(context.driver).sortByExtDiaFindFirst(sleeveTubeData.stream().filter(x -> x.getColour().equals(inItem.getColour())).collect(toList()));
                     }
                     ExtentCucumberAdapter.addTestStepLog("Covering Type "+ filter + " ComponentDB  - PartNumber:"+expectedData.getPartNumber() + " Description:"+expectedData.getDescription() + "externalDia:"+expectedData.getExternalDiameter());
                     ExtentCucumberAdapter.addTestStepLog("Covering Type "+ filter + " BundleForm -" +   bItem.getBundleFormName()+  "- PartNumber:"+inItem.getPartNumber() + " Description:"+inItem.getPartDescription() + " externalDia:"+inItem.getOuterDia());
@@ -260,15 +260,15 @@ public class BundleStepDefinitions {
         for(String cItem : coveringTypeList){
             List<String> material =new GlobalUpdateSleeve(context.driver).getMaterialFromGlobalUpdateSleeve(cItem,"quickstart");
             for(String mItem : material){
-                if(mItem!=null && !mItem.isBlank() && !mItem.isEmpty())
+                if(mItem!=null && !StringUtils.isBlank(mItem) && !mItem.isEmpty())
                 {
                     List<String> colourList = new GlobalUpdateSleeve(context.driver).getColour("quickstart",cItem,mItem);
-                    List<String> newColourList = colourList.stream().filter(item-> !item.isEmpty()).collect(Collectors.toList());
+                    List<String> newColourList = colourList.stream().filter(item-> !item.isEmpty()).collect(toList());
                     String optionValue = cItem.replace("_"," ");
                     String modifiedValue = optionValue.substring(0, 1).toUpperCase() + optionValue.substring(1);
-                    List<ComponentDB> filteredData = dbData.stream().filter(x->x.getDefaultLineFont().equalsIgnoreCase(modifiedValue) && x.getMaterial().equalsIgnoreCase(mItem)).toList();
+                    List<ComponentDB> filteredData = dbData.stream().filter(x->x.getDefaultLineFont().equalsIgnoreCase(modifiedValue) && x.getMaterial().equalsIgnoreCase(mItem)).collect(toList());
                     List<String> dbColourList = StreamEx.of(filteredData).distinct(ComponentDB::getColour).map(ComponentDB::getColour).toList();
-                    List<String> newDbColourList = dbColourList.stream().filter(item-> !item.isEmpty()).collect(Collectors.toList());
+                    List<String> newDbColourList = dbColourList.stream().filter(item-> !item.isEmpty()).collect(toList());
                     boolean isEqual = CollectionUtils.isEqualCollection(newColourList, newDbColourList);
                     if(!isEqual){
                         ExtentCucumberAdapter.addTestStepLog("Covering Type "+ cItem +" material -"+mItem + " -ComponentDB  - Colour: "+ StringUtils.join(newDbColourList, "|"));
@@ -291,12 +291,12 @@ public class BundleStepDefinitions {
         List<String> coveringTypeList = new GlobalUpdateSleeve(context.driver).getAllCoveringType();
         for(String cItem : coveringTypeList){
             List<String> material =new GlobalUpdateSleeve(context.driver).getMaterialFromGlobalUpdateSleeve(cItem,"quickstart");
-            List<String> newMaterial =material.stream().filter(item-> !item.isEmpty()).collect(Collectors.toList());
+            List<String> newMaterial =material.stream().filter(item-> !item.isEmpty()).collect(toList());
             String optionValue = cItem.replace("_"," ");
             String modifiedValue = optionValue.substring(0, 1).toUpperCase() + optionValue.substring(1);
-            List<ComponentDB> filteredData = dbData.stream().filter(x->x.getDefaultLineFont()!=null && !x.getDefaultLineFont().isEmpty() && !x.getDefaultLineFont().isBlank() && x.getDefaultLineFont().equalsIgnoreCase(modifiedValue)).toList();
+            List<ComponentDB> filteredData = dbData.stream().filter(x->x.getDefaultLineFont()!=null && !x.getDefaultLineFont().isEmpty() && !StringUtils.isBlank(x.getDefaultLineFont()) && x.getDefaultLineFont().equalsIgnoreCase(modifiedValue)).collect(toList());
             List<String> dbMaterialList = StreamEx.of(filteredData).distinct(ComponentDB::getMaterial).map(ComponentDB::getMaterial).toList();
-            List<String> newDbMaterialList =dbMaterialList.stream().filter(item-> !item.isEmpty()).collect(Collectors.toList());
+            List<String> newDbMaterialList =dbMaterialList.stream().filter(item-> !item.isEmpty()).collect(toList());
             boolean isEqual = CollectionUtils.isEqualCollection(newMaterial, newDbMaterialList);
             if(!isEqual){
                 ExtentCucumberAdapter.addTestStepLog("Covering Type "+ cItem + " ComponentDB  - Material: "+ StringUtils.join(newDbMaterialList, "|"));
