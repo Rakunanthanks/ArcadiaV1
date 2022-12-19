@@ -16,7 +16,7 @@ public class AddNewComponentPage extends BasePage {
     }
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
     CommonElements commonElements = new CommonElements(driver);
-    @FindBy(css = "input[name=\"description\"]") private WebElement componentDeccription;
+    @FindBy(css = "input[name=\"description\"]") private WebElement componentDescription;
     @FindBy(css = "div#idDetails [name=\"family\"]+div input") private WebElement componentFamily;
     @FindBy(css = "select[name=\"typecode\"]") private WebElement componentTypeCode;
     @FindBy(css = "select[name=\"proprietary\"]+div input") private WebElement componentProprietary;
@@ -39,10 +39,12 @@ public class AddNewComponentPage extends BasePage {
     @FindBy(id = "idMsg") private WebElement alertSuccessMessage;
     @FindBy(css = "button[value=\"Delete Component\"]") private WebElement deleteComponent;
     @FindBy(css = "div#addnewcompmodal button.close") private WebElement buttonCloseAddModal;
+    @FindBy(css = "div[class$=\"bootbox-alert in\"] div.modal-body div") private WebElement alertPopUpMessage;
+    @FindBy(css = "div[class$=\"bootbox-alert in\"] div.modal-body button.close") private WebElement alertPopUpCloseButton;
 
     public void createComponent(AddComponentForm addComponentForm) throws InterruptedException {
         //Details
-        customCommand.enterText(componentDeccription,addComponentForm.getComponentDetails().getDescription());
+        customCommand.enterText(componentDescription,addComponentForm.getComponentDetails().getDescription());
         customCommand.enterText(componentFamily,addComponentForm.getComponentDetails().getFamily());
         customCommand.enterText(componentTypeCode,addComponentForm.getComponentDetails().getTypecode());
         customCommand.enterText(componentProprietary,addComponentForm.getComponentDetails().getProprietary());
@@ -77,8 +79,24 @@ public class AddNewComponentPage extends BasePage {
         customCommand.selectDropDownByValue(bomBillType, addComponentForm.getBomDetails().getBomBillType());
     }
 
+    public void createComponentWithMandatoryDetailsOnly(AddComponentForm addComponentForm) throws InterruptedException {
+        //Additional references
+        List<WebElement> listOfPartNumber = driver.findElements(By.cssSelector(referencesPartNumber));
+        customCommand.enterText(listOfPartNumber.get(0),addComponentForm.getAdditionalReferences().get(0).getReferencesPartNumber());
+        List<WebElement> listOfCompany = driver.findElements(By.cssSelector(referencesCompany));
+        customCommand.enterText(listOfCompany.get(0),addComponentForm.getAdditionalReferences().get(0).getReferencesCompany());
+    }
+
     public void submitComponentDetails() throws InterruptedException {
         new SeleniumCustomCommand().scrollIntoView(driver,createNewComponent);
         createNewComponent.click();
+    }
+
+    public void verifyErrorMessage(String errorMessage){
+        alertPopUpMessage.getText().equals(errorMessage);
+    }
+
+    public void closeErrorPopUp(){
+        alertPopUpCloseButton.click();
     }
 }

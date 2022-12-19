@@ -22,9 +22,30 @@ public class HeaderPanel extends BasePage {
     @FindBy(id = "btnmove") private WebElement btnCopy;
     @FindBy(id = "btnDelete") private WebElement btnHeaderDelete;
     @FindBy(css = "select[name=\"company\"]") private WebElement selectBoxCompany;
+    //SearchbarFilters
+    @FindBy(css = "div.fixed-table-header input[placeholder=\"Part Number\"]") private WebElement searchFieldPartNumber;
+    @FindBy(css = "div.fixed-table-header input[placeholder=\"Description\"]") private WebElement searchFieldDescription;
+    @FindBy(css = "div.fixed-table-header input[placeholder=\"Family\"]") private WebElement searchFieldFamily;
+    @FindBy(css = "div.fixed-table-header select[class$=\"groupname\"]") private WebElement selectGroupName;
+    @FindBy(css = "div.fixed-table-header select[class$=\"status\"]") private WebElement selectStatus;
+    @FindBy(css = "div.fixed-table-header select[class$=\"usage\"]") private WebElement selectUsage;
+    @FindBy(css = "div.fixed-table-header input[placeholder=\"Supplier\"]") private WebElement searchFieldSupplier;
+    @FindBy(css = "div.fixed-table-header input[placeholder=\"Supplier PN\"]") private WebElement searchFieldSupplierPN;
+    @FindBy(css = "div.fixed-table-header select[class$=\"colour\"]") private WebElement selectColour;
+    @FindBy(css = "div.fixed-table-header input[placeholder=\"AWG Size\"]") private WebElement searchFieldAwgSize;
+    @FindBy(css = "div.fixed-table-header input[placeholder=\"Gauge\"]") private WebElement searchFieldGauge;
+    @FindBy(css = "div.fixed-table-header input[placeholder=\"Wire CSA\"]") private WebElement searchFieldWireCSA;
+    @FindBy(css = "div.fixed-table-header input[placeholder=\"Outside Dia\"]") private WebElement searchFieldOutsideDia;
+    @FindBy(css = "div.fixed-table-header input[placeholder=\"Wire Material\"]") private WebElement searchFieldWireMaterial;
+    @FindBy(css = "div.fixed-table-header input[placeholder=\"Minimum Bend Radius\"]") private WebElement searchFieldMinimumBendRadius;
+    @FindBy(css = "div.fixed-table-header input[placeholder=\"Max Current\"]") private WebElement searchFieldMaxCurrent;
+    @FindBy(css = "div.fixed-table-header input[placeholder=\"Resistance\"]") private WebElement searchFieldResistance;
 
-    public void openAddNewComponentPage(){
+
+    public void openAddNewComponentPage() throws InterruptedException {
+        Thread.sleep(3000);
         addNewComponent.click();
+        Thread.sleep(3000);
     }
 
     public void invokeMainMenu(String menuName){
