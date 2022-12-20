@@ -30,8 +30,6 @@ public class ComponentDBStepDefinitions {
                 List<AdditionalReferences> additionalReferencesList = new ArrayList<>();
                 AdditionalReferences additionalReferences1 = new AdditionalReferences(String.valueOf(new StringHelper().generateRandomDigit()),"Manufacturer","testcompany");
                 additionalReferencesList.add(additionalReferences1);
-                AdditionalReferences additionalReferences2 = new AdditionalReferences(String.valueOf(new StringHelper().generateRandomDigit()),"Supplier","testcompany2");
-                additionalReferencesList.add(additionalReferences2);
                 addComponentForm.setAdditionalReferences(additionalReferencesList);
                 BomDetails bomDetails = new BomDetails(0.0022,"","EACH","GBP","gm","INCLUDED");
                 addComponentForm.setBomDetails(bomDetails);
@@ -53,8 +51,6 @@ public class ComponentDBStepDefinitions {
                 List<AdditionalReferences> additionalReferencesList = new ArrayList<>();
                 AdditionalReferences additionalReferences1 = new AdditionalReferences(String.valueOf(new StringHelper().generateRandomDigit()),"Manufacturer","testcompany");
                 additionalReferencesList.add(additionalReferences1);
-                AdditionalReferences additionalReferences2 = new AdditionalReferences(String.valueOf(new StringHelper().generateRandomDigit()),"Supplier","testcompany2");
-                additionalReferencesList.add(additionalReferences2);
                 addComponentForm.setAdditionalReferences(additionalReferencesList);
                 BomDetails bomDetails = new BomDetails(0.0022,"","EACH","GBP","gm",componentBomBillType);
                 addComponentForm.setBomDetails(bomDetails);
@@ -99,5 +95,29 @@ public class ComponentDBStepDefinitions {
         }
         new AddNewComponentPage(context.driver).verifyErrorMessage(errorMessage);
         new AddNewComponentPage(context.driver).closeErrorPopUp();
+    }
+
+    @Then("{string} component with additionalreferencetype {string} is created successfully")
+    public void component_with_additionalreferencetype_is_created_successfully(String componentName, String additionalRefernceType) throws InterruptedException {
+        switch(componentName.toLowerCase()) {
+            case "wire":
+                new HeaderPanel(context.driver).openAddNewComponentPage();
+                AddComponentForm addComponentForm = new AddComponentForm();
+                ComponentDetails componentDetails = new ComponentDetails(String.format("testdescription-%04d", new StringHelper().generateRandomDigit()),"testfamily","IN REVIEW","","testproprietary","","BLACK","BLUE","BROWN","PVC","NOT SET","");
+                addComponentForm.setComponentDetails(componentDetails);
+                BomDetails bomDetails = new BomDetails(0.0022,"","EACH","GBP","gm","INCLUDED");
+                addComponentForm.setBomDetails(bomDetails);
+                List<AdditionalReferences> additionalReferencesList = new ArrayList<>();
+                String[] arrayOfRefrenceType = additionalRefernceType.split(",");
+                for(String refType: arrayOfRefrenceType){
+                    AdditionalReferences additionalReferences = new AdditionalReferences(String.valueOf(new StringHelper().generateRandomDigit()),refType,"testcompany");
+                    additionalReferencesList.add(additionalReferences);
+                }
+                addComponentForm.setAdditionalReferences(additionalReferencesList);
+                new AddNewComponentPage(context.driver).createComponent(addComponentForm);
+                new AddNewComponentPage(context.driver).submitComponentDetails();
+                Thread.sleep(1000);
+                break;
+        }
     }
 }

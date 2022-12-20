@@ -1,6 +1,7 @@
 package arcadia.pages.ComponentDB;
 
 import arcadia.domainobjects.AddComponentForm;
+import arcadia.domainobjects.AdditionalReferences;
 import arcadia.pages.BasePage;
 import arcadia.utils.SeleniumCustomCommand;
 import org.openqa.selenium.By;
@@ -59,17 +60,19 @@ public class AddNewComponentPage extends BasePage {
         //customCommand.selectDropDownByValue(componentPartCategory,addComponentForm.getComponentDetails().getPartcategory());
 
         //Additional references
-        commonElements.buttonAddRow.click();
+        for(int i=1; i<addComponentForm.getAdditionalReferences().size();i++){
+            commonElements.buttonAddRow.click();
+        }
         List<WebElement> listOfPartNumber = driver.findElements(By.cssSelector(referencesPartNumber));
-        customCommand.enterText(listOfPartNumber.get(0),addComponentForm.getAdditionalReferences().get(0).getReferencesPartNumber());
-        customCommand.enterText(listOfPartNumber.get(1),addComponentForm.getAdditionalReferences().get(1).getReferencesPartNumber());
         List<WebElement> listOfType = driver.findElements(By.cssSelector(referencesType));
-        customCommand.selectDropDownByValue(listOfType.get(0),addComponentForm.getAdditionalReferences().get(0).getReferencesType());
-        customCommand.selectDropDownByValue(listOfType.get(1),addComponentForm.getAdditionalReferences().get(1).getReferencesType());
         List<WebElement> listOfCompany = driver.findElements(By.cssSelector(referencesCompany));
-        customCommand.enterText(listOfCompany.get(0),addComponentForm.getAdditionalReferences().get(0).getReferencesCompany());
-        customCommand.enterText(listOfCompany.get(1),addComponentForm.getAdditionalReferences().get(1).getReferencesCompany());
-
+        int j=0;
+        for(AdditionalReferences addReference: addComponentForm.getAdditionalReferences()){
+            customCommand.enterText(listOfPartNumber.get(j),addReference.getReferencesPartNumber());
+            customCommand.selectDropDownByValue(listOfType.get(j),addReference.getReferencesType());
+            customCommand.enterText(listOfCompany.get(j),addReference.getReferencesCompany());
+            j=j+1;
+        }
         //BomDetails
         customCommand.enterText(bomPrice, String.valueOf(addComponentForm.getBomDetails().getBomPrice()));
         customCommand.enterText(bomWeight, addComponentForm.getBomDetails().getBomWeight());

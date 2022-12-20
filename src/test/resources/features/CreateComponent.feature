@@ -1,6 +1,6 @@
 Feature: Create components
 
-  @CreateComponent
+ @CreateComponent
   Scenario: Test verifies a wire component can be created with InReview status
     Given I'm on Arcadia test environment
     And Navigated to selected componentDB
@@ -71,3 +71,31 @@ Feature: Create components
     And User selected 'wire' from componentDB
     Then 'Wire' component with referencepartnumber 'RandomUniqueNumber' and referencecompany '' only is created
     Then Verify error message is displayed for mandatory field 'referencecompany' for component 'wire'
+
+  @CreateComponent
+  Scenario: Test verifies a wire component can be created with refrencetype manufacturer
+    Given I'm on Arcadia test environment
+    And Navigated to selected componentDB
+    And User selected 'wire' from componentDB
+    Then 'Wire' component with additionalreferencetype 'Manufacturer' is created successfully
+
+  @CreateComponent
+  Scenario: Test verifies a wire component can be created with refrencetype supplier
+    Given I'm on Arcadia test environment
+    And Navigated to selected componentDB
+    And User selected 'wire' from componentDB
+    Then 'Wire' component with additionalreferencetype 'Supplier' is created successfully
+
+  @CreateComponent
+  Scenario: Test verifies a wire component can be created with refrencetype crossref
+    Given I'm on Arcadia test environment
+    And Navigated to selected componentDB
+    And User selected 'wire' from componentDB
+    Then 'Wire' component with additionalreferencetype 'CrossRef' is created successfully
+
+  @CreateComponent
+  Scenario: Test verifies a wire component can be created with all refrencetype
+    Given I'm on Arcadia test environment
+    And Navigated to selected componentDB
+    And User selected 'wire' from componentDB
+    Then 'Wire' component with additionalreferencetype 'Manufacturer,Supplier,CrossRef' is created successfully
