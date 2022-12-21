@@ -18,8 +18,8 @@ public class LoginPage extends BasePage{
     }
     public  void Login(){
         new WebDriverWait(driver, Duration.ofSeconds(2000)).until(ExpectedConditions.elementToBeClickable(userName));
-        userName.sendKeys(System.getProperty("userName"));
-        passWord.sendKeys(System.getProperty("password"));
+        userName.sendKeys("ragu");
+        passWord.sendKeys("vQ3hZ0zQ2w@");
         submitButton.click();
     }
 
