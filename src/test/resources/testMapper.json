@@ -195,7 +195,7 @@
       "partNumber": "HAR-FL0001",
       "revision": "A1",
       "profile": "Automation",
-<<<<<<< HEAD
+
       "componentDB": "quickstart"
     },
     "SearchParts":
@@ -256,8 +256,6 @@
       "description": "The Completed Harness",
       "partNumber": "HAR-FL0001",
       "revision": "A1",
-=======
->>>>>>> 445fded (Created Test Scenario for Bundle Tolerance)
       "componentDB": "quickstart"
     },
     "SearchParts":
