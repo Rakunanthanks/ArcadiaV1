@@ -35,17 +35,19 @@ Feature: Update sleeve tube
 #    Then check reference value for covering type 'braid_tight'
 #    Then Check covering value is as per componentDB
 
-  @UpdateSleeveTube
-  Scenario: Test verifies bundle parameter and part number for covering type - "conduit_closed"
-    Given I'm on Arcadia test environment
-    And test data config loaded for test identifier test4
-    And Harness bundle default values are captured
-    And Navigated to quickstart project
-    And harness is created successfully
-    And based on drawing orchestrator components are created
-    Then Check bundle diameter for 'X-001' and bundleform 'Bundle1'
-    Then check reference value for covering type 'conduit_closed'
-    Then Check covering value is as per componentDB
+==== BASE ====
+#  @UpdateSleeveTube
+#  Scenario: Test verifies bundle parameter and part number for covering type - "conduit_closed"
+#    Given I'm on Arcadia test environment
+#    And test data config loaded for test identifier test4
+#    And Harness bundle default values are captured
+#    And Navigated to quickstart project
+#    And harness is created successfully
+#    And based on drawing orchestrator components are created
+#    Then Check bundle diameter for 'X-001' and bundleform 'Bundle1'
+#    Then check reference value for covering type 'conduit_closed'
+#    Then Check covering value is as per componentDB
+==== BASE ====
 
 
 #  @UpdateSleeveTube
@@ -71,7 +73,7 @@ Feature: Update sleeve tube
 #    Then Check bundle diameter for 'X-001' and bundleform 'Bundle1'
 #    Then check reference value for covering type 'conduit_slit'
 #    Then Check covering value is as per componentDB
-#
+
 #  @UpdateSleeveTube
 #  Scenario: check material displayed in Global sleeve update is as per componentDB
 #    Given I'm on Arcadia test environment
