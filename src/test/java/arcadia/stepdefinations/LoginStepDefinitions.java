@@ -33,7 +33,7 @@ public class LoginStepDefinitions {
         loginPage = PageFactoryManager.getLoginPage(context.driver);
     }
     @Given("I'm on Arcadia test environment")
-    public void i_m_on_arcadia_test_environment() throws IOException {
+    public void i_m_on_arcadia_test_environment() throws IOException, InterruptedException {
         loginPage.load();
         loginPage.Login();
         Thread.sleep(1000);
@@ -46,7 +46,10 @@ public class LoginStepDefinitions {
 
     @Given("Navigated to selected componentDB")
     public void navigated_to_selected_component_db() {
-        loginPage.load(EndPoint.COMPONENTDB.url.replace("databaseName",System.getProperty("componentDB")));
+        String selectedComponentDB = System.getProperty("componentDB");
+        System.out.println("selectedComponentDB "+ selectedComponentDB);
+        String endpoint = EndPoint.COMPONENTDB.url.replace("componentDB",selectedComponentDB);
+        loginPage.load(endpoint);
 
     }
 
@@ -129,6 +132,7 @@ public class LoginStepDefinitions {
     public void based_on_drawing_orchestrator_components_are_created() throws IOException, InterruptedException, AWTException {
         List<DrawingInstructor> drawingInstructorList =  new DrawingHelper().getDrawingInstruction(context.testIdentifier);
         new DrawingHelper().drawOrchestrator(drawingInstructorList,context.driver);
+
     }
 
 
