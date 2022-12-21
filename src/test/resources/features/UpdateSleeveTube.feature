@@ -35,7 +35,6 @@ Feature: Update sleeve tube
 #    Then check reference value for covering type 'braid_tight'
 #    Then Check covering value is as per componentDB
 
-==== BASE ====
 #  @UpdateSleeveTube
 #  Scenario: Test verifies bundle parameter and part number for covering type - "conduit_closed"
 #    Given I'm on Arcadia test environment
