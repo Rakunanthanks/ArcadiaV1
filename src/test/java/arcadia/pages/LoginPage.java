@@ -18,14 +18,10 @@ public class LoginPage extends BasePage{
     }
     public  void Login(){
         new WebDriverWait(driver, Duration.ofSeconds(2000)).until(ExpectedConditions.elementToBeClickable(userName));
-<<<<<<< HEAD
-        System.out.println("component is " + System.getProperty("componentDB"));
+
         userName.sendKeys(System.getProperty("userName"));
         passWord.sendKeys(System.getProperty("password"));
-=======
-        userName.sendKeys("ragu");
-        passWord.sendKeys("vQ3hZ0zQ2w@");
->>>>>>> 445fded (Created Test Scenario for Bundle Tolerance)
+
         submitButton.click();
     }
 
