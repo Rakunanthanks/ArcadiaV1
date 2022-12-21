@@ -50,6 +50,7 @@ public class HarnessStepDefinitions {
     private void createNewHarnessInstance(String connectorDescription) throws InterruptedException {
         String partNumber = new StringHelper().generateRandomDigit().toString();
         projectLanding.invokeCreateHarness();
+<<<<<<< HEAD
         arcadia.mapperObjects.CreateHarness harnessData = new arcadia.mapperObjects.CreateHarness();
         harnessData.setComponentDB(System.getProperty("componentDB"));
         harnessData.setPartNumber(partNumber);
@@ -74,6 +75,11 @@ public class HarnessStepDefinitions {
         catch (Exception e){
             new SeleniumCustomCommand().waitForElementVisibility(context.driver, context.driver.findElement(By.cssSelector("div[title=\"Insert Connector\"]")));
         }
+=======
+        TestMapper mapper = conversionUtil.getTestMapperConfig(context.testIdentifier);
+        arcadia.mapperObjects.CreateHarness createHarnessData = mapper.getCreateHarness();
+        createHarness.submitHarnessData(new Harness(createHarnessData.getWorkTask(), createHarnessData.getTitle(), createHarnessData.getDescription(), createHarnessData.getPartNumber(), createHarnessData.getRevision(), createHarnessData.getProfile(),createHarnessData.getComponentDB()));
+>>>>>>> 445fded (Created Test Scenario for Bundle Tolerance)
     }
 
 
