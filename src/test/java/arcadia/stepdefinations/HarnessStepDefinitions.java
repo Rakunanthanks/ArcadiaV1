@@ -50,57 +50,9 @@ public class HarnessStepDefinitions {
     private void createNewHarnessInstance(String connectorDescription) throws InterruptedException {
         String partNumber = new StringHelper().generateRandomDigit().toString();
         projectLanding.invokeCreateHarness();
-<<<<<<< HEAD
-        arcadia.mapperObjects.CreateHarness harnessData = new arcadia.mapperObjects.CreateHarness();
-        harnessData.setComponentDB(System.getProperty("componentDB"));
-        harnessData.setPartNumber(partNumber);
-        harnessData.setDescription(connectorDescription);
-        harnessData.setRevision(new StringHelper().generateRandomDigit().toString());
-        harnessData.setTitle(new StringHelper().generateRandomDigit().toString());
-        harnessData.setWorkTask(new StringHelper().generateRandomDigit().toString());
-        FlowContext.testDescription = connectorDescription;
-        createHarness.submitHarnessData(new Harness(harnessData.getWorkTask(), harnessData.getTitle(), harnessData.getDescription(), harnessData.getPartNumber(), harnessData.getRevision(), harnessData.getComponentDB()));
-    }
-
-    private void openExistingHarness(String connectorDescription) {
-       WebElement harnessElement =  context.driver.findElement(By.xpath("//table[@id=\"tableHAR\"]/tbody//tr//td[text()=\"" + connectorDescription + "\"]"));
-        harnessElement.click();
-        if(!connectorDescription.equalsIgnoreCase("connectorFilter")){
-            harnessComponentAlreadyCreated = true;
-        }
-        try{
-            new AddNewComponentPage(context.driver).verifyConfirmationMessage("It appears you are already editing this task! It is advised that you only edit a single instance of this task");
-            new AddNewComponentPage(context.driver).acceptConfirmationPopup();
-        }
-        catch (Exception e){
-            new SeleniumCustomCommand().waitForElementVisibility(context.driver, context.driver.findElement(By.cssSelector("div[title=\"Insert Connector\"]")));
-        }
-=======
         TestMapper mapper = conversionUtil.getTestMapperConfig(context.testIdentifier);
         arcadia.mapperObjects.CreateHarness createHarnessData = mapper.getCreateHarness();
         createHarness.submitHarnessData(new Harness(createHarnessData.getWorkTask(), createHarnessData.getTitle(), createHarnessData.getDescription(), createHarnessData.getPartNumber(), createHarnessData.getRevision(), createHarnessData.getProfile(),createHarnessData.getComponentDB()));
->>>>>>> 445fded (Created Test Scenario for Bundle Tolerance)
-    }
-
-
-    @And("harness is created successfully")
-    public void createHarness() throws IOException, InterruptedException {
-        String description = String.format("testdescription-%04d", new StringHelper().generateRandomDigit());
-        createNewHarnessInstance(description);
-    }
-
-    @And("User try operation {string} for connector")
-    public void userTryOperationDeleteForConnectorWithIdCCAEdDeEBcf(String operation) throws InterruptedException {
-        List<ConnectorPlugIdentifier> connector_ids=new ConnectorPage(context.driver).getConnectorPlugELementIdsFromDrawingPage();
-        String identifier=connector_ids.get(0).getConnectorId();
-        new HarnessPage(context.driver).getContextMenu(identifier);
-        new HarnessPage(context.driver).performOperation(operation,identifier);
-        Thread.sleep(10000);
-    }
-    @And("harness connectorvalidator is opened")
-    public void harnessConnectorvalidatorIsOpened() throws InterruptedException {
-        Thread.sleep(3000);
-       // new DrawingHelper().openValidatorHarness(context.driver);
     }
 
     @And("connector plug {string} is opened")
