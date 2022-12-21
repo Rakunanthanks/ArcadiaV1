@@ -35,6 +35,7 @@ Feature: Update sleeve tube
 #    Then check reference value for covering type 'braid_tight'
 #    Then Check covering value is as per componentDB
 
+<<<<<<< HEAD
 
 #  @UpdateSleeveTube
 #  Scenario: Test verifies bundle parameter and part number for covering type - "conduit_closed"
@@ -47,6 +48,14 @@ Feature: Update sleeve tube
 #    Then Check bundle diameter for 'X-001' and bundleform 'Bundle1'
 #    Then check reference value for covering type 'conduit_closed'
 #    Then Check covering value is as per componentDB
+=======
+  @UpdateSleeveTube
+  Scenario: Test verifies bundle tolerance value
+    Given I'm on Arcadia test environment
+    And test data config loaded for test identifier test4
+    And Navigating to Company profile page
+    And Navigated to Test Project
+>>>>>>> 445fded (Created Test Scenario for Bundle Tolerance)
 
 
 
@@ -73,7 +82,7 @@ Feature: Update sleeve tube
 #    Then Check bundle diameter for 'X-001' and bundleform 'Bundle1'
 #    Then check reference value for covering type 'conduit_slit'
 #    Then Check covering value is as per componentDB
-#
+
 #  @UpdateSleeveTube
 #  Scenario: check material displayed in Global sleeve update is as per componentDB
 #    Given I'm on Arcadia test environment
