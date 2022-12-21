@@ -108,6 +108,15 @@ public class LoginStepDefinitions {
         Thread.sleep(1000);
 
     }
+    @And( "Navigated to Test Project")
+    public void navigateToTestProject() throws InterruptedException {
+        Thread.sleep(1000);
+        loginPage.load(EndPoint.TEST.url);
+        Thread.sleep(1000);
+        new DefineBundleTolerance(context.driver).CaptureBundleTollerance();
+
+    }
+
 
     @Given("User selected {string} from componentDB")
     public void user_selected_from_component_db(String menuName) {
