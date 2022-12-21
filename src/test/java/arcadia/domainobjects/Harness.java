@@ -1,7 +1,7 @@
 package arcadia.domainobjects;
 
 public class Harness {
-    public Harness(String workTask, String title, String description, String partNumber, String revision,String profile) {
+    public Harness(String workTask, String title, String description, String partNumber, String revision,String profile,String componentDB) {
         this.workTask = workTask;
         this.title = title;
         this.description = description;
