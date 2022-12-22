@@ -99,3 +99,5 @@ Feature: Create components
     And Navigated to selected componentDB
     And User selected 'wire' from componentDB
     Then 'Wire' component with additionalreferencetype 'Manufacturer,Supplier,CrossRef' is created successfully
+
+    //Testcommit
