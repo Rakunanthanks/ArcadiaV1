@@ -1,17 +1,18 @@
 package arcadia.stepdefinations;
 
 import arcadia.context.TestContext;
-import arcadia.domainobjects.AddComponentForm;
-import arcadia.domainobjects.AdditionalReferences;
-import arcadia.domainobjects.BomDetails;
-import arcadia.domainobjects.ComponentDetails;
+import arcadia.domainobjects.*;
 import arcadia.pages.ComponentDB.AddNewComponentPage;
 import arcadia.pages.ComponentDB.HeaderPanel;
+import arcadia.pages.ComponentDB.Wires.WiresComponentDBPage;
 import arcadia.utils.StringHelper;
 import io.cucumber.java.en.Then;
+import org.apache.commons.collections.ListUtils;
+import org.testng.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ComponentDBStepDefinitions {
     private final TestContext context;
@@ -120,4 +121,39 @@ public class ComponentDBStepDefinitions {
                 break;
         }
     }
+
+    @Then("Verify component data on the basis of filter {string} with value {string}")
+    public void verify_component_data_on_the_basis_of_filter(String filterName, String filterValue) throws InterruptedException {
+        new WiresComponentDBPage(context.driver).getFullPagination();
+        List<WiresComponentDB> dbData = new WiresComponentDBPage(context.driver).getWiresData();
+        switch(filterName.toLowerCase()) {
+            case "status":
+                new WiresComponentDBPage(context.driver).filterWiresBasedOnStatus(filterValue);
+                break;
+            case "partnumber":
+                new WiresComponentDBPage(context.driver).filterWiresBasedOnPartNumber(filterValue);
+                break;
+            case "description":
+                new WiresComponentDBPage(context.driver).filterWiresBasedOnDescription(filterValue);
+                break;
+            case "family":
+                new WiresComponentDBPage(context.driver).filterWiresBasedOnFamily(filterValue);
+                break;
+            case "usage":
+                new WiresComponentDBPage(context.driver).filterWiresBasedOnUsage(filterValue);
+                break;
+            case "supplier":
+                new WiresComponentDBPage(context.driver).filterWiresBasedOnSupplier(filterValue);
+                break;
+            case "supplierpn":
+                new WiresComponentDBPage(context.driver).filterWiresBasedOnSupplierPN(filterValue);
+                break;
+            case "colour":
+                new WiresComponentDBPage(context.driver).filterWiresBasedOnColour(filterValue);
+                break;
+        }
+        List<WiresComponentDB> wiresData = new WiresComponentDBPage(context.driver).getWiresData();
+        Assert.assertTrue(ListUtils.subtract(dbData.stream().filter(x->x.getStatus().equals(filterValue)).collect(Collectors.toList()),wiresData.stream().toList()).size()==0);
+    }
+
 }
