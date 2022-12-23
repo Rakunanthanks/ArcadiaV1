@@ -165,14 +165,10 @@ public class ComponentDBStepDefinitions {
                 new WiresComponentDBPage(context.driver).filterWiresBasedOnAwgSize(filterValue);
                 break;
             case "gauge":
-                String[] gaugeRange = filterValue.split("-");
-                int initialRangeValue = Integer.parseInt(gaugeRange[0]);
-                int finalRangeValue = Integer.parseInt(gaugeRange[1]);
                 filteredDbData = dbData.stream()
-                        .filter(x->x.getGauge()>=initialRangeValue)
-                        .filter(x->x.getGauge()<=finalRangeValue)
+                        .filter(x->x.getGauge().equals(filterValue))
                         .collect(Collectors.toList());
-                new WiresComponentDBPage(context.driver).filterWiresBasedOnGaugeRange(filterValue);
+                new WiresComponentDBPage(context.driver).filterWiresBasedOnGauge(filterValue);
                 break;
             case "wirecsa":
                 String[] csaRange = filterValue.split("-");

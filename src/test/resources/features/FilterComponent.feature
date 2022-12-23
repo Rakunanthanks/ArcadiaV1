@@ -68,7 +68,7 @@ Feature: Create components
     Given I'm on Arcadia test environment
     And Navigated to selected componentDB
     And User selected 'wire' from componentDB
-    Then Verify component data on the basis of filter 'Gauge' with value '10-20'
+    Then Verify component data on the basis of filter 'Gauge' with value '5H'
 
   @FilterComponent
   Scenario: Test verifies a wire component can be filtered with WireCsa
@@ -85,7 +85,7 @@ Feature: Create components
     Then Verify component data on the basis of filter 'OutsideDia' with value '2.80-5.0'
 
   @FilterComponent
-  Scenario: Test verifies a wire component can be filtered with gauge
+  Scenario: Test verifies a wire component can be filtered with Material
     Given I'm on Arcadia test environment
     And Navigated to selected componentDB
     And User selected 'wire' from componentDB
@@ -110,5 +110,4 @@ Feature: Create components
     Given I'm on Arcadia test environment
     And Navigated to selected componentDB
     And User selected 'wire' from componentDB
-    Then Verify component data on the basis of filter 'Resistance' with value '5.2-14.7'
-
+    Then Verify component data on the basis of filter 'Resistance' with value '0.00-1.00'

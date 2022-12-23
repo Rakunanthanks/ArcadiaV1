@@ -10,7 +10,7 @@ public class WiresComponentDB {
     private String supplierPN;
     private String colour;
     private String awgSize;
-    private Integer gauge;
+    private String gauge;
     private Double wireCSA;
     private Double outsideDia;
     private String material;
@@ -19,7 +19,7 @@ public class WiresComponentDB {
 
     private Double resistance;
 
-    public WiresComponentDB(String partNumber, String description, String family, String status, String usage, String supplier, String supplierPN, String colour, String awgSize, Integer gauge, Double wireCSA, Double outsideDia, String material, Double minimumRadius, Double maxcurrent, Double resistance) {
+    public WiresComponentDB(String partNumber, String description, String family, String status, String usage, String supplier, String supplierPN, String colour, String awgSize, String gauge, Double wireCSA, Double outsideDia, String material, Double minimumRadius, Double maxcurrent, Double resistance) {
         this.partNumber = partNumber;
         this.description = description;
         this.family = family;
@@ -110,11 +110,11 @@ public class WiresComponentDB {
         this.awgSize = awgSize;
     }
 
-    public Integer getGauge() {
+    public String getGauge() {
         return gauge;
     }
 
-    public void setGauge(Integer gauge) {
+    public void setGauge(String gauge) {
         this.gauge = gauge;
     }
 

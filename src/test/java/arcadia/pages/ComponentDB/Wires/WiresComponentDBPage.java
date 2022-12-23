@@ -67,7 +67,7 @@ public class WiresComponentDBPage extends BasePage {
             String supplierPN= tdElements.get(8).getText();
             String colour= tdElements.get(9).getText();
             String awgSize= tdElements.get(10).getText();
-            Integer gauge= Integer.valueOf(tdElements.get(11).getText());
+            String gauge= tdElements.get(11).getText();
             Double wireCSA= Double.valueOf(tdElements.get(12).getText());
             Double outsideDia= Double.valueOf(tdElements.get(13).getText());
             String material= tdElements.get(14).getText();
@@ -152,10 +152,10 @@ public class WiresComponentDBPage extends BasePage {
         customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tableWireRows)));
     }
 
-    public void filterWiresBasedOnGaugeRange(String gaugeRange) throws InterruptedException {
+    public void filterWiresBasedOnGauge(String gauge) throws InterruptedException {
         Thread.sleep(2000 );
         customCommand.waitForElementVisibility(driver,paginationDropdown);
-        customCommand.simulateKeyEnterWithValue(searchFieldGauge,gaugeRange);
+        customCommand.simulateKeyEnterWithValue(searchFieldGauge,gauge);
         Thread.sleep(2000 );
         customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tableWireRows)));
     }
