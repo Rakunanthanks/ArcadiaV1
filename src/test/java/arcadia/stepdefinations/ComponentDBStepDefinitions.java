@@ -126,34 +126,111 @@ public class ComponentDBStepDefinitions {
     public void verify_component_data_on_the_basis_of_filter(String filterName, String filterValue) throws InterruptedException {
         new WiresComponentDBPage(context.driver).getFullPagination();
         List<WiresComponentDB> dbData = new WiresComponentDBPage(context.driver).getWiresData();
+        List<WiresComponentDB> filteredDbData = new ArrayList<>();
         switch(filterName.toLowerCase()) {
             case "status":
+                filteredDbData = dbData.stream().filter(x->x.getStatus().equals(filterValue)).collect(Collectors.toList());
                 new WiresComponentDBPage(context.driver).filterWiresBasedOnStatus(filterValue);
                 break;
             case "partnumber":
+                filteredDbData = dbData.stream().filter(x->x.getPartNumber().equals(filterValue)).collect(Collectors.toList());
                 new WiresComponentDBPage(context.driver).filterWiresBasedOnPartNumber(filterValue);
                 break;
             case "description":
+                filteredDbData = dbData.stream().filter(x->x.getDescription().equals(filterValue)).collect(Collectors.toList());
                 new WiresComponentDBPage(context.driver).filterWiresBasedOnDescription(filterValue);
                 break;
             case "family":
+                filteredDbData = dbData.stream().filter(x->x.getFamily().equals(filterValue)).collect(Collectors.toList());
                 new WiresComponentDBPage(context.driver).filterWiresBasedOnFamily(filterValue);
                 break;
             case "usage":
+                filteredDbData = dbData.stream().filter(x->x.getUsage().equals(filterValue)).collect(Collectors.toList());
                 new WiresComponentDBPage(context.driver).filterWiresBasedOnUsage(filterValue);
                 break;
             case "supplier":
+                filteredDbData = dbData.stream().filter(x->x.getSupplier().equals(filterValue)).collect(Collectors.toList());
                 new WiresComponentDBPage(context.driver).filterWiresBasedOnSupplier(filterValue);
                 break;
             case "supplierpn":
+                filteredDbData = dbData.stream().filter(x->x.getSupplierPN().equals(filterValue)).collect(Collectors.toList());
                 new WiresComponentDBPage(context.driver).filterWiresBasedOnSupplierPN(filterValue);
                 break;
             case "colour":
+                filteredDbData = dbData.stream().filter(x->x.getColour().equals(filterValue)).collect(Collectors.toList());
                 new WiresComponentDBPage(context.driver).filterWiresBasedOnColour(filterValue);
+                break;
+            case "awgsize":
+                filteredDbData = dbData.stream().filter(x->x.getAwgSize().equals(filterValue)).collect(Collectors.toList());
+                new WiresComponentDBPage(context.driver).filterWiresBasedOnAwgSize(filterValue);
+                break;
+            case "gauge":
+                String[] gaugeRange = filterValue.split("-");
+                int initialRangeValue = Integer.parseInt(gaugeRange[0]);
+                int finalRangeValue = Integer.parseInt(gaugeRange[1]);
+                filteredDbData = dbData.stream()
+                        .filter(x->x.getGauge()>=initialRangeValue)
+                        .filter(x->x.getGauge()<=finalRangeValue)
+                        .collect(Collectors.toList());
+                new WiresComponentDBPage(context.driver).filterWiresBasedOnGaugeRange(filterValue);
+                break;
+            case "wirecsa":
+                String[] csaRange = filterValue.split("-");
+                Double initialCSAValue = Double.valueOf(csaRange[0]);
+                Double finalCSAValue = Double.valueOf(csaRange[1]);
+                filteredDbData = dbData.stream()
+                        .filter(x->x.getWireCSA()>=initialCSAValue)
+                        .filter(x->x.getWireCSA()<=finalCSAValue)
+                        .collect(Collectors.toList());
+                new WiresComponentDBPage(context.driver).filterWiresBasedOnWireCSARange(filterValue);
+                break;
+            case "outsidedia":
+                String[] outDiaRange = filterValue.split("-");
+                Double initialDiaValue = Double.valueOf(outDiaRange[0]);
+                Double finalDiaValue = Double.valueOf(outDiaRange[1]);
+                filteredDbData = dbData.stream()
+                        .filter(x->x.getOutsideDia()>=initialDiaValue)
+                        .filter(x->x.getOutsideDia()<=finalDiaValue)
+                        .collect(Collectors.toList());
+                new WiresComponentDBPage(context.driver).filterWiresBasedOnOutsideDiaRange(filterValue);
+                break;
+            case "material":
+                filteredDbData = dbData.stream().filter(x->x.getMaterial().equals(filterValue)).collect(Collectors.toList());
+                new WiresComponentDBPage(context.driver).filterWiresBasedOnMaterial(filterValue);
+                break;
+            case "minimumbendradius":
+                String[] bendRadiusRange = filterValue.split("-");
+                Double initialRadiusValue = Double.valueOf(bendRadiusRange[0]);
+                Double finalRadiusValue = Double.valueOf(bendRadiusRange[1]);
+                filteredDbData = dbData.stream()
+                        .filter(x->x.getMinimumRadius()>=initialRadiusValue)
+                        .filter(x->x.getMinimumRadius()<=finalRadiusValue)
+                        .collect(Collectors.toList());
+                new WiresComponentDBPage(context.driver).filterWiresBasedOnMinimumBendRadiusRange(filterValue);
+                break;
+            case "maxcurrent":
+                String[] currentRange = filterValue.split("-");
+                Double initialCurrentValue = Double.valueOf(currentRange[0]);
+                Double finalCurrentValue = Double.valueOf(currentRange[1]);
+                filteredDbData = dbData.stream()
+                        .filter(x->x.getMaxcurrent()>=initialCurrentValue)
+                        .filter(x->x.getMaxcurrent()<=finalCurrentValue)
+                        .collect(Collectors.toList());
+                new WiresComponentDBPage(context.driver).filterWiresBasedOnMaxCurrentRange(filterValue);
+                break;
+            case "resistance":
+                String[] resistanceRange = filterValue.split("-");
+                Double initialResistanceValue = Double.valueOf(resistanceRange[0]);
+                Double finalResistanceValue = Double.valueOf(resistanceRange[1]);
+                filteredDbData = dbData.stream()
+                        .filter(x->x.getResistance()>=initialResistanceValue)
+                        .filter(x->x.getResistance()<=finalResistanceValue)
+                        .collect(Collectors.toList());
+                new WiresComponentDBPage(context.driver).filterWiresBasedOnResistanceRange(filterValue);
                 break;
         }
         List<WiresComponentDB> wiresData = new WiresComponentDBPage(context.driver).getWiresData();
-        Assert.assertTrue(ListUtils.subtract(dbData.stream().filter(x->x.getStatus().equals(filterValue)).collect(Collectors.toList()),wiresData.stream().toList()).size()==0);
+        Assert.assertTrue(ListUtils.subtract(filteredDbData,wiresData.stream().toList()).size()==0);
     }
 
 }
