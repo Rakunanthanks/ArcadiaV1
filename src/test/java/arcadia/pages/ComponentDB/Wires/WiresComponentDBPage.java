@@ -143,4 +143,68 @@ public class WiresComponentDBPage extends BasePage {
         Thread.sleep(2000 );
         customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tableWireRows)));
     }
+
+    public void filterWiresBasedOnAwgSize(String awgSize) throws InterruptedException {
+        Thread.sleep(2000 );
+        customCommand.waitForElementVisibility(driver,paginationDropdown);
+        customCommand.simulateKeyEnterWithValue(searchFieldAwgSize,awgSize);
+        Thread.sleep(2000 );
+        customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tableWireRows)));
+    }
+
+    public void filterWiresBasedOnGauge(String gauge) throws InterruptedException {
+        Thread.sleep(2000 );
+        customCommand.waitForElementVisibility(driver,paginationDropdown);
+        customCommand.simulateKeyEnterWithValue(searchFieldGauge,gauge);
+        Thread.sleep(2000 );
+        customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tableWireRows)));
+    }
+
+    public void filterWiresBasedOnWireCSARange(String wireCSARange) throws InterruptedException {
+        Thread.sleep(2000 );
+        customCommand.waitForElementVisibility(driver,paginationDropdown);
+        customCommand.simulateKeyEnterWithValue(searchFieldWireCSA,wireCSARange);
+        Thread.sleep(2000 );
+        customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tableWireRows)));
+    }
+
+    public void filterWiresBasedOnOutsideDiaRange(String outsideDiaRange) throws InterruptedException {
+        Thread.sleep(2000 );
+        customCommand.waitForElementVisibility(driver,paginationDropdown);
+        customCommand.simulateKeyEnterWithValue(searchFieldOutsideDia,outsideDiaRange);
+        Thread.sleep(2000 );
+        customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tableWireRows)));
+    }
+
+    public void filterWiresBasedOnMaterial(String wireMaterial) throws InterruptedException {
+        Thread.sleep(2000 );
+        customCommand.waitForElementVisibility(driver,paginationDropdown);
+        customCommand.simulateKeyEnterWithValue(searchFieldWireMaterial,wireMaterial);
+        Thread.sleep(2000 );
+        customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tableWireRows)));
+    }
+
+    public void filterWiresBasedOnMinimumBendRadiusRange(String minimumBendRadiusRange) throws InterruptedException {
+        Thread.sleep(2000 );
+        customCommand.waitForElementVisibility(driver,paginationDropdown);
+        customCommand.simulateKeyEnterWithValue(searchFieldMinimumBendRadius,minimumBendRadiusRange);
+        Thread.sleep(2000 );
+        customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tableWireRows)));
+    }
+
+    public void filterWiresBasedOnMaxCurrentRange(String maxCurrentRange) throws InterruptedException {
+        Thread.sleep(2000 );
+        customCommand.waitForElementVisibility(driver,paginationDropdown);
+        customCommand.simulateKeyEnterWithValue(searchFieldMaxCurrent,maxCurrentRange);
+        Thread.sleep(2000 );
+        customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tableWireRows)));
+    }
+
+    public void filterWiresBasedOnResistanceRange(String resistanceRange) throws InterruptedException {
+        Thread.sleep(2000 );
+        customCommand.waitForElementVisibility(driver,paginationDropdown);
+        customCommand.simulateKeyEnterWithValue(searchFieldResistance,resistanceRange);
+        Thread.sleep(2000 );
+        customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tableWireRows)));
+    }
 }
