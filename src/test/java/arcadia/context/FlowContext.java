@@ -16,4 +16,6 @@ public class FlowContext {
     public static Boolean globalSleeveTubeUpdate = false;
     public static List<HarnessBundleDisplay> defaultBundleDisplay = new ArrayList<>();
     public static String defaultLineFont = null;
+
+    public static String referencesPartNumber = "";
 }

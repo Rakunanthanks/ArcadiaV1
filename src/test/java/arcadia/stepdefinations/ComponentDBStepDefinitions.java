@@ -1,11 +1,13 @@
 package arcadia.stepdefinations;
 
+import arcadia.context.FlowContext;
 import arcadia.context.TestContext;
 import arcadia.domainobjects.*;
 import arcadia.pages.ComponentDB.AddNewComponentPage;
 import arcadia.pages.ComponentDB.HeaderPanel;
 import arcadia.pages.ComponentDB.Wires.WiresComponentDBPage;
 import arcadia.utils.StringHelper;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import org.apache.commons.collections.ListUtils;
 import org.testng.Assert;
@@ -29,7 +31,9 @@ public class ComponentDBStepDefinitions {
                 ComponentDetails componentDetails = new ComponentDetails(String.format("testdescription-%04d", new StringHelper().generateRandomDigit()),"testfamily",componentStatus,"","testproprietary","","BLACK","BLUE","BROWN","PVC","NOT SET","");
                 addComponentForm.setComponentDetails(componentDetails);
                 List<AdditionalReferences> additionalReferencesList = new ArrayList<>();
-                AdditionalReferences additionalReferences1 = new AdditionalReferences(String.valueOf(new StringHelper().generateRandomDigit()),"Manufacturer","testcompany");
+                String referencesPartNumber = String.valueOf(new StringHelper().generateRandomDigit());
+                FlowContext.referencesPartNumber = referencesPartNumber;
+                AdditionalReferences additionalReferences1 = new AdditionalReferences(referencesPartNumber,"Manufacturer","testcompany");
                 additionalReferencesList.add(additionalReferences1);
                 addComponentForm.setAdditionalReferences(additionalReferencesList);
                 BomDetails bomDetails = new BomDetails(0.0022,"","EACH","GBP","gm","INCLUDED");
@@ -94,8 +98,8 @@ public class ComponentDBStepDefinitions {
                 errorMessage = "Enter Company";
                 break;
         }
-        new AddNewComponentPage(context.driver).verifyErrorMessage(errorMessage);
-        new AddNewComponentPage(context.driver).closeErrorPopUp();
+        new AddNewComponentPage(context.driver).verifyAlertMessage(errorMessage);
+        new AddNewComponentPage(context.driver).closeAlertPopUp();
     }
 
     @Then("{string} component with additionalreferencetype {string} is created successfully")
@@ -229,4 +233,60 @@ public class ComponentDBStepDefinitions {
         Assert.assertTrue(ListUtils.subtract(filteredDbData,wiresData.stream().toList()).size()==0);
     }
 
+    @And("User searches {string} component using {string}")
+    public void userSearchesComponent(String componentName, String searchType) throws InterruptedException {
+        switch (searchType.toLowerCase()){
+            case "partnumber" :
+                new WiresComponentDBPage(context.driver).filterWiresBasedOnPartNumber(FlowContext.referencesPartNumber);
+                break;
+        }
+    }
+
+    @And("User selects the first component")
+    public void userSelectsTheFirstComponent() {
+        new WiresComponentDBPage(context.driver).selectFirstComponent();
+    }
+
+    @Then("User Adds Similar Component")
+    public void addSimilarComponent() throws InterruptedException {
+        new HeaderPanel(context.driver).clickAddSimilarComponent();
+        String newPartNumber = String.valueOf(new StringHelper().generateRandomDigit());
+        FlowContext.referencesPartNumber = newPartNumber;
+        new WiresComponentDBPage(context.driver).enterNewPartNumber(newPartNumber);
+        new WiresComponentDBPage(context.driver).clickAddNewWire();
+        new AddNewComponentPage(context.driver).verifyAlertMessage("Component added successfully");
+        new AddNewComponentPage(context.driver).closeAlertPopUp();
+    }
+
+    @Then("User verified the component {string} is added successfully")
+    public void userVerifiedTheComponentIsAddedSuccessfully(String componentName) throws InterruptedException {
+        switch (componentName.toLowerCase()){
+            case "wire":
+                List<WiresComponentDB> wiresdatalist = new WiresComponentDBPage(context.driver).getWiresData();
+                Assert.assertTrue(wiresdatalist.size()!=0);
+                break;
+        }
+    }
+
+    @Then("User Deletes the Component")
+    public void deleteComponent() throws InterruptedException {
+        new HeaderPanel(context.driver).clickDeleteComponent();
+        new AddNewComponentPage(context.driver).verifyConfirmationMessage("Do you want to delete the selected Component Part(s).");
+        new AddNewComponentPage(context.driver).acceptConfirmationPopup();
+    }
+
+    @Then("User verified the component is deleted successfully")
+    public void userVerifiedTheComponentIsDeletedSuccessfully() throws InterruptedException {
+        new AddNewComponentPage(context.driver).verifySuccessPopupMessage("Components Deleted Successfully");
+        new AddNewComponentPage(context.driver).acceptSuccessPopup();
+    }
+
+    @And("User Copies the Component for DB {string}")
+    public void userCopiesTheComponent(String dbName) throws InterruptedException {
+        new HeaderPanel(context.driver).clickCopyComponent();
+        new HeaderPanel(context.driver).selectCopyComponentDB(dbName);
+        new HeaderPanel(context.driver).clickConfirmCopy();
+        new AddNewComponentPage(context.driver).verifyConfirmationMessage("Copying parts will copy all its linked parts to the destination component db");
+        new AddNewComponentPage(context.driver).acceptConfirmationPopup();
+    }
 }

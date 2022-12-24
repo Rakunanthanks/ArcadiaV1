@@ -43,6 +43,15 @@ public class AddNewComponentPage extends BasePage {
     @FindBy(css = "div[class$=\"bootbox-alert in\"] div.modal-body div") private WebElement alertPopUpMessage;
     @FindBy(css = "div[class$=\"bootbox-alert in\"] div.modal-body button.close") private WebElement alertPopUpCloseButton;
 
+    @FindBy(css = "div[class$=\"bootbox-confirm in\"] div.modal-body div") private WebElement confirmationPopUpMessage;
+
+    @FindBy(css = "div[class$=\"bootbox-confirm in\"] div.modal-body button.close") private WebElement confirmationPopUpCloseButton;
+
+    @FindBy(css = "div.modal-footer button[data-bb-handler=\"confirm\"]") private WebElement confirmationPopUpOkButton;
+
+    @FindBy(css = "div[class$=\"modal-success in\"] div.modal-body div") private WebElement successPopUpMessage;
+    @FindBy(css = "div.modal-footer button[data-bb-handler=\"ok\"]") private WebElement successPopUpOkButton;
+
     public void createComponent(AddComponentForm addComponentForm) throws InterruptedException {
         //Details
         customCommand.enterText(componentDescription,addComponentForm.getComponentDetails().getDescription());
@@ -95,11 +104,30 @@ public class AddNewComponentPage extends BasePage {
         createNewComponent.click();
     }
 
-    public void verifyErrorMessage(String errorMessage){
-        alertPopUpMessage.getText().equals(errorMessage);
+    public void verifyAlertMessage(String message){
+        customCommand.waitForElementVisibility(driver,alertPopUpMessage);
+        alertPopUpMessage.getText().equals(message);
     }
 
-    public void closeErrorPopUp(){
+    public void closeAlertPopUp(){
         alertPopUpCloseButton.click();
+    }
+
+    public void verifyConfirmationMessage(String message){
+        customCommand.waitForElementVisibility(driver,confirmationPopUpMessage);
+        confirmationPopUpMessage.getText().equals(message);
+    }
+
+    public void acceptConfirmationPopup(){
+        confirmationPopUpOkButton.click();
+    }
+
+    public void verifySuccessPopupMessage(String message){
+        customCommand.waitForElementVisibility(driver,successPopUpMessage);
+        successPopUpMessage.getText().equals(message);
+    }
+
+    public void acceptSuccessPopup(){
+        successPopUpOkButton.click();
     }
 }
