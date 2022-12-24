@@ -1,13 +1,11 @@
 package arcadia.stepdefinations;
 
-import arcadia.context.FlowContext;
 import arcadia.context.TestContext;
 import arcadia.domainobjects.*;
 import arcadia.pages.ComponentDB.AddNewComponentPage;
 import arcadia.pages.ComponentDB.HeaderPanel;
 import arcadia.pages.ComponentDB.Wires.WiresComponentDBPage;
 import arcadia.utils.StringHelper;
-import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import org.apache.commons.collections.ListUtils;
 import org.testng.Assert;
@@ -24,54 +22,83 @@ public class ComponentDBStepDefinitions {
 
     @Then("{string} component with status {string} is created successfully")
     public void component_with_status_is_created_successfully(String componentName, String componentStatus) throws InterruptedException {
+        AddComponentForm addComponentForm=null;
+        ComponentDetails componentDetails=null;
+        List<AdditionalReferences> additionalReferencesList = null;
+        AdditionalReferences additionalReferences1=null;
+        BomDetails bomDetails=null;
         switch(componentName.toLowerCase()) {
             case "wire":
                 new HeaderPanel(context.driver).openAddNewComponentPage();
-                AddComponentForm addComponentForm = new AddComponentForm();
-                ComponentDetails componentDetails = new ComponentDetails(String.format("testdescription-%04d", new StringHelper().generateRandomDigit()),"testfamily",componentStatus,"","testproprietary","","BLACK","BLUE","BROWN","PVC","NOT SET","");
+                addComponentForm = new AddComponentForm();
+                componentDetails = new ComponentDetails(String.format("testdescription-%04d", new StringHelper().generateRandomDigit()), "testfamily", componentStatus, "", "testproprietary", "", "BLACK", "BLUE", "BROWN", "PVC", "NOT SET", "", "");
                 addComponentForm.setComponentDetails(componentDetails);
-                List<AdditionalReferences> additionalReferencesList = new ArrayList<>();
-                String referencesPartNumber = String.valueOf(new StringHelper().generateRandomDigit());
-                FlowContext.referencesPartNumber = referencesPartNumber;
-                AdditionalReferences additionalReferences1 = new AdditionalReferences(referencesPartNumber,"Manufacturer","testcompany");
-                additionalReferencesList.add(additionalReferences1);
-                addComponentForm.setAdditionalReferences(additionalReferencesList);
-                BomDetails bomDetails = new BomDetails(0.0022,"","EACH","GBP","gm","INCLUDED");
-                addComponentForm.setBomDetails(bomDetails);
-                new AddNewComponentPage(context.driver).createComponent(addComponentForm);
-                new AddNewComponentPage(context.driver).submitComponentDetails();
-                Thread.sleep(1000);
+                break;
+            case "seal":
+                new HeaderPanel(context.driver).openAddNewComponentPage();
+                addComponentForm = new AddComponentForm();
+                componentDetails = new ComponentDetails(String.format("testdescription-%04d", new StringHelper().generateRandomDigit()), "testfamily", componentStatus, "", "testproprietary", "", "", "", "", "PVC", "NOT SET", "", "BLACK");
+                addComponentForm.setComponentDetails(componentDetails);
                 break;
         }
+                additionalReferencesList = new ArrayList<>();
+                additionalReferences1 = new AdditionalReferences(String.valueOf(new StringHelper().generateRandomDigit()),"Manufacturer","testcompany");
+                additionalReferencesList.add(additionalReferences1);
+                addComponentForm.setAdditionalReferences(additionalReferencesList);
+                bomDetails = new BomDetails(0.0022,"","EACH","GBP","gm","INCLUDED");
+                addComponentForm.setBomDetails(bomDetails);
+                new AddNewComponentPage(context.driver).createComponent(addComponentForm,componentName);
+                new AddNewComponentPage(context.driver).submitComponentDetails();
+                Thread.sleep(1000);
+
     }
 
     @Then("{string} component with billtype {string} is created successfully")
     public void component_with_billtype_is_created_successfully(String componentName, String componentBomBillType) throws InterruptedException {
+        AddComponentForm addComponentForm=null;
+        ComponentDetails componentDetails=null;
+        List<AdditionalReferences> additionalReferencesList = null;
+        AdditionalReferences additionalReferences1=null;
+        BomDetails bomDetails=null;
         switch(componentName.toLowerCase()) {
             case "wire":
                 new HeaderPanel(context.driver).openAddNewComponentPage();
-                AddComponentForm addComponentForm = new AddComponentForm();
-                ComponentDetails componentDetails = new ComponentDetails(String.format("testdescription-%04d", new StringHelper().generateRandomDigit()),"testfamily","IN REVIEW","","testproprietary","","BLACK","BLUE","BROWN","PVC","NOT SET","");
+                addComponentForm = new AddComponentForm();
+                componentDetails = new ComponentDetails(String.format("testdescription-%04d", new StringHelper().generateRandomDigit()), "testfamily", "IN REVIEW", "", "testproprietary", "", "BLACK", "BLUE", "BROWN", "PVC", "NOT SET", "", "");
                 addComponentForm.setComponentDetails(componentDetails);
-                List<AdditionalReferences> additionalReferencesList = new ArrayList<>();
-                AdditionalReferences additionalReferences1 = new AdditionalReferences(String.valueOf(new StringHelper().generateRandomDigit()),"Manufacturer","testcompany");
-                additionalReferencesList.add(additionalReferences1);
-                addComponentForm.setAdditionalReferences(additionalReferencesList);
-                BomDetails bomDetails = new BomDetails(0.0022,"","EACH","GBP","gm",componentBomBillType);
-                addComponentForm.setBomDetails(bomDetails);
-                new AddNewComponentPage(context.driver).createComponent(addComponentForm);
-                new AddNewComponentPage(context.driver).submitComponentDetails();
-                Thread.sleep(1000);
+                break;
+            case "seal":
+                new HeaderPanel(context.driver).openAddNewComponentPage();
+                addComponentForm = new AddComponentForm();
+                componentDetails = new ComponentDetails(String.format("testdescription-%04d", new StringHelper().generateRandomDigit()), "testfamily", "IN REVIEW", "", "testproprietary", "", "", "", "", "PVC", "NOT SET", "", "BLACK");
+                addComponentForm.setComponentDetails(componentDetails);
                 break;
         }
+                additionalReferencesList = new ArrayList<>();
+                additionalReferences1 = new AdditionalReferences(String.valueOf(new StringHelper().generateRandomDigit()),"Manufacturer","testcompany");
+                additionalReferencesList.add(additionalReferences1);
+                addComponentForm.setAdditionalReferences(additionalReferencesList);
+                bomDetails = new BomDetails(0.0022,"","EACH","GBP","gm",componentBomBillType);
+                addComponentForm.setBomDetails(bomDetails);
+                new AddNewComponentPage(context.driver).createComponent(addComponentForm,componentName);
+                new AddNewComponentPage(context.driver).submitComponentDetails();
+                Thread.sleep(1000);
     }
 
     @Then("{string} component with referencepartnumber {string} and referencecompany {string} only is created")
     public void component_with_reference_details_is_created(String componentName, String partNumber, String referencecompany) throws InterruptedException {
+        new HeaderPanel(context.driver).openAddNewComponentPage();
+        if(componentName.equalsIgnoreCase("wire")||componentName.equalsIgnoreCase("seal"))
+        {
+            componentName="common";
+        }
+        else{
+            componentName="unique";
+        }
+        AddComponentForm addComponentForm = null;
         switch(componentName.toLowerCase()) {
-            case "wire":
-                new HeaderPanel(context.driver).openAddNewComponentPage();
-                AddComponentForm addComponentForm = new AddComponentForm();
+            case "common":
+                addComponentForm = new AddComponentForm();
                 if(!String.valueOf(partNumber).isEmpty()){
                     partNumber = String.valueOf(new StringHelper().generateRandomDigit());
                 }
@@ -104,26 +131,37 @@ public class ComponentDBStepDefinitions {
 
     @Then("{string} component with additionalreferencetype {string} is created successfully")
     public void component_with_additionalreferencetype_is_created_successfully(String componentName, String additionalRefernceType) throws InterruptedException {
+        AddComponentForm addComponentForm=null;
+        ComponentDetails componentDetails=null;
+        List<AdditionalReferences> additionalReferencesList = null;
+        AdditionalReferences additionalReferences1=null;
+        BomDetails bomDetails=null;
         switch(componentName.toLowerCase()) {
             case "wire":
                 new HeaderPanel(context.driver).openAddNewComponentPage();
-                AddComponentForm addComponentForm = new AddComponentForm();
-                ComponentDetails componentDetails = new ComponentDetails(String.format("testdescription-%04d", new StringHelper().generateRandomDigit()),"testfamily","IN REVIEW","","testproprietary","","BLACK","BLUE","BROWN","PVC","NOT SET","");
+                addComponentForm = new AddComponentForm();
+                componentDetails = new ComponentDetails(String.format("testdescription-%04d", new StringHelper().generateRandomDigit()), "testfamily", "IN REVIEW", "", "testproprietary", "", "BLACK", "BLUE", "BROWN", "PVC", "NOT SET", "", "");
                 addComponentForm.setComponentDetails(componentDetails);
-                BomDetails bomDetails = new BomDetails(0.0022,"","EACH","GBP","gm","INCLUDED");
+                break;
+            case "seal":
+                new HeaderPanel(context.driver).openAddNewComponentPage();
+                addComponentForm = new AddComponentForm();
+                componentDetails = new ComponentDetails(String.format("testdescription-%04d", new StringHelper().generateRandomDigit()), "testfamily", "IN REVIEW", "", "testproprietary", "", "", "", "", "PVC", "NOT SET", "", "BLACK");
+                addComponentForm.setComponentDetails(componentDetails);
+                break;
+        }
+                bomDetails = new BomDetails(0.0022,"","EACH","GBP","gm","INCLUDED");
                 addComponentForm.setBomDetails(bomDetails);
-                List<AdditionalReferences> additionalReferencesList = new ArrayList<>();
+                additionalReferencesList = new ArrayList<>();
                 String[] arrayOfRefrenceType = additionalRefernceType.split(",");
                 for(String refType: arrayOfRefrenceType){
                     AdditionalReferences additionalReferences = new AdditionalReferences(String.valueOf(new StringHelper().generateRandomDigit()),refType,"testcompany");
                     additionalReferencesList.add(additionalReferences);
                 }
                 addComponentForm.setAdditionalReferences(additionalReferencesList);
-                new AddNewComponentPage(context.driver).createComponent(addComponentForm);
+                new AddNewComponentPage(context.driver).createComponent(addComponentForm,componentName);
                 new AddNewComponentPage(context.driver).submitComponentDetails();
                 Thread.sleep(1000);
-                break;
-        }
     }
 
     @Then("Verify component data on the basis of filter {string} with value {string}")
@@ -233,60 +271,4 @@ public class ComponentDBStepDefinitions {
         Assert.assertTrue(ListUtils.subtract(filteredDbData,wiresData.stream().toList()).size()==0);
     }
 
-    @And("User searches {string} component using {string}")
-    public void userSearchesComponent(String componentName, String searchType) throws InterruptedException {
-        switch (searchType.toLowerCase()){
-            case "partnumber" :
-                new WiresComponentDBPage(context.driver).filterWiresBasedOnPartNumber(FlowContext.referencesPartNumber);
-                break;
-        }
-    }
-
-    @And("User selects the first component")
-    public void userSelectsTheFirstComponent() {
-        new WiresComponentDBPage(context.driver).selectFirstComponent();
-    }
-
-    @Then("User Adds Similar Component")
-    public void addSimilarComponent() throws InterruptedException {
-        new HeaderPanel(context.driver).clickAddSimilarComponent();
-        String newPartNumber = String.valueOf(new StringHelper().generateRandomDigit());
-        FlowContext.referencesPartNumber = newPartNumber;
-        new WiresComponentDBPage(context.driver).enterNewPartNumber(newPartNumber);
-        new WiresComponentDBPage(context.driver).clickAddNewWire();
-        new AddNewComponentPage(context.driver).verifyAlertMessage("Component added successfully");
-        new AddNewComponentPage(context.driver).closeAlertPopUp();
-    }
-
-    @Then("User verified the component {string} is added successfully")
-    public void userVerifiedTheComponentIsAddedSuccessfully(String componentName) throws InterruptedException {
-        switch (componentName.toLowerCase()){
-            case "wire":
-                List<WiresComponentDB> wiresdatalist = new WiresComponentDBPage(context.driver).getWiresData();
-                Assert.assertTrue(wiresdatalist.size()!=0);
-                break;
-        }
-    }
-
-    @Then("User Deletes the Component")
-    public void deleteComponent() throws InterruptedException {
-        new HeaderPanel(context.driver).clickDeleteComponent();
-        new AddNewComponentPage(context.driver).verifyConfirmationMessage("Do you want to delete the selected Component Part(s).");
-        new AddNewComponentPage(context.driver).acceptConfirmationPopup();
-    }
-
-    @Then("User verified the component is deleted successfully")
-    public void userVerifiedTheComponentIsDeletedSuccessfully() throws InterruptedException {
-        new AddNewComponentPage(context.driver).verifySuccessPopupMessage("Components Deleted Successfully");
-        new AddNewComponentPage(context.driver).acceptSuccessPopup();
-    }
-
-    @And("User Copies the Component for DB {string}")
-    public void userCopiesTheComponent(String dbName) throws InterruptedException {
-        new HeaderPanel(context.driver).clickCopyComponent();
-        new HeaderPanel(context.driver).selectCopyComponentDB(dbName);
-        new HeaderPanel(context.driver).clickConfirmCopy();
-        new AddNewComponentPage(context.driver).verifyConfirmationMessage("Copying parts will copy all its linked parts to the destination component db");
-        new AddNewComponentPage(context.driver).acceptConfirmationPopup();
-    }
 }
