@@ -13,8 +13,10 @@ public class ComponentDetails {
     private String materialcode;
     private String usage;
     private String partcategory;
+    private String colour;
 
-    public ComponentDetails(String description, String family, String status, String typecode, String proprietary, String parttype, String primarycolour, String secondarycolour, String tertiarycolour, String materialcode, String usage, String partcategory) {
+
+    public ComponentDetails(String description, String family, String status, String typecode, String proprietary, String parttype, String primarycolour, String secondarycolour, String tertiarycolour, String materialcode, String usage, String partcategory, String colour) {
         this.description = description;
         this.family = family;
         this.status = status;
@@ -27,6 +29,7 @@ public class ComponentDetails {
         this.materialcode = materialcode;
         this.usage = usage;
         this.partcategory = partcategory;
+        this.colour=colour;
     }
 
     public String getDescription() {
@@ -115,6 +118,14 @@ public class ComponentDetails {
 
     public void setUsage(String usage) {
         this.usage = usage;
+    }
+
+    public String getColour() {
+        return colour;
+    }
+
+    public void setColour(String colour) {
+        this.colour = colour;
     }
 
     public String getPartcategory() {

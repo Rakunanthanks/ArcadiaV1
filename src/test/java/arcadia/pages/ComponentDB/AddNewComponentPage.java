@@ -43,21 +43,28 @@ public class AddNewComponentPage extends BasePage {
     @FindBy(css = "div[class$=\"bootbox-alert in\"] div.modal-body div") private WebElement alertPopUpMessage;
     @FindBy(css = "div[class$=\"bootbox-alert in\"] div.modal-body button.close") private WebElement alertPopUpCloseButton;
 
-    public void createComponent(AddComponentForm addComponentForm) throws InterruptedException {
+    public void createComponent(AddComponentForm addComponentForm,String componentName) throws InterruptedException {
         //Details
-        customCommand.enterText(componentDescription,addComponentForm.getComponentDetails().getDescription());
-        customCommand.enterText(componentFamily,addComponentForm.getComponentDetails().getFamily());
-        customCommand.enterText(componentTypeCode,addComponentForm.getComponentDetails().getTypecode());
-        customCommand.enterText(componentProprietary,addComponentForm.getComponentDetails().getProprietary());
-        customCommand.enterText(componentPartType,addComponentForm.getComponentDetails().getParttype());
-        List<WebElement> listOfColours = driver.findElements(By.cssSelector(componentColour));
-        customCommand.selectDropDownByValue(listOfColours.get(0),addComponentForm.getComponentDetails().getPrimarycolour());
-        customCommand.selectDropDownByValue(listOfColours.get(1),addComponentForm.getComponentDetails().getSecondarycolour());
-        customCommand.selectDropDownByValue(listOfColours.get(2),addComponentForm.getComponentDetails().getTertiarycolour());
-        customCommand.selectDropDownByValue(componentMaterialCode,addComponentForm.getComponentDetails().getMaterialcode());
-        customCommand.selectDropDownByValue(componentUsage,addComponentForm.getComponentDetails().getUsage());
+        customCommand.enterText(componentDescription, addComponentForm.getComponentDetails().getDescription());
+        customCommand.enterText(componentFamily, addComponentForm.getComponentDetails().getFamily());
+        customCommand.enterText(componentTypeCode, addComponentForm.getComponentDetails().getTypecode());
+        customCommand.enterText(componentProprietary, addComponentForm.getComponentDetails().getProprietary());
+        customCommand.enterText(componentPartType, addComponentForm.getComponentDetails().getParttype());
+        customCommand.selectDropDownByValue(componentMaterialCode, addComponentForm.getComponentDetails().getMaterialcode());
+        customCommand.selectDropDownByValue(componentUsage, addComponentForm.getComponentDetails().getUsage());
 
-        //customCommand.selectDropDownByValue(componentPartCategory,addComponentForm.getComponentDetails().getPartcategory());
+        switch(componentName.toLowerCase()) {
+            case "wire":
+                List<WebElement> listOfColours = driver.findElements(By.cssSelector(componentColour));
+                customCommand.selectDropDownByValue(listOfColours.get(0), addComponentForm.getComponentDetails().getPrimarycolour());
+                customCommand.selectDropDownByValue(listOfColours.get(1), addComponentForm.getComponentDetails().getSecondarycolour());
+                customCommand.selectDropDownByValue(listOfColours.get(2), addComponentForm.getComponentDetails().getTertiarycolour());
+                //customCommand.selectDropDownByValue(componentPartCategory,addComponentForm.getComponentDetails().getPartcategory());
+                break;
+            case "seal":
+                WebElement Colour = driver.findElement(By.cssSelector(componentColour));
+                customCommand.selectDropDownByValue(Colour,addComponentForm.getComponentDetails().getColour());
+        }
 
         //Additional references
         for(int i=1; i<addComponentForm.getAdditionalReferences().size();i++){
