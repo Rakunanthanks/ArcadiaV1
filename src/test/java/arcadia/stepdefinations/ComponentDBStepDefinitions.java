@@ -4,7 +4,9 @@ import arcadia.context.FlowContext;
 import arcadia.context.TestContext;
 import arcadia.domainobjects.*;
 import arcadia.pages.ComponentDB.AddNewComponentPage;
+import arcadia.pages.ComponentDB.CommonElements;
 import arcadia.pages.ComponentDB.HeaderPanel;
+import arcadia.pages.ComponentDB.Terminals.TerminalsComponentDBPage;
 import arcadia.pages.ComponentDB.Wires.WiresComponentDBPage;
 import arcadia.utils.StringHelper;
 import io.cucumber.java.en.And;
@@ -37,6 +39,7 @@ public class ComponentDBStepDefinitions {
                 addComponentForm.setComponentDetails(componentDetails);
                 break;
             case "seal":
+            case "terminal":
                 new HeaderPanel(context.driver).openAddNewComponentPage();
                 addComponentForm = new AddComponentForm();
                 componentDetails = new ComponentDetails(String.format("testdescription-%04d", new StringHelper().generateRandomDigit()), "testfamily", componentStatus, "", "testproprietary", "", "", "", "", "PVC", "NOT SET", "", "BLACK");
@@ -72,6 +75,7 @@ public class ComponentDBStepDefinitions {
                 addComponentForm.setComponentDetails(componentDetails);
                 break;
             case "seal":
+            case "terminal":
                 new HeaderPanel(context.driver).openAddNewComponentPage();
                 addComponentForm = new AddComponentForm();
                 componentDetails = new ComponentDetails(String.format("testdescription-%04d", new StringHelper().generateRandomDigit()), "testfamily", "IN REVIEW", "", "testproprietary", "", "", "", "", "PVC", "NOT SET", "", "BLACK");
@@ -92,7 +96,7 @@ public class ComponentDBStepDefinitions {
     @Then("{string} component with referencepartnumber {string} and referencecompany {string} only is created")
     public void component_with_reference_details_is_created(String componentName, String partNumber, String referencecompany) throws InterruptedException {
         new HeaderPanel(context.driver).openAddNewComponentPage();
-        if(componentName.equalsIgnoreCase("wire")||componentName.equalsIgnoreCase("seal"))
+        if(componentName.equalsIgnoreCase("wire")||componentName.equalsIgnoreCase("seal")||componentName.equalsIgnoreCase("terminal"))
         {
             componentName="common";
         }
@@ -148,6 +152,7 @@ public class ComponentDBStepDefinitions {
                 addComponentForm.setComponentDetails(componentDetails);
                 break;
             case "seal":
+            case "terminal":
                 new HeaderPanel(context.driver).openAddNewComponentPage();
                 addComponentForm = new AddComponentForm();
                 componentDetails = new ComponentDetails(String.format("testdescription-%04d", new StringHelper().generateRandomDigit()), "testfamily", "IN REVIEW", "", "testproprietary", "", "", "", "", "PVC", "NOT SET", "", "BLACK");
@@ -180,7 +185,7 @@ public class ComponentDBStepDefinitions {
                 break;
             case "partnumber":
                 filteredDbData = dbData.stream().filter(x->x.getPartNumber().equals(filterValue)).collect(Collectors.toList());
-                new WiresComponentDBPage(context.driver).filterWiresBasedOnPartNumber(filterValue);
+                new CommonElements(context.driver).filterComponentBasedOnPartNumber(filterValue);
                 break;
             case "description":
                 filteredDbData = dbData.stream().filter(x->x.getDescription().equals(filterValue)).collect(Collectors.toList());
@@ -279,14 +284,14 @@ public class ComponentDBStepDefinitions {
     public void userSearchesComponent(String componentName, String searchType) throws InterruptedException {
         switch (searchType.toLowerCase()){
             case "partnumber" :
-                new WiresComponentDBPage(context.driver).filterWiresBasedOnPartNumber(FlowContext.referencesPartNumber);
+                new CommonElements(context.driver).filterComponentBasedOnPartNumber(FlowContext.referencesPartNumber);
                 break;
         }
     }
 
     @And("User selects the first component")
     public void userSelectsTheFirstComponent() {
-        new WiresComponentDBPage(context.driver).selectFirstComponent();
+        new CommonElements(context.driver).selectFirstComponent();
     }
 
     @Then("User Adds Similar Component")
@@ -294,8 +299,8 @@ public class ComponentDBStepDefinitions {
         new HeaderPanel(context.driver).clickAddSimilarComponent();
         String newPartNumber = String.valueOf(new StringHelper().generateRandomDigit());
         FlowContext.referencesPartNumber = newPartNumber;
-        new WiresComponentDBPage(context.driver).enterNewPartNumber(newPartNumber);
-        new WiresComponentDBPage(context.driver).clickAddNewWire();
+        new CommonElements(context.driver).enterNewPartNumber(newPartNumber);
+        new CommonElements(context.driver).clickAddSimilarOnPopup();
         new AddNewComponentPage(context.driver).verifyAlertMessage("Component added successfully");
         new AddNewComponentPage(context.driver).closeAlertPopUp();
     }
@@ -306,6 +311,10 @@ public class ComponentDBStepDefinitions {
             case "wire":
                 List<WiresComponentDB> wiresdatalist = new WiresComponentDBPage(context.driver).getWiresData();
                 Assert.assertTrue(wiresdatalist.size()!=0);
+                break;
+            case "terminal":
+                List<TerminalsComponentDB> terminalsdatalist = new TerminalsComponentDBPage(context.driver).getTerminalsData();
+                Assert.assertTrue(terminalsdatalist.size()!=0);
                 break;
         }
     }
@@ -332,4 +341,8 @@ public class ComponentDBStepDefinitions {
         new AddNewComponentPage(context.driver).acceptConfirmationPopup();
     }
 
+    @And("Use Verifies the component {string} is copied successfully")
+    public void useVerifiesTheComponentWireIsCopiedSuccessfully(String componentType) throws InterruptedException {
+        new AddNewComponentPage(context.driver).verifyTotalComponentCopiedCount(componentType,"1");
+    }
 }
