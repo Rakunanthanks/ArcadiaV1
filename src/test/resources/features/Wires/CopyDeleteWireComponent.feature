@@ -1,7 +1,7 @@
 Feature: Copy and Delete components
 
   @AddSimilarComponent
-  Scenario: Test verifies a wire component can be copied
+  Scenario: Test verifies a wire component can be added as similar
     Given I'm on Arcadia test environment
     And Navigated to selected componentDB
     And User selected 'wire' from componentDB
@@ -36,4 +36,4 @@ Feature: Copy and Delete components
     And User searches 'wire' component using 'partnumber'
     Then User verified the component 'wire' is added successfully
     When User selects the first component
-    And User Copies the Component for DB 'Wires'
+    And User Copies the Component for DB 'wires'
