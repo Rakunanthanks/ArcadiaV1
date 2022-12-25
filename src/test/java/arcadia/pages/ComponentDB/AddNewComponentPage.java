@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
 import java.util.List;
 
@@ -52,6 +53,14 @@ public class AddNewComponentPage extends BasePage {
     @FindBy(css = "div[class$=\"modal-success in\"] div.modal-body div") private WebElement successPopUpMessage;
     @FindBy(css = "div.modal-footer button[data-bb-handler=\"ok\"]") private WebElement successPopUpOkButton;
 
+    @FindBy(xpath = "//td[text()=\"Total number of Components copied successfully\"]/following-sibling::td") private WebElement tdTotalComponentCopied;
+
+    @FindBy(xpath = "//td[text()=\"No. of Wire\"]/following-sibling::td") private WebElement tdTotalCopiedWires;
+
+    @FindBy(css = "div.bootbox button.close") private WebElement btnClosePopUp;
+
+
+
     public void createComponent(AddComponentForm addComponentForm,String componentName) throws InterruptedException {
         //Details
         customCommand.enterText(componentDescription, addComponentForm.getComponentDetails().getDescription());
@@ -71,6 +80,7 @@ public class AddNewComponentPage extends BasePage {
                 //customCommand.selectDropDownByValue(componentPartCategory,addComponentForm.getComponentDetails().getPartcategory());
                 break;
             case "seal":
+            case "terminal":
                 WebElement Colour = driver.findElement(By.cssSelector(componentColour));
                 customCommand.selectDropDownByValue(Colour,addComponentForm.getComponentDetails().getColour());
         }
@@ -136,5 +146,17 @@ public class AddNewComponentPage extends BasePage {
 
     public void acceptSuccessPopup(){
         successPopUpOkButton.click();
+    }
+
+    public void verifyTotalComponentCopiedCount(String component,String numberOfComponentCopied) throws InterruptedException {
+        customCommand.waitForElementVisibility(driver,tdTotalComponentCopied);
+        Assert.assertEquals(tdTotalComponentCopied.getText(),numberOfComponentCopied);
+        switch (component.toLowerCase()){
+            case "wire":
+                Assert.assertEquals(tdTotalCopiedWires.getText(),"1");
+                break;
+        }
+        customCommand.waitForElementToBeClickable(driver,btnClosePopUp);
+        customCommand.javaScriptClick(driver,btnClosePopUp);
     }
 }

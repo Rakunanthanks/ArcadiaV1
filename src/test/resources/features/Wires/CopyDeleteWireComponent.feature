@@ -1,4 +1,4 @@
-Feature: Copy and Delete components
+Feature: Copy and Delete Wire components
 
   @AddSimilarComponent
   Scenario: Test verifies a wire component can be added as similar
@@ -37,3 +37,4 @@ Feature: Copy and Delete components
     Then User verified the component 'wire' is added successfully
     When User selects the first component
     And User Copies the Component for DB 'wires'
+    And Use Verifies the component 'wire' is copied successfully

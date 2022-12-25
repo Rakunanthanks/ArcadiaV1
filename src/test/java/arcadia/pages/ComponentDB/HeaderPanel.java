@@ -52,6 +52,7 @@ public class HeaderPanel extends BasePage {
 
     public void openAddNewComponentPage() throws InterruptedException {
         Thread.sleep(3000);
+        customCommand.waitForElementVisibility(driver,addNewComponent);
         addNewComponent.click();
         Thread.sleep(3000);
     }

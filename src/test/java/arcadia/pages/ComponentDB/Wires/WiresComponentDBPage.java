@@ -19,7 +19,6 @@ public class WiresComponentDBPage extends BasePage {
     @FindBy(css = "#grid >.bootstrap-table >.fixed-table-container >.fixed-table-pagination >.pull-left.pagination-detail >.page-list >.btn-group.dropup >.dropdown-menu>li:last-child >a") private WebElement paginationAll;
     String tableWireRows = "#tblwire > tbody > tr";
     @FindBy(css = "div.fixed-table-header select[class$=\"status\"]") private WebElement selectWireStatus;
-    @FindBy(css = "div.fixed-table-header input[placeholder=\"Part Number\"]") private WebElement searchFieldPartNumber;
     @FindBy(css = "div.fixed-table-header input[placeholder=\"Description\"]") private WebElement searchFieldDescription;
     @FindBy(css = "div.fixed-table-header input[placeholder=\"Family\"]") private WebElement searchFieldFamily;
     @FindBy(css = "div.fixed-table-header select[class$=\"groupname\"]") private WebElement selectGroupName;
@@ -36,12 +35,6 @@ public class WiresComponentDBPage extends BasePage {
     @FindBy(css = "div.fixed-table-header input[placeholder=\"Minimum Bend Radius\"]") private WebElement searchFieldMinimumBendRadius;
     @FindBy(css = "div.fixed-table-header input[placeholder=\"Max Current\"]") private WebElement searchFieldMaxCurrent;
     @FindBy(css = "div.fixed-table-header input[placeholder=\"Resistance\"]") private WebElement searchFieldResistance;
-
-    @FindBy(css = "table#tblwire input[name=\"btSelectItem\"]") private WebElement checkboxfirstComponent;
-
-    @FindBy(css = "input[name=\"addsimilar.NewPN\"]") private WebElement referencesNewPartNumber;
-
-    @FindBy(css = "button[value=\"Add Similar Wire\"]") private WebElement buttonAddSimilarWire;
 
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
 
@@ -90,15 +83,6 @@ public class WiresComponentDBPage extends BasePage {
         customCommand.waitForElementVisibility(driver,paginationDropdown);
         customCommand.selectDropDownByValue(selectWireStatus,wireStatus);
         Thread.sleep(2000 );
-        customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tableWireRows)));
-    }
-
-    public void filterWiresBasedOnPartNumber(String partNumber) throws InterruptedException {
-        Thread.sleep(2000 );
-        customCommand.waitForElementVisibility(driver,paginationDropdown);
-        customCommand.waitForElementToBeClickable(driver,searchFieldPartNumber);
-        customCommand.simulateKeyEnterWithValue(searchFieldPartNumber,partNumber);
-        Thread.sleep(3000 );
         customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tableWireRows)));
     }
 
@@ -212,18 +196,5 @@ public class WiresComponentDBPage extends BasePage {
         customCommand.simulateKeyEnterWithValue(searchFieldResistance,resistanceRange);
         Thread.sleep(2000 );
         customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tableWireRows)));
-    }
-
-    public void selectFirstComponent(){
-        checkboxfirstComponent.click();
-    }
-
-    public void enterNewPartNumber(String newPartNumber){
-        customCommand.waitForElementVisibility(driver,referencesNewPartNumber);
-        customCommand.enterText(referencesNewPartNumber,newPartNumber);
-    }
-
-    public void clickAddNewWire(){
-        buttonAddSimilarWire.click();
     }
 }
