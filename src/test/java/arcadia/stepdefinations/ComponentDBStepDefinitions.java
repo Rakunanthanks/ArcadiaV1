@@ -125,8 +125,8 @@ public class ComponentDBStepDefinitions {
                 errorMessage = "Enter Company";
                 break;
         }
-        new AddNewComponentPage(context.driver).verifyErrorMessage(errorMessage);
-        new AddNewComponentPage(context.driver).closeErrorPopUp();
+        new AddNewComponentPage(context.driver).verifyAlertMessage(errorMessage);
+        new AddNewComponentPage(context.driver).closeAlertPopUp();
     }
 
     @Then("{string} component with additionalreferencetype {string} is created successfully")
