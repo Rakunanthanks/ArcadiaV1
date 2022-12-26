@@ -245,7 +245,12 @@ public class ComponentDBStepDefinitions {
                 break;
         }
         List<WiresComponentDB> wiresData = new WiresComponentDBPage(context.driver).getWiresData();
-        Assert.assertTrue(ListUtils.subtract(filteredDbData,wiresData.stream().toList()).size()==0);
+        List<String> expectedPartNumberList = filteredDbData.stream().map(x->x.getPartNumber()).collect(Collectors.toList());
+        List<String> actualPartNumberList = wiresData.stream().map(x->x.getPartNumber()).collect(Collectors.toList());
+        List<String> differences = expectedPartNumberList.stream()
+                .filter(element -> !actualPartNumberList.contains(element))
+                .collect(Collectors.toList());
+        Assert.assertEquals(expectedPartNumberList.size(),actualPartNumberList.size(),differences.toString());
     }
 
     @Then("Verify component data on the basis of filter {string} with value {string}")
@@ -317,7 +322,12 @@ public class ComponentDBStepDefinitions {
                 break;
         }
         List<WiresComponentDB> wiresData = new WiresComponentDBPage(context.driver).getWiresData();
-        Assert.assertTrue(ListUtils.subtract(filteredDbData,wiresData.stream().toList()).size()==0);
+        List<String> expectedPartNumberList = filteredDbData.stream().map(x->x.getPartNumber()).collect(Collectors.toList());
+        List<String> actualPartNumberList = wiresData.stream().map(x->x.getPartNumber()).collect(Collectors.toList());
+        List<String> differences = expectedPartNumberList.stream()
+                .filter(element -> !actualPartNumberList.contains(element))
+                .collect(Collectors.toList());
+        Assert.assertEquals(expectedPartNumberList.size(),actualPartNumberList.size(),differences.toString());
     }
 
     @And("User searches {string} component using {string}")
