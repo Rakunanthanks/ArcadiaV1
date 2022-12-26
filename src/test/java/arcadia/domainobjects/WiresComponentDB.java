@@ -19,6 +19,10 @@ public class WiresComponentDB {
 
     private Double resistance;
 
+    public WiresComponentDB(){
+
+    }
+
     public WiresComponentDB(String partNumber, String description, String family, String status, String usage, String supplier, String supplierPN, String colour, String awgSize, String gauge, Double wireCSA, Double outsideDia, String material, Double minimumRadius, Double maxcurrent, Double resistance) {
         this.partNumber = partNumber;
         this.description = description;
