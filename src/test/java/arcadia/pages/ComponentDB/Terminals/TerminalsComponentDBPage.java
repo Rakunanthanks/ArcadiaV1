@@ -11,6 +11,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class TerminalsComponentDBPage extends BasePage {
     public TerminalsComponentDBPage(WebDriver driver) {
@@ -48,5 +49,11 @@ public class TerminalsComponentDBPage extends BasePage {
             componentDbData.add(new TerminalsComponentDB(partNumber,description,family,status,usage,supplier,supplierPN,colour,gender,type,finish,material,stripLength,threadDia,wireInsOD,wireCSA));
         }
         return componentDbData;
+    }
+
+    public TerminalsComponentDB getRandomTerminalComponent(List<TerminalsComponentDB> terminalsComponentDBList){
+        Random rand = new Random();
+        return terminalsComponentDBList
+                .get(rand.nextInt(terminalsComponentDBList.size()));
     }
 }
