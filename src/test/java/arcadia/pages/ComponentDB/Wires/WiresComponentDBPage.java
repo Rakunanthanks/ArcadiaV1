@@ -10,6 +10,8 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 public class WiresComponentDBPage extends BasePage {
     public WiresComponentDBPage(WebDriver driver) {
@@ -197,4 +199,12 @@ public class WiresComponentDBPage extends BasePage {
         Thread.sleep(2000 );
         customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tableWireRows)));
     }
+
+
+    public WiresComponentDB getRandomWireComponent(List<WiresComponentDB> wiresComponentDBList){
+        Random rand = new Random();
+        return wiresComponentDBList
+            .get(rand.nextInt(wiresComponentDBList.size()));
+    }
+
 }

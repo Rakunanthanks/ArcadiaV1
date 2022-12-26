@@ -5,70 +5,70 @@ Feature: Create components
     Given I'm on Arcadia test environment
     And Navigated to selected componentDB
     And User selected 'wire' from componentDB
-    Then Verify component data on the basis of filter 'Status' with value 'IN REVIEW'
+    Then verify user can apply filter based on property 'Status'
 
   @FilterComponent
   Scenario: Test verifies a wire component can be filtered with PartNumber
     Given I'm on Arcadia test environment
     And Navigated to selected componentDB
     And User selected 'wire' from componentDB
-    Then Verify component data on the basis of filter 'PartNumber' with value 'AUTOMATIONTEST1'
+    Then verify user can apply filter based on property 'PartNumber'
 
   @FilterComponent
   Scenario: Test verifies a wire component can be filtered with Description
     Given I'm on Arcadia test environment
     And Navigated to selected componentDB
     And User selected 'wire' from componentDB
-    Then Verify component data on the basis of filter 'Description' with value 'AutomationTestDescription'
+    Then verify user can apply filter based on property 'Description'
 
   @FilterComponent
   Scenario: Test verifies a wire component can be filtered with Family
     Given I'm on Arcadia test environment
     And Navigated to selected componentDB
     And User selected 'wire' from componentDB
-    Then Verify component data on the basis of filter 'Family' with value 'AutomationTestFamily'
+    Then verify user can apply filter based on property 'Family'
 
   @FilterComponent
   Scenario: Test verifies a wire component can be filtered with Usage
     Given I'm on Arcadia test environment
     And Navigated to selected componentDB
     And User selected 'wire' from componentDB
-    Then Verify component data on the basis of filter 'Usage' with value 'PREFERRED'
+    Then verify user can apply filter based on property 'Usage'
 
   @FilterComponent
   Scenario: Test verifies a wire component can be filtered with Supplier
     Given I'm on Arcadia test environment
     And Navigated to selected componentDB
     And User selected 'wire' from componentDB
-    Then Verify component data on the basis of filter 'Supplier' with value 'AutomationTestCompany'
+    Then verify user can apply filter based on property 'Supplier'
 
   @FilterComponent
   Scenario: Test verifies a wire component can be filtered with SupplierPN
     Given I'm on Arcadia test environment
     And Navigated to selected componentDB
     And User selected 'wire' from componentDB
-    Then Verify component data on the basis of filter 'SupplierPN' with value 'AUTOMATIONTEST1'
+    Then verify user can apply filter based on property 'SupplierPN'
 
   @FilterComponent
   Scenario: Test verifies a wire component can be filtered with Colour
     Given I'm on Arcadia test environment
     And Navigated to selected componentDB
     And User selected 'wire' from componentDB
-    Then Verify component data on the basis of filter 'Colour' with value 'RED-ORANGE-BLUE'
+    Then verify user can apply filter based on property 'Colour'
 
   @FilterComponent
   Scenario: Test verifies a wire component can be filtered with AwgSize
     Given I'm on Arcadia test environment
     And Navigated to selected componentDB
     And User selected 'wire' from componentDB
-    Then Verify component data on the basis of filter 'AwgSize' with value '16'
+    Then verify user can apply filter based on property 'AwgSize'
 
   @FilterComponent
   Scenario: Test verifies a wire component can be filtered with Gauge
     Given I'm on Arcadia test environment
     And Navigated to selected componentDB
     And User selected 'wire' from componentDB
-    Then Verify component data on the basis of filter 'Gauge' with value '5H'
+    Then verify user can apply filter based on property 'Gauge'
 
   @FilterComponent
   Scenario: Test verifies a wire component can be filtered with WireCsa

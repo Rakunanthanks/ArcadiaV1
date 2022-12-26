@@ -9,11 +9,17 @@ import arcadia.pages.ComponentDB.HeaderPanel;
 import arcadia.pages.ComponentDB.Terminals.TerminalsComponentDBPage;
 import arcadia.pages.ComponentDB.Wires.WiresComponentDBPage;
 import arcadia.utils.StringHelper;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import org.apache.commons.collections.ListUtils;
 import org.testng.Assert;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -173,54 +179,97 @@ public class ComponentDBStepDefinitions {
                 Thread.sleep(1000);
     }
 
-    @Then("Verify component data on the basis of filter {string} with value {string}")
-    public void verify_component_data_on_the_basis_of_filter(String filterName, String filterValue) throws InterruptedException {
-        new WiresComponentDBPage(context.driver).getFullPagination();
-        List<WiresComponentDB> dbData = new WiresComponentDBPage(context.driver).getWiresData();
+    @Then("verify user can apply filter based on property {string}")
+    public void verify_user_can_apply_filter_based_on_property(String propertyName) throws InterruptedException, IOException {
+        File f = new File("src/test/resources/componentDB/Wire/WireData.json");
+        List<WiresComponentDB> dbData = null;
+        if(f.exists()) {
+            ObjectMapper mapper = new ObjectMapper();
+            dbData = mapper.readValue(new File("src/test/resources/componentDB/Wire/WireData.json"), new TypeReference<List<WiresComponentDB>>(){});
+        }
+        if(!f.exists()) {
+            new WiresComponentDBPage(context.driver).getFullPagination();
+            dbData=  new WiresComponentDBPage(context.driver).getWiresData();
+            ObjectMapper mapper = new ObjectMapper();
+            Files.createDirectories(Paths.get("src/test/resources/componentDB/Wire"));
+            mapper.writeValue(new File("src/test/resources/componentDB/Wire/WireData.json"), dbData);
+        }
+        WiresComponentDB randomData = new WiresComponentDBPage(context.driver).getRandomWireComponent(dbData);
         List<WiresComponentDB> filteredDbData = new ArrayList<>();
-        switch(filterName.toLowerCase()) {
+        switch(propertyName.toLowerCase()) {
             case "status":
-                filteredDbData = dbData.stream().filter(x->x.getStatus().equals(filterValue)).collect(Collectors.toList());
-                new WiresComponentDBPage(context.driver).filterWiresBasedOnStatus(filterValue);
+                filteredDbData = dbData.stream().filter(x->x.getStatus().equals(randomData.getStatus())).collect(Collectors.toList());
+                new WiresComponentDBPage(context.driver).filterWiresBasedOnStatus(randomData.getStatus());
                 break;
             case "partnumber":
-                filteredDbData = dbData.stream().filter(x->x.getPartNumber().equals(filterValue)).collect(Collectors.toList());
-                new CommonElements(context.driver).filterComponentBasedOnPartNumber(filterValue);
+                filteredDbData = dbData.stream().filter(x->x.getPartNumber().equals(randomData.getPartNumber())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnPartNumber(randomData.getPartNumber());
                 break;
             case "description":
-                filteredDbData = dbData.stream().filter(x->x.getDescription().equals(filterValue)).collect(Collectors.toList());
-                new WiresComponentDBPage(context.driver).filterWiresBasedOnDescription(filterValue);
+                filteredDbData = dbData.stream().filter(x->x.getDescription().equals(randomData.getDescription())).collect(Collectors.toList());
+                new WiresComponentDBPage(context.driver).filterWiresBasedOnDescription(randomData.getDescription());
                 break;
             case "family":
-                filteredDbData = dbData.stream().filter(x->x.getFamily().equals(filterValue)).collect(Collectors.toList());
-                new WiresComponentDBPage(context.driver).filterWiresBasedOnFamily(filterValue);
+                filteredDbData = dbData.stream().filter(x->x.getFamily().equals(randomData.getFamily())).collect(Collectors.toList());
+                new WiresComponentDBPage(context.driver).filterWiresBasedOnFamily(randomData.getFamily());
                 break;
             case "usage":
-                filteredDbData = dbData.stream().filter(x->x.getUsage().equals(filterValue)).collect(Collectors.toList());
-                new WiresComponentDBPage(context.driver).filterWiresBasedOnUsage(filterValue);
+                filteredDbData = dbData.stream().filter(x->x.getUsage().equals(randomData.getUsage())).collect(Collectors.toList());
+                new WiresComponentDBPage(context.driver).filterWiresBasedOnUsage(randomData.getUsage());
                 break;
             case "supplier":
-                filteredDbData = dbData.stream().filter(x->x.getSupplier().equals(filterValue)).collect(Collectors.toList());
-                new WiresComponentDBPage(context.driver).filterWiresBasedOnSupplier(filterValue);
+                filteredDbData = dbData.stream().filter(x->x.getSupplier().equals(randomData.getSupplier())).collect(Collectors.toList());
+                new WiresComponentDBPage(context.driver).filterWiresBasedOnSupplier(randomData.getSupplier());
                 break;
             case "supplierpn":
-                filteredDbData = dbData.stream().filter(x->x.getSupplierPN().equals(filterValue)).collect(Collectors.toList());
-                new WiresComponentDBPage(context.driver).filterWiresBasedOnSupplierPN(filterValue);
+                filteredDbData = dbData.stream().filter(x->x.getSupplierPN().equals(randomData.getSupplierPN())).collect(Collectors.toList());
+                new WiresComponentDBPage(context.driver).filterWiresBasedOnSupplierPN(randomData.getSupplierPN());
                 break;
             case "colour":
-                filteredDbData = dbData.stream().filter(x->x.getColour().equals(filterValue)).collect(Collectors.toList());
-                new WiresComponentDBPage(context.driver).filterWiresBasedOnColour(filterValue);
+                filteredDbData = dbData.stream().filter(x->x.getColour().equals(randomData.getColour())).collect(Collectors.toList());
+                new WiresComponentDBPage(context.driver).filterWiresBasedOnColour(randomData.getColour());
                 break;
             case "awgsize":
-                filteredDbData = dbData.stream().filter(x->x.getAwgSize().equals(filterValue)).collect(Collectors.toList());
-                new WiresComponentDBPage(context.driver).filterWiresBasedOnAwgSize(filterValue);
+                filteredDbData = dbData.stream().filter(x->x.getAwgSize().equals(randomData.getAwgSize())).collect(Collectors.toList());
+                new WiresComponentDBPage(context.driver).filterWiresBasedOnAwgSize(randomData.getAwgSize());
                 break;
             case "gauge":
                 filteredDbData = dbData.stream()
-                        .filter(x->x.getGauge().equals(filterValue))
+                        .filter(x->x.getGauge().equals(randomData.getGauge()))
                         .collect(Collectors.toList());
-                new WiresComponentDBPage(context.driver).filterWiresBasedOnGauge(filterValue);
+                new WiresComponentDBPage(context.driver).filterWiresBasedOnGauge(randomData.getGauge());
                 break;
+            case "material":
+                filteredDbData = dbData.stream().filter(x->x.getMaterial().equals(randomData.getMaterial())).collect(Collectors.toList());
+                new WiresComponentDBPage(context.driver).filterWiresBasedOnMaterial(randomData.getMaterial());
+                break;
+        }
+        List<WiresComponentDB> wiresData = new WiresComponentDBPage(context.driver).getWiresData();
+        List<String> expectedPartNumberList = filteredDbData.stream().map(x->x.getPartNumber()).collect(Collectors.toList());
+        List<String> actualPartNumberList = wiresData.stream().map(x->x.getPartNumber()).collect(Collectors.toList());
+        List<String> differences = expectedPartNumberList.stream()
+                .filter(element -> !actualPartNumberList.contains(element))
+                .collect(Collectors.toList());
+        Assert.assertEquals(expectedPartNumberList.size(),actualPartNumberList.size(),differences.toString());
+    }
+
+    @Then("Verify component data on the basis of filter {string} with value {string}")
+    public void verify_component_data_on_the_basis_of_filter(String filterName, String filterValue) throws InterruptedException, IOException {
+        File f = new File("src/test/resources/componentDB/Wire/WireData.json");
+        List<WiresComponentDB> dbData = null;
+        if(f.exists()) {
+            ObjectMapper mapper = new ObjectMapper();
+            dbData = mapper.readValue(new File("src/test/resources/componentDB/Wire/WireData.json"), new TypeReference<List<WiresComponentDB>>(){});
+        }
+        if(!f.exists()) {
+            new WiresComponentDBPage(context.driver).getFullPagination();
+            dbData=  new WiresComponentDBPage(context.driver).getWiresData();
+            ObjectMapper mapper = new ObjectMapper();
+            Files.createDirectories(Paths.get("src/test/resources/componentDB/Wire"));
+            mapper.writeValue(new File("src/test/resources/componentDB/Wire/WireData.json"), dbData);
+        }
+        List<WiresComponentDB> filteredDbData = new ArrayList<>();
+        switch(filterName.toLowerCase()) {
             case "wirecsa":
                 String[] csaRange = filterValue.split("-");
                 Double initialCSAValue = Double.valueOf(csaRange[0]);
@@ -241,11 +290,7 @@ public class ComponentDBStepDefinitions {
                         .collect(Collectors.toList());
                 new WiresComponentDBPage(context.driver).filterWiresBasedOnOutsideDiaRange(filterValue);
                 break;
-            case "material":
-                filteredDbData = dbData.stream().filter(x->x.getMaterial().equals(filterValue)).collect(Collectors.toList());
-                new WiresComponentDBPage(context.driver).filterWiresBasedOnMaterial(filterValue);
-                break;
-            case "minimumbendradius":
+                case "minimumbendradius":
                 String[] bendRadiusRange = filterValue.split("-");
                 Double initialRadiusValue = Double.valueOf(bendRadiusRange[0]);
                 Double finalRadiusValue = Double.valueOf(bendRadiusRange[1]);
@@ -277,7 +322,12 @@ public class ComponentDBStepDefinitions {
                 break;
         }
         List<WiresComponentDB> wiresData = new WiresComponentDBPage(context.driver).getWiresData();
-        Assert.assertTrue(ListUtils.subtract(filteredDbData,wiresData.stream().toList()).size()==0);
+        List<String> expectedPartNumberList = filteredDbData.stream().map(x->x.getPartNumber()).collect(Collectors.toList());
+        List<String> actualPartNumberList = wiresData.stream().map(x->x.getPartNumber()).collect(Collectors.toList());
+        List<String> differences = expectedPartNumberList.stream()
+                .filter(element -> !actualPartNumberList.contains(element))
+                .collect(Collectors.toList());
+        Assert.assertEquals(expectedPartNumberList.size(),actualPartNumberList.size(),differences.toString());
     }
 
     @And("User searches {string} component using {string}")
