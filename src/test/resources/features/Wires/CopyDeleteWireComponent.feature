@@ -1,6 +1,7 @@
 Feature: Copy and Delete Wire components
 
-  @AddSimilarComponent
+  @WireComponentDB
+  @CloneWireComponent
   Scenario: Test verifies a wire component can be added as similar
     Given I'm on Arcadia test environment
     And Navigated to selected componentDB
@@ -13,7 +14,8 @@ Feature: Copy and Delete Wire components
     And User searches 'wire' component using 'partnumber'
     Then User verified the component 'wire' is added successfully
 
-  @DeleteComponent
+  @WireComponentDB
+  @DeleteWireComponent
   Scenario: Test verifies a wire component can be deleted
     Given I'm on Arcadia test environment
     And Navigated to selected componentDB
@@ -26,7 +28,8 @@ Feature: Copy and Delete Wire components
     And User Deletes the Component
     Then User verified the component is deleted successfully
 
-  @CopyComponent
+  @WireComponentDB
+  @CloneWireComponent
   Scenario: Test verifies a wire component can be copied
     Given I'm on Arcadia test environment
     And Navigated to selected componentDB
