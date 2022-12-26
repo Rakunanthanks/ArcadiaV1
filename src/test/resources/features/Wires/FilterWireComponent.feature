@@ -1,7 +1,7 @@
-Feature: Create components
+Feature: Filter wire components
 
   @FilterComponent
-  Scenario: Test verifies a wire component can be filtered with InReview Status
+  Scenario: Test verifies a wire component can be filtered with Status
     Given I'm on Arcadia test environment
     And Navigated to selected componentDB
     And User selected 'wire' from componentDB

@@ -15,10 +15,14 @@ public class TerminalsComponentDB {
     private String material;
     private Double stripLength;
     private Double threadDia;
-    private String wireInsOD;
-    private String wireCSA;
+    private String insOD;
+    private String csa;
 
-    public TerminalsComponentDB(String partNumber, String description, String family, String status, String usage, String supplier, String supplierPN, String colour, String gender, String type, String finish, String material, Double stripLength, Double threadDia, String wireInsOD, String wireCSA) {
+    public TerminalsComponentDB(){
+
+    }
+
+    public TerminalsComponentDB(String partNumber, String description, String family, String status, String usage, String supplier, String supplierPN, String colour, String gender, String type, String finish, String material, Double stripLength, Double threadDia, String insOD, String csa) {
         this.partNumber = partNumber;
         this.description = description;
         this.family = family;
@@ -33,8 +37,8 @@ public class TerminalsComponentDB {
         this.material = material;
         this.stripLength = stripLength;
         this.threadDia = threadDia;
-        this.wireInsOD = wireInsOD;
-        this.wireCSA = wireCSA;
+        this.insOD = insOD;
+        this.csa = csa;
     }
 
     public String getPartNumber() {
@@ -149,19 +153,19 @@ public class TerminalsComponentDB {
         this.threadDia = threadDia;
     }
 
-    public String getWireInsOD() {
-        return wireInsOD;
+    public String getInsOD() {
+        return insOD;
     }
 
-    public void setWireInsOD(String wireInsOD) {
-        this.wireInsOD = wireInsOD;
+    public void setInsOD(String insOD) {
+        this.insOD = insOD;
     }
 
-    public String getWireCSA() {
-        return wireCSA;
+    public String getCsa() {
+        return csa;
     }
 
-    public void setWireCSA(String wireCSA) {
-        this.wireCSA = wireCSA;
+    public void setCsa(String csa) {
+        this.csa = csa;
     }
 }
