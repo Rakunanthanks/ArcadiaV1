@@ -61,6 +61,8 @@ public class AddNewComponentPage extends BasePage {
 
     @FindBy(xpath = "//td[text()=\"No. of Splice\"]/following-sibling::td") private WebElement tdTotalCopiedSplices;
 
+    @FindBy(xpath = "//td[text()=\"No. of Other Parts\"]/following-sibling::td") private WebElement tdTotalCopiedOtherParts;
+
     @FindBy(css = "div.bootbox button.close") private WebElement btnClosePopUp;
 
 
@@ -86,6 +88,7 @@ public class AddNewComponentPage extends BasePage {
             case "seal":
             case "terminal":
             case "splice":
+            case "otherpart":
                 WebElement Colour = driver.findElement(By.cssSelector(componentColour));
                 customCommand.selectDropDownByValue(Colour,addComponentForm.getComponentDetails().getColour());
         }
@@ -165,6 +168,9 @@ public class AddNewComponentPage extends BasePage {
                 break;
             case "splice":
                 Assert.assertEquals(tdTotalCopiedSplices.getText(),"1");
+                break;
+            case "otherpart":
+                Assert.assertEquals(tdTotalCopiedOtherParts.getText(),"1");
                 break;
         }
         customCommand.waitForElementToBeClickable(driver,btnClosePopUp);

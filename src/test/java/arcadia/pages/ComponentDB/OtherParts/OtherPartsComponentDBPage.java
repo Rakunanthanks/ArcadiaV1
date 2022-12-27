@@ -1,6 +1,6 @@
-package arcadia.pages.ComponentDB.Splices;
+package arcadia.pages.ComponentDB.OtherParts;
 
-import arcadia.domainobjects.SplicesComponentDB;
+import arcadia.domainobjects.OtherPartsComponentDB;
 import arcadia.pages.BasePage;
 import arcadia.pages.ComponentDB.CommonElements;
 import arcadia.utils.SeleniumCustomCommand;
@@ -12,20 +12,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class SplicesComponentDBPage extends BasePage {
-    public SplicesComponentDBPage(WebDriver driver) {
+public class OtherPartsComponentDBPage extends BasePage {
+    public OtherPartsComponentDBPage(WebDriver driver) {
         super(driver);
     }
-    String tableSpliceRows = "#tblsplice > tbody > tr";
+    String tableOtherParts = "#tblotherpart > tbody > tr";
 
 
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
 
-    public List<SplicesComponentDB> getSplicesData() throws InterruptedException {
+    public List<OtherPartsComponentDB> getOtherPartsData() throws InterruptedException {
         new CommonElements(driver).getFullPagination();
-        List<SplicesComponentDB> componentDbData = new ArrayList<>();
-        customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tableSpliceRows)));
-        List<WebElement> componentDbElement = driver.findElements(By.cssSelector(tableSpliceRows));
+        List<OtherPartsComponentDB> componentDbData = new ArrayList<>();
+        customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tableOtherParts)));
+        List<WebElement> componentDbElement = driver.findElements(By.cssSelector(tableOtherParts));
         int i = 0;
         for( WebElement element : componentDbElement){
             i++;
@@ -38,16 +38,14 @@ public class SplicesComponentDBPage extends BasePage {
             String supplier= tdElements.get(7).getText();
             String supplierPN= tdElements.get(8).getText();
             String colour= tdElements.get(9).getText();
-            String sealingType= tdElements.get(10).getText();
-            String material= tdElements.get(12).getText();
-            componentDbData.add(new SplicesComponentDB(partNumber,description,family,status,usage,supplier,supplierPN,colour,sealingType,material));
+            componentDbData.add(new OtherPartsComponentDB(partNumber,description,family,status,usage,supplier,supplierPN,colour));
         }
         return componentDbData;
     }
 
-    public SplicesComponentDB getRandomSpliceComponent(List<SplicesComponentDB> SplicesComponentDBList){
+    public OtherPartsComponentDB getRandomOtherPartComponent(List<OtherPartsComponentDB> OtherPartComponentDBList){
         Random rand = new Random();
-        return SplicesComponentDBList
-                .get(rand.nextInt(SplicesComponentDBList.size()));
+        return OtherPartComponentDBList
+                .get(rand.nextInt(OtherPartComponentDBList.size()));
     }
 }

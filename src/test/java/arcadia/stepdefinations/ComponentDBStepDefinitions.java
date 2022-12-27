@@ -6,6 +6,7 @@ import arcadia.domainobjects.*;
 import arcadia.pages.ComponentDB.AddNewComponentPage;
 import arcadia.pages.ComponentDB.CommonElements;
 import arcadia.pages.ComponentDB.HeaderPanel;
+import arcadia.pages.ComponentDB.OtherParts.OtherPartsComponentDBPage;
 import arcadia.pages.ComponentDB.Splices.SplicesComponentDBPage;
 import arcadia.pages.ComponentDB.Terminals.TerminalsComponentDBPage;
 import arcadia.pages.ComponentDB.Wires.WiresComponentDBPage;
@@ -47,6 +48,7 @@ public class ComponentDBStepDefinitions {
             case "seal":
             case "terminal":
             case "splice":
+            case "otherpart":
                 new HeaderPanel(context.driver).openAddNewComponentPage();
                 addComponentForm = new AddComponentForm();
                 componentDetails = new ComponentDetails(String.format("testdescription-%04d", new StringHelper().generateRandomDigit()), "testfamily", componentStatus, "", "testproprietary", "", "", "", "", "PVC", "NOT SET", "", "BLACK");
@@ -84,6 +86,7 @@ public class ComponentDBStepDefinitions {
             case "seal":
             case "terminal":
             case "splice":
+            case "otherpart":
                 new HeaderPanel(context.driver).openAddNewComponentPage();
                 addComponentForm = new AddComponentForm();
                 componentDetails = new ComponentDetails(String.format("testdescription-%04d", new StringHelper().generateRandomDigit()), "testfamily", "IN REVIEW", "", "testproprietary", "", "", "", "", "PVC", "NOT SET", "", "BLACK");
@@ -104,7 +107,7 @@ public class ComponentDBStepDefinitions {
     @Then("{string} component with referencepartnumber {string} and referencecompany {string} only is created")
     public void component_with_reference_details_is_created(String componentName, String partNumber, String referencecompany) throws InterruptedException {
         new HeaderPanel(context.driver).openAddNewComponentPage();
-        if(componentName.equalsIgnoreCase("wire")||componentName.equalsIgnoreCase("seal")||componentName.equalsIgnoreCase("terminal")||componentName.equalsIgnoreCase("splice"))
+        if(componentName.equalsIgnoreCase("wire")||componentName.equalsIgnoreCase("seal")||componentName.equalsIgnoreCase("terminal")||componentName.equalsIgnoreCase("splice")||componentName.equalsIgnoreCase("otherpart"))
         {
             componentName="common";
         }
@@ -162,6 +165,7 @@ public class ComponentDBStepDefinitions {
             case "seal":
             case "terminal":
             case "splice":
+            case "otherpart":
                 new HeaderPanel(context.driver).openAddNewComponentPage();
                 addComponentForm = new AddComponentForm();
                 componentDetails = new ComponentDetails(String.format("testdescription-%04d", new StringHelper().generateRandomDigit()), "testfamily", "IN REVIEW", "", "testproprietary", "", "", "", "", "PVC", "NOT SET", "", "BLACK");
@@ -433,6 +437,10 @@ public class ComponentDBStepDefinitions {
             case "splice":
                 List<SplicesComponentDB> splicesdatalist = new SplicesComponentDBPage(context.driver).getSplicesData();
                 Assert.assertTrue(splicesdatalist.size()!=0);
+                break;
+            case "otherpart":
+                List<OtherPartsComponentDB> otherpartsdatalist = new OtherPartsComponentDBPage(context.driver).getOtherPartsData();
+                Assert.assertTrue(otherpartsdatalist.size()!=0);
                 break;
         }
     }
