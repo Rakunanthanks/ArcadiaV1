@@ -45,6 +45,7 @@ public class ComponentDBStepDefinitions {
                 break;
             case "seal":
             case "terminal":
+            case "splice":
                 new HeaderPanel(context.driver).openAddNewComponentPage();
                 addComponentForm = new AddComponentForm();
                 componentDetails = new ComponentDetails(String.format("testdescription-%04d", new StringHelper().generateRandomDigit()), "testfamily", componentStatus, "", "testproprietary", "", "", "", "", "PVC", "NOT SET", "", "BLACK");
@@ -81,6 +82,7 @@ public class ComponentDBStepDefinitions {
                 break;
             case "seal":
             case "terminal":
+            case "splice":
                 new HeaderPanel(context.driver).openAddNewComponentPage();
                 addComponentForm = new AddComponentForm();
                 componentDetails = new ComponentDetails(String.format("testdescription-%04d", new StringHelper().generateRandomDigit()), "testfamily", "IN REVIEW", "", "testproprietary", "", "", "", "", "PVC", "NOT SET", "", "BLACK");
@@ -101,7 +103,7 @@ public class ComponentDBStepDefinitions {
     @Then("{string} component with referencepartnumber {string} and referencecompany {string} only is created")
     public void component_with_reference_details_is_created(String componentName, String partNumber, String referencecompany) throws InterruptedException {
         new HeaderPanel(context.driver).openAddNewComponentPage();
-        if(componentName.equalsIgnoreCase("wire")||componentName.equalsIgnoreCase("seal")||componentName.equalsIgnoreCase("terminal"))
+        if(componentName.equalsIgnoreCase("wire")||componentName.equalsIgnoreCase("seal")||componentName.equalsIgnoreCase("terminal")||componentName.equalsIgnoreCase("splice"))
         {
             componentName="common";
         }
@@ -158,6 +160,7 @@ public class ComponentDBStepDefinitions {
                 break;
             case "seal":
             case "terminal":
+            case "splice":
                 new HeaderPanel(context.driver).openAddNewComponentPage();
                 addComponentForm = new AddComponentForm();
                 componentDetails = new ComponentDetails(String.format("testdescription-%04d", new StringHelper().generateRandomDigit()), "testfamily", "IN REVIEW", "", "testproprietary", "", "", "", "", "PVC", "NOT SET", "", "BLACK");

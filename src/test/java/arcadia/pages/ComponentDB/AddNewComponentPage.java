@@ -81,6 +81,7 @@ public class AddNewComponentPage extends BasePage {
                 break;
             case "seal":
             case "terminal":
+            case "splice":
                 WebElement Colour = driver.findElement(By.cssSelector(componentColour));
                 customCommand.selectDropDownByValue(Colour,addComponentForm.getComponentDetails().getColour());
         }
