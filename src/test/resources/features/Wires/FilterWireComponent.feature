@@ -90,6 +90,47 @@ Feature: Filter wire components
 
   @WireComponentDB
   @FilterWire
+  Scenario: Test verifies a wire component can be filtered with WireCsa - search pattern greater than
+    Given I'm on Arcadia test environment
+    And Navigated to selected componentDB
+    And User selected 'wire' from componentDB
+    Then Verify component data is greater than value '1.0' for filter 'WireCsa'
+
+  @WireComponentDB
+  @FilterWire
+  Scenario: Test verifies a wire component can be filtered with outsidediameter - search pattern greater than
+    Given I'm on Arcadia test environment
+    And Navigated to selected componentDB
+    And User selected 'wire' from componentDB
+    Then Verify component data is greater than value '1.0' for filter 'OutsideDia'
+
+  @WireComponentDB
+  @FilterWire
+  Scenario: Test verifies a wire component can be filtered with MinimumBendRadius - search pattern greater than
+    Given I'm on Arcadia test environment
+    And Navigated to selected componentDB
+    And User selected 'wire' from componentDB
+    Then Verify component data is greater than value '1.0' for filter 'MinimumBendRadius'
+
+  @WireComponentDB
+  @FilterWire
+  Scenario: Test verifies a wire component can be filtered with MaxCurrent - search pattern greater than
+    Given I'm on Arcadia test environment
+    And Navigated to selected componentDB
+    And User selected 'wire' from componentDB
+    Then Verify component data is greater than value '1.0' for filter 'MaxCurrent'
+
+  @WireComponentDB
+  @FilterWire
+  Scenario: Test verifies a wire component can be filtered with Resistance - search pattern greater than
+    Given I'm on Arcadia test environment
+    And Navigated to selected componentDB
+    And User selected 'wire' from componentDB
+    Then Verify component data is greater than value '1.0' for filter 'Resistance'
+
+
+  @WireComponentDB
+  @FilterWire
   Scenario: Test verifies a wire component can be filtered with outsidediameter
     Given I'm on Arcadia test environment
     And Navigated to selected componentDB

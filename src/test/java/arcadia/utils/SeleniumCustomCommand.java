@@ -1,6 +1,7 @@
 package arcadia.utils;
 
 import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -69,9 +70,13 @@ public class SeleniumCustomCommand {
 
     public String getValueByJavascriptExecutor(WebDriver driver , WebElement element){
         JavascriptExecutor jse = (JavascriptExecutor)driver;
-        String s = (String) jse.executeScript("return arguments[0].value", element);
-        System.out.println("the word is "+s);
-        return  s;
+        String elementValue = (String) jse.executeScript("return arguments[0].value", element);
+        return  elementValue;
+    }
+
+    public void mouseHover(WebDriver driver , WebElement element){
+        Actions actions = new Actions(driver);
+        actions.moveToElement(element).perform();
     }
 
     public void waitClick(WebElement element) throws InterruptedException {

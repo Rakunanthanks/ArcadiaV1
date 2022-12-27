@@ -183,10 +183,12 @@ public class ComponentDBStepDefinitions {
         File f = new File("src/test/resources/componentDB/Wire/WireData.json");
         List<WiresComponentDB> dbData = null;
         if(f.exists()) {
+            System.out.println("Resuse JSON");
             ObjectMapper mapper = new ObjectMapper();
             dbData = mapper.readValue(new File("src/test/resources/componentDB/Wire/WireData.json"), new TypeReference<List<WiresComponentDB>>(){});
         }
         if(!f.exists()) {
+            System.out.println("Scanning UI");
             dbData=  new WiresComponentDBPage(context.driver).getWiresData();
             ObjectMapper mapper = new ObjectMapper();
             Files.createDirectories(Paths.get("src/test/resources/componentDB/Wire"));
@@ -245,10 +247,71 @@ public class ComponentDBStepDefinitions {
         List<WiresComponentDB> wiresData = new WiresComponentDBPage(context.driver).getWiresData();
         List<String> expectedPartNumberList = filteredDbData.stream().map(x->x.getPartNumber()).collect(Collectors.toList());
         List<String> actualPartNumberList = wiresData.stream().map(x->x.getPartNumber()).collect(Collectors.toList());
-        List<String> differences = expectedPartNumberList.stream()
+        List<String> differencesFromExpected = expectedPartNumberList.stream()
                 .filter(element -> !actualPartNumberList.contains(element))
                 .collect(Collectors.toList());
-        Assert.assertEquals(expectedPartNumberList.size(),actualPartNumberList.size(),differences.toString());
+        Assert.assertEquals(0,differencesFromExpected.size(),differencesFromExpected.toString());
+    }
+
+    @Then("Verify component data is greater than value {string} for filter {string}")
+    public void verify_component_data_is_greater_than_value_for_filter(String greaterThanValue, String filterName) throws IOException, InterruptedException {
+        File f = new File("src/test/resources/componentDB/Wire/WireData.json");
+        List<WiresComponentDB> dbData = null;
+        if(f.exists()) {
+            ObjectMapper mapper = new ObjectMapper();
+            dbData = mapper.readValue(new File("src/test/resources/componentDB/Wire/WireData.json"), new TypeReference<List<WiresComponentDB>>(){});
+        }
+        if(!f.exists()) {
+            dbData=  new WiresComponentDBPage(context.driver).getWiresData();
+            ObjectMapper mapper = new ObjectMapper();
+            Files.createDirectories(Paths.get("src/test/resources/componentDB/Wire"));
+            mapper.writeValue(new File("src/test/resources/componentDB/Wire/WireData.json"), dbData);
+        }
+        List<WiresComponentDB> filteredDbData = new ArrayList<>();
+        switch(filterName.toLowerCase()) {
+            case "wirecsa":
+                Double csaValue = Double.valueOf(greaterThanValue);
+                filteredDbData = dbData.stream()
+                        .filter(x->x.getWireCSA()>=csaValue)
+                        .collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnCSARange(">="+greaterThanValue);
+                break;
+            case "outsidedia":
+                Double outsidedia = Double.valueOf(greaterThanValue);
+                filteredDbData = dbData.stream()
+                        .filter(x->x.getOutsideDia()>=outsidedia)
+                        .collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnCSARange(">="+greaterThanValue);
+                break;
+            case "minimumbendradius":
+                Double minimumbendradiusValue = Double.valueOf(greaterThanValue);
+                filteredDbData = dbData.stream()
+                        .filter(x->x.getMinimumRadius()>=minimumbendradiusValue)
+                        .collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnCSARange(">="+greaterThanValue);
+                break;
+            case "maxcurrent":
+                Double maxCurrentValue = Double.valueOf(greaterThanValue);
+                filteredDbData = dbData.stream()
+                        .filter(x->x.getMaxcurrent()>=maxCurrentValue)
+                        .collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnCSARange(">="+greaterThanValue);
+                break;
+            case "resistance":
+                Double resistanceValue = Double.valueOf(greaterThanValue);
+                filteredDbData = dbData.stream()
+                        .filter(x->x.getResistance()>=resistanceValue)
+                        .collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnCSARange(">="+greaterThanValue);
+                break;
+        }
+        List<WiresComponentDB> wiresData = new WiresComponentDBPage(context.driver).getWiresData();
+        List<String> expectedPartNumberList = filteredDbData.stream().map(x->x.getPartNumber()).collect(Collectors.toList());
+        List<String> actualPartNumberList = wiresData.stream().map(x->x.getPartNumber()).collect(Collectors.toList());
+        List<String> differencesFromExpected = expectedPartNumberList.stream()
+                .filter(element -> !actualPartNumberList.contains(element))
+                .collect(Collectors.toList());
+        Assert.assertEquals(0,differencesFromExpected.size(),differencesFromExpected.toString());
     }
 
     @Then("Verify component data on the basis of filter {string} with value {string}")
@@ -321,10 +384,10 @@ public class ComponentDBStepDefinitions {
         List<WiresComponentDB> wiresData = new WiresComponentDBPage(context.driver).getWiresData();
         List<String> expectedPartNumberList = filteredDbData.stream().map(x->x.getPartNumber()).collect(Collectors.toList());
         List<String> actualPartNumberList = wiresData.stream().map(x->x.getPartNumber()).collect(Collectors.toList());
-        List<String> differences = expectedPartNumberList.stream()
+        List<String> differencesFromExpected = expectedPartNumberList.stream()
                 .filter(element -> !actualPartNumberList.contains(element))
                 .collect(Collectors.toList());
-        Assert.assertEquals(expectedPartNumberList.size(),actualPartNumberList.size(),differences.toString());
+        Assert.assertEquals(0,differencesFromExpected.size(),differencesFromExpected.toString());
     }
 
     @And("User searches {string} component using {string}")
@@ -464,9 +527,9 @@ public class ComponentDBStepDefinitions {
         List<TerminalsComponentDB> terminalsData = new TerminalsComponentDBPage(context.driver).getTerminalsData();
         List<String> expectedPartNumberList = filteredDbData.stream().map(x->x.getPartNumber()).collect(Collectors.toList());
         List<String> actualPartNumberList = terminalsData.stream().map(x->x.getPartNumber()).collect(Collectors.toList());
-        List<String> differences = expectedPartNumberList.stream()
+        List<String> differencesFromExpected = expectedPartNumberList.stream()
                 .filter(element -> !actualPartNumberList.contains(element))
                 .collect(Collectors.toList());
-        Assert.assertEquals(expectedPartNumberList.size(),actualPartNumberList.size(),differences.toString());
+        Assert.assertEquals(0,differencesFromExpected.size(),differencesFromExpected.toString());
     }
 }

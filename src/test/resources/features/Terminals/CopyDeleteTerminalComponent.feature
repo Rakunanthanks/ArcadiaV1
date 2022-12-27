@@ -1,6 +1,7 @@
 Feature: Copy and Delete Terminal components
 
-  @AddSimilarComponent
+  @TerminalComponentDB
+  @CloneTerminalComponent
   Scenario: Test verifies a terminal component can be added as similar
     Given I'm on Arcadia test environment
     And Navigated to selected componentDB
@@ -13,7 +14,8 @@ Feature: Copy and Delete Terminal components
     And User searches 'terminal' component using 'partnumber'
     Then User verified the component 'terminal' is added successfully
 
-  @DeleteComponent
+  @TerminalComponentDB
+  @DeleteTerminalComponent
   Scenario: Test verifies a terminal component can be deleted
     Given I'm on Arcadia test environment
     And Navigated to selected componentDB
@@ -26,7 +28,8 @@ Feature: Copy and Delete Terminal components
     And User Deletes the Component
     Then User verified the component is deleted successfully
 
-  @CopyComponent
+  @TerminalComponentDB
+  @CloneTerminalComponent
   Scenario: Test verifies a terminal component can be copied
     Given I'm on Arcadia test environment
     And Navigated to selected componentDB
