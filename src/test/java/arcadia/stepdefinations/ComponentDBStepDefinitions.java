@@ -464,10 +464,12 @@ public class ComponentDBStepDefinitions {
         File f = new File("src/test/resources/componentDB/Terminals/TerminalData.json");
         List<TerminalsComponentDB> dbData = null;
         if(f.exists()) {
+            System.out.println("Resuse JSON");
             ObjectMapper mapper = new ObjectMapper();
             dbData = mapper.readValue(new File("src/test/resources/componentDB/Terminals/TerminalData.json"), new TypeReference<List<TerminalsComponentDB>>(){});
         }
         if(!f.exists()) {
+            System.out.println("Scanning UI");
             dbData=  new TerminalsComponentDBPage(context.driver).getTerminalsData();
             ObjectMapper mapper = new ObjectMapper();
             Files.createDirectories(Paths.get("src/test/resources/componentDB/Terminals"));
