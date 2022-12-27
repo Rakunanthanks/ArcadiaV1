@@ -57,6 +57,10 @@ public class AddNewComponentPage extends BasePage {
 
     @FindBy(xpath = "//td[text()=\"No. of Wire\"]/following-sibling::td") private WebElement tdTotalCopiedWires;
 
+    @FindBy(xpath = "//td[text()=\"No. of Terminals\"]/following-sibling::td") private WebElement tdTotalCopiedTerminals;
+
+    @FindBy(xpath = "//td[text()=\"No. of Splice\"]/following-sibling::td") private WebElement tdTotalCopiedSplices;
+
     @FindBy(css = "div.bootbox button.close") private WebElement btnClosePopUp;
 
 
@@ -155,6 +159,12 @@ public class AddNewComponentPage extends BasePage {
         switch (component.toLowerCase()){
             case "wire":
                 Assert.assertEquals(tdTotalCopiedWires.getText(),"1");
+                break;
+            case "terminal":
+                Assert.assertEquals(tdTotalCopiedTerminals.getText(),"1");
+                break;
+            case "splice":
+                Assert.assertEquals(tdTotalCopiedSplices.getText(),"1");
                 break;
         }
         customCommand.waitForElementToBeClickable(driver,btnClosePopUp);
