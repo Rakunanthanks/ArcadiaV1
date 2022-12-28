@@ -6,6 +6,8 @@ import arcadia.domainobjects.*;
 import arcadia.pages.ComponentDB.AddNewComponentPage;
 import arcadia.pages.ComponentDB.CommonElements;
 import arcadia.pages.ComponentDB.HeaderPanel;
+import arcadia.pages.ComponentDB.OtherParts.OtherPartsComponentDBPage;
+import arcadia.pages.ComponentDB.Splices.SplicesComponentDBPage;
 import arcadia.pages.ComponentDB.Terminals.TerminalsComponentDBPage;
 import arcadia.pages.ComponentDB.Wires.WiresComponentDBPage;
 import arcadia.utils.StringHelper;
@@ -45,6 +47,8 @@ public class ComponentDBStepDefinitions {
                 break;
             case "seal":
             case "terminal":
+            case "splice":
+            case "otherpart":
                 new HeaderPanel(context.driver).openAddNewComponentPage();
                 addComponentForm = new AddComponentForm();
                 componentDetails = new ComponentDetails(String.format("testdescription-%04d", new StringHelper().generateRandomDigit()), "testfamily", componentStatus, "", "testproprietary", "", "", "", "", "PVC", "NOT SET", "", "BLACK");
@@ -81,6 +85,8 @@ public class ComponentDBStepDefinitions {
                 break;
             case "seal":
             case "terminal":
+            case "splice":
+            case "otherpart":
                 new HeaderPanel(context.driver).openAddNewComponentPage();
                 addComponentForm = new AddComponentForm();
                 componentDetails = new ComponentDetails(String.format("testdescription-%04d", new StringHelper().generateRandomDigit()), "testfamily", "IN REVIEW", "", "testproprietary", "", "", "", "", "PVC", "NOT SET", "", "BLACK");
@@ -101,7 +107,7 @@ public class ComponentDBStepDefinitions {
     @Then("{string} component with referencepartnumber {string} and referencecompany {string} only is created")
     public void component_with_reference_details_is_created(String componentName, String partNumber, String referencecompany) throws InterruptedException {
         new HeaderPanel(context.driver).openAddNewComponentPage();
-        if(componentName.equalsIgnoreCase("wire")||componentName.equalsIgnoreCase("seal")||componentName.equalsIgnoreCase("terminal"))
+        if(componentName.equalsIgnoreCase("wire")||componentName.equalsIgnoreCase("seal")||componentName.equalsIgnoreCase("terminal")||componentName.equalsIgnoreCase("splice")||componentName.equalsIgnoreCase("otherpart"))
         {
             componentName="common";
         }
@@ -158,6 +164,8 @@ public class ComponentDBStepDefinitions {
                 break;
             case "seal":
             case "terminal":
+            case "splice":
+            case "otherpart":
                 new HeaderPanel(context.driver).openAddNewComponentPage();
                 addComponentForm = new AddComponentForm();
                 componentDetails = new ComponentDetails(String.format("testdescription-%04d", new StringHelper().generateRandomDigit()), "testfamily", "IN REVIEW", "", "testproprietary", "", "", "", "", "PVC", "NOT SET", "", "BLACK");
@@ -426,6 +434,14 @@ public class ComponentDBStepDefinitions {
                 List<TerminalsComponentDB> terminalsdatalist = new TerminalsComponentDBPage(context.driver).getTerminalsData();
                 Assert.assertTrue(terminalsdatalist.size()!=0);
                 break;
+            case "splice":
+                List<SplicesComponentDB> splicesdatalist = new SplicesComponentDBPage(context.driver).getSplicesData();
+                Assert.assertTrue(splicesdatalist.size()!=0);
+                break;
+            case "otherpart":
+                List<OtherPartsComponentDB> otherpartsdatalist = new OtherPartsComponentDBPage(context.driver).getOtherPartsData();
+                Assert.assertTrue(otherpartsdatalist.size()!=0);
+                break;
         }
     }
 
@@ -461,10 +477,12 @@ public class ComponentDBStepDefinitions {
         File f = new File("src/test/resources/componentDB/Terminals/TerminalData.json");
         List<TerminalsComponentDB> dbData = null;
         if(f.exists()) {
+            System.out.println("Resuse JSON");
             ObjectMapper mapper = new ObjectMapper();
             dbData = mapper.readValue(new File("src/test/resources/componentDB/Terminals/TerminalData.json"), new TypeReference<List<TerminalsComponentDB>>(){});
         }
         if(!f.exists()) {
+            System.out.println("Scanning UI");
             dbData=  new TerminalsComponentDBPage(context.driver).getTerminalsData();
             ObjectMapper mapper = new ObjectMapper();
             Files.createDirectories(Paths.get("src/test/resources/componentDB/Terminals"));
@@ -527,6 +545,75 @@ public class ComponentDBStepDefinitions {
         List<TerminalsComponentDB> terminalsData = new TerminalsComponentDBPage(context.driver).getTerminalsData();
         List<String> expectedPartNumberList = filteredDbData.stream().map(x->x.getPartNumber()).collect(Collectors.toList());
         List<String> actualPartNumberList = terminalsData.stream().map(x->x.getPartNumber()).collect(Collectors.toList());
+        List<String> differencesFromExpected = expectedPartNumberList.stream()
+                .filter(element -> !actualPartNumberList.contains(element))
+                .collect(Collectors.toList());
+        Assert.assertEquals(0,differencesFromExpected.size(),differencesFromExpected.toString());
+    }
+
+    @Then("verify user can filter splice based on property {string}")
+    public void verifyUserCanFilterSpliceBasedOnProperty(String propertyName) throws IOException, InterruptedException {
+        File f = new File("src/test/resources/componentDB/Splices/SpliceData.json");
+        List<SplicesComponentDB> dbData = null;
+        if(f.exists()) {
+            System.out.println("Resuse JSON");
+            ObjectMapper mapper = new ObjectMapper();
+            dbData = mapper.readValue(new File("src/test/resources/componentDB/Splices/SpliceData.json"), new TypeReference<List<SplicesComponentDB>>(){});
+        }
+        if(!f.exists()) {
+            System.out.println("Scanning UI");
+            dbData=  new SplicesComponentDBPage(context.driver).getSplicesData();
+            ObjectMapper mapper = new ObjectMapper();
+            Files.createDirectories(Paths.get("src/test/resources/componentDB/Splices"));
+            mapper.writeValue(new File("src/test/resources/componentDB/Splices/SpliceData.json"), dbData);
+        }
+        SplicesComponentDB randomSpliceData = new SplicesComponentDBPage(context.driver).getRandomSpliceComponent(dbData);
+        List<SplicesComponentDB> filteredDbData = new ArrayList<>();
+        switch(propertyName.toLowerCase()) {
+            case "partnumber":
+                filteredDbData = dbData.stream().filter(x->x.getPartNumber().equals(randomSpliceData.getPartNumber())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnPartNumber(randomSpliceData.getPartNumber());
+                break;
+            case "description":
+                filteredDbData = dbData.stream().filter(x->x.getDescription().equals(randomSpliceData.getDescription())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnDescription(randomSpliceData.getDescription());
+                break;
+            case "family":
+                filteredDbData = dbData.stream().filter(x->x.getFamily().equals(randomSpliceData.getFamily())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnFamily(randomSpliceData.getFamily());
+                break;
+            case "status":
+                filteredDbData = dbData.stream().filter(x->x.getStatus().equals(randomSpliceData.getStatus())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnStatus(randomSpliceData.getStatus());
+                break;
+            case "usage":
+                filteredDbData = dbData.stream().filter(x->x.getUsage().equals(randomSpliceData.getUsage())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnUsage(randomSpliceData.getUsage());
+                break;
+            case "supplier":
+                filteredDbData = dbData.stream().filter(x->x.getSupplier().equals(randomSpliceData.getSupplier())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnSupplier(randomSpliceData.getSupplier());
+                break;
+            case "supplierpn":
+                filteredDbData = dbData.stream().filter(x->x.getSupplierPN().equals(randomSpliceData.getSupplierPN())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnSupplierPN(randomSpliceData.getSupplierPN());
+                break;
+            case "colour":
+                filteredDbData = dbData.stream().filter(x->x.getColour().equals(randomSpliceData.getColour())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnColour(randomSpliceData.getColour());
+                break;
+            case "sealingtype":
+                filteredDbData = dbData.stream().filter(x->x.getSealingType().equals(randomSpliceData.getSealingType())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnSealingType(randomSpliceData.getSealingType());
+                break;
+            case "material":
+                filteredDbData = dbData.stream().filter(x->x.getMaterial().equals(randomSpliceData.getMaterial())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnMaterial(randomSpliceData.getMaterial());
+                break;
+        }
+        List<SplicesComponentDB> splicesData = new SplicesComponentDBPage(context.driver).getSplicesData();
+        List<String> expectedPartNumberList = filteredDbData.stream().map(x->x.getPartNumber()).collect(Collectors.toList());
+        List<String> actualPartNumberList = splicesData.stream().map(x->x.getPartNumber()).collect(Collectors.toList());
         List<String> differencesFromExpected = expectedPartNumberList.stream()
                 .filter(element -> !actualPartNumberList.contains(element))
                 .collect(Collectors.toList());

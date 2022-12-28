@@ -40,6 +40,8 @@ public class CommonElements extends BasePage {
 
     @FindBy(css = "div.fixed-table-header select[class$=\"gender\"]") private WebElement selectGender;
 
+    @FindBy(css = "div.fixed-table-header select[class$=\"sealingtype\"]") private WebElement selectSealingType;
+
     @FindBy(css = "div.fixed-table-header input[placeholder$=\"Type\"]") private WebElement searchFieldType;
     @FindBy(css = "div.fixed-table-header input[placeholder=\"AWG Size\"]") private WebElement searchFieldAwgSize;
     @FindBy(css = "div.fixed-table-header input[placeholder=\"Gauge\"]") private WebElement searchFieldGauge;
@@ -216,6 +218,14 @@ public class CommonElements extends BasePage {
         Thread.sleep(2000 );
         customCommand.waitForElementVisibility(driver,paginationDropdown);
         customCommand.simulateKeyEnterWithValue(searchFieldType,type);
+        Thread.sleep(2000 );
+        customCommand.waitForElementVisibility(driver,checkboxfirstComponent);
+    }
+
+    public void filterComponentBasedOnSealingType(String sealingType) throws InterruptedException {
+        Thread.sleep(2000 );
+        customCommand.waitForElementVisibility(driver,paginationDropdown);
+        customCommand.selectDropDownByValue(selectSealingType,sealingType.toLowerCase());
         Thread.sleep(2000 );
         customCommand.waitForElementVisibility(driver,checkboxfirstComponent);
     }
