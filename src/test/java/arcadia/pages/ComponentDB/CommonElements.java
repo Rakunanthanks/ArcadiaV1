@@ -47,6 +47,8 @@ public class CommonElements extends BasePage {
 
     @FindBy(css = "div.fixed-table-header select[class$=\"control-type\"]") private WebElement selectControlType;
 
+    @FindBy(css = "div.fixed-table-header select[class$=\"cabletype\"]") private WebElement selectCableType;
+
     @FindBy(css = "div.fixed-table-header input[placeholder$=\"Type\"]") private WebElement searchFieldType;
     @FindBy(css = "div.fixed-table-header input[placeholder=\"AWG Size\"]") private WebElement searchFieldAwgSize;
     @FindBy(css = "div.fixed-table-header input[placeholder=\"Gauge\"]") private WebElement searchFieldGauge;
@@ -56,6 +58,8 @@ public class CommonElements extends BasePage {
     @FindBy(css = "div.fixed-table-header input[placeholder=\"Minimum Bend Radius\"]") private WebElement searchFieldMinimumBendRadius;
     @FindBy(css = "div.fixed-table-header input[placeholder=\"Max Current\"]") private WebElement searchFieldMaxCurrent;
     @FindBy(css = "div.fixed-table-header input[placeholder=\"Resistance\"]") private WebElement searchFieldResistance;
+
+    @FindBy(css = "div.fixed-table-header input[placeholder$=\"No. of Wires\"]") private WebElement searchFieldNumberOfWires;
 
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
     public void selectFirstComponent(){
@@ -251,6 +255,23 @@ public class CommonElements extends BasePage {
         Thread.sleep(2000 );
         customCommand.waitForElementVisibility(driver,paginationDropdown);
         customCommand.selectDropDownByValue(selectControlType,controlType.replace(" ","_"));
+        Thread.sleep(2000 );
+        customCommand.waitForElementVisibility(driver,checkboxfirstComponent);
+    }
+
+    public void filterComponentBasedOnCableType(String cableType) throws InterruptedException {
+        Thread.sleep(2000 );
+        customCommand.waitForElementVisibility(driver,paginationDropdown);
+        customCommand.selectDropDownByValue(selectCableType,cableType.toLowerCase());
+        Thread.sleep(2000 );
+        customCommand.waitForElementVisibility(driver,checkboxfirstComponent);
+    }
+
+    public void filterComponentBasedOnNumberOfWiresRange(String wiresRange) throws InterruptedException {
+        Thread.sleep(2000 );
+        customCommand.waitForElementVisibility(driver,paginationDropdown);
+        customCommand.scrollIntoView(driver,searchFieldNumberOfWires);
+        customCommand.simulateKeyEnterWithValue(searchFieldNumberOfWires,wiresRange);
         Thread.sleep(2000 );
         customCommand.waitForElementVisibility(driver,checkboxfirstComponent);
     }
