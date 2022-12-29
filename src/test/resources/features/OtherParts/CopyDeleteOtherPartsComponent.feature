@@ -2,7 +2,7 @@ Feature: Copy and Delete other part components
 
   @OtherPartsComponentDB
   @CloneOtherPartComponent
-  Scenario: Test verifies a splice component can be added as similar
+  Scenario: Test verifies a other part component can be added as similar
     Given I'm on Arcadia test environment
     And Navigated to selected componentDB
     And User selected 'otherpart' from componentDB
@@ -16,7 +16,7 @@ Feature: Copy and Delete other part components
 
   @OtherPartsComponentDB
   @DeleteOtherPartComponent
-  Scenario: Test verifies a splice component can be deleted
+  Scenario: Test verifies a other part component can be deleted
     Given I'm on Arcadia test environment
     And Navigated to selected componentDB
     And User selected 'otherpart' from componentDB
@@ -30,7 +30,7 @@ Feature: Copy and Delete other part components
 
   @OtherPartsComponentDB
   @CloneOtherPartComponent
-  Scenario: Test verifies a splice component can be copied
+  Scenario: Test verifies a other part component can be copied
     Given I'm on Arcadia test environment
     And Navigated to selected componentDB
     And User selected 'otherpart' from componentDB
