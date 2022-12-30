@@ -6,6 +6,7 @@ import arcadia.domainobjects.*;
 import arcadia.pages.ComponentDB.AddNewComponentPage;
 import arcadia.pages.ComponentDB.Applicators.ApplicatorsComponentDBPage;
 import arcadia.pages.ComponentDB.CommonElements;
+import arcadia.pages.ComponentDB.Components.ComponentsDBPage;
 import arcadia.pages.ComponentDB.HeaderPanel;
 import arcadia.pages.ComponentDB.JunctionParts.JunctionPartsComponentDBPage;
 import arcadia.pages.ComponentDB.Multicore.MulticoreComponentDBPage;
@@ -55,6 +56,7 @@ public class ComponentDBStepDefinitions {
             case "junctionpart":
             case "multicore":
             case "applicator":
+            case "component":
                 new HeaderPanel(context.driver).openAddNewComponentPage();
                 addComponentForm = new AddComponentForm();
                 componentDetails = new ComponentDetails(String.format("testdescription-%04d", new StringHelper().generateRandomDigit()), "testfamily", componentStatus, "", "testproprietary", "", "", "", "", "PVC", "NOT SET", "", "BLACK");
@@ -96,6 +98,7 @@ public class ComponentDBStepDefinitions {
             case "junctionpart":
             case "multicore":
             case "applicator":
+            case "component":
                 new HeaderPanel(context.driver).openAddNewComponentPage();
                 addComponentForm = new AddComponentForm();
                 componentDetails = new ComponentDetails(String.format("testdescription-%04d", new StringHelper().generateRandomDigit()), "testfamily", "IN REVIEW", "", "testproprietary", "", "", "", "", "PVC", "NOT SET", "", "BLACK");
@@ -116,7 +119,7 @@ public class ComponentDBStepDefinitions {
     @Then("{string} component with referencepartnumber {string} and referencecompany {string} only is created")
     public void component_with_reference_details_is_created(String componentName, String partNumber, String referencecompany) throws InterruptedException {
         new HeaderPanel(context.driver).openAddNewComponentPage();
-        if(componentName.equalsIgnoreCase("wire")||componentName.equalsIgnoreCase("seal")||componentName.equalsIgnoreCase("terminal")||componentName.equalsIgnoreCase("splice")||componentName.equalsIgnoreCase("otherpart")||componentName.equalsIgnoreCase("junctionpart")||componentName.equalsIgnoreCase("multicore")||componentName.equalsIgnoreCase("applicator"))
+        if(componentName.equalsIgnoreCase("wire")||componentName.equalsIgnoreCase("seal")||componentName.equalsIgnoreCase("terminal")||componentName.equalsIgnoreCase("splice")||componentName.equalsIgnoreCase("otherpart")||componentName.equalsIgnoreCase("junctionpart")||componentName.equalsIgnoreCase("multicore")||componentName.equalsIgnoreCase("applicator")||componentName.equalsIgnoreCase("component"))
         {
             componentName="common";
         }
@@ -178,6 +181,7 @@ public class ComponentDBStepDefinitions {
             case "junctionpart":
             case "multicore":
             case "applicator":
+            case "component":
                 new HeaderPanel(context.driver).openAddNewComponentPage();
                 addComponentForm = new AddComponentForm();
                 componentDetails = new ComponentDetails(String.format("testdescription-%04d", new StringHelper().generateRandomDigit()), "testfamily", "IN REVIEW", "", "testproprietary", "", "", "", "", "PVC", "NOT SET", "", "BLACK");
@@ -273,7 +277,7 @@ public class ComponentDBStepDefinitions {
         Assert.assertEquals(0,differencesFromExpected.size(),differencesFromExpected.toString());
     }
 
-    @Then("Verify component data is greater than value {string} for filter {string}")
+    @Then("Verify wire component data is greater than value {string} for filter {string}")
     public void verify_component_data_is_greater_than_value_for_filter(String greaterThanValue, String filterName) throws IOException, InterruptedException {
         File f = new File("src/test/resources/componentDB/Wire/WireData.json");
         List<WiresComponentDB> dbData = null;
@@ -334,8 +338,8 @@ public class ComponentDBStepDefinitions {
         Assert.assertEquals(0,differencesFromExpected.size(),differencesFromExpected.toString());
     }
 
-    @Then("Verify component data on the basis of filter {string} with value {string}")
-    public void verify_component_data_on_the_basis_of_filter(String filterName, String filterValue) throws InterruptedException, IOException {
+    @Then("Verify wire component data on the basis of filter {string} with value {string}")
+    public void verify_wire_component_data_on_the_basis_of_filter(String filterName, String filterValue) throws InterruptedException, IOException {
         File f = new File("src/test/resources/componentDB/Wire/WireData.json");
         List<WiresComponentDB> dbData = null;
         if(f.exists()) {
@@ -465,6 +469,10 @@ public class ComponentDBStepDefinitions {
             case "applicator":
                 List<ApplicatorsComponentDB> applicatorsdatalist = new ApplicatorsComponentDBPage(context.driver).getApplicatorsData();
                 Assert.assertTrue(applicatorsdatalist.size()!=0);
+                break;
+            case "component":
+                List<ComponentsDB> componentsdatalist = new ComponentsDBPage(context.driver).getComponentsData();
+                Assert.assertTrue(componentsdatalist.size()!=0);
                 break;
         }
     }
@@ -981,6 +989,133 @@ public class ComponentDBStepDefinitions {
         List<ApplicatorsComponentDB> applicatorsData = new ApplicatorsComponentDBPage(context.driver).getApplicatorsData();
         List<String> expectedPartNumberList = filteredDbData.stream().map(x->x.getPartNumber()).collect(Collectors.toList());
         List<String> actualPartNumberList = applicatorsData.stream().map(x->x.getPartNumber()).collect(Collectors.toList());
+        List<String> differencesFromExpected = expectedPartNumberList.stream()
+                .filter(element -> !actualPartNumberList.contains(element))
+                .collect(Collectors.toList());
+        Assert.assertEquals(0,differencesFromExpected.size(),differencesFromExpected.toString());
+    }
+
+    //For component type 'component"
+    @Then("verify user can filter component based on property {string}")
+    public void verifyUserCanFilterComponentBasedOnProperty(String propertyName) throws IOException, InterruptedException {
+        File f = new File("src/test/resources/componentDB/Component/ComponentData.json");
+        List<ComponentsDB> dbData = null;
+        if(f.exists()) {
+            System.out.println("Resuse JSON");
+            ObjectMapper mapper = new ObjectMapper();
+            dbData = mapper.readValue(new File("src/test/resources/componentDB/Component/ComponentData.json"), new TypeReference<List<ComponentsDB>>(){});
+        }
+        if(!f.exists()) {
+            System.out.println("Scanning UI");
+            dbData=  new ComponentsDBPage(context.driver).getComponentsData();
+            ObjectMapper mapper = new ObjectMapper();
+            Files.createDirectories(Paths.get("src/test/resources/componentDB/Component"));
+            mapper.writeValue(new File("src/test/resources/componentDB/Component/ComponentData.json"), dbData);
+        }
+        ComponentsDB randomComponentData = new ComponentsDBPage(context.driver).getRandomComponent(dbData);
+        List<ComponentsDB> filteredDbData = new ArrayList<>();
+        switch(propertyName.toLowerCase()) {
+            case "partnumber":
+                filteredDbData = dbData.stream().filter(x->x.getPartNumber().equals(randomComponentData.getPartNumber())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnPartNumber(randomComponentData.getPartNumber());
+                break;
+            case "description":
+                filteredDbData = dbData.stream().filter(x->x.getDescription().equals(randomComponentData.getDescription())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnDescription(randomComponentData.getDescription());
+                break;
+            case "family":
+                filteredDbData = dbData.stream().filter(x->x.getFamily().equals(randomComponentData.getFamily())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnFamily(randomComponentData.getFamily());
+                break;
+            case "status":
+                filteredDbData = dbData.stream().filter(x->x.getStatus().equals(randomComponentData.getStatus())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnStatus(randomComponentData.getStatus());
+                break;
+            case "usage":
+                filteredDbData = dbData.stream().filter(x->x.getUsage().equals(randomComponentData.getUsage())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnUsage(randomComponentData.getUsage());
+                break;
+            case "supplier":
+                filteredDbData = dbData.stream().filter(x->x.getSupplier().equals(randomComponentData.getSupplier())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnSupplier(randomComponentData.getSupplier());
+                break;
+            case "supplierpn":
+                filteredDbData = dbData.stream().filter(x->x.getSupplierPN().equals(randomComponentData.getSupplierPN())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnSupplierPN(randomComponentData.getSupplierPN());
+                break;
+        }
+        List<ComponentsDB> componentData = new ComponentsDBPage(context.driver).getComponentsData();
+        List<String> expectedPartNumberList = filteredDbData.stream().map(x->x.getPartNumber()).collect(Collectors.toList());
+        List<String> actualPartNumberList = componentData.stream().map(x->x.getPartNumber()).collect(Collectors.toList());
+        List<String> differencesFromExpected = expectedPartNumberList.stream()
+                .filter(element -> !actualPartNumberList.contains(element))
+                .collect(Collectors.toList());
+        Assert.assertEquals(0,differencesFromExpected.size(),differencesFromExpected.toString());
+    }
+
+    @Then("Verify component data on the basis of filter {string} with value {string}")
+    public void verifyComponentDataOnTheBasisOfFilterWithValue(String filterName, String filterValue) throws IOException, InterruptedException {
+        File f = new File("src/test/resources/componentDB/Component/ComponentData.json");
+        List<ComponentsDB> dbData = null;
+        if(f.exists()) {
+            ObjectMapper mapper = new ObjectMapper();
+            dbData = mapper.readValue(new File("src/test/resources/componentDB/Component/ComponentData.json"), new TypeReference<List<ComponentsDB>>(){});
+        }
+        if(!f.exists()) {
+            dbData=  new ComponentsDBPage(context.driver).getComponentsData();
+            ObjectMapper mapper = new ObjectMapper();
+            Files.createDirectories(Paths.get("src/test/resources/componentDB/Component"));
+            mapper.writeValue(new File("src/test/resources/componentDB/Component/ComponentData.json"), dbData);
+        }
+        List<ComponentsDB> filteredDbData = new ArrayList<>();
+        switch(filterName.toLowerCase()) {
+            case "numberofcavities":
+                String[] numberRange = filterValue.split("-");
+                int initialValue = Integer.parseInt(numberRange[0]);
+                int finalValue = Integer.parseInt(numberRange[1]);
+                filteredDbData = dbData.stream()
+                        .filter(x->x.getNumberOfCavities()>=initialValue)
+                        .filter(x->x.getNumberOfCavities()<=finalValue)
+                        .collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnNumberOfCavitiesRange(filterValue);
+                break;
+        }
+        List<ComponentsDB> componentData = new ComponentsDBPage(context.driver).getComponentsData();
+        List<String> expectedPartNumberList = filteredDbData.stream().map(x->x.getPartNumber()).collect(Collectors.toList());
+        List<String> actualPartNumberList = componentData.stream().map(x->x.getPartNumber()).collect(Collectors.toList());
+        List<String> differencesFromExpected = expectedPartNumberList.stream()
+                .filter(element -> !actualPartNumberList.contains(element))
+                .collect(Collectors.toList());
+        Assert.assertEquals(0,differencesFromExpected.size(),differencesFromExpected.toString());
+    }
+
+    @Then("Verify component data is greater than value {string} for filter {string}")
+    public void verifyComponentDataIsGreaterThanValue(String greaterThanValue, String filterName) throws IOException, InterruptedException {
+        File f = new File("src/test/resources/componentDB/Component/ComponentData.json");
+        List<ComponentsDB> dbData = null;
+        if(f.exists()) {
+            ObjectMapper mapper = new ObjectMapper();
+            dbData = mapper.readValue(new File("src/test/resources/componentDB/Component/ComponentData.json"), new TypeReference<List<ComponentsDB>>(){});
+        }
+        if(!f.exists()) {
+            dbData=  new ComponentsDBPage(context.driver).getComponentsData();
+            ObjectMapper mapper = new ObjectMapper();
+            Files.createDirectories(Paths.get("src/test/resources/componentDB/Component"));
+            mapper.writeValue(new File("src/test/resources/componentDB/Component/ComponentData.json"), dbData);
+        }
+        List<ComponentsDB> filteredDbData = new ArrayList<>();
+        switch(filterName.toLowerCase()) {
+            case "numberofcavities":
+                int numberOfCavitiesValue = Integer.parseInt(greaterThanValue);
+                filteredDbData = dbData.stream()
+                        .filter(x->x.getNumberOfCavities()>=numberOfCavitiesValue)
+                        .collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnNumberOfCavitiesRange(">="+greaterThanValue);
+                break;
+        }
+        List<ComponentsDB> componentData = new ComponentsDBPage(context.driver).getComponentsData();
+        List<String> expectedPartNumberList = filteredDbData.stream().map(x->x.getPartNumber()).collect(Collectors.toList());
+        List<String> actualPartNumberList = componentData.stream().map(x->x.getPartNumber()).collect(Collectors.toList());
         List<String> differencesFromExpected = expectedPartNumberList.stream()
                 .filter(element -> !actualPartNumberList.contains(element))
                 .collect(Collectors.toList());
