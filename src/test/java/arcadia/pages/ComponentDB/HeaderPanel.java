@@ -58,6 +58,9 @@ public class HeaderPanel extends BasePage {
     }
 
     public void invokeMainMenu(String menuName){
+        if(menuName.equals("component")){
+            menuName = "component&company";
+        }
         List<WebElement> maninMenuElements = driver.findElements(By.cssSelector(".nav.navbar-nav.pull-right >li >a"));
         for(WebElement element : maninMenuElements){
             if(element.getAttribute("href").contains(menuName)){

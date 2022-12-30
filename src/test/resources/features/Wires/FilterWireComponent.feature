@@ -86,7 +86,7 @@ Feature: Filter wire components
     Given I'm on Arcadia test environment
     And Navigated to selected componentDB
     And User selected 'wire' from componentDB
-    Then Verify component data on the basis of filter 'WireCsa' with value '1.20-8.20'
+    Then Verify wire component data on the basis of filter 'WireCsa' with value '1.20-8.20'
 
   @WireComponentDB
   @FilterWire
@@ -94,7 +94,7 @@ Feature: Filter wire components
     Given I'm on Arcadia test environment
     And Navigated to selected componentDB
     And User selected 'wire' from componentDB
-    Then Verify component data is greater than value '1.0' for filter 'WireCsa'
+    Then Verify wire component data is greater than value '1.0' for filter 'WireCsa'
 
   @WireComponentDB
   @FilterWire
@@ -102,7 +102,7 @@ Feature: Filter wire components
     Given I'm on Arcadia test environment
     And Navigated to selected componentDB
     And User selected 'wire' from componentDB
-    Then Verify component data is greater than value '1.0' for filter 'OutsideDia'
+    Then Verify wire component data is greater than value '1.0' for filter 'OutsideDia'
 
   @WireComponentDB
   @FilterWire
@@ -110,7 +110,7 @@ Feature: Filter wire components
     Given I'm on Arcadia test environment
     And Navigated to selected componentDB
     And User selected 'wire' from componentDB
-    Then Verify component data is greater than value '1.0' for filter 'MinimumBendRadius'
+    Then Verify wire component data is greater than value '1.0' for filter 'MinimumBendRadius'
 
   @WireComponentDB
   @FilterWire
@@ -118,7 +118,7 @@ Feature: Filter wire components
     Given I'm on Arcadia test environment
     And Navigated to selected componentDB
     And User selected 'wire' from componentDB
-    Then Verify component data is greater than value '1.0' for filter 'MaxCurrent'
+    Then Verify wire component data is greater than value '1.0' for filter 'MaxCurrent'
 
   @WireComponentDB
   @FilterWire
@@ -126,7 +126,7 @@ Feature: Filter wire components
     Given I'm on Arcadia test environment
     And Navigated to selected componentDB
     And User selected 'wire' from componentDB
-    Then Verify component data is greater than value '1.0' for filter 'Resistance'
+    Then Verify wire component data is greater than value '1.0' for filter 'Resistance'
 
 
   @WireComponentDB
@@ -135,7 +135,7 @@ Feature: Filter wire components
     Given I'm on Arcadia test environment
     And Navigated to selected componentDB
     And User selected 'wire' from componentDB
-    Then Verify component data on the basis of filter 'OutsideDia' with value '2.80-5.0'
+    Then Verify wire component data on the basis of filter 'OutsideDia' with value '2.80-5.0'
 
   @WireComponentDB
   @FilterWire
@@ -143,7 +143,7 @@ Feature: Filter wire components
     Given I'm on Arcadia test environment
     And Navigated to selected componentDB
     And User selected 'wire' from componentDB
-    Then Verify component data on the basis of filter 'Material' with value 'TPE-S'
+    Then Verify wire component data on the basis of filter 'Material' with value 'TPE-S'
 
   @WireComponentDB
   @FilterWire
@@ -151,7 +151,7 @@ Feature: Filter wire components
     Given I'm on Arcadia test environment
     And Navigated to selected componentDB
     And User selected 'wire' from componentDB
-    Then Verify component data on the basis of filter 'MinimumBendRadius' with value '0.00-2.50'
+    Then Verify wire component data on the basis of filter 'MinimumBendRadius' with value '0.00-2.50'
 
   @WireComponentDB
   @FilterWire
@@ -159,7 +159,7 @@ Feature: Filter wire components
     Given I'm on Arcadia test environment
     And Navigated to selected componentDB
     And User selected 'wire' from componentDB
-    Then Verify component data on the basis of filter 'MaxCurrent' with value '0-24.5'
+    Then Verify wire component data on the basis of filter 'MaxCurrent' with value '0-24.5'
 
   @WireComponentDB
   @FilterWire
@@ -167,4 +167,4 @@ Feature: Filter wire components
     Given I'm on Arcadia test environment
     And Navigated to selected componentDB
     And User selected 'wire' from componentDB
-    Then Verify component data on the basis of filter 'Resistance' with value '0.00-1.00'
+    Then Verify wire component data on the basis of filter 'Resistance' with value '0.00-1.00'

@@ -69,6 +69,8 @@ public class CommonElements extends BasePage {
 
     @FindBy(css = "div.fixed-table-header input[placeholder$=\"Applicator Site\"]") private WebElement searchFieldApplicatorSite;
 
+    @FindBy(css = "div.fixed-table-header input[placeholder$=\"No. of Cavities\"]") private WebElement searchFieldNumberOfCavities;
+
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
     public void selectFirstComponent(){
         checkboxfirstComponent.click();
@@ -313,6 +315,15 @@ public class CommonElements extends BasePage {
         customCommand.waitForElementVisibility(driver,paginationDropdown);
         customCommand.scrollIntoView(driver,searchFieldApplicatorSite);
         customCommand.simulateKeyEnterWithValue(searchFieldApplicatorSite,applicatorSite);
+        Thread.sleep(2000 );
+        customCommand.waitForElementVisibility(driver,checkboxfirstComponent);
+    }
+
+    public void filterComponentBasedOnNumberOfCavitiesRange(String cavitiesRange) throws InterruptedException {
+        Thread.sleep(2000 );
+        customCommand.waitForElementVisibility(driver,paginationDropdown);
+        customCommand.scrollIntoView(driver,searchFieldNumberOfCavities);
+        customCommand.simulateKeyEnterWithValue(searchFieldNumberOfCavities,cavitiesRange);
         Thread.sleep(2000 );
         customCommand.waitForElementVisibility(driver,checkboxfirstComponent);
     }
