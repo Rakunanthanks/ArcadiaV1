@@ -49,6 +49,12 @@ public class CommonElements extends BasePage {
 
     @FindBy(css = "div.fixed-table-header select[class$=\"cabletype\"]") private WebElement selectCableType;
 
+    @FindBy(css = "div.fixed-table-header select[class$=\"applicatorusage\"]") private WebElement selectApplicatorUsage;
+
+    @FindBy(css = "div.fixed-table-header select[class$=\"forsealorterminal\"]") private WebElement selectSealOrTerminal;
+
+    @FindBy(css = "div.fixed-table-header select[class$=\"inservice\"]") private WebElement selectInService;
+
     @FindBy(css = "div.fixed-table-header input[placeholder$=\"Type\"]") private WebElement searchFieldType;
     @FindBy(css = "div.fixed-table-header input[placeholder=\"AWG Size\"]") private WebElement searchFieldAwgSize;
     @FindBy(css = "div.fixed-table-header input[placeholder=\"Gauge\"]") private WebElement searchFieldGauge;
@@ -60,6 +66,8 @@ public class CommonElements extends BasePage {
     @FindBy(css = "div.fixed-table-header input[placeholder=\"Resistance\"]") private WebElement searchFieldResistance;
 
     @FindBy(css = "div.fixed-table-header input[placeholder$=\"No. of Wires\"]") private WebElement searchFieldNumberOfWires;
+
+    @FindBy(css = "div.fixed-table-header input[placeholder$=\"Applicator Site\"]") private WebElement searchFieldApplicatorSite;
 
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
     public void selectFirstComponent(){
@@ -272,6 +280,39 @@ public class CommonElements extends BasePage {
         customCommand.waitForElementVisibility(driver,paginationDropdown);
         customCommand.scrollIntoView(driver,searchFieldNumberOfWires);
         customCommand.simulateKeyEnterWithValue(searchFieldNumberOfWires,wiresRange);
+        Thread.sleep(2000 );
+        customCommand.waitForElementVisibility(driver,checkboxfirstComponent);
+    }
+
+    public void filterComponentBasedOnApplicatorUsage(String applicatorusage) throws InterruptedException {
+        Thread.sleep(2000 );
+        customCommand.waitForElementVisibility(driver,paginationDropdown);
+        customCommand.selectDropDownByValue(selectApplicatorUsage,applicatorusage);
+        Thread.sleep(2000 );
+        customCommand.waitForElementVisibility(driver,checkboxfirstComponent);
+    }
+
+    public void filterComponentBasedOnSealOrTerminal(String forsealorterminal) throws InterruptedException {
+        Thread.sleep(2000 );
+        customCommand.waitForElementVisibility(driver,paginationDropdown);
+        customCommand.selectDropDownByValue(selectSealOrTerminal,forsealorterminal);
+        Thread.sleep(2000 );
+        customCommand.waitForElementVisibility(driver,checkboxfirstComponent);
+    }
+
+    public void filterComponentBasedOnInService(String inservice) throws InterruptedException {
+        Thread.sleep(2000 );
+        customCommand.waitForElementVisibility(driver,paginationDropdown);
+        customCommand.selectDropDownByValue(selectInService,inservice.toLowerCase());
+        Thread.sleep(2000 );
+        customCommand.waitForElementVisibility(driver,checkboxfirstComponent);
+    }
+
+    public void filterComponentBasedOnApplicatorSite(String applicatorSite) throws InterruptedException {
+        Thread.sleep(2000 );
+        customCommand.waitForElementVisibility(driver,paginationDropdown);
+        customCommand.scrollIntoView(driver,searchFieldApplicatorSite);
+        customCommand.simulateKeyEnterWithValue(searchFieldApplicatorSite,applicatorSite);
         Thread.sleep(2000 );
         customCommand.waitForElementVisibility(driver,checkboxfirstComponent);
     }

@@ -67,6 +67,8 @@ public class AddNewComponentPage extends BasePage {
 
     @FindBy(xpath = "//td[text()=\"No. of Multicore\"]/following-sibling::td") private WebElement tdTotalCopiedMulticore;
 
+    @FindBy(xpath = "//td[text()=\"No. of Applicators\"]/following-sibling::td") private WebElement tdTotalCopiedApplicators;
+
     @FindBy(css = "div.bootbox button.close") private WebElement btnClosePopUp;
 
 
@@ -181,6 +183,9 @@ public class AddNewComponentPage extends BasePage {
                 break;
             case "multicore":
                 Assert.assertEquals(tdTotalCopiedMulticore.getText(),"1");
+                break;
+            case "applicator":
+                Assert.assertEquals(tdTotalCopiedApplicators.getText(),"1");
                 break;
         }
         customCommand.waitForElementToBeClickable(driver,btnClosePopUp);
