@@ -22,6 +22,7 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import org.testng.Assert;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -58,6 +59,7 @@ public class ComponentDBStepDefinitions {
             case "multicore":
             case "applicator":
             case "component":
+            case "connector":
                 new HeaderPanel(context.driver).openAddNewComponentPage();
                 addComponentForm = new AddComponentForm();
                 componentDetails = new ComponentDetails(String.format("testdescription-%04d", new StringHelper().generateRandomDigit()), "testfamily", componentStatus, "", "testproprietary", "", "", "", "", "PVC", "NOT SET", "", "BLACK");
@@ -100,6 +102,7 @@ public class ComponentDBStepDefinitions {
             case "multicore":
             case "applicator":
             case "component":
+            case "connector":
                 new HeaderPanel(context.driver).openAddNewComponentPage();
                 addComponentForm = new AddComponentForm();
                 componentDetails = new ComponentDetails(String.format("testdescription-%04d", new StringHelper().generateRandomDigit()), "testfamily", "IN REVIEW", "", "testproprietary", "", "", "", "", "PVC", "NOT SET", "", "BLACK");
@@ -183,6 +186,7 @@ public class ComponentDBStepDefinitions {
             case "multicore":
             case "applicator":
             case "component":
+            case "connector":
                 new HeaderPanel(context.driver).openAddNewComponentPage();
                 addComponentForm = new AddComponentForm();
                 componentDetails = new ComponentDetails(String.format("testdescription-%04d", new StringHelper().generateRandomDigit()), "testfamily", "IN REVIEW", "", "testproprietary", "", "", "", "", "PVC", "NOT SET", "", "BLACK");
@@ -427,6 +431,11 @@ public class ComponentDBStepDefinitions {
     @And("User selects the first component")
     public void userSelectsTheFirstComponent() {
         new CommonElements(context.driver).selectFirstComponent();
+    }
+
+    @And("User edits the first component")
+    public void userEditsTheFirstComponent() {
+        new CommonElements(context.driver).editFirstComponent();
     }
 
     @Then("User Adds Similar Component")
@@ -1190,5 +1199,25 @@ public class ComponentDBStepDefinitions {
                 .filter(element -> !actualPartNumberList.contains(element))
                 .collect(Collectors.toList());
         Assert.assertEquals(0,differencesFromExpected.size(),differencesFromExpected.toString());
+    }
+
+    @And("User links {string} from componentDB")
+    public void userLinksComponentFromComponentDB(String componentName) throws AWTException, InterruptedException {
+        switch (componentName.toLowerCase()){
+            case "terminal":
+                new HeaderPanel(context.driver).invokeFormTabs("Link_Terminals");
+                new CommonElements(context.driver).enterLinkPartNumber("7780");
+                break;
+            case "seal":
+                new HeaderPanel(context.driver).invokeFormTabs("Link_Seals");
+                new CommonElements(context.driver).enterLinkPartNumber("4526");
+                break;
+            case "part":
+                new HeaderPanel(context.driver).invokeFormTabs("Link_Parts");
+                new CommonElements(context.driver).enterLinkPartNumber("12020807");
+                break;
+        }
+        new CommonElements(context.driver).clickUpdateComponent();
+        new CommonElements(context.driver).verifyAlertSuccessMessage("Component updated");
     }
 }

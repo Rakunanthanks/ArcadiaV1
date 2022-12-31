@@ -70,6 +70,16 @@ public class HeaderPanel extends BasePage {
         }
     }
 
+    public void invokeFormTabs(String menuName){
+        List<WebElement> tabElements = driver.findElements(By.cssSelector("ul.nav-tabs>li >a"));
+        for(WebElement element : tabElements){
+            if(element.getAttribute("href").contains(menuName)){
+                element.click();
+                break;
+            }
+        }
+    }
+
     public void clickAddSimilarComponent() throws InterruptedException {
         customCommand.waitForElementToBeClickable(driver,addSimilar);
         customCommand.waitClick(addSimilar);
