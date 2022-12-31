@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.awt.*;
 import java.util.List;
 
 public class CommonElements extends BasePage {
@@ -23,6 +24,7 @@ public class CommonElements extends BasePage {
 
     @FindBy(css = "table input[name=\"btSelectItem\"]") private WebElement checkboxfirstComponent;
 
+    @FindBy(css = "table button[title=\"Edit\"]>i.fa-edit") private WebElement buttonEditFirstComponent;
     @FindBy(css = "input[name=\"addsimilar.NewPN\"]") private WebElement referencesNewPartNumber;
 
     @FindBy(css = "button[value^=\"Add Similar\"][name=\"confirmadd\"]") private WebElement buttonConfirmAddSimilar;
@@ -73,14 +75,28 @@ public class CommonElements extends BasePage {
 
     @FindBy(css = "div.fixed-table-header input[placeholder$=\"No. of Cavities\"]") private WebElement searchFieldNumberOfCavities;
 
+    @FindBy(css = "input[rel=\"partnumber\"]+div input") private WebElement linkPartNumber;
+
+    @FindBy(css = "#idMsg.alert-success") private WebElement alertSuccessMessage;
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
     public void selectFirstComponent(){
         checkboxfirstComponent.click();
     }
 
+    public void editFirstComponent(){
+        buttonEditFirstComponent.click();
+    }
+
     public void enterNewPartNumber(String newPartNumber){
         customCommand.waitForElementVisibility(driver,referencesNewPartNumber);
         customCommand.enterText(referencesNewPartNumber,newPartNumber);
+    }
+
+    public void enterLinkPartNumber(String partNumber) throws AWTException, InterruptedException {
+        customCommand.waitForElementVisibility(driver,linkPartNumber);
+        customCommand.simulateKeyEnterWithValue(linkPartNumber,partNumber);
+        Thread.sleep(2000);
+        customCommand.simulateKeyEnter();
     }
 
     public void clickAddSimilarOnPopup(){
@@ -344,6 +360,15 @@ public class CommonElements extends BasePage {
         customCommand.simulateKeyEnterWithValue(searchFieldNumberOfCavities,cavitiesRange);
         Thread.sleep(2000 );
         customCommand.waitForElementVisibility(driver,checkboxfirstComponent);
+    }
+
+    public void clickUpdateComponent(){
+        updateComponent.click();
+    }
+
+    public void verifyAlertSuccessMessage(String message){
+        customCommand.waitForElementVisibility(driver,alertSuccessMessage);
+        alertSuccessMessage.getText().equals(message);
     }
 
 }

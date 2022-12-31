@@ -38,7 +38,6 @@ public class AddNewComponentPage extends BasePage {
     @FindBy(css = "select[name=\"units\"]") private WebElement bomUnits;
     @FindBy(css = "select[name=\"excludebom\"]") private WebElement bomBillType;
     @FindBy(css = "button[value=\"Create New Component\"]") private WebElement createNewComponent;
-    @FindBy(id = "idMsg") private WebElement alertSuccessMessage;
     @FindBy(css = "button[value=\"Delete Component\"]") private WebElement deleteComponent;
     @FindBy(css = "div#addnewcompmodal button.close") private WebElement buttonCloseAddModal;
     @FindBy(css = "div[class$=\"bootbox-alert in\"] div.modal-body div") private WebElement alertPopUpMessage;

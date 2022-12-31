@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.awt.*;
 import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
@@ -94,6 +95,12 @@ public class SeleniumCustomCommand {
 
         }
 
+    }
+    public void simulateKeyEnter() throws AWTException {
+        Robot robot = new Robot();
+        robot.keyPress(KeyEvent.VK_ENTER);
+        robot.keyRelease(KeyEvent.VK_ENTER);
+        robot.delay(200);
     }
 
 }
