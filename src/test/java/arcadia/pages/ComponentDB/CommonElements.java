@@ -57,6 +57,8 @@ public class CommonElements extends BasePage {
 
     @FindBy(css = "div.fixed-table-header input[placeholder$=\"Type\"]") private WebElement searchFieldType;
     @FindBy(css = "div.fixed-table-header input[placeholder=\"AWG Size\"]") private WebElement searchFieldAwgSize;
+    @FindBy(css = "div.fixed-table-header input[placeholder='Insulation OD']") private WebElement searchFieldInsulationOD;
+    @FindBy(css = "div.fixed-table-header input[placeholder='Cavity Plug']") private WebElement searchFieldCavity;
     @FindBy(css = "div.fixed-table-header input[placeholder=\"Gauge\"]") private WebElement searchFieldGauge;
     @FindBy(css = "div.fixed-table-header input[placeholder$=\"CSA\"]") private WebElement searchFieldCSA;
     @FindBy(css = "div.fixed-table-header input[placeholder=\"Outside Dia\"]") private WebElement searchFieldOutsideDia;
@@ -168,6 +170,22 @@ public class CommonElements extends BasePage {
         Thread.sleep(2000 );
         customCommand.waitForElementVisibility(driver,paginationDropdown);
         customCommand.selectDropDownByValue(selectColour,colour);
+        Thread.sleep(2000 );
+        customCommand.waitForElementVisibility(driver,checkboxfirstComponent);
+    }
+
+    public void filterComponentBasedOnCavity(String cavity) throws InterruptedException {
+        Thread.sleep(2000 );
+        customCommand.waitForElementVisibility(driver,paginationDropdown);
+        customCommand.simulateKeyEnterWithValue(searchFieldCavity,cavity);
+        Thread.sleep(2000 );
+        customCommand.waitForElementVisibility(driver,checkboxfirstComponent);
+    }
+
+    public void filterComponentBasedOnInsulationOD(String insulationOD) throws InterruptedException {
+        Thread.sleep(2000 );
+        customCommand.waitForElementVisibility(driver,paginationDropdown);
+        customCommand.simulateKeyEnterWithValue(searchFieldInsulationOD,insulationOD);
         Thread.sleep(2000 );
         customCommand.waitForElementVisibility(driver,checkboxfirstComponent);
     }
