@@ -11,6 +11,7 @@ import arcadia.pages.ComponentDB.HeaderPanel;
 import arcadia.pages.ComponentDB.JunctionParts.JunctionPartsComponentDBPage;
 import arcadia.pages.ComponentDB.Multicore.MulticoreComponentDBPage;
 import arcadia.pages.ComponentDB.OtherParts.OtherPartsComponentDBPage;
+import arcadia.pages.ComponentDB.Seals.SealsComponentDBPage;
 import arcadia.pages.ComponentDB.Splices.SplicesComponentDBPage;
 import arcadia.pages.ComponentDB.Terminals.TerminalsComponentDBPage;
 import arcadia.pages.ComponentDB.Wires.WiresComponentDBPage;
@@ -1116,6 +1117,75 @@ public class ComponentDBStepDefinitions {
         List<ComponentsDB> componentData = new ComponentsDBPage(context.driver).getComponentsData();
         List<String> expectedPartNumberList = filteredDbData.stream().map(x->x.getPartNumber()).collect(Collectors.toList());
         List<String> actualPartNumberList = componentData.stream().map(x->x.getPartNumber()).collect(Collectors.toList());
+        List<String> differencesFromExpected = expectedPartNumberList.stream()
+                .filter(element -> !actualPartNumberList.contains(element))
+                .collect(Collectors.toList());
+        Assert.assertEquals(0,differencesFromExpected.size(),differencesFromExpected.toString());
+    }
+
+    @Then("verify user can filter seals based on property {string}")
+    public void verifyUserCanFilterSealsBasedOnPropertySupplierPN(String propertyName) throws IOException, InterruptedException {
+        File f = new File("src/test/resources/componentDB/Seal/Seal.json");
+        List<SealsComponentDB> dbData = null;
+        if(f.exists()) {
+            System.out.println("Resuse JSON");
+            ObjectMapper mapper = new ObjectMapper();
+            dbData = mapper.readValue(new File("src/test/resources/componentDB/Seal/Seal.json"), new TypeReference<List<SealsComponentDB>>(){});
+        }
+        if(!f.exists()) {
+            System.out.println("Scanning UI");
+            dbData=  new SealsComponentDBPage(context.driver).getSealData();
+            ObjectMapper mapper = new ObjectMapper();
+            Files.createDirectories(Paths.get("src/test/resources/componentDB/Seal"));
+            mapper.writeValue(new File("src/test/resources/componentDB/Seal/Seal.json"), dbData);
+        }
+        SealsComponentDB randomSealsData = new SealsComponentDBPage(context.driver).getRandomSealsComponent(dbData);
+        List<SealsComponentDB> filteredDbData = new ArrayList<>();
+        switch(propertyName.toLowerCase()) {
+            case "partnumber":
+                filteredDbData = dbData.stream().filter(x->x.getPartNumber().equals(randomSealsData.getPartNumber())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnPartNumber(randomSealsData.getPartNumber());
+                break;
+            case "description":
+                filteredDbData = dbData.stream().filter(x->x.getDescription().equals(randomSealsData.getDescription())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnDescription(randomSealsData.getDescription());
+                break;
+            case "family":
+                filteredDbData = dbData.stream().filter(x->x.getFamily().equals(randomSealsData.getFamily())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnFamily(randomSealsData.getFamily());
+                break;
+            case "status":
+                filteredDbData = dbData.stream().filter(x->x.getStatus().equals(randomSealsData.getStatus())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnStatus(randomSealsData.getStatus());
+                break;
+            case "usage":
+                filteredDbData = dbData.stream().filter(x->x.getUsage().equals(randomSealsData.getUsage())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnUsage(randomSealsData.getUsage());
+                break;
+            case "supplier":
+                filteredDbData = dbData.stream().filter(x->x.getSupplier().equals(randomSealsData.getSupplier())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnSupplier(randomSealsData.getSupplier());
+                break;
+            case "supplierpn":
+                filteredDbData = dbData.stream().filter(x->x.getSupplierPN().equals(randomSealsData.getSupplierPN())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnSupplierPN(randomSealsData.getSupplierPN());
+                break;
+            case "colour":
+                filteredDbData = dbData.stream().filter(x->x.getColour().equals(randomSealsData.getColour())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnColour(randomSealsData.getColour());
+                break;
+            case "cavity":
+                filteredDbData = dbData.stream().filter(x->x.getCavity().equals(randomSealsData.getCavity())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnCavity(randomSealsData.getCavity());
+                break;
+            case "insulationod":
+                filteredDbData = dbData.stream().filter(x->x.getInsulationOD().equals(randomSealsData.getInsulationOD())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnInsulationOD(randomSealsData.getInsulationOD());
+                break;
+        }
+        List<SealsComponentDB> sealsData = new SealsComponentDBPage(context.driver).getSealData();
+        List<String> expectedPartNumberList = filteredDbData.stream().map(x->x.getPartNumber()).collect(Collectors.toList());
+        List<String> actualPartNumberList = sealsData.stream().map(x->x.getPartNumber()).collect(Collectors.toList());
         List<String> differencesFromExpected = expectedPartNumberList.stream()
                 .filter(element -> !actualPartNumberList.contains(element))
                 .collect(Collectors.toList());
