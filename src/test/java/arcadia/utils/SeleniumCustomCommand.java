@@ -34,10 +34,10 @@ public class SeleniumCustomCommand {
         }
     }
     public void waitForElementVisibility(WebDriver driver , WebElement element){
-        new WebDriverWait(driver, Duration.ofSeconds(5000)).until(ExpectedConditions.visibilityOf(element));
+        new WebDriverWait(driver, Duration.ofSeconds(5)).until(ExpectedConditions.visibilityOf(element));
     }
     public void waitForElementToBeClickable(WebDriver driver , WebElement element){
-        new WebDriverWait(driver, Duration.ofSeconds(4000)).until(ExpectedConditions.elementToBeClickable(element));
+        new WebDriverWait(driver, Duration.ofSeconds(4)).until(ExpectedConditions.elementToBeClickable(element));
     }
     public void simulateKeyEnterWithValue(WebElement element , String value){
         if (value != null || !value.isEmpty() || !value.trim().isEmpty()){
