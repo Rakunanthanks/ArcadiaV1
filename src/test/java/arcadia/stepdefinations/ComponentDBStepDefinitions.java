@@ -7,6 +7,7 @@ import arcadia.pages.ComponentDB.AddNewComponentPage;
 import arcadia.pages.ComponentDB.Applicators.ApplicatorsComponentDBPage;
 import arcadia.pages.ComponentDB.CommonElements;
 import arcadia.pages.ComponentDB.Components.ComponentsDBPage;
+import arcadia.pages.ComponentDB.Connectors.ConnectorsDBPage;
 import arcadia.pages.ComponentDB.HeaderPanel;
 import arcadia.pages.ComponentDB.JunctionParts.JunctionPartsComponentDBPage;
 import arcadia.pages.ComponentDB.Multicore.MulticoreComponentDBPage;
@@ -483,6 +484,10 @@ public class ComponentDBStepDefinitions {
             case "component":
                 List<ComponentsDB> componentsdatalist = new ComponentsDBPage(context.driver).getComponentsData();
                 Assert.assertTrue(componentsdatalist.size()!=0);
+                break;
+            case "connector":
+                List<ConnectorDB> connectorsdatalist = new ConnectorsDBPage(context.driver).getConnectorsData();
+                Assert.assertTrue(connectorsdatalist.size()!=0);
                 break;
         }
     }
@@ -1219,5 +1224,156 @@ public class ComponentDBStepDefinitions {
         }
         new CommonElements(context.driver).clickUpdateComponent();
         new CommonElements(context.driver).verifyAlertSuccessMessage("Component updated");
+    }
+
+    @Then("verify user can filter connector based on property {string}")
+    public void verifyUserCanFilterConnectorBasedOnProperty(String propertyName) throws IOException, InterruptedException {
+        File f = new File("src/test/resources/componentDB/Connector/ConnectorData.json");
+        List<ConnectorDB> dbData = null;
+        if(f.exists()) {
+            System.out.println("Resuse JSON");
+            ObjectMapper mapper = new ObjectMapper();
+            dbData = mapper.readValue(new File("src/test/resources/componentDB/Connector/ConnectorData.json"), new TypeReference<List<ConnectorDB>>(){});
+        }
+        if(!f.exists()) {
+            System.out.println("Scanning UI");
+            dbData=  new ConnectorsDBPage(context.driver).getConnectorsData();
+            ObjectMapper mapper = new ObjectMapper();
+            Files.createDirectories(Paths.get("src/test/resources/componentDB/Connector"));
+            mapper.writeValue(new File("src/test/resources/componentDB/Connector/ConnectorData.json"), dbData);
+        }
+        ConnectorDB randomConnectorData = new ConnectorsDBPage(context.driver).getRandomConnectorComponent(dbData);
+        List<ConnectorDB> filteredDbData = new ArrayList<>();
+        switch(propertyName.toLowerCase()) {
+            case "partnumber":
+                filteredDbData = dbData.stream().filter(x->x.getPartNumber().equals(randomConnectorData.getPartNumber())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnPartNumber(randomConnectorData.getPartNumber());
+                break;
+            case "description":
+                filteredDbData = dbData.stream().filter(x->x.getDescription().equals(randomConnectorData.getDescription())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnDescription(randomConnectorData.getDescription());
+                break;
+            case "family":
+                filteredDbData = dbData.stream().filter(x->x.getFamily().equals(randomConnectorData.getFamily())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnFamily(randomConnectorData.getFamily());
+                break;
+            case "status":
+                filteredDbData = dbData.stream().filter(x->x.getStatus().equals(randomConnectorData.getStatus())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnStatus(randomConnectorData.getStatus());
+                break;
+            case "usage":
+                filteredDbData = dbData.stream().filter(x->x.getUsage().equals(randomConnectorData.getUsage())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnUsage(randomConnectorData.getUsage());
+                break;
+            case "supplier":
+                filteredDbData = dbData.stream().filter(x->x.getSupplier().equals(randomConnectorData.getSupplier())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnSupplier(randomConnectorData.getSupplier());
+                break;
+            case "supplierpn":
+                filteredDbData = dbData.stream().filter(x->x.getSupplierPN().equals(randomConnectorData.getSupplierPN())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnSupplierPN(randomConnectorData.getSupplierPN());
+                break;
+            case "colour":
+                filteredDbData = dbData.stream().filter(x->x.getColour().equals(randomConnectorData.getColour())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnColour(randomConnectorData.getColour());
+                break;
+            case "housinggender":
+                filteredDbData = dbData.stream().filter(x->x.getHousingGender().equals(randomConnectorData.getHousingGender())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnHousingGender(randomConnectorData.getHousingGender());
+                break;
+            case "terminalgender":
+                filteredDbData = dbData.stream().filter(x->x.getTerminalGender().equals(randomConnectorData.getTerminalGender())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnGender(randomConnectorData.getTerminalGender());
+                break;
+            case "connectortype":
+                filteredDbData = dbData.stream().filter(x->x.getConnectorType().equals(randomConnectorData.getConnectorType())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnConnectorType(randomConnectorData.getConnectorType());
+                break;
+            case "keyway":
+                filteredDbData = dbData.stream().filter(x->x.getKeyway().equals(randomConnectorData.getKeyway())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnKeyway(randomConnectorData.getKeyway());
+                break;
+        }
+        List<ConnectorDB> connectorData = new ConnectorsDBPage(context.driver).getConnectorsData();
+        List<String> expectedPartNumberList = filteredDbData.stream().map(x->x.getPartNumber()).collect(Collectors.toList());
+        List<String> actualPartNumberList = connectorData.stream().map(x->x.getPartNumber()).collect(Collectors.toList());
+        List<String> differencesFromExpected = expectedPartNumberList.stream()
+                .filter(element -> !actualPartNumberList.contains(element))
+                .collect(Collectors.toList());
+        Assert.assertEquals(0,differencesFromExpected.size(),differencesFromExpected.toString());
+    }
+
+    @Then("Verify connector data on the basis of filter {string} with value {string}")
+    public void verifyConnectorDataOnTheBasisOfFilterRange(String filterName, String filterValue) throws IOException, InterruptedException {
+        File f = new File("src/test/resources/componentDB/Connector/ConnectorData.json");
+        List<ConnectorDB> dbData = null;
+        if(f.exists()) {
+            System.out.println("Resuse JSON");
+            ObjectMapper mapper = new ObjectMapper();
+            dbData = mapper.readValue(new File("src/test/resources/componentDB/Connector/ConnectorData.json"), new TypeReference<List<ConnectorDB>>(){});
+        }
+        if(!f.exists()) {
+            System.out.println("Scanning UI");
+            dbData=  new ConnectorsDBPage(context.driver).getConnectorsData();
+            ObjectMapper mapper = new ObjectMapper();
+            Files.createDirectories(Paths.get("src/test/resources/componentDB/Connector"));
+            mapper.writeValue(new File("src/test/resources/componentDB/Connector/ConnectorData.json"), dbData);
+        }
+        List<ConnectorDB> filteredDbData = new ArrayList<>();
+        switch(filterName.toLowerCase()) {
+            case "numberofcavities":
+                String[] numberRange = filterValue.split("-");
+                int initialValue = Integer.parseInt(numberRange[0]);
+                int finalValue = Integer.parseInt(numberRange[1]);
+                filteredDbData = dbData.stream()
+                        .filter(x->x.getNumberOfCavities()>=initialValue)
+                        .filter(x->x.getNumberOfCavities()<=finalValue)
+                        .collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnNumberOfCavitiesRange(filterValue);
+                break;
+        }
+        List<ConnectorDB> componentData = new ConnectorsDBPage(context.driver).getConnectorsData();
+        List<String> expectedPartNumberList = filteredDbData.stream().map(x->x.getPartNumber()).collect(Collectors.toList());
+        List<String> actualPartNumberList = componentData.stream().map(x->x.getPartNumber()).collect(Collectors.toList());
+        List<String> differencesFromExpected = expectedPartNumberList.stream()
+                .filter(element -> !actualPartNumberList.contains(element))
+                .collect(Collectors.toList());
+        Assert.assertEquals(0,differencesFromExpected.size(),differencesFromExpected.toString());
+
+    }
+
+    @Then("Verify connector component data is greater than value {string} for filter {string}")
+    public void verifyConnectorComponentDataIsGreaterThanValueForFilter(String greaterThanValue, String filterName) throws IOException, InterruptedException {
+        File f = new File("src/test/resources/componentDB/Connector/ConnectorData.json");
+        List<ConnectorDB> dbData = null;
+        if(f.exists()) {
+            System.out.println("Resuse JSON");
+            ObjectMapper mapper = new ObjectMapper();
+            dbData = mapper.readValue(new File("src/test/resources/componentDB/Connector/ConnectorData.json"), new TypeReference<List<ConnectorDB>>(){});
+        }
+        if(!f.exists()) {
+            System.out.println("Scanning UI");
+            dbData=  new ConnectorsDBPage(context.driver).getConnectorsData();
+            ObjectMapper mapper = new ObjectMapper();
+            Files.createDirectories(Paths.get("src/test/resources/componentDB/Connector"));
+            mapper.writeValue(new File("src/test/resources/componentDB/Connector/ConnectorData.json"), dbData);
+        }
+        List<ConnectorDB> filteredDbData = new ArrayList<>();
+        switch(filterName.toLowerCase()) {
+            case "numberofcavities":
+                int numberOfCavitiesValue = Integer.parseInt(greaterThanValue);
+                filteredDbData = dbData.stream()
+                        .filter(x->x.getNumberOfCavities()>=numberOfCavitiesValue)
+                        .collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnNumberOfCavitiesRange(">="+greaterThanValue);
+                break;
+        }
+        List<ConnectorDB> componentData = new ConnectorsDBPage(context.driver).getConnectorsData();
+        List<String> expectedPartNumberList = filteredDbData.stream().map(x->x.getPartNumber()).collect(Collectors.toList());
+        List<String> actualPartNumberList = componentData.stream().map(x->x.getPartNumber()).collect(Collectors.toList());
+        List<String> differencesFromExpected = expectedPartNumberList.stream()
+                .filter(element -> !actualPartNumberList.contains(element))
+                .collect(Collectors.toList());
+        Assert.assertEquals(0,differencesFromExpected.size(),differencesFromExpected.toString());
     }
 }

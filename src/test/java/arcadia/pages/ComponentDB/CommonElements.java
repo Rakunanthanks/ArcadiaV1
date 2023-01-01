@@ -57,6 +57,10 @@ public class CommonElements extends BasePage {
 
     @FindBy(css = "div.fixed-table-header select[class$=\"inservice\"]") private WebElement selectInService;
 
+    @FindBy(css = "div.fixed-table-header select[class$=\"housingGender\"]") private WebElement selectHousingGender;
+
+    @FindBy(css = "div.fixed-table-header select[class$=\"ttype\"]") private WebElement selectConnectorType;
+
     @FindBy(css = "div.fixed-table-header input[placeholder$=\"Type\"]") private WebElement searchFieldType;
     @FindBy(css = "div.fixed-table-header input[placeholder=\"AWG Size\"]") private WebElement searchFieldAwgSize;
     @FindBy(css = "div.fixed-table-header input[placeholder='Insulation OD']") private WebElement searchFieldInsulationOD;
@@ -74,6 +78,8 @@ public class CommonElements extends BasePage {
     @FindBy(css = "div.fixed-table-header input[placeholder$=\"Applicator Site\"]") private WebElement searchFieldApplicatorSite;
 
     @FindBy(css = "div.fixed-table-header input[placeholder$=\"No. of Cavities\"]") private WebElement searchFieldNumberOfCavities;
+
+    @FindBy(css = "div.fixed-table-header input[placeholder$=\"Keyway\"]") private WebElement searchFieldKeyway;
 
     @FindBy(css = "input[rel=\"partnumber\"]+div input") private WebElement linkPartNumber;
 
@@ -358,6 +364,30 @@ public class CommonElements extends BasePage {
         customCommand.waitForElementVisibility(driver,paginationDropdown);
         customCommand.scrollIntoView(driver,searchFieldNumberOfCavities);
         customCommand.simulateKeyEnterWithValue(searchFieldNumberOfCavities,cavitiesRange);
+        Thread.sleep(2000 );
+        customCommand.waitForElementVisibility(driver,checkboxfirstComponent);
+    }
+
+    public void filterComponentBasedOnHousingGender(String housingGender) throws InterruptedException {
+        Thread.sleep(2000 );
+        customCommand.waitForElementVisibility(driver,paginationDropdown);
+        customCommand.selectDropDownByValue(selectHousingGender,housingGender.toLowerCase());
+        Thread.sleep(2000 );
+        customCommand.waitForElementVisibility(driver,checkboxfirstComponent);
+    }
+    public void filterComponentBasedOnConnectorType(String connectorType) throws InterruptedException {
+        Thread.sleep(2000 );
+        customCommand.waitForElementVisibility(driver,paginationDropdown);
+        customCommand.selectDropDownByValue(selectConnectorType,connectorType.toLowerCase());
+        Thread.sleep(2000 );
+        customCommand.waitForElementVisibility(driver,checkboxfirstComponent);
+    }
+
+    public void filterComponentBasedOnKeyway(String keyway) throws InterruptedException {
+        Thread.sleep(2000 );
+        customCommand.waitForElementVisibility(driver,paginationDropdown);
+        customCommand.scrollIntoView(driver,searchFieldKeyway);
+        customCommand.simulateKeyEnterWithValue(searchFieldKeyway,keyway);
         Thread.sleep(2000 );
         customCommand.waitForElementVisibility(driver,checkboxfirstComponent);
     }
