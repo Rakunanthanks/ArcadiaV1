@@ -7,6 +7,9 @@ Feature: Create applicator components
     And Navigated to selected componentDB
     And User selected 'applicator' from componentDB
     Then 'applicator' component with status 'IN REVIEW' is created successfully
+    When User selected 'applicator' from componentDB
+    And User searches 'applicator' component using 'partnumber'
+    Then User verified the component 'applicator' is added successfully
 
   @ApplicatorsComponentDB
   @CreateApplicatorComponent
@@ -15,6 +18,9 @@ Feature: Create applicator components
     And Navigated to selected componentDB
     And User selected 'applicator' from componentDB
     Then 'applicator' component with status 'APPROVED' is created successfully
+    When User selected 'applicator' from componentDB
+    And User searches 'applicator' component using 'partnumber'
+    Then User verified the component 'applicator' is added successfully
 
   @ApplicatorsComponentDB
   @CreateApplicatorComponent
@@ -23,6 +29,9 @@ Feature: Create applicator components
     And Navigated to selected componentDB
     And User selected 'applicator' from componentDB
     Then 'applicator' component with status 'UNAPPROVED' is created successfully
+    When User selected 'applicator' from componentDB
+    And User searches 'applicator' component using 'partnumber'
+    Then User verified the component 'applicator' is added successfully
 
   @ApplicatorsComponentDB
   @CreateApplicatorComponent

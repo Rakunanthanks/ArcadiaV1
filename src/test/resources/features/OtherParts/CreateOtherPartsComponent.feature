@@ -7,6 +7,9 @@ Feature: Create other parts components
     And Navigated to selected componentDB
     And User selected 'otherpart' from componentDB
     Then 'otherpart' component with status 'IN REVIEW' is created successfully
+    When User selected 'otherpart' from componentDB
+    And User searches 'otherpart' component using 'partnumber'
+    Then User verified the component 'otherpart' is added successfully
 
   @OtherPartsComponentDB
   @CreateOtherPartsComponent
@@ -15,6 +18,9 @@ Feature: Create other parts components
     And Navigated to selected componentDB
     And User selected 'otherpart' from componentDB
     Then 'otherpart' component with status 'APPROVED' is created successfully
+    When User selected 'otherpart' from componentDB
+    And User searches 'otherpart' component using 'partnumber'
+    Then User verified the component 'otherpart' is added successfully
 
   @OtherPartsComponentDB
   @CreateOtherPartsComponent
@@ -23,6 +29,9 @@ Feature: Create other parts components
     And Navigated to selected componentDB
     And User selected 'otherpart' from componentDB
     Then 'otherpart' component with status 'UNAPPROVED' is created successfully
+    When User selected 'otherpart' from componentDB
+    And User searches 'otherpart' component using 'partnumber'
+    Then User verified the component 'otherpart' is added successfully
 
   @OtherPartsComponentDB
   @CreateOtherPartsComponent

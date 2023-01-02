@@ -7,6 +7,9 @@ Feature: Create Multicore components
     And Navigated to selected componentDB
     And User selected 'multicore' from componentDB
     Then 'multicore' component with status 'IN REVIEW' is created successfully
+    When User selected 'multicore' from componentDB
+    And User searches 'multicore' component using 'partnumber'
+    Then User verified the component 'multicore' is added successfully
 
   @MulticoreComponentDB
   @CreateMulticoreComponent
@@ -15,6 +18,9 @@ Feature: Create Multicore components
     And Navigated to selected componentDB
     And User selected 'multicore' from componentDB
     Then 'multicore' component with status 'APPROVED' is created successfully
+    When User selected 'multicore' from componentDB
+    And User searches 'multicore' component using 'partnumber'
+    Then User verified the component 'multicore' is added successfully
 
   @MulticoreComponentDB
   @CreateMulticoreComponent
@@ -23,6 +29,9 @@ Feature: Create Multicore components
     And Navigated to selected componentDB
     And User selected 'multicore' from componentDB
     Then 'multicore' component with status 'UNAPPROVED' is created successfully
+    When User selected 'multicore' from componentDB
+    And User searches 'multicore' component using 'partnumber'
+    Then User verified the component 'multicore' is added successfully
 
   @MulticoreComponentDB
   @CreateMulticoreComponent

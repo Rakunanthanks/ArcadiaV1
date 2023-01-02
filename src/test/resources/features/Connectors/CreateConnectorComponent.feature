@@ -7,6 +7,9 @@ Feature: Create connector components
     And Navigated to selected componentDB
     And User selected 'connector' from componentDB
     Then 'connector' component with status 'IN REVIEW' is created successfully
+    When User selected 'connector' from componentDB
+    And User searches 'connector' component using 'partnumber'
+    Then User verified the component 'connector' is added successfully
 
   @ConnectorsComponentDB
   @CreateConnectorComponent
@@ -15,6 +18,9 @@ Feature: Create connector components
     And Navigated to selected componentDB
     And User selected 'connector' from componentDB
     Then 'connector' component with status 'APPROVED' is created successfully
+    When User selected 'connector' from componentDB
+    And User searches 'connector' component using 'partnumber'
+    Then User verified the component 'connector' is added successfully
 
   @ConnectorsComponentDB
   @CreateConnectorComponent
@@ -23,6 +29,9 @@ Feature: Create connector components
     And Navigated to selected componentDB
     And User selected 'connector' from componentDB
     Then 'connector' component with status 'UNAPPROVED' is created successfully
+    When User selected 'connector' from componentDB
+    And User searches 'connector' component using 'partnumber'
+    Then User verified the component 'connector' is added successfully
 
   @ConnectorsComponentDB
   @CreateConnectorComponent
