@@ -7,6 +7,9 @@ Feature: Create components
     And Navigated to selected componentDB
     And User selected 'wire' from componentDB
     Then 'Wire' component with status 'IN REVIEW' is created successfully
+    And User selected 'wire' from componentDB
+    And User searches 'wire' component using 'partnumber'
+    Then User verified the component 'wire' is added successfully
 
   @WireComponentDB
   @CreateWireComponent
@@ -15,6 +18,9 @@ Feature: Create components
     And Navigated to selected componentDB
     And User selected 'wire' from componentDB
     Then 'Wire' component with status 'APPROVED' is created successfully
+    And User selected 'wire' from componentDB
+    And User searches 'wire' component using 'partnumber'
+    Then User verified the component 'wire' is added successfully
 
   @WireComponentDB
   @CreateWireComponent
@@ -23,6 +29,9 @@ Feature: Create components
     And Navigated to selected componentDB
     And User selected 'wire' from componentDB
     Then 'Wire' component with status 'UNAPPROVED' is created successfully
+    And User selected 'wire' from componentDB
+    And User searches 'wire' component using 'partnumber'
+    Then User verified the component 'wire' is added successfully
 
   @WireComponentDB
   @CreateWireComponent
