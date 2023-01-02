@@ -70,6 +70,8 @@ public class AddNewComponentPage extends BasePage {
 
     @FindBy(xpath = "//td[text()=\"No. of Connectors\"]/following-sibling::td") private WebElement tdTotalCopiedConnectors;
 
+    @FindBy(xpath = "//td[text()=\"No. of Seals\"]/following-sibling::td") private WebElement tdTotalCopiedSeal;
+
     @FindBy(css = "div.bootbox button.close") private WebElement btnClosePopUp;
 
 
@@ -190,6 +192,9 @@ public class AddNewComponentPage extends BasePage {
                 break;
             case "connector":
                 Assert.assertEquals(tdTotalCopiedConnectors.getText(),"1");
+                break;
+            case "seal":
+                Assert.assertEquals(tdTotalCopiedSeal.getText(),"1");
                 break;
         }
         customCommand.waitForElementToBeClickable(driver,btnClosePopUp);
