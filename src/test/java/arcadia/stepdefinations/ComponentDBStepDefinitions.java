@@ -498,6 +498,10 @@ public class ComponentDBStepDefinitions {
                 Assert.assertTrue(connectorsdatalist.size()!=0);
                 Assert.assertEquals(FlowContext.referencesPartNumber,connectorsdatalist.get(0).getPartNumber());
                 break;
+            case "seal":
+                List<SealsComponentDB> sealsdatalist = new SealsComponentDBPage(context.driver).getSealData();
+                Assert.assertTrue(sealsdatalist.size()!=0);
+                break;
         }
     }
 
