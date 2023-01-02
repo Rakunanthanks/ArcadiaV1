@@ -489,6 +489,10 @@ public class ComponentDBStepDefinitions {
                 List<ConnectorDB> connectorsdatalist = new ConnectorsDBPage(context.driver).getConnectorsData();
                 Assert.assertTrue(connectorsdatalist.size()!=0);
                 break;
+            case "seal":
+                List<SealsComponentDB> sealsdatalist = new SealsComponentDBPage(context.driver).getSealData();
+                Assert.assertTrue(sealsdatalist.size()!=0);
+                break;
         }
     }
 
