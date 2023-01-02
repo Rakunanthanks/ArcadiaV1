@@ -7,6 +7,9 @@ Feature: Create Splice components
     And Navigated to selected componentDB
     And User selected 'splice' from componentDB
     Then 'Splice' component with status 'IN REVIEW' is created successfully
+    When User selected 'splice' from componentDB
+    And User searches 'splice' component using 'partnumber'
+    Then User verified the component 'splice' is added successfully
 
   @SpliceComponentDB
   @CreateSpliceComponent
@@ -15,6 +18,9 @@ Feature: Create Splice components
     And Navigated to selected componentDB
     And User selected 'splice' from componentDB
     Then 'Splice' component with status 'APPROVED' is created successfully
+    When User selected 'splice' from componentDB
+    And User searches 'splice' component using 'partnumber'
+    Then User verified the component 'splice' is added successfully
 
   @SpliceComponentDB
   @CreateSpliceComponent
@@ -23,6 +29,9 @@ Feature: Create Splice components
     And Navigated to selected componentDB
     And User selected 'splice' from componentDB
     Then 'Splice' component with status 'UNAPPROVED' is created successfully
+    When User selected 'splice' from componentDB
+    And User searches 'splice' component using 'partnumber'
+    Then User verified the component 'splice' is added successfully
 
   @SpliceComponentDB
   @CreateSpliceComponent

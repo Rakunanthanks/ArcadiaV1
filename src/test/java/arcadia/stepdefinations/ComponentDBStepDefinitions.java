@@ -456,38 +456,47 @@ public class ComponentDBStepDefinitions {
             case "wire":
                 List<WiresComponentDB> wiresdatalist = new WiresComponentDBPage(context.driver).getWiresData();
                 Assert.assertTrue(wiresdatalist.size()!=0);
+                Assert.assertEquals(FlowContext.referencesPartNumber,wiresdatalist.get(0).getPartNumber());
                 break;
             case "terminal":
                 List<TerminalsComponentDB> terminalsdatalist = new TerminalsComponentDBPage(context.driver).getTerminalsData();
                 Assert.assertTrue(terminalsdatalist.size()!=0);
+                Assert.assertEquals(FlowContext.referencesPartNumber,terminalsdatalist.get(0).getPartNumber());
                 break;
             case "splice":
                 List<SplicesComponentDB> splicesdatalist = new SplicesComponentDBPage(context.driver).getSplicesData();
                 Assert.assertTrue(splicesdatalist.size()!=0);
+                Assert.assertEquals(FlowContext.referencesPartNumber,splicesdatalist.get(0).getPartNumber());
                 break;
             case "otherpart":
                 List<OtherPartsComponentDB> otherpartsdatalist = new OtherPartsComponentDBPage(context.driver).getOtherPartsData();
                 Assert.assertTrue(otherpartsdatalist.size()!=0);
+                Assert.assertEquals(FlowContext.referencesPartNumber,otherpartsdatalist.get(0).getPartNumber());
                 break;
             case "junctionpart":
                 List<JunctionPartComponentDB> junctionpartdatalist = new JunctionPartsComponentDBPage(context.driver).getJunctionPartsData();
                 Assert.assertTrue(junctionpartdatalist.size()!=0);
+                Assert.assertEquals(FlowContext.referencesPartNumber,junctionpartdatalist.get(0).getPartNumber());
                 break;
             case "multicore":
                 List<MulticoreComponentDB> multicoredatalist = new MulticoreComponentDBPage(context.driver).getMulticoreData();
                 Assert.assertTrue(multicoredatalist.size()!=0);
+                Assert.assertEquals(FlowContext.referencesPartNumber,multicoredatalist.get(0).getPartNumber());
                 break;
             case "applicator":
                 List<ApplicatorsComponentDB> applicatorsdatalist = new ApplicatorsComponentDBPage(context.driver).getApplicatorsData();
                 Assert.assertTrue(applicatorsdatalist.size()!=0);
+                Assert.assertEquals(FlowContext.referencesPartNumber,applicatorsdatalist.get(0).getPartNumber());
                 break;
             case "component":
                 List<ComponentsDB> componentsdatalist = new ComponentsDBPage(context.driver).getComponentsData();
                 Assert.assertTrue(componentsdatalist.size()!=0);
+                Assert.assertEquals(FlowContext.referencesPartNumber,componentsdatalist.get(0).getPartNumber());
                 break;
             case "connector":
                 List<ConnectorDB> connectorsdatalist = new ConnectorsDBPage(context.driver).getConnectorsData();
                 Assert.assertTrue(connectorsdatalist.size()!=0);
+                Assert.assertEquals(FlowContext.referencesPartNumber,connectorsdatalist.get(0).getPartNumber());
                 break;
             case "seal":
                 List<SealsComponentDB> sealsdatalist = new SealsComponentDBPage(context.driver).getSealData();

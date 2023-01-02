@@ -7,6 +7,9 @@ Feature: Create terminal components
     And Navigated to selected componentDB
     And User selected 'terminal' from componentDB
     Then 'terminal' component with status 'IN REVIEW' is created successfully
+    When User selected 'terminal' from componentDB
+    And User searches 'terminal' component using 'partnumber'
+    Then User verified the component 'terminal' is added successfully
 
   @TerminalComponentDB
   @CreateTerminalComponent
@@ -15,6 +18,9 @@ Feature: Create terminal components
     And Navigated to selected componentDB
     And User selected 'terminal' from componentDB
     Then 'terminal' component with status 'APPROVED' is created successfully
+    When User selected 'terminal' from componentDB
+    And User searches 'terminal' component using 'partnumber'
+    Then User verified the component 'terminal' is added successfully
 
   @TerminalComponentDB
   @CreateTerminalComponent
@@ -23,6 +29,9 @@ Feature: Create terminal components
     And Navigated to selected componentDB
     And User selected 'terminal' from componentDB
     Then 'terminal' component with status 'UNAPPROVED' is created successfully
+    When User selected 'terminal' from componentDB
+    And User searches 'terminal' component using 'partnumber'
+    Then User verified the component 'terminal' is added successfully
 
   @TerminalComponentDB
   @CreateTerminalComponent

@@ -7,6 +7,9 @@ Feature: Create junction part components
     And Navigated to selected componentDB
     And User selected 'junctionpart' from componentDB
     Then 'junctionpart' component with status 'IN REVIEW' is created successfully
+    When User selected 'junctionpart' from componentDB
+    And User searches 'junctionpart' component using 'partnumber'
+    Then User verified the component 'junctionpart' is added successfully
 
   @JunctionPartComponentDB
   @CreateJunctionPartComponent
@@ -15,6 +18,9 @@ Feature: Create junction part components
     And Navigated to selected componentDB
     And User selected 'junctionpart' from componentDB
     Then 'junctionpart' component with status 'APPROVED' is created successfully
+    When User selected 'junctionpart' from componentDB
+    And User searches 'junctionpart' component using 'partnumber'
+    Then User verified the component 'junctionpart' is added successfully
 
   @JunctionPartComponentDB
   @CreateJunctionPartComponent
@@ -23,6 +29,9 @@ Feature: Create junction part components
     And Navigated to selected componentDB
     And User selected 'junctionpart' from componentDB
     Then 'junctionpart' component with status 'UNAPPROVED' is created successfully
+    When User selected 'junctionpart' from componentDB
+    And User searches 'junctionpart' component using 'partnumber'
+    Then User verified the component 'junctionpart' is added successfully
 
   @JunctionPartComponentDB
   @CreateJunctionPartComponent
