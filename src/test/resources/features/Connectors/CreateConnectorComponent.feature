@@ -40,6 +40,9 @@ Feature: Create connector components
     And Navigated to selected componentDB
     And User selected 'connector' from componentDB
     Then 'connector' component with billtype 'INCLUDED' is created successfully
+    When User selected 'connector' from componentDB
+    And User searches 'connector' component using 'partnumber'
+    Then User verified the component 'connector' is added successfully
 
   @ConnectorsComponentDB
   @CreateConnectorComponent
@@ -48,6 +51,9 @@ Feature: Create connector components
     And Navigated to selected componentDB
     And User selected 'connector' from componentDB
     Then 'connector' component with billtype 'EXCLUDED' is created successfully
+    When User selected 'connector' from componentDB
+    And User searches 'connector' component using 'partnumber'
+    Then User verified the component 'connector' is added successfully
 
   @ConnectorsComponentDB
   @CreateConnectorComponent
@@ -56,6 +62,9 @@ Feature: Create connector components
     And Navigated to selected componentDB
     And User selected 'connector' from componentDB
     Then 'connector' component with billtype 'CONSUMABLE' is created successfully
+    When User selected 'connector' from componentDB
+    And User searches 'connector' component using 'partnumber'
+    Then User verified the component 'connector' is added successfully
 
   @ConnectorsComponentDB
   @CreateConnectorComponent
@@ -64,6 +73,9 @@ Feature: Create connector components
     And Navigated to selected componentDB
     And User selected 'connector' from componentDB
     Then 'connector' component with billtype 'INVESTMENT' is created successfully
+    When User selected 'connector' from componentDB
+    And User searches 'connector' component using 'partnumber'
+    Then User verified the component 'connector' is added successfully
 
   @ConnectorsComponentDB
   @CreateConnectorComponent
@@ -72,6 +84,9 @@ Feature: Create connector components
     And Navigated to selected componentDB
     And User selected 'connector' from componentDB
     Then 'connector' component with referencepartnumber 'RandomUniqueNumber' and referencecompany 'TestCompany' only is created
+    When User selected 'connector' from componentDB
+    And User searches 'connector' component using 'partnumber'
+    Then User verified the component 'connector' is added successfully
 
   @ConnectorsComponentDB
   @CreateConnectorComponent
@@ -98,6 +113,9 @@ Feature: Create connector components
     And Navigated to selected componentDB
     And User selected 'connector' from componentDB
     Then 'connector' component with additionalreferencetype 'Manufacturer' is created successfully
+    When User selected 'connector' from componentDB
+    And User searches 'connector' component using 'partnumber'
+    Then User verified the component 'connector' is added successfully
 
   @ConnectorsComponentDB
   @CreateConnectorComponent
@@ -106,6 +124,9 @@ Feature: Create connector components
     And Navigated to selected componentDB
     And User selected 'connector' from componentDB
     Then 'connector' component with additionalreferencetype 'Supplier' is created successfully
+    When User selected 'connector' from componentDB
+    And User searches 'connector' component using 'partnumber'
+    Then User verified the component 'connector' is added successfully
 
   @ConnectorsComponentDB
   @CreateConnectorComponent
@@ -114,6 +135,9 @@ Feature: Create connector components
     And Navigated to selected componentDB
     And User selected 'connector' from componentDB
     Then 'connector' component with additionalreferencetype 'CrossRef' is created successfully
+    When User selected 'connector' from componentDB
+    And User searches 'connector' component using 'partnumber'
+    Then User verified the component 'connector' is added successfully
 
   @ConnectorsComponentDB
   @CreateConnectorComponent
@@ -122,3 +146,6 @@ Feature: Create connector components
     And Navigated to selected componentDB
     And User selected 'connector' from componentDB
     Then 'connector' component with additionalreferencetype 'Manufacturer,Supplier,CrossRef' is created successfully
+    When User selected 'connector' from componentDB
+    And User searches 'connector' component using 'partnumber'
+    Then User verified the component 'connector' is added successfully

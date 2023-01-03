@@ -40,6 +40,9 @@ Feature: Create terminal components
     And Navigated to selected componentDB
     And User selected 'terminal' from componentDB
     Then 'terminal' component with billtype 'INCLUDED' is created successfully
+    When User selected 'terminal' from componentDB
+    And User searches 'terminal' component using 'partnumber'
+    Then User verified the component 'terminal' is added successfully
 
   @TerminalComponentDB
   @CreateTerminalComponent
@@ -48,6 +51,9 @@ Feature: Create terminal components
     And Navigated to selected componentDB
     And User selected 'terminal' from componentDB
     Then 'terminal' component with billtype 'EXCLUDED' is created successfully
+    When User selected 'terminal' from componentDB
+    And User searches 'terminal' component using 'partnumber'
+    Then User verified the component 'terminal' is added successfully
 
   @TerminalComponentDB
   @CreateTerminalComponent
@@ -56,6 +62,9 @@ Feature: Create terminal components
     And Navigated to selected componentDB
     And User selected 'terminal' from componentDB
     Then 'terminal' component with billtype 'CONSUMABLE' is created successfully
+    When User selected 'terminal' from componentDB
+    And User searches 'terminal' component using 'partnumber'
+    Then User verified the component 'terminal' is added successfully
 
   @TerminalComponentDB
   @CreateTerminalComponent
@@ -64,6 +73,9 @@ Feature: Create terminal components
     And Navigated to selected componentDB
     And User selected 'terminal' from componentDB
     Then 'terminal' component with billtype 'INVESTMENT' is created successfully
+    When User selected 'terminal' from componentDB
+    And User searches 'terminal' component using 'partnumber'
+    Then User verified the component 'terminal' is added successfully
 
   @TerminalComponentDB
   @CreateTerminalComponent
@@ -72,6 +84,9 @@ Feature: Create terminal components
     And Navigated to selected componentDB
     And User selected 'terminal' from componentDB
     Then 'terminal' component with referencepartnumber 'RandomUniqueNumber' and referencecompany 'TestCompany' only is created
+    When User selected 'terminal' from componentDB
+    And User searches 'terminal' component using 'partnumber'
+    Then User verified the component 'terminal' is added successfully
 
   @TerminalComponentDB
   @CreateTerminalComponent
@@ -98,6 +113,9 @@ Feature: Create terminal components
     And Navigated to selected componentDB
     And User selected 'terminal' from componentDB
     Then 'terminal' component with additionalreferencetype 'Manufacturer' is created successfully
+    When User selected 'terminal' from componentDB
+    And User searches 'terminal' component using 'partnumber'
+    Then User verified the component 'terminal' is added successfully
 
   @TerminalComponentDB
   @CreateTerminalComponent
@@ -106,6 +124,9 @@ Feature: Create terminal components
     And Navigated to selected componentDB
     And User selected 'terminal' from componentDB
     Then 'terminal' component with additionalreferencetype 'Supplier' is created successfully
+    When User selected 'terminal' from componentDB
+    And User searches 'terminal' component using 'partnumber'
+    Then User verified the component 'terminal' is added successfully
 
   @TerminalComponentDB
   @CreateTerminalComponent
@@ -114,6 +135,9 @@ Feature: Create terminal components
     And Navigated to selected componentDB
     And User selected 'terminal' from componentDB
     Then 'terminal' component with additionalreferencetype 'CrossRef' is created successfully
+    When User selected 'terminal' from componentDB
+    And User searches 'terminal' component using 'partnumber'
+    Then User verified the component 'terminal' is added successfully
 
   @TerminalComponentDB
   @CreateTerminalComponent
@@ -122,3 +146,6 @@ Feature: Create terminal components
     And Navigated to selected componentDB
     And User selected 'terminal' from componentDB
     Then 'terminal' component with additionalreferencetype 'Manufacturer,Supplier,CrossRef' is created successfully
+    When User selected 'terminal' from componentDB
+    And User searches 'terminal' component using 'partnumber'
+    Then User verified the component 'terminal' is added successfully

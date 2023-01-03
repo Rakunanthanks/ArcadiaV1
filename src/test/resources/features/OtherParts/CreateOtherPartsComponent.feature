@@ -40,6 +40,9 @@ Feature: Create other parts components
     And Navigated to selected componentDB
     And User selected 'otherpart' from componentDB
     Then 'otherpart' component with billtype 'INCLUDED' is created successfully
+    When User selected 'otherpart' from componentDB
+    And User searches 'otherpart' component using 'partnumber'
+    Then User verified the component 'otherpart' is added successfully
 
   @OtherPartsComponentDB
   @CreateOtherPartsComponent
@@ -48,6 +51,9 @@ Feature: Create other parts components
     And Navigated to selected componentDB
     And User selected 'otherpart' from componentDB
     Then 'otherpart' component with billtype 'EXCLUDED' is created successfully
+    When User selected 'otherpart' from componentDB
+    And User searches 'otherpart' component using 'partnumber'
+    Then User verified the component 'otherpart' is added successfully
 
   @OtherPartsComponentDB
   @CreateOtherPartsComponent
@@ -56,6 +62,9 @@ Feature: Create other parts components
     And Navigated to selected componentDB
     And User selected 'otherpart' from componentDB
     Then 'otherpart' component with billtype 'CONSUMABLE' is created successfully
+    When User selected 'otherpart' from componentDB
+    And User searches 'otherpart' component using 'partnumber'
+    Then User verified the component 'otherpart' is added successfully
 
   @OtherPartsComponentDB
   @CreateOtherPartsComponent
@@ -64,6 +73,9 @@ Feature: Create other parts components
     And Navigated to selected componentDB
     And User selected 'otherpart' from componentDB
     Then 'otherpart' component with billtype 'INVESTMENT' is created successfully
+    When User selected 'otherpart' from componentDB
+    And User searches 'otherpart' component using 'partnumber'
+    Then User verified the component 'otherpart' is added successfully
 
   @OtherPartsComponentDB
   @CreateOtherPartsComponent
@@ -72,6 +84,9 @@ Feature: Create other parts components
     And Navigated to selected componentDB
     And User selected 'otherpart' from componentDB
     Then 'otherpart' component with referencepartnumber 'RandomUniqueNumber' and referencecompany 'TestCompany' only is created
+    When User selected 'otherpart' from componentDB
+    And User searches 'otherpart' component using 'partnumber'
+    Then User verified the component 'otherpart' is added successfully
 
   @OtherPartsComponentDB
   @CreateOtherPartsComponent
@@ -81,6 +96,7 @@ Feature: Create other parts components
     And User selected 'otherpart' from componentDB
     Then 'otherpart' component with referencepartnumber '' and referencecompany 'TestCompany' only is created
     Then Verify error message is displayed for mandatory field 'referencepartnumber' for component 'seal'
+
 
   @OtherPartsComponentDB
   @CreateOtherPartsComponent
@@ -98,6 +114,9 @@ Feature: Create other parts components
     And Navigated to selected componentDB
     And User selected 'otherpart' from componentDB
     Then 'otherpart' component with additionalreferencetype 'Manufacturer' is created successfully
+    When User selected 'otherpart' from componentDB
+    And User searches 'otherpart' component using 'partnumber'
+    Then User verified the component 'otherpart' is added successfully
 
   @OtherPartsComponentDB
   @CreateOtherPartsComponent
@@ -106,6 +125,9 @@ Feature: Create other parts components
     And Navigated to selected componentDB
     And User selected 'otherpart' from componentDB
     Then 'otherpart' component with additionalreferencetype 'Supplier' is created successfully
+    When User selected 'otherpart' from componentDB
+    And User searches 'otherpart' component using 'partnumber'
+    Then User verified the component 'otherpart' is added successfully
 
   @OtherPartsComponentDB
   @CreateOtherPartsComponent
@@ -114,6 +136,9 @@ Feature: Create other parts components
     And Navigated to selected componentDB
     And User selected 'otherpart' from componentDB
     Then 'otherpart' component with additionalreferencetype 'CrossRef' is created successfully
+    When User selected 'otherpart' from componentDB
+    And User searches 'otherpart' component using 'partnumber'
+    Then User verified the component 'otherpart' is added successfully
 
   @OtherPartsComponentDB
   @CreateOtherPartsComponent
@@ -122,3 +147,6 @@ Feature: Create other parts components
     And Navigated to selected componentDB
     And User selected 'otherpart' from componentDB
     Then 'otherpart' component with additionalreferencetype 'Manufacturer,Supplier,CrossRef' is created successfully
+    When User selected 'otherpart' from componentDB
+    And User searches 'otherpart' component using 'partnumber'
+    Then User verified the component 'otherpart' is added successfully

@@ -40,6 +40,9 @@ Feature: Create applicator components
     And Navigated to selected componentDB
     And User selected 'applicator' from componentDB
     Then 'applicator' component with billtype 'INCLUDED' is created successfully
+    When User selected 'applicator' from componentDB
+    And User searches 'applicator' component using 'partnumber'
+    Then User verified the component 'applicator' is added successfully
 
   @ApplicatorsComponentDB
   @CreateApplicatorComponent
@@ -48,6 +51,9 @@ Feature: Create applicator components
     And Navigated to selected componentDB
     And User selected 'applicator' from componentDB
     Then 'applicator' component with billtype 'EXCLUDED' is created successfully
+    When User selected 'applicator' from componentDB
+    And User searches 'applicator' component using 'partnumber'
+    Then User verified the component 'applicator' is added successfully
 
   @ApplicatorsComponentDB
   @CreateApplicatorComponent
@@ -56,6 +62,9 @@ Feature: Create applicator components
     And Navigated to selected componentDB
     And User selected 'applicator' from componentDB
     Then 'applicator' component with billtype 'CONSUMABLE' is created successfully
+    When User selected 'applicator' from componentDB
+    And User searches 'applicator' component using 'partnumber'
+    Then User verified the component 'applicator' is added successfully
 
   @ApplicatorsComponentDB
   @CreateApplicatorComponent
@@ -64,6 +73,9 @@ Feature: Create applicator components
     And Navigated to selected componentDB
     And User selected 'applicator' from componentDB
     Then 'applicator' component with billtype 'INVESTMENT' is created successfully
+    When User selected 'applicator' from componentDB
+    And User searches 'applicator' component using 'partnumber'
+    Then User verified the component 'applicator' is added successfully
 
   @ApplicatorsComponentDB
   @CreateApplicatorComponent
@@ -72,6 +84,9 @@ Feature: Create applicator components
     And Navigated to selected componentDB
     And User selected 'applicator' from componentDB
     Then 'applicator' component with referencepartnumber 'RandomUniqueNumber' and referencecompany 'TestCompany' only is created
+    When User selected 'applicator' from componentDB
+    And User searches 'applicator' component using 'partnumber'
+    Then User verified the component 'applicator' is added successfully
 
   @ApplicatorsComponentDB
   @CreateApplicatorComponent
@@ -81,6 +96,7 @@ Feature: Create applicator components
     And User selected 'applicator' from componentDB
     Then 'applicator' component with referencepartnumber '' and referencecompany 'TestCompany' only is created
     Then Verify error message is displayed for mandatory field 'referencepartnumber' for component 'applicator'
+
 
   @ApplicatorsComponentDB
   @CreateApplicatorComponent
@@ -98,6 +114,9 @@ Feature: Create applicator components
     And Navigated to selected componentDB
     And User selected 'applicator' from componentDB
     Then 'applicator' component with additionalreferencetype 'Manufacturer' is created successfully
+    When User selected 'applicator' from componentDB
+    And User searches 'applicator' component using 'partnumber'
+    Then User verified the component 'applicator' is added successfully
 
   @ApplicatorsComponentDB
   @CreateApplicatorComponent
@@ -106,6 +125,9 @@ Feature: Create applicator components
     And Navigated to selected componentDB
     And User selected 'applicator' from componentDB
     Then 'applicator' component with additionalreferencetype 'Supplier' is created successfully
+    When User selected 'applicator' from componentDB
+    And User searches 'applicator' component using 'partnumber'
+    Then User verified the component 'applicator' is added successfully
 
   @ApplicatorsComponentDB
   @CreateApplicatorComponent
@@ -114,6 +136,9 @@ Feature: Create applicator components
     And Navigated to selected componentDB
     And User selected 'applicator' from componentDB
     Then 'applicator' component with additionalreferencetype 'CrossRef' is created successfully
+    When User selected 'applicator' from componentDB
+    And User searches 'applicator' component using 'partnumber'
+    Then User verified the component 'applicator' is added successfully
 
   @ApplicatorsComponentDB
   @CreateApplicatorComponent
@@ -122,3 +147,6 @@ Feature: Create applicator components
     And Navigated to selected componentDB
     And User selected 'applicator' from componentDB
     Then 'applicator' component with additionalreferencetype 'Manufacturer,Supplier,CrossRef' is created successfully
+    When User selected 'applicator' from componentDB
+    And User searches 'applicator' component using 'partnumber'
+    Then User verified the component 'applicator' is added successfully

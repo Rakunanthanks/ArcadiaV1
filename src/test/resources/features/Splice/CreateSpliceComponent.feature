@@ -40,6 +40,9 @@ Feature: Create Splice components
     And Navigated to selected componentDB
     And User selected 'splice' from componentDB
     Then 'Splice' component with billtype 'INCLUDED' is created successfully
+    When User selected 'splice' from componentDB
+    And User searches 'splice' component using 'partnumber'
+    Then User verified the component 'splice' is added successfully
 
   @SpliceComponentDB
   @CreateSpliceComponent
@@ -48,6 +51,9 @@ Feature: Create Splice components
     And Navigated to selected componentDB
     And User selected 'splice' from componentDB
     Then 'Splice' component with billtype 'EXCLUDED' is created successfully
+    When User selected 'splice' from componentDB
+    And User searches 'splice' component using 'partnumber'
+    Then User verified the component 'splice' is added successfully
 
   @SpliceComponentDB
   @CreateSpliceComponent
@@ -56,6 +62,9 @@ Feature: Create Splice components
     And Navigated to selected componentDB
     And User selected 'splice' from componentDB
     Then 'Splice' component with billtype 'CONSUMABLE' is created successfully
+    When User selected 'splice' from componentDB
+    And User searches 'splice' component using 'partnumber'
+    Then User verified the component 'splice' is added successfully
 
   @SpliceComponentDB
   @CreateSpliceComponent
@@ -64,6 +73,9 @@ Feature: Create Splice components
     And Navigated to selected componentDB
     And User selected 'splice' from componentDB
     Then 'Splice' component with billtype 'INVESTMENT' is created successfully
+    When User selected 'splice' from componentDB
+    And User searches 'splice' component using 'partnumber'
+    Then User verified the component 'splice' is added successfully
 
   @SpliceComponentDB
   @CreateSpliceComponent
@@ -72,6 +84,9 @@ Feature: Create Splice components
     And Navigated to selected componentDB
     And User selected 'splice' from componentDB
     Then 'Splice' component with referencepartnumber 'RandomUniqueNumber' and referencecompany 'TestCompany' only is created
+    When User selected 'splice' from componentDB
+    And User searches 'splice' component using 'partnumber'
+    Then User verified the component 'splice' is added successfully
 
   @SpliceComponentDB
   @CreateSpliceComponent
@@ -98,6 +113,9 @@ Feature: Create Splice components
     And Navigated to selected componentDB
     And User selected 'splice' from componentDB
     Then 'Splice' component with additionalreferencetype 'Manufacturer' is created successfully
+    When User selected 'splice' from componentDB
+    And User searches 'splice' component using 'partnumber'
+    Then User verified the component 'splice' is added successfully
 
   @SpliceComponentDB
   @CreateSpliceComponent
@@ -106,6 +124,9 @@ Feature: Create Splice components
     And Navigated to selected componentDB
     And User selected 'splice' from componentDB
     Then 'Splice' component with additionalreferencetype 'Supplier' is created successfully
+    When User selected 'splice' from componentDB
+    And User searches 'splice' component using 'partnumber'
+    Then User verified the component 'splice' is added successfully
 
   @SpliceComponentDB
   @CreateSpliceComponent
@@ -114,6 +135,9 @@ Feature: Create Splice components
     And Navigated to selected componentDB
     And User selected 'splice' from componentDB
     Then 'Splice' component with additionalreferencetype 'CrossRef' is created successfully
+    When User selected 'splice' from componentDB
+    And User searches 'splice' component using 'partnumber'
+    Then User verified the component 'splice' is added successfully
 
   @SpliceComponentDB
   @CreateSpliceComponent
@@ -122,3 +146,6 @@ Feature: Create Splice components
     And Navigated to selected componentDB
     And User selected 'splice' from componentDB
     Then 'Splice' component with additionalreferencetype 'Manufacturer,Supplier,CrossRef' is created successfully
+    When User selected 'splice' from componentDB
+    And User searches 'splice' component using 'partnumber'
+    Then User verified the component 'splice' is added successfully
