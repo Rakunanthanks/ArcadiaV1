@@ -111,7 +111,10 @@ public class ComponentDBStepDefinitions {
                 break;
         }
                 additionalReferencesList = new ArrayList<>();
-                additionalReferences1 = new AdditionalReferences(String.valueOf(new StringHelper().generateRandomDigit()),"Manufacturer","testcompany");
+                String referencesPartNumber = String.valueOf(new StringHelper().generateRandomDigit());
+                FlowContext.referencesPartNumber = referencesPartNumber;
+                additionalReferences1 = new AdditionalReferences(referencesPartNumber,"Manufacturer","testcompany");
+
                 additionalReferencesList.add(additionalReferences1);
                 addComponentForm.setAdditionalReferences(additionalReferencesList);
                 bomDetails = new BomDetails(0.0022,"","EACH","GBP","gm",componentBomBillType);
@@ -124,7 +127,7 @@ public class ComponentDBStepDefinitions {
     @Then("{string} component with referencepartnumber {string} and referencecompany {string} only is created")
     public void component_with_reference_details_is_created(String componentName, String partNumber, String referencecompany) throws InterruptedException {
         new HeaderPanel(context.driver).openAddNewComponentPage();
-        if(componentName.equalsIgnoreCase("wire")||componentName.equalsIgnoreCase("seal")||componentName.equalsIgnoreCase("terminal")||componentName.equalsIgnoreCase("splice")||componentName.equalsIgnoreCase("otherpart")||componentName.equalsIgnoreCase("junctionpart")||componentName.equalsIgnoreCase("multicore")||componentName.equalsIgnoreCase("applicator")||componentName.equalsIgnoreCase("component"))
+        if(componentName.equalsIgnoreCase("wire")||componentName.equalsIgnoreCase("seal")||componentName.equalsIgnoreCase("terminal")||componentName.equalsIgnoreCase("splice")||componentName.equalsIgnoreCase("otherpart")||componentName.equalsIgnoreCase("junctionpart")||componentName.equalsIgnoreCase("multicore")||componentName.equalsIgnoreCase("applicator")||componentName.equalsIgnoreCase("component")||componentName.equalsIgnoreCase("connector"))
         {
             componentName="common";
         }
@@ -139,6 +142,7 @@ public class ComponentDBStepDefinitions {
                     partNumber = String.valueOf(new StringHelper().generateRandomDigit());
                 }
                 List<AdditionalReferences> additionalReferencesList = new ArrayList<>();
+                FlowContext.referencesPartNumber = partNumber;
                 AdditionalReferences additionalReferences1 = new AdditionalReferences(partNumber,"",referencecompany);
                 additionalReferencesList.add(additionalReferences1);
                 addComponentForm.setAdditionalReferences(additionalReferencesList);
@@ -199,7 +203,9 @@ public class ComponentDBStepDefinitions {
                 additionalReferencesList = new ArrayList<>();
                 String[] arrayOfRefrenceType = additionalRefernceType.split(",");
                 for(String refType: arrayOfRefrenceType){
-                    AdditionalReferences additionalReferences = new AdditionalReferences(String.valueOf(new StringHelper().generateRandomDigit()),refType,"testcompany");
+                    String referencesPartNumber = String.valueOf(new StringHelper().generateRandomDigit());
+                    FlowContext.referencesPartNumber = referencesPartNumber;
+                    AdditionalReferences additionalReferences = new AdditionalReferences(referencesPartNumber,refType,"testcompany");
                     additionalReferencesList.add(additionalReferences);
                 }
                 addComponentForm.setAdditionalReferences(additionalReferencesList);
@@ -501,6 +507,7 @@ public class ComponentDBStepDefinitions {
             case "seal":
                 List<SealsComponentDB> sealsdatalist = new SealsComponentDBPage(context.driver).getSealData();
                 Assert.assertTrue(sealsdatalist.size()!=0);
+                Assert.assertEquals(FlowContext.referencesPartNumber,sealsdatalist.get(0).getPartNumber());
                 break;
         }
     }

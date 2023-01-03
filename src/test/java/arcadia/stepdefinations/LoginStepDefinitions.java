@@ -47,6 +47,11 @@ public class LoginStepDefinitions {
 
     @Given("User selected {string} from componentDB")
     public void user_selected_from_component_db(String menuName) {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         new HeaderPanel(context.driver).invokeMainMenu(menuName);
     }
 

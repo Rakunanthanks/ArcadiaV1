@@ -40,6 +40,9 @@ Feature: Create junction part components
     And Navigated to selected componentDB
     And User selected 'junctionpart' from componentDB
     Then 'junctionpart' component with billtype 'INCLUDED' is created successfully
+    When User selected 'junctionpart' from componentDB
+    And User searches 'junctionpart' component using 'partnumber'
+    Then User verified the component 'junctionpart' is added successfully
 
   @JunctionPartComponentDB
   @CreateJunctionPartComponent
@@ -48,6 +51,9 @@ Feature: Create junction part components
     And Navigated to selected componentDB
     And User selected 'junctionpart' from componentDB
     Then 'junctionpart' component with billtype 'EXCLUDED' is created successfully
+    When User selected 'junctionpart' from componentDB
+    And User searches 'junctionpart' component using 'partnumber'
+    Then User verified the component 'junctionpart' is added successfully
 
   @JunctionPartComponentDB
   @CreateJunctionPartComponent
@@ -56,6 +62,9 @@ Feature: Create junction part components
     And Navigated to selected componentDB
     And User selected 'junctionpart' from componentDB
     Then 'junctionpart' component with billtype 'CONSUMABLE' is created successfully
+    When User selected 'junctionpart' from componentDB
+    And User searches 'junctionpart' component using 'partnumber'
+    Then User verified the component 'junctionpart' is added successfully
 
   @JunctionPartComponentDB
   @CreateJunctionPartComponent
@@ -64,6 +73,9 @@ Feature: Create junction part components
     And Navigated to selected componentDB
     And User selected 'junctionpart' from componentDB
     Then 'junctionpart' component with billtype 'INVESTMENT' is created successfully
+    When User selected 'junctionpart' from componentDB
+    And User searches 'junctionpart' component using 'partnumber'
+    Then User verified the component 'junctionpart' is added successfully
 
   @JunctionPartComponentDB
   @CreateJunctionPartComponent
@@ -72,6 +84,9 @@ Feature: Create junction part components
     And Navigated to selected componentDB
     And User selected 'junctionpart' from componentDB
     Then 'junctionpart' component with referencepartnumber 'RandomUniqueNumber' and referencecompany 'TestCompany' only is created
+    When User selected 'junctionpart' from componentDB
+    And User searches 'junctionpart' component using 'partnumber'
+    Then User verified the component 'junctionpart' is added successfully
 
   @JunctionPartComponentDB
   @CreateJunctionPartComponent
@@ -98,6 +113,9 @@ Feature: Create junction part components
     And Navigated to selected componentDB
     And User selected 'junctionpart' from componentDB
     Then 'junctionpart' component with additionalreferencetype 'Manufacturer' is created successfully
+    When User selected 'junctionpart' from componentDB
+    And User searches 'junctionpart' component using 'partnumber'
+    Then User verified the component 'junctionpart' is added successfully
 
   @JunctionPartComponentDB
   @CreateJunctionPartComponent
@@ -106,6 +124,9 @@ Feature: Create junction part components
     And Navigated to selected componentDB
     And User selected 'junctionpart' from componentDB
     Then 'junctionpart' component with additionalreferencetype 'Supplier' is created successfully
+    When User selected 'junctionpart' from componentDB
+    And User searches 'junctionpart' component using 'partnumber'
+    Then User verified the component 'junctionpart' is added successfully
 
   @JunctionPartComponentDB
   @CreateJunctionPartComponent
@@ -114,6 +135,9 @@ Feature: Create junction part components
     And Navigated to selected componentDB
     And User selected 'junctionpart' from componentDB
     Then 'junctionpart' component with additionalreferencetype 'CrossRef' is created successfully
+    When User selected 'junctionpart' from componentDB
+    And User searches 'junctionpart' component using 'partnumber'
+    Then User verified the component 'junctionpart' is added successfully
 
   @JunctionPartComponentDB
   @CreateJunctionPartComponent
@@ -122,3 +146,6 @@ Feature: Create junction part components
     And Navigated to selected componentDB
     And User selected 'junctionpart' from componentDB
     Then 'junctionpart' component with additionalreferencetype 'Manufacturer,Supplier,CrossRef' is created successfully
+    When User selected 'junctionpart' from componentDB
+    And User searches 'junctionpart' component using 'partnumber'
+    Then User verified the component 'junctionpart' is added successfully
