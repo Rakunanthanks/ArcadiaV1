@@ -2,29 +2,27 @@ package arcadia.pages;
 
 import arcadia.utils.SeleniumCustomCommand;
 import org.openqa.selenium.By;
-<<<<<<< HEAD
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-=======
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
->>>>>>> 445fded (Created Test Scenario for Bundle Tolerance)
+
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-<<<<<<< HEAD
+
 import java.time.Duration;
-=======
->>>>>>> 445fded (Created Test Scenario for Bundle Tolerance)
+
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class DefineBundleTolerance extends BasePage {
 
-<<<<<<< HEAD
+
   public DefineBundleTolerance(WebDriver driver) {
     super(driver);
   }
@@ -229,7 +227,7 @@ public class DefineBundleTolerance extends BasePage {
     delete.click();
     System.out.println("The Drawn Nodes are Deleted");
   }
-=======
+
     public DefineBundleTolerance(WebDriver driver) {
         super(driver);
     }
@@ -287,5 +285,5 @@ public class DefineBundleTolerance extends BasePage {
         savebutton1.click();
         driver.manage().timeouts().implicitlyWait(300, TimeUnit.SECONDS);
     }
->>>>>>> 445fded (Created Test Scenario for Bundle Tolerance)
+
 }
