@@ -1,0 +1,11 @@
+componentName,description,family,status,typecode,proprietary,parttype,primarycolour,secondarycolour,tertiarycolour,materialcode,usage,partcategory,colour
+wire,testdescription,testfamily,,,testproprietary,,BLACK,BLUE,BROWN,PVC,NOT SET,,BLACK
+seal,testdescription,testfamily,,,testproprietary,,,,,PVC,NOT SET,,BLACK
+terminal,testdescription,testfamily,,,testproprietary,,,,,PVC,NOT SET,,BLACK
+splice,testdescription,testfamily,,,testproprietary,,,,,PVC,NOT SET,,BLACK
+otherpart,testdescription,testfamily,,,testproprietary,,,,,PVC,NOT SET,,BLACK
+junctionpart,testdescription,testfamily,,,testproprietary,,,,,PVC,NOT SET,,BLACK
+multicore,testdescription,testfamily,,,testproprietary,,,,,PVC,NOT SET,,BLACK
+applicator,testdescription,testfamily,,,testproprietary,,,,,PVC,NOT SET,,BLACK
+component,testdescription,testfamily,,,testproprietary,,,,,PVC,NOT SET,,BLACK
+connector,testdescription,testfamily,,,testproprietary,,,,,PVC,NOT SET,,BLACK

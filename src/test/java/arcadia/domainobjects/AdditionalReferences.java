@@ -11,6 +11,10 @@ public class AdditionalReferences {
         this.referencesCompany = referencesCompany;
     }
 
+    public AdditionalReferences() {
+
+    }
+
     public String getReferencesPartNumber() {
         return referencesPartNumber;
     }
