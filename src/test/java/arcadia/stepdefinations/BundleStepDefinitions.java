@@ -7,6 +7,7 @@ import arcadia.pages.*;
 import arcadia.utils.ConversionUtil;
 import arcadia.utils.FormulaCalculator;
 import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import one.util.streamex.StreamEx;
@@ -35,12 +36,12 @@ public class BundleStepDefinitions {
         sleeveTubeComponentDB = PageFactoryManager.getSleeveTubeComponentDB(context.driver);
     }
 
-    @Given("bundle is drawn successfully")
-    public void bundle_is_drawn_successfully() throws InterruptedException, AWTException {
-//        harnessPage.waitForDrawingPage();
-//        bundlePage.drawBundle();
-//        harnessPage = PageFactoryManager.getDrawingPage(context.driver);
-//        context.bundleNodes = bundlePage.getBundleNodeElementId();
+    @And("bundle is drawn successfully")
+    public void bundle_is_drawn_successfully() throws InterruptedException {
+//       harnessPage.waitForDrawingPage();
+//       bundlePage.drawBundle();
+//       harnessPage = PageFactoryManager.getDrawingPage(context.driver);
+//       context.bundleNodes = bundlePage.getBundleNodeElementId();
     }
 
     @Then("Check bundle diameter for {string} and bundleform {string}")
