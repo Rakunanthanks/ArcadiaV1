@@ -132,7 +132,6 @@ public class LoginStepDefinitions {
     public void based_on_drawing_orchestrator_components_are_created() throws IOException, InterruptedException, AWTException {
         List<DrawingInstructor> drawingInstructorList =  new DrawingHelper().getDrawingInstruction(context.testIdentifier);
         new DrawingHelper().drawOrchestrator(drawingInstructorList,context.driver);
-
     }
 
 
