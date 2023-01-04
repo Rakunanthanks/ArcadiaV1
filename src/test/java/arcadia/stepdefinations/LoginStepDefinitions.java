@@ -146,7 +146,6 @@ public class LoginStepDefinitions {
         new DefineBundleTolerance(context.driver).bundles_deleted();
     }
 
-
     @Given("User selected {string} from componentDB")
     public void user_selected_from_component_db(String menuName) {
         try {
