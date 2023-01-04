@@ -113,8 +113,27 @@ public class LoginStepDefinitions {
         Thread.sleep(1000);
         loginPage.load(EndPoint.TEST.url);
         Thread.sleep(1000);
+    }
+    @And( "Checking the Bundle Tolerance Value")
+    public void Checking_the_Bundle_Tolerance_Value() throws InterruptedException {
         new DefineBundleTolerance(context.driver).CaptureBundleTollerance();
+    }
+    @And("Bundles are drawn")
+    public void bundlesdrawn() throws InterruptedException{
+        new DefineBundleTolerance(context.driver).Customcommands();
+    }
+    @And( "Inspecting Bundle")
+    public void inspecting_bundle() throws InterruptedException{
+        new DefineBundleTolerance(context.driver).InspectingBundle();
+    }
+    @And( "Inspecting Bundle Tolerance Value")
+    public void inspecting_bundletolerance_value() throws InterruptedException{
+        new DefineBundleTolerance(context.driver).InspectingBundletolerancevalue();
+    }
 
+    @And("Changing Bundle Tolerance Value")
+    public void changing_bundletolerance_value() throws InterruptedException{
+        new DefineBundleTolerance(context.driver).changing_bundletolerance_value();
     }
 
 
