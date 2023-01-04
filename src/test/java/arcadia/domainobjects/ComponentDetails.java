@@ -32,6 +32,10 @@ public class ComponentDetails {
         this.colour=colour;
     }
 
+    public ComponentDetails() {
+
+    }
+
     public String getDescription() {
         return description;
     }

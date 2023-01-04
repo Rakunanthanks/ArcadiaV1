@@ -1,4 +1,4 @@
-Feature: Create components
+Feature: Create wire components
 
  @WireComponentDB
  @CreateWireComponent

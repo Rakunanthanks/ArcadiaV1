@@ -17,6 +17,10 @@ public class BomDetails {
         this.bomBillType = bomBillType;
     }
 
+    public BomDetails() {
+
+    }
+
     public Double getBomPrice() {
         return bomPrice;
     }

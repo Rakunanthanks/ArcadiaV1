@@ -1,0 +1,11 @@
+componentName,bomPrice,bomWeight,bomMeasure,bomCurrency,bomUnits,bomBillType
+wire,0.0022,,EACH,GBP,gm,INCLUDED
+seal,0.0022,,EACH,GBP,gm,INCLUDED
+terminal,0.0022,,EACH,GBP,gm,INCLUDED
+splice,0.0022,,EACH,GBP,gm,INCLUDED
+otherpart,0.0022,,EACH,GBP,gm,INCLUDED
+junctionpart,0.0022,,EACH,GBP,gm,INCLUDED
+multicore,0.0022,,EACH,GBP,gm,INCLUDED
+applicator,0.0022,,EACH,GBP,gm,INCLUDED
+component,0.0022,,EACH,GBP,gm,INCLUDED
+connector,0.0022,,EACH,GBP,gm,INCLUDED

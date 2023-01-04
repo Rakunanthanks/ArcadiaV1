@@ -1,0 +1,11 @@
+componentName,referencesPartNumber,referencesType,referencesCompany
+wire,,Manufacturer,testcompany
+seal,,Manufacturer,testcompany
+terminal,,Manufacturer,testcompany
+splice,,Manufacturer,testcompany
+otherpart,,Manufacturer,testcompany
+junctionpart,,Manufacturer,testcompany
+multicore,,Manufacturer,testcompany
+applicator,,Manufacturer,testcompany
+component,,Manufacturer,testcompany
+connector,,Manufacturer,testcompany
