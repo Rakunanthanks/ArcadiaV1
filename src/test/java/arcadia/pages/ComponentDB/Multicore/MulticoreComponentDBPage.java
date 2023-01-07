@@ -18,7 +18,6 @@ public class MulticoreComponentDBPage extends BasePage {
     }
     String tableMulticore = "#tblmulticore > tbody > tr";
 
-
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
 
     public List<MulticoreComponentDB> getMulticoreData() throws InterruptedException {
@@ -50,4 +49,23 @@ public class MulticoreComponentDBPage extends BasePage {
         return MulticoreComponentDBList
                 .get(rand.nextInt(MulticoreComponentDBList.size()));
     }
+
+    public int getRecordCountFromComponentDB() throws InterruptedException {
+        new CommonElements(driver).getFullPagination();
+        List<WebElement> webTable = driver.findElements(By.cssSelector(".fixed-table-body > table >tbody >tr"));
+        return webTable.size();
+    }
+    public List<String> getPartNumber() throws InterruptedException {
+        new CommonElements(driver).getFullPagination();
+        List<WebElement> webTable = driver.findElements(By.cssSelector(".fixed-table-body > table >tbody >tr"));
+        List<String> partNumberList = new ArrayList<>();
+        for( WebElement element : webTable) {
+            List<WebElement> tdElements = element.findElements(By.cssSelector("td"));
+            String partNumber = tdElements.get(1).getText();
+            partNumberList.add(partNumber);
+        }
+        return partNumberList;
+    }
 }
+
+

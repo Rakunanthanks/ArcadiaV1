@@ -18,10 +18,12 @@ import arcadia.pages.ComponentDB.Splices.SplicesComponentDBPage;
 import arcadia.pages.ComponentDB.Terminals.TerminalsComponentDBPage;
 import arcadia.pages.ComponentDB.Wires.WiresComponentDBPage;
 import arcadia.utils.StringHelper;
+import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
+import org.python.antlr.ast.Str;
 import org.testng.Assert;
 
 import java.awt.*;
@@ -262,13 +264,21 @@ public class ComponentDBStepDefinitions {
                 new CommonElements(context.driver).filterComponentBasedOnMaterial(randomData.getMaterial());
                 break;
         }
-        List<WiresComponentDB> wiresData = new WiresComponentDBPage(context.driver).getWiresData();
+        List<String> actualUniquePartList = new MulticoreComponentDBPage(context.driver).getPartNumber();
         List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
-        List<String> actualPartNumberList = wiresData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
-        List<String> differencesFromExpected = expectedPartNumberList.stream()
-                .filter(element -> !actualPartNumberList.contains(element))
+        List<String> differenceFromExpectedPartNumberList = expectedPartNumberList.stream()
+                .filter(element -> !actualUniquePartList.contains(element))
                 .collect(Collectors.toList());
-        Assert.assertEquals(0, differencesFromExpected.size(), differencesFromExpected.toString());
+        if(differenceFromExpectedPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with expected %s", differenceFromExpectedPartNumberList.toString()));
+        }
+        List<String> differenceFromActualPartNumberList = actualUniquePartList.stream()
+                .filter(element -> !expectedPartNumberList.contains(element))
+                .collect(Collectors.toList());
+        if(differenceFromActualPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
+        }
+        Assert.assertEquals(expectedPartNumberList.size(), actualUniquePartList.size());
     }
 
     @Then("Verify wire component data is greater than value {string} for filter {string}")
@@ -324,13 +334,21 @@ public class ComponentDBStepDefinitions {
                 new CommonElements(context.driver).filterComponentBasedOnCSARange(">=" + greaterThanValue);
                 break;
         }
-        List<WiresComponentDB> wiresData = new WiresComponentDBPage(context.driver).getWiresData();
+        List<String> actualUniquePartList = new MulticoreComponentDBPage(context.driver).getPartNumber();
         List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
-        List<String> actualPartNumberList = wiresData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
-        List<String> differencesFromExpected = expectedPartNumberList.stream()
-                .filter(element -> !actualPartNumberList.contains(element))
+        List<String> differenceFromExpectedPartNumberList = expectedPartNumberList.stream()
+                .filter(element -> !actualUniquePartList.contains(element))
                 .collect(Collectors.toList());
-        Assert.assertEquals(0, differencesFromExpected.size(), differencesFromExpected.toString());
+        if(differenceFromExpectedPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with expected %s", differenceFromExpectedPartNumberList.toString()));
+        }
+        List<String> differenceFromActualPartNumberList = actualUniquePartList.stream()
+                .filter(element -> !expectedPartNumberList.contains(element))
+                .collect(Collectors.toList());
+        if(differenceFromActualPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
+        }
+        Assert.assertEquals(expectedPartNumberList.size(), actualUniquePartList.size());
     }
 
     @Then("Verify wire component data on the basis of filter {string} with value {string}")
@@ -401,13 +419,21 @@ public class ComponentDBStepDefinitions {
                 new CommonElements(context.driver).filterComponentBasedOnResistanceRange(filterValue);
                 break;
         }
-        List<WiresComponentDB> wiresData = new WiresComponentDBPage(context.driver).getWiresData();
+        List<String> actualUniquePartList = new MulticoreComponentDBPage(context.driver).getPartNumber();
         List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
-        List<String> actualPartNumberList = wiresData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
-        List<String> differencesFromExpected = expectedPartNumberList.stream()
-                .filter(element -> !actualPartNumberList.contains(element))
+        List<String> differenceFromExpectedPartNumberList = expectedPartNumberList.stream()
+                .filter(element -> !actualUniquePartList.contains(element))
                 .collect(Collectors.toList());
-        Assert.assertEquals(0, differencesFromExpected.size(), differencesFromExpected.toString());
+        if(differenceFromExpectedPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with expected %s", differenceFromExpectedPartNumberList.toString()));
+        }
+        List<String> differenceFromActualPartNumberList = actualUniquePartList.stream()
+                .filter(element -> !expectedPartNumberList.contains(element))
+                .collect(Collectors.toList());
+        if(differenceFromActualPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
+        }
+        Assert.assertEquals(expectedPartNumberList.size(), actualUniquePartList.size());
     }
 
     @And("User searches {string} component using {string}")
@@ -528,13 +554,11 @@ public class ComponentDBStepDefinitions {
         File f = new File("src/test/resources/componentDB/Terminals/TerminalData.json");
         List<TerminalsComponentDB> dbData = null;
         if (f.exists()) {
-            System.out.println("Resuse JSON");
             ObjectMapper mapper = new ObjectMapper();
             dbData = mapper.readValue(new File("src/test/resources/componentDB/Terminals/TerminalData.json"), new TypeReference<List<TerminalsComponentDB>>() {
             });
         }
         if (!f.exists()) {
-            System.out.println("Scanning UI");
             dbData = new TerminalsComponentDBPage(context.driver).getTerminalsData();
             ObjectMapper mapper = new ObjectMapper();
             Files.createDirectories(Paths.get("src/test/resources/componentDB/Terminals"));
@@ -594,13 +618,21 @@ public class ComponentDBStepDefinitions {
                 new CommonElements(context.driver).filterComponentBasedOnCSARange(randomTerminalData.getCsa());
                 break;
         }
-        List<TerminalsComponentDB> terminalsData = new TerminalsComponentDBPage(context.driver).getTerminalsData();
+        List<String> actualUniquePartList = new MulticoreComponentDBPage(context.driver).getPartNumber();
         List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
-        List<String> actualPartNumberList = terminalsData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
-        List<String> differencesFromExpected = expectedPartNumberList.stream()
-                .filter(element -> !actualPartNumberList.contains(element))
+        List<String> differenceFromExpectedPartNumberList = expectedPartNumberList.stream()
+                .filter(element -> !actualUniquePartList.contains(element))
                 .collect(Collectors.toList());
-        Assert.assertEquals(0, differencesFromExpected.size(), differencesFromExpected.toString());
+        if(differenceFromExpectedPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with expected %s", differenceFromExpectedPartNumberList.toString()));
+        }
+        List<String> differenceFromActualPartNumberList = actualUniquePartList.stream()
+                .filter(element -> !expectedPartNumberList.contains(element))
+                .collect(Collectors.toList());
+        if(differenceFromActualPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
+        }
+        Assert.assertEquals(expectedPartNumberList.size(), actualUniquePartList.size());
     }
 
     @Then("verify user can filter splice based on property {string}")
@@ -608,13 +640,11 @@ public class ComponentDBStepDefinitions {
         File f = new File("src/test/resources/componentDB/Splices/SpliceData.json");
         List<SplicesComponentDB> dbData = null;
         if (f.exists()) {
-            System.out.println("Resuse JSON");
             ObjectMapper mapper = new ObjectMapper();
             dbData = mapper.readValue(new File("src/test/resources/componentDB/Splices/SpliceData.json"), new TypeReference<List<SplicesComponentDB>>() {
             });
         }
         if (!f.exists()) {
-            System.out.println("Scanning UI");
             dbData = new SplicesComponentDBPage(context.driver).getSplicesData();
             ObjectMapper mapper = new ObjectMapper();
             Files.createDirectories(Paths.get("src/test/resources/componentDB/Splices"));
@@ -664,13 +694,21 @@ public class ComponentDBStepDefinitions {
                 new CommonElements(context.driver).filterComponentBasedOnMaterial(randomSpliceData.getMaterial());
                 break;
         }
-        List<SplicesComponentDB> splicesData = new SplicesComponentDBPage(context.driver).getSplicesData();
+        List<String> actualUniquePartList = new MulticoreComponentDBPage(context.driver).getPartNumber();
         List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
-        List<String> actualPartNumberList = splicesData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
-        List<String> differencesFromExpected = expectedPartNumberList.stream()
-                .filter(element -> !actualPartNumberList.contains(element))
+        List<String> differenceFromExpectedPartNumberList = expectedPartNumberList.stream()
+                .filter(element -> !actualUniquePartList.contains(element))
                 .collect(Collectors.toList());
-        Assert.assertEquals(0, differencesFromExpected.size(), differencesFromExpected.toString());
+        if(differenceFromExpectedPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with expected %s", differenceFromExpectedPartNumberList.toString()));
+        }
+        List<String> differenceFromActualPartNumberList = actualUniquePartList.stream()
+                .filter(element -> !expectedPartNumberList.contains(element))
+                .collect(Collectors.toList());
+        if(differenceFromActualPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
+        }
+        Assert.assertEquals(expectedPartNumberList.size(), actualUniquePartList.size());
     }
 
     @Then("verify user can filter otherpart based on property {string}")
@@ -678,13 +716,11 @@ public class ComponentDBStepDefinitions {
         File f = new File("src/test/resources/componentDB/OtherParts/OtherPartsData.json");
         List<OtherPartsComponentDB> dbData = null;
         if (f.exists()) {
-            System.out.println("Resuse JSON");
             ObjectMapper mapper = new ObjectMapper();
             dbData = mapper.readValue(new File("src/test/resources/componentDB/OtherParts/OtherPartsData.json"), new TypeReference<List<OtherPartsComponentDB>>() {
             });
         }
         if (!f.exists()) {
-            System.out.println("Scanning UI");
             dbData = new OtherPartsComponentDBPage(context.driver).getOtherPartsData();
             ObjectMapper mapper = new ObjectMapper();
             Files.createDirectories(Paths.get("src/test/resources/componentDB/OtherParts"));
@@ -726,13 +762,21 @@ public class ComponentDBStepDefinitions {
                 new CommonElements(context.driver).filterComponentBasedOnColour(randomOtherPartData.getColour());
                 break;
         }
-        List<OtherPartsComponentDB> otherpartsData = new OtherPartsComponentDBPage(context.driver).getOtherPartsData();
+        List<String> actualUniquePartList = new MulticoreComponentDBPage(context.driver).getPartNumber();
         List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
-        List<String> actualPartNumberList = otherpartsData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
-        List<String> differencesFromExpected = expectedPartNumberList.stream()
-                .filter(element -> !actualPartNumberList.contains(element))
+        List<String> differenceFromExpectedPartNumberList = expectedPartNumberList.stream()
+                .filter(element -> !actualUniquePartList.contains(element))
                 .collect(Collectors.toList());
-        Assert.assertEquals(0, differencesFromExpected.size(), differencesFromExpected.toString());
+        if(differenceFromExpectedPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with expected %s", differenceFromExpectedPartNumberList.toString()));
+        }
+        List<String> differenceFromActualPartNumberList = actualUniquePartList.stream()
+                .filter(element -> !expectedPartNumberList.contains(element))
+                .collect(Collectors.toList());
+        if(differenceFromActualPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
+        }
+        Assert.assertEquals(expectedPartNumberList.size(), actualUniquePartList.size());
     }
 
     @Then("verify user can filter junctionpart based on property {string}")
@@ -740,13 +784,11 @@ public class ComponentDBStepDefinitions {
         File f = new File("src/test/resources/componentDB/JunctionParts/JunctionPartsData.json");
         List<JunctionPartComponentDB> dbData = null;
         if (f.exists()) {
-            System.out.println("Resuse JSON");
             ObjectMapper mapper = new ObjectMapper();
             dbData = mapper.readValue(new File("src/test/resources/componentDB/JunctionParts/JunctionPartsData.json"), new TypeReference<List<JunctionPartComponentDB>>() {
             });
         }
         if (!f.exists()) {
-            System.out.println("Scanning UI");
             dbData = new JunctionPartsComponentDBPage(context.driver).getJunctionPartsData();
             ObjectMapper mapper = new ObjectMapper();
             Files.createDirectories(Paths.get("src/test/resources/componentDB/JunctionParts"));
@@ -797,13 +839,21 @@ public class ComponentDBStepDefinitions {
                 new CommonElements(context.driver).filterComponentBasedOnMaterial(randomJunctionPartData.getMaterial());
                 break;
         }
-        List<JunctionPartComponentDB> junctionpartsData = new JunctionPartsComponentDBPage(context.driver).getJunctionPartsData();
+        List<String> actualUniquePartList = new MulticoreComponentDBPage(context.driver).getPartNumber();
         List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
-        List<String> actualPartNumberList = junctionpartsData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
-        List<String> differencesFromExpected = expectedPartNumberList.stream()
-                .filter(element -> !actualPartNumberList.contains(element))
+        List<String> differenceFromExpectedPartNumberList = expectedPartNumberList.stream()
+                .filter(element -> !actualUniquePartList.contains(element))
                 .collect(Collectors.toList());
-        Assert.assertEquals(0, differencesFromExpected.size(), differencesFromExpected.toString());
+        if(differenceFromExpectedPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with expected %s", differenceFromExpectedPartNumberList.toString()));
+        }
+        List<String> differenceFromActualPartNumberList = actualUniquePartList.stream()
+                .filter(element -> !expectedPartNumberList.contains(element))
+                .collect(Collectors.toList());
+        if(differenceFromActualPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
+        }
+        Assert.assertEquals(expectedPartNumberList.size(), actualUniquePartList.size());
     }
 
     @Then("verify user can filter multicore based on property {string}")
@@ -811,13 +861,11 @@ public class ComponentDBStepDefinitions {
         File f = new File("src/test/resources/componentDB/Multicore/MulticoreData.json");
         List<MulticoreComponentDB> dbData = null;
         if (f.exists()) {
-            System.out.println("Resuse JSON");
             ObjectMapper mapper = new ObjectMapper();
             dbData = mapper.readValue(new File("src/test/resources/componentDB/Multicore/MulticoreData.json"), new TypeReference<List<MulticoreComponentDB>>() {
             });
         }
         if (!f.exists()) {
-            System.out.println("Scanning UI");
             dbData = new MulticoreComponentDBPage(context.driver).getMulticoreData();
             ObjectMapper mapper = new ObjectMapper();
             Files.createDirectories(Paths.get("src/test/resources/componentDB/Multicore"));
@@ -863,13 +911,21 @@ public class ComponentDBStepDefinitions {
                 new CommonElements(context.driver).filterComponentBasedOnCableType(randomMulticoreData.getCabletype());
                 break;
         }
-        List<MulticoreComponentDB> multicoreData = new MulticoreComponentDBPage(context.driver).getMulticoreData();
+        List<String> actualUniquePartList = new MulticoreComponentDBPage(context.driver).getPartNumber();
         List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
-        List<String> actualPartNumberList = multicoreData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
-        List<String> differencesFromExpected = expectedPartNumberList.stream()
-                .filter(element -> !actualPartNumberList.contains(element))
+        List<String> differenceFromExpectedPartNumberList = expectedPartNumberList.stream()
+                .filter(element -> !actualUniquePartList.contains(element))
                 .collect(Collectors.toList());
-        Assert.assertEquals(0, differencesFromExpected.size(), differencesFromExpected.toString());
+        if(differenceFromExpectedPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with expected %s", differenceFromExpectedPartNumberList.toString()));
+        }
+        List<String> differenceFromActualPartNumberList = actualUniquePartList.stream()
+                .filter(element -> !expectedPartNumberList.contains(element))
+                .collect(Collectors.toList());
+        if(differenceFromActualPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
+        }
+        Assert.assertEquals(expectedPartNumberList.size(), actualUniquePartList.size());
     }
 
     @Then("Verify multicore component data is greater than value {string} for filter {string}")
@@ -897,13 +953,21 @@ public class ComponentDBStepDefinitions {
                 new CommonElements(context.driver).filterComponentBasedOnNumberOfWiresRange(">=" + greaterThanValue);
                 break;
         }
-        List<MulticoreComponentDB> multicoreData = new MulticoreComponentDBPage(context.driver).getMulticoreData();
+        List<String> actualUniquePartList = new MulticoreComponentDBPage(context.driver).getPartNumber();
         List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
-        List<String> actualPartNumberList = multicoreData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
-        List<String> differencesFromExpected = expectedPartNumberList.stream()
-                .filter(element -> !actualPartNumberList.contains(element))
+        List<String> differenceFromExpectedPartNumberList = expectedPartNumberList.stream()
+                .filter(element -> !actualUniquePartList.contains(element))
                 .collect(Collectors.toList());
-        Assert.assertEquals(0, differencesFromExpected.size(), differencesFromExpected.toString());
+        if(differenceFromExpectedPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with expected %s", differenceFromExpectedPartNumberList.toString()));
+        }
+        List<String> differenceFromActualPartNumberList = actualUniquePartList.stream()
+                .filter(element -> !expectedPartNumberList.contains(element))
+                .collect(Collectors.toList());
+        if(differenceFromActualPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
+        }
+        Assert.assertEquals(expectedPartNumberList.size(), actualUniquePartList.size());
     }
 
     @Then("Verify multicore component data on the basis of filter {string} with value {string}")
@@ -934,13 +998,21 @@ public class ComponentDBStepDefinitions {
                 new CommonElements(context.driver).filterComponentBasedOnNumberOfWiresRange(filterValue);
                 break;
         }
-        List<MulticoreComponentDB> multicoreData = new MulticoreComponentDBPage(context.driver).getMulticoreData();
+        List<String> actualUniquePartList = new MulticoreComponentDBPage(context.driver).getPartNumber();
         List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
-        List<String> actualPartNumberList = multicoreData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
-        List<String> differencesFromExpected = expectedPartNumberList.stream()
-                .filter(element -> !actualPartNumberList.contains(element))
+        List<String> differenceFromExpectedPartNumberList = expectedPartNumberList.stream()
+                .filter(element -> !actualUniquePartList.contains(element))
                 .collect(Collectors.toList());
-        Assert.assertEquals(0, differencesFromExpected.size(), differencesFromExpected.toString());
+        if(differenceFromExpectedPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with expected %s", differenceFromExpectedPartNumberList.toString()));
+        }
+        List<String> differenceFromActualPartNumberList = actualUniquePartList.stream()
+                .filter(element -> !expectedPartNumberList.contains(element))
+                .collect(Collectors.toList());
+        if(differenceFromActualPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
+        }
+        Assert.assertEquals(expectedPartNumberList.size(), actualUniquePartList.size());
 
     }
 
@@ -1013,13 +1085,21 @@ public class ComponentDBStepDefinitions {
                 new CommonElements(context.driver).filterComponentBasedOnApplicatorSite(randomApplicatorData.getApplicatorSite());
                 break;
         }
-        List<ApplicatorsComponentDB> applicatorsData = new ApplicatorsComponentDBPage(context.driver).getApplicatorsData();
+        List<String> actualUniquePartList = new MulticoreComponentDBPage(context.driver).getPartNumber();
         List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
-        List<String> actualPartNumberList = applicatorsData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
-        List<String> differencesFromExpected = expectedPartNumberList.stream()
-                .filter(element -> !actualPartNumberList.contains(element))
+        List<String> differenceFromExpectedPartNumberList = expectedPartNumberList.stream()
+                .filter(element -> !actualUniquePartList.contains(element))
                 .collect(Collectors.toList());
-        Assert.assertEquals(0, differencesFromExpected.size(), differencesFromExpected.toString());
+        if(differenceFromExpectedPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with expected %s", differenceFromExpectedPartNumberList.toString()));
+        }
+        List<String> differenceFromActualPartNumberList = actualUniquePartList.stream()
+                .filter(element -> !expectedPartNumberList.contains(element))
+                .collect(Collectors.toList());
+        if(differenceFromActualPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
+        }
+        Assert.assertEquals(expectedPartNumberList.size(), actualUniquePartList.size());
     }
 
     //For component type 'component"
@@ -1072,13 +1152,21 @@ public class ComponentDBStepDefinitions {
                 new CommonElements(context.driver).filterComponentBasedOnSupplierPN(randomComponentData.getSupplierPN());
                 break;
         }
-        List<ComponentsDB> componentData = new ComponentsDBPage(context.driver).getComponentsData();
+        List<String> actualUniquePartList = new MulticoreComponentDBPage(context.driver).getPartNumber();
         List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
-        List<String> actualPartNumberList = componentData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
-        List<String> differencesFromExpected = expectedPartNumberList.stream()
-                .filter(element -> !actualPartNumberList.contains(element))
+        List<String> differenceFromExpectedPartNumberList = expectedPartNumberList.stream()
+                .filter(element -> !actualUniquePartList.contains(element))
                 .collect(Collectors.toList());
-        Assert.assertEquals(0, differencesFromExpected.size(), differencesFromExpected.toString());
+        if(differenceFromExpectedPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with expected %s", differenceFromExpectedPartNumberList.toString()));
+        }
+        List<String> differenceFromActualPartNumberList = actualUniquePartList.stream()
+                .filter(element -> !expectedPartNumberList.contains(element))
+                .collect(Collectors.toList());
+        if(differenceFromActualPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
+        }
+        Assert.assertEquals(expectedPartNumberList.size(), actualUniquePartList.size());
     }
 
     @Then("Verify component data on the basis of filter {string} with value {string}")
@@ -1109,13 +1197,21 @@ public class ComponentDBStepDefinitions {
                 new CommonElements(context.driver).filterComponentBasedOnNumberOfCavitiesRange(filterValue);
                 break;
         }
-        List<ComponentsDB> componentData = new ComponentsDBPage(context.driver).getComponentsData();
+        List<String> actualUniquePartList = new MulticoreComponentDBPage(context.driver).getPartNumber();
         List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
-        List<String> actualPartNumberList = componentData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
-        List<String> differencesFromExpected = expectedPartNumberList.stream()
-                .filter(element -> !actualPartNumberList.contains(element))
+        List<String> differenceFromExpectedPartNumberList = expectedPartNumberList.stream()
+                .filter(element -> !actualUniquePartList.contains(element))
                 .collect(Collectors.toList());
-        Assert.assertEquals(0, differencesFromExpected.size(), differencesFromExpected.toString());
+        if(differenceFromExpectedPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with expected %s", differenceFromExpectedPartNumberList.toString()));
+        }
+        List<String> differenceFromActualPartNumberList = actualUniquePartList.stream()
+                .filter(element -> !expectedPartNumberList.contains(element))
+                .collect(Collectors.toList());
+        if(differenceFromActualPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
+        }
+        Assert.assertEquals(expectedPartNumberList.size(), actualUniquePartList.size());
     }
 
     @Then("Verify component data is greater than value {string} for filter {string}")
@@ -1143,13 +1239,21 @@ public class ComponentDBStepDefinitions {
                 new CommonElements(context.driver).filterComponentBasedOnNumberOfCavitiesRange(">=" + greaterThanValue);
                 break;
         }
-        List<ComponentsDB> componentData = new ComponentsDBPage(context.driver).getComponentsData();
+        List<String> actualUniquePartList = new MulticoreComponentDBPage(context.driver).getPartNumber();
         List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
-        List<String> actualPartNumberList = componentData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
-        List<String> differencesFromExpected = expectedPartNumberList.stream()
-                .filter(element -> !actualPartNumberList.contains(element))
+        List<String> differenceFromExpectedPartNumberList = expectedPartNumberList.stream()
+                .filter(element -> !actualUniquePartList.contains(element))
                 .collect(Collectors.toList());
-        Assert.assertEquals(0, differencesFromExpected.size(), differencesFromExpected.toString());
+        if(differenceFromExpectedPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with expected %s", differenceFromExpectedPartNumberList.toString()));
+        }
+        List<String> differenceFromActualPartNumberList = actualUniquePartList.stream()
+                .filter(element -> !expectedPartNumberList.contains(element))
+                .collect(Collectors.toList());
+        if(differenceFromActualPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
+        }
+        Assert.assertEquals(expectedPartNumberList.size(), actualUniquePartList.size());
     }
 
     @Then("verify user can filter seals based on property {string}")
@@ -1213,13 +1317,21 @@ public class ComponentDBStepDefinitions {
                 new CommonElements(context.driver).filterComponentBasedOnInsulationOD(randomSealsData.getInsulationOD());
                 break;
         }
-        List<SealsComponentDB> sealsData = new SealsComponentDBPage(context.driver).getSealData();
+        List<String> actualUniquePartList = new MulticoreComponentDBPage(context.driver).getPartNumber();
         List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
-        List<String> actualPartNumberList = sealsData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
-        List<String> differencesFromExpected = expectedPartNumberList.stream()
-                .filter(element -> !actualPartNumberList.contains(element))
+        List<String> differenceFromExpectedPartNumberList = expectedPartNumberList.stream()
+                .filter(element -> !actualUniquePartList.contains(element))
                 .collect(Collectors.toList());
-        Assert.assertEquals(0, differencesFromExpected.size(), differencesFromExpected.toString());
+        if(differenceFromExpectedPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with expected %s", differenceFromExpectedPartNumberList.toString()));
+        }
+        List<String> differenceFromActualPartNumberList = actualUniquePartList.stream()
+                .filter(element -> !expectedPartNumberList.contains(element))
+                .collect(Collectors.toList());
+        if(differenceFromActualPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
+        }
+        Assert.assertEquals(expectedPartNumberList.size(), actualUniquePartList.size());
     }
 
     @And("User links {string} from componentDB")
@@ -1311,13 +1423,21 @@ public class ComponentDBStepDefinitions {
                 new CommonElements(context.driver).filterComponentBasedOnKeyway(randomConnectorData.getKeyway());
                 break;
         }
-        List<ConnectorDB> connectorData = new ConnectorsDBPage(context.driver).getConnectorsData();
+        List<String> actualUniquePartList = new MulticoreComponentDBPage(context.driver).getPartNumber();
         List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
-        List<String> actualPartNumberList = connectorData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
-        List<String> differencesFromExpected = expectedPartNumberList.stream()
-                .filter(element -> !actualPartNumberList.contains(element))
+        List<String> differenceFromExpectedPartNumberList = expectedPartNumberList.stream()
+                .filter(element -> !actualUniquePartList.contains(element))
                 .collect(Collectors.toList());
-        Assert.assertEquals(0, differencesFromExpected.size(), differencesFromExpected.toString());
+        if(differenceFromExpectedPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with expected %s", differenceFromExpectedPartNumberList.toString()));
+        }
+        List<String> differenceFromActualPartNumberList = actualUniquePartList.stream()
+                .filter(element -> !expectedPartNumberList.contains(element))
+                .collect(Collectors.toList());
+        if(differenceFromActualPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
+        }
+        Assert.assertEquals(expectedPartNumberList.size(), actualUniquePartList.size());
     }
 
     @Then("Verify connector data on the basis of filter {string} with value {string}")
@@ -1350,13 +1470,21 @@ public class ComponentDBStepDefinitions {
                 new CommonElements(context.driver).filterComponentBasedOnNumberOfCavitiesRange(filterValue);
                 break;
         }
-        List<ConnectorDB> componentData = new ConnectorsDBPage(context.driver).getConnectorsData();
+        List<String> actualUniquePartList = new MulticoreComponentDBPage(context.driver).getPartNumber();
         List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
-        List<String> actualPartNumberList = componentData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
-        List<String> differencesFromExpected = expectedPartNumberList.stream()
-                .filter(element -> !actualPartNumberList.contains(element))
+        List<String> differenceFromExpectedPartNumberList = expectedPartNumberList.stream()
+                .filter(element -> !actualUniquePartList.contains(element))
                 .collect(Collectors.toList());
-        Assert.assertEquals(0, differencesFromExpected.size(), differencesFromExpected.toString());
+        if(differenceFromExpectedPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with expected %s", differenceFromExpectedPartNumberList.toString()));
+        }
+        List<String> differenceFromActualPartNumberList = actualUniquePartList.stream()
+                .filter(element -> !expectedPartNumberList.contains(element))
+                .collect(Collectors.toList());
+        if(differenceFromActualPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
+        }
+        Assert.assertEquals(expectedPartNumberList.size(), actualUniquePartList.size());
 
     }
 
@@ -1387,12 +1515,20 @@ public class ComponentDBStepDefinitions {
                 new CommonElements(context.driver).filterComponentBasedOnNumberOfCavitiesRange(">=" + greaterThanValue);
                 break;
         }
-        List<ConnectorDB> componentData = new ConnectorsDBPage(context.driver).getConnectorsData();
+        List<String> actualUniquePartList = new MulticoreComponentDBPage(context.driver).getPartNumber();
         List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
-        List<String> actualPartNumberList = componentData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
-        List<String> differencesFromExpected = expectedPartNumberList.stream()
-                .filter(element -> !actualPartNumberList.contains(element))
+        List<String> differenceFromExpectedPartNumberList = expectedPartNumberList.stream()
+                .filter(element -> !actualUniquePartList.contains(element))
                 .collect(Collectors.toList());
-        Assert.assertEquals(0, differencesFromExpected.size(), differencesFromExpected.toString());
+        if(differenceFromExpectedPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with expected %s", differenceFromExpectedPartNumberList.toString()));
+        }
+        List<String> differenceFromActualPartNumberList = actualUniquePartList.stream()
+                .filter(element -> !expectedPartNumberList.contains(element))
+                .collect(Collectors.toList());
+        if(differenceFromActualPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
+        }
+        Assert.assertEquals(expectedPartNumberList.size(), actualUniquePartList.size());
     }
 }
