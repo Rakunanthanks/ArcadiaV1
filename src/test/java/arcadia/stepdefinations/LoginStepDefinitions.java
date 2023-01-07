@@ -23,7 +23,7 @@ public class LoginStepDefinitions {
     }
     @Given("I'm on Arcadia test environment")
     public void i_m_on_arcadia_test_environment() throws IOException {
-        loginPage.load(EndPoint.TRAINING.url);
+        loginPage.load();
         loginPage.Login();
     }
     @Given("test data config loaded for test identifier {word}")
