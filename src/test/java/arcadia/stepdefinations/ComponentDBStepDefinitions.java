@@ -218,48 +218,59 @@ public class ComponentDBStepDefinitions {
         List<WiresComponentDB> filteredDbData = new ArrayList<>();
         switch (propertyName.toLowerCase()) {
             case "status":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomData.getStatus()));
                 filteredDbData = dbData.stream().filter(x -> x.getStatus().equals(randomData.getStatus())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnStatus(randomData.getStatus());
                 break;
             case "partnumber":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomData.getPartNumber()));
                 filteredDbData = dbData.stream().filter(x -> x.getPartNumber().equals(randomData.getPartNumber())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnPartNumber(randomData.getPartNumber());
                 break;
             case "description":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomData.getDescription()));
                 filteredDbData = dbData.stream().filter(x -> x.getDescription().equals(randomData.getDescription())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnDescription(randomData.getDescription());
                 break;
             case "family":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomData.getFamily()));
                 filteredDbData = dbData.stream().filter(x -> x.getFamily().equals(randomData.getFamily())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnFamily(randomData.getFamily());
                 break;
             case "usage":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomData.getUsage()));
                 filteredDbData = dbData.stream().filter(x -> x.getUsage().equals(randomData.getUsage())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnUsage(randomData.getUsage());
                 break;
             case "supplier":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomData.getSupplier()));
                 filteredDbData = dbData.stream().filter(x -> x.getSupplier().equals(randomData.getSupplier())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnSupplier(randomData.getSupplier());
                 break;
             case "supplierpn":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomData.getSupplierPN()));
                 filteredDbData = dbData.stream().filter(x -> x.getSupplierPN().equals(randomData.getSupplierPN())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnSupplierPN(randomData.getSupplierPN());
                 break;
             case "colour":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomData.getColour()));
                 filteredDbData = dbData.stream().filter(x -> x.getColour().equals(randomData.getColour())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnColour(randomData.getColour());
                 break;
             case "awgsize":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomData.getAwgSize()));
                 filteredDbData = dbData.stream().filter(x -> x.getAwgSize().equals(randomData.getAwgSize())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnAwgSize(randomData.getAwgSize());
                 break;
             case "gauge":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomData.getGauge()));
                 filteredDbData = dbData.stream()
                         .filter(x -> x.getGauge().equals(randomData.getGauge()))
                         .collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnGauge(randomData.getGauge());
                 break;
             case "material":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomData.getMaterial()));
                 filteredDbData = dbData.stream().filter(x -> x.getMaterial().equals(randomData.getMaterial())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnMaterial(randomData.getMaterial());
                 break;
@@ -299,6 +310,7 @@ public class ComponentDBStepDefinitions {
         List<WiresComponentDB> filteredDbData = new ArrayList<>();
         switch (filterName.toLowerCase()) {
             case "wirecsa":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", greaterThanValue));
                 Double csaValue = Double.valueOf(greaterThanValue);
                 filteredDbData = dbData.stream()
                         .filter(x -> x.getWireCSA() >= csaValue)
@@ -306,6 +318,7 @@ public class ComponentDBStepDefinitions {
                 new CommonElements(context.driver).filterComponentBasedOnCSARange(">=" + greaterThanValue);
                 break;
             case "outsidedia":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", greaterThanValue));
                 Double outsidedia = Double.valueOf(greaterThanValue);
                 filteredDbData = dbData.stream()
                         .filter(x -> x.getOutsideDia() >= outsidedia)
@@ -313,6 +326,7 @@ public class ComponentDBStepDefinitions {
                 new CommonElements(context.driver).filterComponentBasedOnCSARange(">=" + greaterThanValue);
                 break;
             case "minimumbendradius":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", greaterThanValue));
                 Double minimumbendradiusValue = Double.valueOf(greaterThanValue);
                 filteredDbData = dbData.stream()
                         .filter(x -> x.getMinimumRadius() >= minimumbendradiusValue)
@@ -327,6 +341,7 @@ public class ComponentDBStepDefinitions {
                 new CommonElements(context.driver).filterComponentBasedOnCSARange(">=" + greaterThanValue);
                 break;
             case "resistance":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", greaterThanValue));
                 Double resistanceValue = Double.valueOf(greaterThanValue);
                 filteredDbData = dbData.stream()
                         .filter(x -> x.getResistance() >= resistanceValue)
@@ -369,6 +384,7 @@ public class ComponentDBStepDefinitions {
         List<WiresComponentDB> filteredDbData = new ArrayList<>();
         switch (filterName.toLowerCase()) {
             case "wirecsa":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", filterValue));
                 String[] csaRange = filterValue.split("-");
                 Double initialCSAValue = Double.valueOf(csaRange[0]);
                 Double finalCSAValue = Double.valueOf(csaRange[1]);
@@ -379,6 +395,7 @@ public class ComponentDBStepDefinitions {
                 new CommonElements(context.driver).filterComponentBasedOnCSARange(filterValue);
                 break;
             case "outsidedia":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", filterValue));
                 String[] outDiaRange = filterValue.split("-");
                 Double initialDiaValue = Double.valueOf(outDiaRange[0]);
                 Double finalDiaValue = Double.valueOf(outDiaRange[1]);
@@ -389,6 +406,7 @@ public class ComponentDBStepDefinitions {
                 new CommonElements(context.driver).filterComponentBasedOnOutsideDiaRange(filterValue);
                 break;
             case "minimumbendradius":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", filterValue));
                 String[] bendRadiusRange = filterValue.split("-");
                 Double initialRadiusValue = Double.valueOf(bendRadiusRange[0]);
                 Double finalRadiusValue = Double.valueOf(bendRadiusRange[1]);
@@ -399,6 +417,7 @@ public class ComponentDBStepDefinitions {
                 new CommonElements(context.driver).filterComponentBasedOnMinimumBendRadiusRange(filterValue);
                 break;
             case "maxcurrent":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", filterValue));
                 String[] currentRange = filterValue.split("-");
                 Double initialCurrentValue = Double.valueOf(currentRange[0]);
                 Double finalCurrentValue = Double.valueOf(currentRange[1]);
@@ -409,6 +428,7 @@ public class ComponentDBStepDefinitions {
                 new CommonElements(context.driver).filterComponentBasedOnMaxCurrentRange(filterValue);
                 break;
             case "resistance":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", filterValue));
                 String[] resistanceRange = filterValue.split("-");
                 Double initialResistanceValue = Double.valueOf(resistanceRange[0]);
                 Double finalResistanceValue = Double.valueOf(resistanceRange[1]);
@@ -568,52 +588,64 @@ public class ComponentDBStepDefinitions {
         List<TerminalsComponentDB> filteredDbData = new ArrayList<>();
         switch (propertyName.toLowerCase()) {
             case "status":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomTerminalData.getStatus()));
                 filteredDbData = dbData.stream().filter(x -> x.getStatus().equals(randomTerminalData.getStatus())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnStatus(randomTerminalData.getStatus());
                 break;
             case "partnumber":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomTerminalData.getPartNumber()));
                 filteredDbData = dbData.stream().filter(x -> x.getPartNumber().equals(randomTerminalData.getPartNumber())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnPartNumber(randomTerminalData.getPartNumber());
                 break;
             case "description":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomTerminalData.getDescription()));
                 filteredDbData = dbData.stream().filter(x -> x.getDescription().equals(randomTerminalData.getDescription())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnDescription(randomTerminalData.getDescription());
                 break;
             case "family":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomTerminalData.getFamily()));
                 filteredDbData = dbData.stream().filter(x -> x.getFamily().equals(randomTerminalData.getFamily())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnFamily(randomTerminalData.getFamily());
                 break;
             case "usage":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomTerminalData.getUsage()));
                 filteredDbData = dbData.stream().filter(x -> x.getUsage().equals(randomTerminalData.getUsage())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnUsage(randomTerminalData.getUsage());
                 break;
             case "supplier":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomTerminalData.getSupplier()));
                 filteredDbData = dbData.stream().filter(x -> x.getSupplier().equals(randomTerminalData.getSupplier())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnSupplier(randomTerminalData.getSupplier());
                 break;
             case "supplierpn":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomTerminalData.getSupplierPN()));
                 filteredDbData = dbData.stream().filter(x -> x.getSupplierPN().equals(randomTerminalData.getSupplierPN())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnSupplierPN(randomTerminalData.getSupplierPN());
                 break;
             case "colour":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomTerminalData.getColour()));
                 filteredDbData = dbData.stream().filter(x -> x.getColour().equals(randomTerminalData.getColour())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnColour(randomTerminalData.getColour());
                 break;
             case "gender":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomTerminalData.getGender()));
                 filteredDbData = dbData.stream().filter(x -> x.getGender().equals(randomTerminalData.getGender())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnGender(randomTerminalData.getGender());
                 break;
             case "type":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomTerminalData.getType()));
                 filteredDbData = dbData.stream()
                         .filter(x -> x.getType().equals(randomTerminalData.getType()))
                         .collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnType(randomTerminalData.getType());
                 break;
             case "material":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomTerminalData.getMaterial()));
                 filteredDbData = dbData.stream().filter(x -> x.getMaterial().equals(randomTerminalData.getMaterial())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnMaterial(randomTerminalData.getMaterial());
                 break;
             case "csa":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomTerminalData.getCsa()));
                 filteredDbData = dbData.stream().filter(x -> x.getCsa().equals(randomTerminalData.getCsa())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnCSARange(randomTerminalData.getCsa());
                 break;
@@ -654,6 +686,7 @@ public class ComponentDBStepDefinitions {
         List<SplicesComponentDB> filteredDbData = new ArrayList<>();
         switch (propertyName.toLowerCase()) {
             case "partnumber":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomSpliceData.getPartNumber()));
                 filteredDbData = dbData.stream().filter(x -> x.getPartNumber().equals(randomSpliceData.getPartNumber())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnPartNumber(randomSpliceData.getPartNumber());
                 break;
