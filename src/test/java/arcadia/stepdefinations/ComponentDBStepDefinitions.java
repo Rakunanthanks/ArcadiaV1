@@ -453,7 +453,7 @@ public class ComponentDBStepDefinitions {
         if(differenceFromActualPartNumberList.size()>0){
             ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
         }
-        Assert.assertEquals(expectedPartNumberList.size(), actualUniquePartList.size());
+        Assert.assertEquals(actualUniquePartList.size(),expectedPartNumberList.size());
     }
 
     @And("User searches {string} component using {string}")
@@ -664,7 +664,7 @@ public class ComponentDBStepDefinitions {
         if(differenceFromActualPartNumberList.size()>0){
             ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
         }
-        Assert.assertEquals(expectedPartNumberList.size(), actualUniquePartList.size());
+        Assert.assertEquals(actualUniquePartList.size(),expectedPartNumberList.size());
     }
 
     @Then("verify user can filter splice based on property {string}")
@@ -741,7 +741,7 @@ public class ComponentDBStepDefinitions {
         if(differenceFromActualPartNumberList.size()>0){
             ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
         }
-        Assert.assertEquals(expectedPartNumberList.size(), actualUniquePartList.size());
+        Assert.assertEquals(actualUniquePartList.size(),expectedPartNumberList.size());
     }
 
     @Then("verify user can filter otherpart based on property {string}")
@@ -809,7 +809,7 @@ public class ComponentDBStepDefinitions {
         if(differenceFromActualPartNumberList.size()>0){
             ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
         }
-        Assert.assertEquals(expectedPartNumberList.size(), actualUniquePartList.size());
+        Assert.assertEquals(actualUniquePartList.size(),expectedPartNumberList.size());
     }
 
     @Then("verify user can filter junctionpart based on property {string}")
@@ -886,7 +886,7 @@ public class ComponentDBStepDefinitions {
         if(differenceFromActualPartNumberList.size()>0){
             ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
         }
-        Assert.assertEquals(expectedPartNumberList.size(), actualUniquePartList.size());
+        Assert.assertEquals(actualUniquePartList.size(),expectedPartNumberList.size());
     }
 
     @Then("verify user can filter multicore based on property {string}")
@@ -958,7 +958,7 @@ public class ComponentDBStepDefinitions {
         if(differenceFromActualPartNumberList.size()>0){
             ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
         }
-        Assert.assertEquals(expectedPartNumberList.size(), actualUniquePartList.size());
+        Assert.assertEquals(actualUniquePartList.size(),expectedPartNumberList.size());
     }
 
     @Then("Verify multicore component data is greater than value {string} for filter {string}")
@@ -1000,7 +1000,7 @@ public class ComponentDBStepDefinitions {
         if(differenceFromActualPartNumberList.size()>0){
             ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
         }
-        Assert.assertEquals(expectedPartNumberList.size(), actualUniquePartList.size());
+        Assert.assertEquals(actualUniquePartList.size(),expectedPartNumberList.size());
     }
 
     @Then("Verify multicore component data on the basis of filter {string} with value {string}")
@@ -1045,7 +1045,7 @@ public class ComponentDBStepDefinitions {
         if(differenceFromActualPartNumberList.size()>0){
             ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
         }
-        Assert.assertEquals(expectedPartNumberList.size(), actualUniquePartList.size());
+        Assert.assertEquals(actualUniquePartList.size(),expectedPartNumberList.size());
 
     }
 
@@ -1132,7 +1132,7 @@ public class ComponentDBStepDefinitions {
         if(differenceFromActualPartNumberList.size()>0){
             ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
         }
-        Assert.assertEquals(expectedPartNumberList.size(), actualUniquePartList.size());
+        Assert.assertEquals(actualUniquePartList.size(),expectedPartNumberList.size());
     }
 
     //For component type 'component"
@@ -1199,7 +1199,7 @@ public class ComponentDBStepDefinitions {
         if(differenceFromActualPartNumberList.size()>0){
             ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
         }
-        Assert.assertEquals(expectedPartNumberList.size(), actualUniquePartList.size());
+        Assert.assertEquals(actualUniquePartList.size(),expectedPartNumberList.size());
     }
 
     @Then("Verify component data on the basis of filter {string} with value {string}")
@@ -1244,7 +1244,7 @@ public class ComponentDBStepDefinitions {
         if(differenceFromActualPartNumberList.size()>0){
             ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
         }
-        Assert.assertEquals(expectedPartNumberList.size(), actualUniquePartList.size());
+        Assert.assertEquals(actualUniquePartList.size(),expectedPartNumberList.size());
     }
 
     @Then("Verify component data is greater than value {string} for filter {string}")
@@ -1286,7 +1286,7 @@ public class ComponentDBStepDefinitions {
         if(differenceFromActualPartNumberList.size()>0){
             ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
         }
-        Assert.assertEquals(expectedPartNumberList.size(), actualUniquePartList.size());
+        Assert.assertEquals(actualUniquePartList.size(),expectedPartNumberList.size());
     }
 
     @Then("verify user can filter seals based on property {string}")
@@ -1364,7 +1364,7 @@ public class ComponentDBStepDefinitions {
         if(differenceFromActualPartNumberList.size()>0){
             ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
         }
-        Assert.assertEquals(expectedPartNumberList.size(), actualUniquePartList.size());
+        Assert.assertEquals(actualUniquePartList.size(),expectedPartNumberList.size());
     }
 
     @And("User links {string} from componentDB")
@@ -1470,7 +1470,7 @@ public class ComponentDBStepDefinitions {
         if(differenceFromActualPartNumberList.size()>0){
             ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
         }
-        Assert.assertEquals(expectedPartNumberList.size(), actualUniquePartList.size());
+        Assert.assertEquals(actualUniquePartList.size(),expectedPartNumberList.size());
     }
 
     @Then("Verify connector data on the basis of filter {string} with value {string}")
@@ -1517,7 +1517,7 @@ public class ComponentDBStepDefinitions {
         if(differenceFromActualPartNumberList.size()>0){
             ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
         }
-        Assert.assertEquals(expectedPartNumberList.size(), actualUniquePartList.size());
+        Assert.assertEquals(actualUniquePartList.size(),expectedPartNumberList.size());
 
     }
 
@@ -1562,6 +1562,6 @@ public class ComponentDBStepDefinitions {
         if(differenceFromActualPartNumberList.size()>0){
             ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
         }
-        Assert.assertEquals(expectedPartNumberList.size(), actualUniquePartList.size());
+        Assert.assertEquals(actualUniquePartList.size(),expectedPartNumberList.size());
     }
 }
