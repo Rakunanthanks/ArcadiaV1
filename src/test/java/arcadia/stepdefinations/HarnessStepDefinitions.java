@@ -10,6 +10,7 @@ import arcadia.pages.PageFactoryManager;
 import arcadia.pages.ProjectLanding;
 import arcadia.utils.ConversionUtil;
 import arcadia.utils.DrawingHelper;
+import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 
@@ -34,6 +35,7 @@ public class HarnessStepDefinitions {
         projectLanding.invokeCreateHarness();
         TestMapper mapper = conversionUtil.getTestMapperConfig(context.testIdentifier);
         arcadia.mapperObjects.CreateHarness createHarnessData = mapper.getCreateHarness();
+        ExtentCucumberAdapter.addTestStepLog(String.format("Harness data description is %s and part number is %s", createHarnessData.getDescription(),createHarnessData.getPartNumber()));
         createHarness.submitHarnessData(new Harness(createHarnessData.getWorkTask(), createHarnessData.getTitle(), createHarnessData.getDescription(), createHarnessData.getPartNumber(), createHarnessData.getRevision(), createHarnessData.getComponentDB()));
     }
 

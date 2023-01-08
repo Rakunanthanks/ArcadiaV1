@@ -8,6 +8,7 @@ import arcadia.pages.ConnectorPage;
 import arcadia.pages.HarnessPage;
 import arcadia.pages.PageFactoryManager;
 import arcadia.utils.ConversionUtil;
+import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import io.cucumber.java.en.Given;
 
 import java.io.IOException;
@@ -28,6 +29,7 @@ public class ConnectorCopyStepDefinitions {
     public void connector_added_to_first_node_of_bundle() throws InterruptedException {
         Thread.sleep(2000);
         harnessPage.clickOnConnector();
+        ExtentCucumberAdapter.addTestStepLog(String.format("Connector id is %s", context.bundleNodes.get(0).getAttribute("id")));
         context.node1 = context.bundleNodes.get(0).getAttribute("id");
         //connectorPage.addConnectorToNode(context.bundleNodes.get(0).getAttribute("id"));
     }

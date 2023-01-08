@@ -13,6 +13,7 @@ import arcadia.utils.ConversionUtil;
 import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import org.testng.Assert;
@@ -42,6 +43,7 @@ public class SearchPartsStepDefinitions {
         Thread.sleep(2000);
         TestMapper mapper = conversionUtil.getTestMapperConfig(context.testIdentifier);
         SearchParts searchParts = mapper.getSearchParts();
+        ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s %s", searchParts.getDescription(),searchParts.getCavityNumber()));
         searchPartsDatabasePage.findInSearchPartDatabase(searchParts.getDescription(),searchParts.getCavityNumber());
         Thread.sleep(2000);
         searchPartsDatabasePage.populateParts();
