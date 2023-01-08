@@ -39,3 +39,23 @@ Feature: Filter bundle parts
     And harness is created successfully
     And based on drawing orchestrator components are created
     Then Verify user can filter 'connector' in 'quickstart' componentdb using 'supplier'
+
+  @SearchParts
+  Scenario: Test verifies a connector can be filtered using HousingGender while creating bundles
+    Given I'm on Arcadia test environment
+    And test data config loaded for test identifier test8
+    And Harness bundle default values are captured
+    And Navigated to quickstart project
+    And harness is created successfully
+    And based on drawing orchestrator components are created
+    Then Verify user can filter 'connector' in 'quickstart' componentdb using 'housinggender'
+
+  @SearchParts
+  Scenario: Test verifies a connector can be filtered using TerminalGender while creating bundles
+    Given I'm on Arcadia test environment
+    And test data config loaded for test identifier test8
+    And Harness bundle default values are captured
+    And Navigated to quickstart project
+    And harness is created successfully
+    And based on drawing orchestrator components are created
+    Then Verify user can filter 'connector' in 'quickstart' componentdb using 'terminalgender'

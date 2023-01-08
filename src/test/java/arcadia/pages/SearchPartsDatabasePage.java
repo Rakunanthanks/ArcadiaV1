@@ -18,9 +18,9 @@ public class SearchPartsDatabasePage extends BasePage{
     @FindBy(css = "select[name=\"concompntType\"]") private WebElement componentType;
     @FindBy(css = "input[name=\"conPartNumber\"]") private WebElement pnDescription;
     @FindBy(css = "input[name=\"nFamily\"]") private WebElement family;
-    @FindBy(css = "input[name=\"nGroupname\"]") private WebElement partType;
-    @FindBy(css = "input[name=\"housingGender\"]") private WebElement housingGender;
-    @FindBy(css = "input[name=\"gender\"]") private WebElement gender;
+    @FindBy(css = "select[name=\"nGroupname\"]") private WebElement partType;
+    @FindBy(css = "select[name=\"housingGender\"]") private WebElement housingGender;
+    @FindBy(css = "select[name=\"gender\"]") private WebElement gender;
 
     @FindBy(css = "input[name=\"nCompany\"]") private WebElement supplier;
 
@@ -79,6 +79,20 @@ public class SearchPartsDatabasePage extends BasePage{
     public void searchPartUsingSupplier(String companyName) throws InterruptedException, AWTException {
         customCommand.simulateKeyEnterWithValue(supplier, companyName);
         customCommand.simulateKeyEnter();
+        Thread.sleep(4000);
+        customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tablePartsRows)));
+    }
+
+    public void searchPartUsingHousingGender(String housingGenderType) throws InterruptedException, AWTException {
+        customCommand.simulateKeyEnterWithValue(housingGender, housingGenderType);
+        arrowbuttonfetchInfo.click();
+        Thread.sleep(4000);
+        customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tablePartsRows)));
+    }
+
+    public void searchPartUsingTerminalGender(String terminalGenderType) throws InterruptedException, AWTException {
+        customCommand.simulateKeyEnterWithValue(gender, terminalGenderType);
+        arrowbuttonfetchInfo.click();
         Thread.sleep(4000);
         customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tablePartsRows)));
     }

@@ -13,7 +13,6 @@ import arcadia.utils.ConversionUtil;
 import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import org.testng.Assert;
@@ -50,7 +49,7 @@ public class SearchPartsStepDefinitions {
     }
 
     @Then("Verify user can filter {string} in {string} componentdb using {string}")
-    public void userFiltersConnectorInQuickstartComponentdbUsingPartNumber(String component, String compDB, String filtertype) throws InterruptedException, AWTException, IOException {
+    public void userFiltersConnectorOnCreateBundle(String component, String compDB, String filtertype) throws InterruptedException, AWTException, IOException {
         File f = new File("src/test/resources/componentDB/Connector/ConnectorData.json");
         List<ConnectorDB> dbData = null;
             System.out.println("Resuse JSON");
@@ -77,6 +76,14 @@ public class SearchPartsStepDefinitions {
             case "supplier":
                 filteredDbData = dbData.stream().filter(x -> x.getSupplier().equals(randomConnectorData.getSupplier())).collect(Collectors.toList());
                 searchPartsDatabasePage.searchPartUsingSupplier(randomConnectorData.getSupplier());
+                break;
+            case "housinggender":
+                filteredDbData = dbData.stream().filter(x -> x.getHousingGender().equals(randomConnectorData.getHousingGender())).collect(Collectors.toList());
+                searchPartsDatabasePage.searchPartUsingHousingGender(randomConnectorData.getHousingGender());
+                break;
+            case "terminalgender":
+                filteredDbData = dbData.stream().filter(x -> x.getTerminalGender().equals(randomConnectorData.getTerminalGender())).collect(Collectors.toList());
+                searchPartsDatabasePage.searchPartUsingTerminalGender(randomConnectorData.getTerminalGender());
                 break;
         }
         List<String> actualUniquePartList = searchPartsDatabasePage.getSearchPartsData();
