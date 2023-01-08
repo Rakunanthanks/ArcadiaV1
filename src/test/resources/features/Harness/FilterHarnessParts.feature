@@ -1,4 +1,4 @@
-Feature: Filter bundle parts
+Feature: Filter harness parts
 
   @SearchParts
   Scenario: Test verifies a connector can be filtered using partnumber while creating bundles
