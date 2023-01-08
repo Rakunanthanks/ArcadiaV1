@@ -84,6 +84,8 @@ public class ConnectorPage extends BasePage {
         Actions actions = new Actions(driver);
         WebElement menu = driver.findElement(By.cssSelector("g[id=\""+nodeElement+"\"]"));
         actions.moveToElement(menu).click().build().perform();
+
+        if(connectorPart != null && !connectorPart.isEmpty()) {
         new SearchPartsDatabasePage(driver).findInSearchPartDatabase(connectorPart,cavityNumber);
         new SearchPartsDatabasePage(driver).populateParts();
         Thread.sleep(4000);
@@ -115,6 +117,7 @@ public class ConnectorPage extends BasePage {
             addRowInCavityTable(addRowInCavityTable);
         }
         submitConnector();
+        }
 
     }
     public void addWire(List<ConnectorWireTable> wireTableList , boolean submitConnector) throws InterruptedException {
