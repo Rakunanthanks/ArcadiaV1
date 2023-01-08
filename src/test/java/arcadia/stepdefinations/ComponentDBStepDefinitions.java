@@ -61,6 +61,7 @@ public class ComponentDBStepDefinitions {
         componentDetails.setDescription(String.format("testdescription-%04d", new StringHelper().generateRandomDigit()));
         componentDetails.setStatus(componentStatus);
         addComponentForm.setComponentDetails(componentDetails);
+        ExtentCucumberAdapter.addTestStepLog(String.format("Component Name is "+ componentName+", Component Status is "+componentStatus));
 
         //Adding additional references details
         csvQuery = "Select * from AdditionalReferencesDetails where componentName='" + componentName.toLowerCase() + "'";
@@ -71,6 +72,7 @@ public class ComponentDBStepDefinitions {
         additionalReferences1.setReferencesPartNumber(referencesPartNumber);
         additionalReferencesList.add(additionalReferences1);
         addComponentForm.setAdditionalReferences(additionalReferencesList);
+        ExtentCucumberAdapter.addTestStepLog(String.format("Reference part number is "+ referencesPartNumber));
 
         //Adding bom details
         csvQuery = "Select * from BomDetails where componentName='" + componentName.toLowerCase() + "'";
@@ -79,7 +81,6 @@ public class ComponentDBStepDefinitions {
         new AddNewComponentPage(context.driver).createComponent(addComponentForm, componentName);
         new AddNewComponentPage(context.driver).submitComponentDetails();
         Thread.sleep(1000);
-
     }
 
     @Then("{string} component with billtype {string} is created successfully")
@@ -92,6 +93,7 @@ public class ComponentDBStepDefinitions {
         String csvQuery = "";
         String csvDirectoryPath = "src/test/resources/componentDB/TestData";
         new HeaderPanel(context.driver).openAddNewComponentPage();
+        ExtentCucumberAdapter.addTestStepLog(String.format("Component Name is "+ componentName+" bill type is "+componentBomBillType));
 
         //Adding component details
         csvQuery = "Select * from ComponentDetails where componentName='" + componentName.toLowerCase() + "'";
@@ -122,6 +124,7 @@ public class ComponentDBStepDefinitions {
 
     @Then("{string} component with referencepartnumber {string} and referencecompany {string} only is created")
     public void component_with_reference_details_is_created(String componentName, String partNumber, String referencecompany) throws InterruptedException {
+        ExtentCucumberAdapter.addTestStepLog(String.format("Component Name is "+ componentName+" part number is "+partNumber+", Reference Company is "+referencecompany));
         new HeaderPanel(context.driver).openAddNewComponentPage();
         AddComponentForm addComponentForm = null;
         addComponentForm = new AddComponentForm();
@@ -150,12 +153,14 @@ public class ComponentDBStepDefinitions {
                 errorMessage = "Enter Company";
                 break;
         }
+        ExtentCucumberAdapter.addTestStepLog(String.format("Error message is "+ errorMessage+" for Mandatory field is "+fieldName+", for component "+componentName));
         new AddNewComponentPage(context.driver).verifyAlertMessage(errorMessage);
         new AddNewComponentPage(context.driver).closeAlertPopUp();
     }
 
     @Then("{string} component with additionalreferencetype {string} is created successfully")
     public void component_with_additionalreferencetype_is_created_successfully(String componentName, String additionalRefernceType) throws InterruptedException, SQLException, ClassNotFoundException {
+        ExtentCucumberAdapter.addTestStepLog(String.format("Component Name is "+ componentName+" additional Refernce Type is "+additionalRefernceType));
         AddComponentForm addComponentForm = null;
         ComponentDetails componentDetails = null;
         List<AdditionalReferences> additionalReferencesList = null;
@@ -460,6 +465,7 @@ public class ComponentDBStepDefinitions {
     public void userSearchesComponent(String componentName, String searchType) throws InterruptedException {
         switch (searchType.toLowerCase()) {
             case "partnumber":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Searched component is ", componentName+ ", Searched type is "+searchType));
                 new CommonElements(context.driver).filterComponentBasedOnPartNumber(FlowContext.referencesPartNumber);
                 break;
         }
@@ -488,6 +494,7 @@ public class ComponentDBStepDefinitions {
 
     @Then("User verified the component {string} is added successfully")
     public void userVerifiedTheComponentIsAddedSuccessfully(String componentName) throws InterruptedException {
+        ExtentCucumberAdapter.addTestStepLog(String.format("Component to be added is"+ componentName));
         switch (componentName.toLowerCase()) {
             case "wire":
                 List<WiresComponentDB> wiresdatalist = new WiresComponentDBPage(context.driver).getWiresData();
@@ -691,38 +698,47 @@ public class ComponentDBStepDefinitions {
                 new CommonElements(context.driver).filterComponentBasedOnPartNumber(randomSpliceData.getPartNumber());
                 break;
             case "description":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomSpliceData.getDescription()));
                 filteredDbData = dbData.stream().filter(x -> x.getDescription().equals(randomSpliceData.getDescription())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnDescription(randomSpliceData.getDescription());
                 break;
             case "family":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomSpliceData.getFamily()));
                 filteredDbData = dbData.stream().filter(x -> x.getFamily().equals(randomSpliceData.getFamily())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnFamily(randomSpliceData.getFamily());
                 break;
             case "status":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomSpliceData.getStatus()));
                 filteredDbData = dbData.stream().filter(x -> x.getStatus().equals(randomSpliceData.getStatus())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnStatus(randomSpliceData.getStatus());
                 break;
             case "usage":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomSpliceData.getUsage()));
                 filteredDbData = dbData.stream().filter(x -> x.getUsage().equals(randomSpliceData.getUsage())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnUsage(randomSpliceData.getUsage());
                 break;
             case "supplier":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomSpliceData.getSupplier()));
                 filteredDbData = dbData.stream().filter(x -> x.getSupplier().equals(randomSpliceData.getSupplier())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnSupplier(randomSpliceData.getSupplier());
                 break;
             case "supplierpn":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomSpliceData.getSupplierPN()));
                 filteredDbData = dbData.stream().filter(x -> x.getSupplierPN().equals(randomSpliceData.getSupplierPN())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnSupplierPN(randomSpliceData.getSupplierPN());
                 break;
             case "colour":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomSpliceData.getColour()));
                 filteredDbData = dbData.stream().filter(x -> x.getColour().equals(randomSpliceData.getColour())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnColour(randomSpliceData.getColour());
                 break;
             case "sealingtype":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomSpliceData.getSealingType()));
                 filteredDbData = dbData.stream().filter(x -> x.getSealingType().equals(randomSpliceData.getSealingType())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnSealingType(randomSpliceData.getSealingType());
                 break;
             case "material":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomSpliceData.getMaterial()));
                 filteredDbData = dbData.stream().filter(x -> x.getMaterial().equals(randomSpliceData.getMaterial())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnMaterial(randomSpliceData.getMaterial());
                 break;
@@ -763,34 +779,42 @@ public class ComponentDBStepDefinitions {
         List<OtherPartsComponentDB> filteredDbData = new ArrayList<>();
         switch (propertyName.toLowerCase()) {
             case "partnumber":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomOtherPartData.getPartNumber()));
                 filteredDbData = dbData.stream().filter(x -> x.getPartNumber().equals(randomOtherPartData.getPartNumber())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnPartNumber(randomOtherPartData.getPartNumber());
                 break;
             case "description":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomOtherPartData.getDescription()));
                 filteredDbData = dbData.stream().filter(x -> x.getDescription().equals(randomOtherPartData.getDescription())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnDescription(randomOtherPartData.getDescription());
                 break;
             case "family":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomOtherPartData.getFamily()));
                 filteredDbData = dbData.stream().filter(x -> x.getFamily().equals(randomOtherPartData.getFamily())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnFamily(randomOtherPartData.getFamily());
                 break;
             case "status":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomOtherPartData.getStatus()));
                 filteredDbData = dbData.stream().filter(x -> x.getStatus().equals(randomOtherPartData.getStatus())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnStatus(randomOtherPartData.getStatus());
                 break;
             case "usage":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomOtherPartData.getUsage()));
                 filteredDbData = dbData.stream().filter(x -> x.getUsage().equals(randomOtherPartData.getUsage())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnUsage(randomOtherPartData.getUsage());
                 break;
             case "supplier":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomOtherPartData.getSupplier()));
                 filteredDbData = dbData.stream().filter(x -> x.getSupplier().equals(randomOtherPartData.getSupplier())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnSupplier(randomOtherPartData.getSupplier());
                 break;
             case "supplierpn":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomOtherPartData.getSupplierPN()));
                 filteredDbData = dbData.stream().filter(x -> x.getSupplierPN().equals(randomOtherPartData.getSupplierPN())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnSupplierPN(randomOtherPartData.getSupplierPN());
                 break;
             case "colour":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomOtherPartData.getColour()));
                 filteredDbData = dbData.stream().filter(x -> x.getColour().equals(randomOtherPartData.getColour())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnColour(randomOtherPartData.getColour());
                 break;
@@ -832,42 +856,52 @@ public class ComponentDBStepDefinitions {
         List<JunctionPartComponentDB> filteredDbData = new ArrayList<>();
         switch (propertyName.toLowerCase()) {
             case "partnumber":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomJunctionPartData.getPartNumber()));
                 filteredDbData = dbData.stream().filter(x -> x.getPartNumber().equals(randomJunctionPartData.getPartNumber())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnPartNumber(randomJunctionPartData.getPartNumber());
                 break;
             case "description":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomJunctionPartData.getDescription()));
                 filteredDbData = dbData.stream().filter(x -> x.getDescription().equals(randomJunctionPartData.getDescription())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnDescription(randomJunctionPartData.getDescription());
                 break;
             case "family":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomJunctionPartData.getFamily()));
                 filteredDbData = dbData.stream().filter(x -> x.getFamily().equals(randomJunctionPartData.getFamily())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnFamily(randomJunctionPartData.getFamily());
                 break;
             case "status":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomJunctionPartData.getStatus()));
                 filteredDbData = dbData.stream().filter(x -> x.getStatus().equals(randomJunctionPartData.getStatus())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnStatus(randomJunctionPartData.getStatus());
                 break;
             case "usage":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomJunctionPartData.getUsage()));
                 filteredDbData = dbData.stream().filter(x -> x.getUsage().equals(randomJunctionPartData.getUsage())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnUsage(randomJunctionPartData.getUsage());
                 break;
             case "supplier":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomJunctionPartData.getSupplier()));
                 filteredDbData = dbData.stream().filter(x -> x.getSupplier().equals(randomJunctionPartData.getSupplier())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnSupplier(randomJunctionPartData.getSupplier());
                 break;
             case "supplierpn":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomJunctionPartData.getSupplierPN()));
                 filteredDbData = dbData.stream().filter(x -> x.getSupplierPN().equals(randomJunctionPartData.getSupplierPN())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnSupplierPN(randomJunctionPartData.getSupplierPN());
                 break;
             case "colour":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomJunctionPartData.getColour()));
                 filteredDbData = dbData.stream().filter(x -> x.getColour().equals(randomJunctionPartData.getColour())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnColour(randomJunctionPartData.getColour());
                 break;
             case "controltype":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomJunctionPartData.getControltype()));
                 filteredDbData = dbData.stream().filter(x -> x.getControltype().equals(randomJunctionPartData.getControltype())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnControlType(randomJunctionPartData.getControltype());
                 break;
             case "material":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomJunctionPartData.getMaterial()));
                 filteredDbData = dbData.stream().filter(x -> x.getMaterial().equals(randomJunctionPartData.getMaterial())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnMaterial(randomJunctionPartData.getMaterial());
                 break;
@@ -908,38 +942,47 @@ public class ComponentDBStepDefinitions {
         List<MulticoreComponentDB> filteredDbData = new ArrayList<>();
         switch (propertyName.toLowerCase()) {
             case "partnumber":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomMulticoreData.getPartNumber()));
                 filteredDbData = dbData.stream().filter(x -> x.getPartNumber().equals(randomMulticoreData.getPartNumber())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnPartNumber(randomMulticoreData.getPartNumber());
                 break;
             case "description":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomMulticoreData.getDescription()));
                 filteredDbData = dbData.stream().filter(x -> x.getDescription().equals(randomMulticoreData.getDescription())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnDescription(randomMulticoreData.getDescription());
                 break;
             case "family":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomMulticoreData.getFamily()));
                 filteredDbData = dbData.stream().filter(x -> x.getFamily().equals(randomMulticoreData.getFamily())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnFamily(randomMulticoreData.getFamily());
                 break;
             case "status":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomMulticoreData.getStatus()));
                 filteredDbData = dbData.stream().filter(x -> x.getStatus().equals(randomMulticoreData.getStatus())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnStatus(randomMulticoreData.getStatus());
                 break;
             case "usage":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomMulticoreData.getUsage()));
                 filteredDbData = dbData.stream().filter(x -> x.getUsage().equals(randomMulticoreData.getUsage())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnUsage(randomMulticoreData.getUsage());
                 break;
             case "supplier":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomMulticoreData.getSupplier()));
                 filteredDbData = dbData.stream().filter(x -> x.getSupplier().equals(randomMulticoreData.getSupplier())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnSupplier(randomMulticoreData.getSupplier());
                 break;
             case "supplierpn":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomMulticoreData.getSupplierPN()));
                 filteredDbData = dbData.stream().filter(x -> x.getSupplierPN().equals(randomMulticoreData.getSupplierPN())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnSupplierPN(randomMulticoreData.getSupplierPN());
                 break;
             case "colour":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomMulticoreData.getColour()));
                 filteredDbData = dbData.stream().filter(x -> x.getColour().equals(randomMulticoreData.getColour())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnColour(randomMulticoreData.getColour());
                 break;
             case "cabletype":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomMulticoreData.getCabletype()));
                 filteredDbData = dbData.stream().filter(x -> x.getCabletype().equals(randomMulticoreData.getCabletype())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnCableType(randomMulticoreData.getCabletype());
                 break;
@@ -1070,50 +1113,62 @@ public class ComponentDBStepDefinitions {
         List<ApplicatorsComponentDB> filteredDbData = new ArrayList<>();
         switch (propertyName.toLowerCase()) {
             case "partnumber":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomApplicatorData.getPartNumber()));
                 filteredDbData = dbData.stream().filter(x -> x.getPartNumber().equals(randomApplicatorData.getPartNumber())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnPartNumber(randomApplicatorData.getPartNumber());
                 break;
             case "description":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomApplicatorData.getDescription()));
                 filteredDbData = dbData.stream().filter(x -> x.getDescription().equals(randomApplicatorData.getDescription())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnDescription(randomApplicatorData.getDescription());
                 break;
             case "family":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomApplicatorData.getFamily()));
                 filteredDbData = dbData.stream().filter(x -> x.getFamily().equals(randomApplicatorData.getFamily())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnFamily(randomApplicatorData.getFamily());
                 break;
             case "status":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomApplicatorData.getStatus()));
                 filteredDbData = dbData.stream().filter(x -> x.getStatus().equals(randomApplicatorData.getStatus())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnStatus(randomApplicatorData.getStatus());
                 break;
             case "usage":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomApplicatorData.getUsage()));
                 filteredDbData = dbData.stream().filter(x -> x.getUsage().equals(randomApplicatorData.getUsage())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnUsage(randomApplicatorData.getUsage());
                 break;
             case "supplier":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomApplicatorData.getSupplier()));
                 filteredDbData = dbData.stream().filter(x -> x.getSupplier().equals(randomApplicatorData.getSupplier())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnSupplier(randomApplicatorData.getSupplier());
                 break;
             case "supplierpn":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomApplicatorData.getSupplierPN()));
                 filteredDbData = dbData.stream().filter(x -> x.getSupplierPN().equals(randomApplicatorData.getSupplierPN())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnSupplierPN(randomApplicatorData.getSupplierPN());
                 break;
             case "colour":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomApplicatorData.getColour()));
                 filteredDbData = dbData.stream().filter(x -> x.getColour().equals(randomApplicatorData.getColour())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnColour(randomApplicatorData.getColour());
                 break;
             case "applicatorusage":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomApplicatorData.getApplicatorUsage()));
                 filteredDbData = dbData.stream().filter(x -> x.getApplicatorUsage().equals(randomApplicatorData.getApplicatorUsage())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnApplicatorUsage(randomApplicatorData.getApplicatorUsage());
                 break;
             case "forsealorterminal":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomApplicatorData.getForSealOrTerminal()));
                 filteredDbData = dbData.stream().filter(x -> x.getForSealOrTerminal().equals(randomApplicatorData.getForSealOrTerminal())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnSealOrTerminal(randomApplicatorData.getForSealOrTerminal());
                 break;
             case "inservice":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomApplicatorData.getInService()));
                 filteredDbData = dbData.stream().filter(x -> x.getInService().equals(randomApplicatorData.getInService())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnInService(randomApplicatorData.getInService());
                 break;
             case "applicatorsite":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomApplicatorData.getApplicatorSite()));
                 filteredDbData = dbData.stream().filter(x -> x.getApplicatorSite().equals(randomApplicatorData.getApplicatorSite())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnApplicatorSite(randomApplicatorData.getApplicatorSite());
                 break;
@@ -1157,30 +1212,37 @@ public class ComponentDBStepDefinitions {
         List<ComponentsDB> filteredDbData = new ArrayList<>();
         switch (propertyName.toLowerCase()) {
             case "partnumber":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomComponentData.getPartNumber()));
                 filteredDbData = dbData.stream().filter(x -> x.getPartNumber().equals(randomComponentData.getPartNumber())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnPartNumber(randomComponentData.getPartNumber());
                 break;
             case "description":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomComponentData.getDescription()));
                 filteredDbData = dbData.stream().filter(x -> x.getDescription().equals(randomComponentData.getDescription())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnDescription(randomComponentData.getDescription());
                 break;
             case "family":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomComponentData.getFamily()));
                 filteredDbData = dbData.stream().filter(x -> x.getFamily().equals(randomComponentData.getFamily())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnFamily(randomComponentData.getFamily());
                 break;
             case "status":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomComponentData.getStatus()));
                 filteredDbData = dbData.stream().filter(x -> x.getStatus().equals(randomComponentData.getStatus())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnStatus(randomComponentData.getStatus());
                 break;
             case "usage":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomComponentData.getUsage()));
                 filteredDbData = dbData.stream().filter(x -> x.getUsage().equals(randomComponentData.getUsage())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnUsage(randomComponentData.getUsage());
                 break;
             case "supplier":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomComponentData.getSupplier()));
                 filteredDbData = dbData.stream().filter(x -> x.getSupplier().equals(randomComponentData.getSupplier())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnSupplier(randomComponentData.getSupplier());
                 break;
             case "supplierpn":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomComponentData.getSupplierPN()));
                 filteredDbData = dbData.stream().filter(x -> x.getSupplierPN().equals(randomComponentData.getSupplierPN())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnSupplierPN(randomComponentData.getSupplierPN());
                 break;
@@ -1310,42 +1372,52 @@ public class ComponentDBStepDefinitions {
         List<SealsComponentDB> filteredDbData = new ArrayList<>();
         switch (propertyName.toLowerCase()) {
             case "partnumber":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomSealsData.getPartNumber()));
                 filteredDbData = dbData.stream().filter(x -> x.getPartNumber().equals(randomSealsData.getPartNumber())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnPartNumber(randomSealsData.getPartNumber());
                 break;
             case "description":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomSealsData.getDescription()));
                 filteredDbData = dbData.stream().filter(x -> x.getDescription().equals(randomSealsData.getDescription())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnDescription(randomSealsData.getDescription());
                 break;
             case "family":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomSealsData.getFamily()));
                 filteredDbData = dbData.stream().filter(x -> x.getFamily().equals(randomSealsData.getFamily())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnFamily(randomSealsData.getFamily());
                 break;
             case "status":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomSealsData.getStatus()));
                 filteredDbData = dbData.stream().filter(x -> x.getStatus().equals(randomSealsData.getStatus())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnStatus(randomSealsData.getStatus());
                 break;
             case "usage":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomSealsData.getUsage()));
                 filteredDbData = dbData.stream().filter(x -> x.getUsage().equals(randomSealsData.getUsage())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnUsage(randomSealsData.getUsage());
                 break;
             case "supplier":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomSealsData.getSupplier()));
                 filteredDbData = dbData.stream().filter(x -> x.getSupplier().equals(randomSealsData.getSupplier())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnSupplier(randomSealsData.getSupplier());
                 break;
             case "supplierpn":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomSealsData.getSupplierPN()));
                 filteredDbData = dbData.stream().filter(x -> x.getSupplierPN().equals(randomSealsData.getSupplierPN())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnSupplierPN(randomSealsData.getSupplierPN());
                 break;
             case "colour":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomSealsData.getColour()));
                 filteredDbData = dbData.stream().filter(x -> x.getColour().equals(randomSealsData.getColour())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnColour(randomSealsData.getColour());
                 break;
             case "cavity":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomSealsData.getCavity()));
                 filteredDbData = dbData.stream().filter(x -> x.getCavity().equals(randomSealsData.getCavity())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnCavity(randomSealsData.getCavity());
                 break;
             case "insulationod":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomSealsData.getInsulationOD()));
                 filteredDbData = dbData.stream().filter(x -> x.getInsulationOD().equals(randomSealsData.getInsulationOD())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnInsulationOD(randomSealsData.getInsulationOD());
                 break;
@@ -1408,50 +1480,62 @@ public class ComponentDBStepDefinitions {
         List<ConnectorDB> filteredDbData = new ArrayList<>();
         switch (propertyName.toLowerCase()) {
             case "partnumber":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomConnectorData.getPartNumber()));
                 filteredDbData = dbData.stream().filter(x -> x.getPartNumber().equals(randomConnectorData.getPartNumber())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnPartNumber(randomConnectorData.getPartNumber());
                 break;
             case "description":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomConnectorData.getDescription()));
                 filteredDbData = dbData.stream().filter(x -> x.getDescription().equals(randomConnectorData.getDescription())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnDescription(randomConnectorData.getDescription());
                 break;
             case "family":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomConnectorData.getFamily()));
                 filteredDbData = dbData.stream().filter(x -> x.getFamily().equals(randomConnectorData.getFamily())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnFamily(randomConnectorData.getFamily());
                 break;
             case "status":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomConnectorData.getStatus()));
                 filteredDbData = dbData.stream().filter(x -> x.getStatus().equals(randomConnectorData.getStatus())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnStatus(randomConnectorData.getStatus());
                 break;
             case "usage":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomConnectorData.getUsage()));
                 filteredDbData = dbData.stream().filter(x -> x.getUsage().equals(randomConnectorData.getUsage())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnUsage(randomConnectorData.getUsage());
                 break;
             case "supplier":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomConnectorData.getSupplier()));
                 filteredDbData = dbData.stream().filter(x -> x.getSupplier().equals(randomConnectorData.getSupplier())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnSupplier(randomConnectorData.getSupplier());
                 break;
             case "supplierpn":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomConnectorData.getSupplierPN()));
                 filteredDbData = dbData.stream().filter(x -> x.getSupplierPN().equals(randomConnectorData.getSupplierPN())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnSupplierPN(randomConnectorData.getSupplierPN());
                 break;
             case "colour":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomConnectorData.getColour()));
                 filteredDbData = dbData.stream().filter(x -> x.getColour().equals(randomConnectorData.getColour())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnColour(randomConnectorData.getColour());
                 break;
             case "housinggender":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomConnectorData.getHousingGender()));
                 filteredDbData = dbData.stream().filter(x -> x.getHousingGender().equals(randomConnectorData.getHousingGender())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnHousingGender(randomConnectorData.getHousingGender());
                 break;
             case "terminalgender":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomConnectorData.getTerminalGender()));
                 filteredDbData = dbData.stream().filter(x -> x.getTerminalGender().equals(randomConnectorData.getTerminalGender())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnGender(randomConnectorData.getTerminalGender());
                 break;
             case "connectortype":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomConnectorData.getConnectorType()));
                 filteredDbData = dbData.stream().filter(x -> x.getConnectorType().equals(randomConnectorData.getConnectorType())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnConnectorType(randomConnectorData.getConnectorType());
                 break;
             case "keyway":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomConnectorData.getKeyway()));
                 filteredDbData = dbData.stream().filter(x -> x.getKeyway().equals(randomConnectorData.getKeyway())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnKeyway(randomConnectorData.getKeyway());
                 break;

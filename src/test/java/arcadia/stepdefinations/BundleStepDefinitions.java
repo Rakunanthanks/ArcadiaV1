@@ -50,6 +50,7 @@ public class BundleStepDefinitions {
                 List<WireProperties> wireProperties = wItem.getWirePropertiesList();
                 Double expectedDiameter = new FormulaCalculator().getBundleDiameter(wireProperties.stream().map(x->x.getWireOuterDiameter()).collect(toList()));
                 Double actualDiameter = Double.valueOf(FlowContext.bundleFormData.stream().filter(x->x.getBundleFormName().equalsIgnoreCase(bundleFormName)).map(x->x.getBundleDiameter()).findFirst().get());
+                ExtentCucumberAdapter.addTestStepLog(String.format("Bundleform name is %s", bundleFormName));
                 Assert.assertEquals(actualDiameter,expectedDiameter,bundleFormName);
             }
 
@@ -73,6 +74,7 @@ public class BundleStepDefinitions {
         Double actualReferenceValue = new BundlePage(context.driver).getCoveringTypeReference(FlowContext.bundleFormData,coveringType);
         HarnessBundleDisplay displayValue = new BundlePage(context.driver).getBundleHarnessFormData(FlowContext.defaultBundleDisplay,coveringType);
         Double expectedReferenceValue = new FormulaCalculator().getReference(displayValue.getDiameterScales(),displayValue.getDiameterAddon(),new BundlePage(context.driver).getBundleDiameter(FlowContext.bundleFormData,coveringType));
+        ExtentCucumberAdapter.addTestStepLog(String.format("Covering type is %s", coveringType));
         Assert.assertEquals(actualReferenceValue,expectedReferenceValue);
     }
 
