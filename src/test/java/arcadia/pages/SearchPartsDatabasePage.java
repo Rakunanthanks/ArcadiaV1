@@ -24,6 +24,10 @@ public class SearchPartsDatabasePage extends BasePage{
 
     @FindBy(css = "input[name=\"nCompany\"]") private WebElement supplier;
 
+    @FindBy(css = "select[name=\"type\"]") private WebElement type;
+
+    @FindBy(css = "select[name=\"colors\"]") private WebElement colour;
+
     @FindBy(css = "input.next") private WebElement buttonNext;
 
     @FindBy(css = "input#btnFetchBOMPartInfo") private WebElement arrowbuttonfetchInfo;
@@ -84,14 +88,28 @@ public class SearchPartsDatabasePage extends BasePage{
     }
 
     public void searchPartUsingHousingGender(String housingGenderType) throws InterruptedException, AWTException {
-        customCommand.simulateKeyEnterWithValue(housingGender, housingGenderType);
+        customCommand.selectDropDownByValue(housingGender, housingGenderType);
         arrowbuttonfetchInfo.click();
         Thread.sleep(4000);
         customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tablePartsRows)));
     }
 
     public void searchPartUsingTerminalGender(String terminalGenderType) throws InterruptedException, AWTException {
-        customCommand.simulateKeyEnterWithValue(gender, terminalGenderType);
+        customCommand.selectDropDownByValue(gender, terminalGenderType);
+        arrowbuttonfetchInfo.click();
+        Thread.sleep(4000);
+        customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tablePartsRows)));
+    }
+
+    public void searchPartUsingType(String compTypeValue) throws InterruptedException, AWTException {
+        customCommand.simulateKeyEnterWithValue(type, compTypeValue);
+        arrowbuttonfetchInfo.click();
+        Thread.sleep(4000);
+        customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tablePartsRows)));
+    }
+
+    public void searchPartUsingColour(String colourValue) throws InterruptedException, AWTException {
+        customCommand.selectDropDownByValue(colour, colourValue);
         arrowbuttonfetchInfo.click();
         Thread.sleep(4000);
         customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tablePartsRows)));
@@ -112,6 +130,7 @@ public class SearchPartsDatabasePage extends BasePage{
                 String partNumber = tdElements.get(0).getText();
                 searchPartsData.add(partNumber);
             }
+            customCommand.waitForElementToBeClickable(driver,buttonNext);
             buttonNext.click();
             Thread.sleep(2000);
         }
