@@ -102,4 +102,50 @@ public class SearchPartsStepDefinitions {
         }
         Assert.assertEquals(actualUniquePartList.size(),expectedPartNumberList.size());
     }
+
+    @Then("Verify user can filter {string} using {string} with value {string}")
+    public void verifyUserCanFilterConnectorUsingFilterAndValue(String component, String filtertype, String filterValue) throws IOException, InterruptedException, AWTException {
+        File f = new File("src/test/resources/componentDB/Connector/ConnectorData.json");
+        List<ConnectorDB> dbData = null;
+        System.out.println("Resuse JSON");
+        ObjectMapper mapper = new ObjectMapper();
+        dbData = mapper.readValue(new File("src/test/resources/componentDB/Connector/ConnectorData.json"), new TypeReference<List<ConnectorDB>>() {
+        });
+        List<ConnectorDB> filteredDbData = new ArrayList<>();
+        searchPartsDatabasePage.selectSearchDB("quickstart");
+        searchPartsDatabasePage.selectComponentType(component);
+        switch (filtertype.toLowerCase()){
+            case "housinggender":
+                filteredDbData = dbData.stream().filter(x -> x.getHousingGender().equals(filterValue)).collect(Collectors.toList());
+                searchPartsDatabasePage.searchPartUsingHousingGender(filterValue);
+                break;
+            case "terminalgender":
+                filteredDbData = dbData.stream().filter(x -> x.getTerminalGender().equals(filterValue)).collect(Collectors.toList());
+                searchPartsDatabasePage.searchPartUsingTerminalGender(filterValue);
+                break;
+            case "type":
+                filteredDbData = dbData.stream().filter(x -> x.getConnectorType().equals(filterValue)).collect(Collectors.toList());
+                searchPartsDatabasePage.searchPartUsingType(filterValue);
+                break;
+            case "colour":
+                filteredDbData = dbData.stream().filter(x -> x.getColour().equals(filterValue)).collect(Collectors.toList());
+                searchPartsDatabasePage.searchPartUsingColour(filterValue);
+                break;
+        }
+        List<String> actualUniquePartList = searchPartsDatabasePage.getSearchPartsData();
+        List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
+        List<String> differenceFromExpectedPartNumberList = expectedPartNumberList.stream()
+                .filter(element -> !actualUniquePartList.contains(element))
+                .collect(Collectors.toList());
+        if(differenceFromExpectedPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with expected %s", differenceFromExpectedPartNumberList.toString()));
+        }
+        List<String> differenceFromActualPartNumberList = actualUniquePartList.stream()
+                .filter(element -> !expectedPartNumberList.contains(element))
+                .collect(Collectors.toList());
+        if(differenceFromActualPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
+        }
+        Assert.assertEquals(actualUniquePartList.size(),expectedPartNumberList.size());
+    }
 }
