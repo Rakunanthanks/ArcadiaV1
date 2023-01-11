@@ -1,9 +1,7 @@
 package arcadia.utils;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.net.URL;
 import java.util.Properties;
 
 public class PropertyUtils {
@@ -25,5 +23,10 @@ public class PropertyUtils {
             throw new RuntimeException("properties file not found at " + filePath);
         }
         return properties;
+    }
+    public static String getAbsolutePathOfFile(String fileName) {
+        URL absolutePath = PropertyUtils.class.getClassLoader().getResource(fileName);
+        String newAbsolutePath=absolutePath.getPath();
+        return String.valueOf(newAbsolutePath);
     }
 }

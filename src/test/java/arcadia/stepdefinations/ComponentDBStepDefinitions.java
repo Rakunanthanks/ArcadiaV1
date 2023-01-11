@@ -17,6 +17,7 @@ import arcadia.pages.ComponentDB.Seals.SealsComponentDBPage;
 import arcadia.pages.ComponentDB.Splices.SplicesComponentDBPage;
 import arcadia.pages.ComponentDB.Terminals.TerminalsComponentDBPage;
 import arcadia.pages.ComponentDB.Wires.WiresComponentDBPage;
+import arcadia.utils.PropertyUtils;
 import arcadia.utils.StringHelper;
 import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -582,8 +583,7 @@ public class ComponentDBStepDefinitions {
         List<TerminalsComponentDB> dbData = null;
         if (f.exists()) {
             ObjectMapper mapper = new ObjectMapper();
-            dbData = mapper.readValue(new File("src/test/resources/componentDB/Terminals/TerminalData.json"), new TypeReference<List<TerminalsComponentDB>>() {
-            });
+            dbData = mapper.readValue(new File("src/test/resources/componentDB/Terminals/TerminalData.json"), new TypeReference<List<TerminalsComponentDB>>() {});
         }
         if (!f.exists()) {
             dbData = new TerminalsComponentDBPage(context.driver).getTerminalsData();
