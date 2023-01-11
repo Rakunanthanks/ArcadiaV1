@@ -17,6 +17,8 @@ public class PageFactoryManager {
     private static SleeveTubeComponentDB sleeveTubeComponentDB;
     private static AddNewComponentPage addNewComponentPage;
     private static HeaderPanel headerPanel;
+    private static ProfilePage profilePage;
+
 
     public static SearchPartsDatabasePage getPartsDatabasePage(WebDriver driver){
         return searchPartsDatabasePage == null ? new SearchPartsDatabasePage(driver) : searchPartsDatabasePage;
@@ -47,6 +49,10 @@ public class PageFactoryManager {
 
     public static LoginPage getLoginPage(WebDriver driver){
         return loginPage == null ? new LoginPage(driver) : loginPage;
+    }
+
+    public static ProfilePage getProfilePage(WebDriver driver){
+        return profilePage == null ? new ProfilePage(driver) : profilePage;
     }
 
     public static AddNewComponentPage getAddNewComponentPage(WebDriver driver){
