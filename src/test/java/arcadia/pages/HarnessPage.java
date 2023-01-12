@@ -3,10 +3,12 @@ import arcadia.utils.SeleniumCustomCommand;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 import java.awt.*;
+import java.util.List;
 
 
 public class HarnessPage extends BasePage{
@@ -28,6 +30,7 @@ public class HarnessPage extends BasePage{
     @FindBy(css = "button[title=\"Submit\"]") private WebElement buttonSubmitDetails;
 
 
+    @FindBy(xpath = "//div[@id='appContextMenu']/li") private  List<WebElement> operations;
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
     public HarnessPage(WebDriver driver) {
         super(driver);
@@ -90,6 +93,37 @@ public class HarnessPage extends BasePage{
         Thread.sleep(2000);
     }
 
+    public void getContextMenu(String id)
+    {
+        WebElement ele=driver.findElement(By.xpath("//*[name()='g' and @id='"+id+"']/*[name()='rect']"));
+       customCommand.rightClick(driver,ele);
+    }
+
+    public void performOperation(String operation,String id) throws InterruptedException {
+        String xpathOfConnector="//*[name()='g' and @id='"+id+"']/*[name()='rect']";
+        List<WebElement> connectors;
+        boolean flag=false;
+        for(WebElement ele:operations)
+        {
+            if(ele.getText().equalsIgnoreCase(operation.toString()))
+            {
+                ele.click();
+                Thread.sleep(2000);
+                connectors=driver.findElements(By.xpath(xpathOfConnector));
+                if(connectors.size()==0)
+                {
+                flag=true;}
+                break;
+            }
+        }
+        if(flag==false)
+        {
+            System.out.println("Operation "+operation+" not found");
+        }else{
+            System.out.println("Connector is "+operation+"ed");
+        }
+
+    }
     public void selectHeader(String headerName){
         driver.findElement(By.xpath("//div[@id=\"ribbon-tab-header-strip\"]//span[text()=\""+headerName+"\"]")).click();
     }

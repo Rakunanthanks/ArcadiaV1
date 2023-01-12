@@ -35,7 +35,7 @@ public class LoginStepDefinitions {
     @Given("Navigated to selected componentDB")
     public void navigated_to_selected_component_db() {
         String selectedComponentDB = System.getProperty("componentDB");
-        ExtentCucumberAdapter.addTestStepLog(String.format("Selected compoent is %s", selectedComponentDB));
+//        ExtentCucumberAdapter.addTestStepLog(String.format("Selected component is %s", selectedComponentDB));
         System.out.println("selectedComponentDB "+ selectedComponentDB);
         String endpoint = EndPoint.COMPONENTDB.url.replace("componentDB",selectedComponentDB);
         loginPage.load(endpoint);
@@ -73,4 +73,11 @@ public class LoginStepDefinitions {
     }
 
 
+    @And("Navigated to Profiles setting for profile {string}")
+    public void navigatedToProfilesSettingForProfileQuickstart(String profileCode)
+    {
+        String endpoint="?app=generaledit&profilecode="+profileCode;
+        System.out.println("Navigated to profile: "+profileCode);
+        loginPage.load(endpoint);
+    }
 }
