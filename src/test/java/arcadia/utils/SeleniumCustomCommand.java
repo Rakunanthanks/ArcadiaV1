@@ -109,4 +109,9 @@ public class SeleniumCustomCommand {
         a.moveToElement(ele).contextClick().build().perform();
     }
 
+    public void doubleClick(WebDriver driver , WebElement element){
+        Actions actions = new Actions(driver);
+        actions.doubleClick(element).perform();
+    }
+
 }

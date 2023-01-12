@@ -6,9 +6,11 @@ import arcadia.domainobjects.ConnectorWireTable;
 import arcadia.domainobjects.NodeIdentifier;
 import arcadia.mapperObjects.DrawingInstructor;
 import arcadia.pages.*;
+import arcadia.pages.ComponentDB.AddNewComponentPage;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import org.apache.commons.lang3.StringUtils;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import java.awt.*;
 import java.io.BufferedReader;
@@ -19,6 +21,7 @@ import java.util.*;
 import java.util.List;
 
 public class DrawingHelper {
+    SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
 
     public List<DrawingInstructor> getDrawingInstruction(String testIdentifier) throws IOException {
         String filePath = "src/test/resources/drawingboard/drawingboard-"+testIdentifier+".csv";
@@ -184,5 +187,28 @@ public class DrawingHelper {
                 }
             }
         }
+        if(instructions.getCommand().equalsIgnoreCase("Gather Connector Plug Element") ){
+            new ConnectorPage(driver).getConnectorPlugELementIdsFromDrawingPage();
+        }
     }
+
+    public void deleteHarness(String description,WebDriver driver){
+        driver.findElement(By.xpath("//table[@id=\"tableHAR\"]/tbody//tr//td[text()=\""+description+"\"]/following-sibling::td[last()]//a[@title=\"Delete Task\"]")).click();
+        new AddNewComponentPage(driver).verifyConfirmationMessage("Do you want to delete?");
+        new AddNewComponentPage(driver).acceptConfirmationPopup();
+        new AddNewComponentPage(driver).verifyAlertMessage("Task Deleted Successfully!");
+        new AddNewComponentPage(driver).closeAlertPopUp();
+    }
+
+    public void openValidatorHarness(WebDriver driver){
+        driver.findElement(By.xpath("//table[@id=\"tableHAR\"]/tbody//tr//td[text()=\"ConnectorValidator\"]")).click();
+        try{
+            new AddNewComponentPage(driver).verifyConfirmationMessage("It appears you are already editing this task! It is advised that you only edit a single instance of this task");
+            new AddNewComponentPage(driver).acceptConfirmationPopup();
+        }
+        catch (Exception e){
+            customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector("div[title=\"Insert Connector\"]")));
+        }
+    }
+
 }
