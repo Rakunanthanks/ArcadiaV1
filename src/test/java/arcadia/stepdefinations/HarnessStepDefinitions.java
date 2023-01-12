@@ -13,6 +13,7 @@ import arcadia.utils.DrawingHelper;
 import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
+import io.cucumber.java.hu.Ha;
 
 import java.awt.*;
 import java.io.IOException;
@@ -40,4 +41,13 @@ public class HarnessStepDefinitions {
     }
 
 
+    @And("get the all the options for connector with id {string}")
+    public void getTheAllTheOptionsForConnectorWithIdCEEdDeEBcf(String id) {
+        new HarnessPage(context.driver).getContextMenu(id);
+    }
+
+    @And("User try operation {string} for connector with id {string}")
+    public void userTryOperationDeleteForConnectorWithIdCCAEdDeEBcf(String operation, String identifier) throws InterruptedException {
+        new HarnessPage(context.driver).performOperation(operation,identifier);
+    }
 }

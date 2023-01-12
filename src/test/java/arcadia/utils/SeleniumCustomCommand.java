@@ -103,4 +103,10 @@ public class SeleniumCustomCommand {
         robot.delay(200);
     }
 
+    public void rightClick(WebDriver driver,WebElement ele)
+    {
+        Actions a = new Actions(driver);
+        a.moveToElement(ele).contextClick().build().perform();
+    }
+
 }
