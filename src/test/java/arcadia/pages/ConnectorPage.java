@@ -1,17 +1,13 @@
 package arcadia.pages;
 
 import arcadia.context.FlowContext;
-import arcadia.domainobjects.ConnectorIdentifier;
-import arcadia.domainobjects.ConnectorWireTable;
-import arcadia.domainobjects.Wire;
-import arcadia.domainobjects.WireProperties;
+import arcadia.domainobjects.*;
 import arcadia.utils.SeleniumCustomCommand;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +19,8 @@ public class ConnectorPage extends BasePage {
     @FindBy(css = "button[title=\"Submit\"]") private WebElement submitConnector;
     @FindBy(css = "h3[id=\"ui-accordion-accordion-header-1\"]") private WebElement wireTable;
     @FindBy(css = "h3[id=\"ui-accordion-accordion-header-4\"]") private WebElement cavityTable;
+
+    @FindBy(css = "input[name=\"node.functiondescription\"]") private WebElement connectorDescription;
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
 
     public void submitConnector() throws InterruptedException{
@@ -132,6 +130,29 @@ public class ConnectorPage extends BasePage {
         Actions actions = new Actions(driver);
         actions.moveToElement(connectorElement).doubleClick().build().perform();
         Thread.sleep(4000);
+
+    }
+
+    public List<ConnectorPlugIdentifier> getConnectorPlugELementIdsFromDrawingPage() {
+        String connectorPlugId;
+        List<WebElement> bundleElements = driver.findElements(By.cssSelector("#layer_80 >g[class$=\"bundleGroup\"]>g"));
+        for( WebElement element : bundleElements){
+                if(!element.findElements(By.cssSelector("rect[etype=\"connector\"]")).isEmpty()){
+                    connectorPlugId = element.getAttribute("id");
+                    FlowContext.connectorPlugIdentifierList.add(new ConnectorPlugIdentifier(connectorPlugId));
+                }
+            }
+        return  FlowContext.connectorPlugIdentifierList;
+    }
+
+    public void enterConnectorDescription(String description){
+        customCommand.waitForElementVisibility(driver,connectorDescription);
+        connectorDescription.sendKeys(description);
+    }
+
+    public void verifyConnectorDescription(String description, String connectorPlugId){
+//        WebElement ele = driver.findElement(By.xpath("g[@id=
+                //"g#6e6cdbf390e911ed908802de8e05bcf8>g>text"
 
     }
 

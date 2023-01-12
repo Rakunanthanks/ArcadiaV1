@@ -103,4 +103,9 @@ public class SeleniumCustomCommand {
         robot.delay(200);
     }
 
+    public void doubleClick(WebDriver driver , WebElement element){
+        Actions actions = new Actions(driver);
+        actions.doubleClick(element).perform();
+    }
+
 }

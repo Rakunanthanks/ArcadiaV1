@@ -1,5 +1,6 @@
 package arcadia.pages;
 import arcadia.utils.SeleniumCustomCommand;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -19,6 +20,14 @@ public class HarnessPage extends BasePage{
     @FindBy(id = "iupdateroute") private WebElement wireRoute;
     @FindBy(id = "iupdatesleevetube") private WebElement updateSleeveGlobal;
     @FindBy(id = "iopenmenu") private WebElement open;
+
+    @FindBy(css = "input#nodeshow") private WebElement buttonShowNode;
+
+    @FindBy(css = "div[title=\"Label Visibility\"]>span") private WebElement buttonVisibility;
+
+    @FindBy(css = "button[title=\"Submit\"]") private WebElement buttonSubmitDetails;
+
+
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
     public HarnessPage(WebDriver driver) {
         super(driver);
@@ -81,5 +90,58 @@ public class HarnessPage extends BasePage{
         Thread.sleep(2000);
     }
 
+    public void selectHeader(String headerName){
+        driver.findElement(By.xpath("//div[@id=\"ribbon-tab-header-strip\"]//span[text()=\""+headerName+"\"]")).click();
+    }
+
+    public void clickVisibility() throws InterruptedException {
+        customCommand.waitClick(buttonVisibility);
+    }
+
+    public void showHideComponentLabel(String labelName, String showHide) throws InterruptedException {
+        customCommand.waitForElementVisibility(driver,buttonShowNode);
+        switch (labelName.toLowerCase()){
+            case "node":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input#nodeshow")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input#nodehide")).click();
+                }
+                break;
+            case "bundle":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input#bundleshow")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input#bundlehide")).click();
+                }
+                break;
+            case "connector cavity table":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input#connectorcavityshow")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input#connectorcavityhide")).click();
+                }
+                break;
+            case "splice cavity table":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input#splicecavityshow")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input#splicecavityhide")).click();
+                }
+                break;
+        }
+        customCommand.javaScriptClick(driver,buttonSubmitDetails);
+    }
+
+    public void clickConnectorPlug(String ConnectorPlugId){
+        WebElement ele = driver.findElement(By.cssSelector("g#"+ConnectorPlugId+">rect[etype='connector']"));
+        customCommand.waitForElementVisibility(driver,ele);
+        customCommand.doubleClick(driver,ele);
+        System.out.println("Here we go");
+    }
 
 }

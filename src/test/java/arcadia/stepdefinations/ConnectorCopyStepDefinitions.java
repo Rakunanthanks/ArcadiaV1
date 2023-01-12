@@ -1,5 +1,6 @@
 package arcadia.stepdefinations;
 
+import arcadia.context.FlowContext;
 import arcadia.context.TestContext;
 import arcadia.mapperObjects.SearchParts;
 import arcadia.mapperObjects.TestMapper;
@@ -8,8 +9,12 @@ import arcadia.pages.ConnectorPage;
 import arcadia.pages.HarnessPage;
 import arcadia.pages.PageFactoryManager;
 import arcadia.utils.ConversionUtil;
+import arcadia.utils.StringHelper;
 import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import org.testng.Assert;
 
 import java.io.IOException;
 
@@ -57,4 +62,16 @@ public class ConnectorCopyStepDefinitions {
         connectorPage.submitConnector();
     }
 
+    @And("user enters description in connector details")
+    public void userEntersDescriptionInConnectorDetails() {
+        String description;
+        description = String.format("testdescription-%04d", new StringHelper().generateRandomDigit());
+        FlowContext.testDescription = description;
+        connectorPage.enterConnectorDescription(description);
+    }
+
+    @Then("User verifies the connectordescription is added successfully")
+    public void userVerifiesTheConnectordescriptionIsAddedSuccessfully() {
+        connectorPage.verifyConnectorDescription(FlowContext.testDescription,FlowContext.connectorPlugIdentifierList.get(0).getConnectorId());
+    }
 }
