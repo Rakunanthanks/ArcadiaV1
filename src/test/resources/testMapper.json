@@ -238,5 +238,35 @@
     "DBCheck": {
       "defaultFilter" : "Conduit slit"
     }
+  },
+  {
+    "testName": "test9",
+    "CreateHarness":
+    {
+      "workTask": "Quick Start Guide Harness",
+      "title": "Fog Lamp Harness Complete",
+      "description": "The Completed Harness",
+      "partNumber": "HAR-FL0001",
+      "revision": "A1",
+      "componentDB": "quickstart"
+    },
+    "SearchParts":
+    {
+      "description": "FCI_FIN LOCK_4-WAY_RECEP HSG",
+      "cavityNumber": "4"
+    },
+    "WireTable":
+    {
+      "connectTo": "X-001",
+      "wireDescription": "WIRE_BK_1.5_FLRY"
+    },
+    "Bundle": {
+      "xCoordinates" : "595",
+      "yCoordinates" : "372",
+      "covering": "conduit_slit"
+    },
+    "DBCheck": {
+      "defaultFilter" : "Conduit slit"
+    }
   }
 ]

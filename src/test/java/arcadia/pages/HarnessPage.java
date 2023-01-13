@@ -1,5 +1,6 @@
 package arcadia.pages;
 import arcadia.utils.SeleniumCustomCommand;
+import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -31,6 +32,8 @@ public class HarnessPage extends BasePage{
 
 
     @FindBy(xpath = "//div[@id='appContextMenu']/li") private  List<WebElement> operations;
+    @FindBy(xpath = "//div[@title='Draw Select']") private  WebElement drawSelectPointer;
+
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
     public HarnessPage(WebDriver driver) {
         super(driver);
@@ -108,16 +111,26 @@ public class HarnessPage extends BasePage{
         Thread.sleep(2000);
     }
 
-    public void getContextMenu(String id)
-    {
+    public void getContextMenu(String id) throws InterruptedException {
+        customCommand.javaScriptClick(driver,drawSelectPointer);
         WebElement ele=driver.findElement(By.xpath("//*[name()='g' and @id='"+id+"']/*[name()='rect']"));
-       customCommand.rightClick(driver,ele);
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        customCommand.rightClick(driver,ele);
     }
 
     public void performOperation(String operation,String id) throws InterruptedException {
+        ExtentCucumberAdapter.addTestStepLog(String.format("Performing %s operation on connector with connector id = %s", operation,id));
         String xpathOfConnector="//*[name()='g' and @id='"+id+"']/*[name()='rect']";
         List<WebElement> connectors;
         boolean flag=false;
+        if(operations.size()==0)
+        {
+            ExtentCucumberAdapter.addTestStepLog(String.format("Not able to get all the operations allowed on connector"));
+        }
         for(WebElement ele:operations)
         {
             if(ele.getText().equalsIgnoreCase(operation.toString()))
