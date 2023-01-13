@@ -2,6 +2,7 @@ package arcadia.stepdefinations;
 
 import arcadia.context.FlowContext;
 import arcadia.context.TestContext;
+import arcadia.domainobjects.ConnectorPlugIdentifier;
 import arcadia.domainobjects.Harness;
 import arcadia.mapperObjects.TestMapper;
 import arcadia.pages.*;
@@ -14,6 +15,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.hu.Ha;
 
 import java.io.IOException;
+import java.util.List;
 
 public class HarnessStepDefinitions {
     private final CreateHarness createHarness;
@@ -40,15 +42,13 @@ public class HarnessStepDefinitions {
         createHarness.submitHarnessData(new Harness(createHarnessData.getWorkTask(), createHarnessData.getTitle(), createHarnessData.getDescription(), createHarnessData.getPartNumber(), createHarnessData.getRevision(), createHarnessData.getComponentDB()));
     }
 
-
-    @And("get the all the options for connector with id {string}")
-    public void getTheAllTheOptionsForConnectorWithIdCEEdDeEBcf(String id) {
-        new HarnessPage(context.driver).getContextMenu(id);
-    }
-
-    @And("User try operation {string} for connector with id {string}")
-    public void userTryOperationDeleteForConnectorWithIdCCAEdDeEBcf(String operation, String identifier) throws InterruptedException {
+    @And("User try operation {string} for connector")
+    public void userTryOperationDeleteForConnectorWithIdCCAEdDeEBcf(String operation) throws InterruptedException {
+        List<ConnectorPlugIdentifier> connector_ids=new ConnectorPage(context.driver).getConnectorPlugELementIdsFromDrawingPage();
+        String identifier=connector_ids.get(0).getConnectorId();
+        new HarnessPage(context.driver).getContextMenu(identifier);
         new HarnessPage(context.driver).performOperation(operation,identifier);
+        Thread.sleep(10000);
     }
     @And("harness connectorvalidator is opened")
     public void harnessConnectorvalidatorIsOpened() throws InterruptedException {
