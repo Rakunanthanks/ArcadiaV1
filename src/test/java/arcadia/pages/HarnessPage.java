@@ -39,6 +39,21 @@ public class HarnessPage extends BasePage{
         customCommand.waitForElementToBeClickable(driver,bundle);
     }
 
+    public WebElement getHeaderElement(String headerName){
+        WebElement ele = driver.findElement(By.xpath("//div[@id=\"ribbon-tab-header-strip\"]//span[text()=\""+headerName+"\"]"));
+        return ele;
+    }
+
+    public WebElement getConnectorPlugElement(String connectorPlugId){
+        WebElement ele = driver.findElement(By.cssSelector("g#"+connectorPlugId+">rect[etype='connector']"));
+        return ele;
+    }
+
+    public WebElement getHarnessElement(String description){
+        WebElement ele = driver.findElement(By.xpath("//table[@id=\"tableHAR\"]/tbody//tr//td[text()=\""+description+"\"]"));
+        return ele;
+    }
+
     public void clickOnBundle() throws AWTException, InterruptedException {
         customCommand.waitForElementVisibility(driver,insertConnector);
         customCommand.waitClick(bundle);
@@ -125,7 +140,9 @@ public class HarnessPage extends BasePage{
 
     }
     public void selectHeader(String headerName){
-        driver.findElement(By.xpath("//div[@id=\"ribbon-tab-header-strip\"]//span[text()=\""+headerName+"\"]")).click();
+        WebElement ele = getHeaderElement(headerName);
+        customCommand.waitForElementToBeClickable(driver,ele);
+        ele.click();
     }
 
     public void clickVisibility() throws InterruptedException {
@@ -169,13 +186,14 @@ public class HarnessPage extends BasePage{
                 break;
         }
         customCommand.javaScriptClick(driver,buttonSubmitDetails);
+        Thread.sleep(2000);
     }
 
-    public void clickConnectorPlug(String ConnectorPlugId){
-        WebElement ele = driver.findElement(By.cssSelector("g#"+ConnectorPlugId+">rect[etype='connector']"));
+    public void clickConnectorPlug(String connectorPlugId) throws InterruptedException {
+        Thread.sleep(2000);
+        WebElement ele = getConnectorPlugElement(connectorPlugId);
         customCommand.waitForElementVisibility(driver,ele);
         customCommand.doubleClick(driver,ele);
-        System.out.println("Here we go");
     }
 
 }

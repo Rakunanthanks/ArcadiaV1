@@ -12,6 +12,8 @@ import com.opencsv.bean.CsvToBeanBuilder;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
 import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -201,7 +203,8 @@ public class DrawingHelper {
     }
 
     public void openValidatorHarness(WebDriver driver){
-        driver.findElement(By.xpath("//table[@id=\"tableHAR\"]/tbody//tr//td[text()=\"ConnectorValidator\"]")).click();
+        WebElement ele = new HarnessPage(driver).getHarnessElement("ConnectorValidator");
+        ele.click();
         try{
             new AddNewComponentPage(driver).verifyConfirmationMessage("It appears you are already editing this task! It is advised that you only edit a single instance of this task");
             new AddNewComponentPage(driver).acceptConfirmationPopup();
