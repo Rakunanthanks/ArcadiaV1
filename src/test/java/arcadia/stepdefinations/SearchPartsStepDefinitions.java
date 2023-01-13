@@ -112,7 +112,7 @@ public class SearchPartsStepDefinitions {
         dbData = mapper.readValue(new File("src/test/resources/componentDB/Connector/ConnectorData.json"), new TypeReference<List<ConnectorDB>>() {
         });
         List<ConnectorDB> filteredDbData = new ArrayList<>();
-        searchPartsDatabasePage.selectSearchDB("quickstart");
+        searchPartsDatabasePage.selectSearchDB(System.getProperty("componentDB"));
         searchPartsDatabasePage.selectComponentType(component);
         switch (filtertype.toLowerCase()){
             case "housinggender":
