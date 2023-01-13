@@ -8,6 +8,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,11 @@ public class ConnectorPage extends BasePage {
         customCommand.waitForElementToBeClickable(driver,wireTable);
         customCommand.scrollIntoView(driver,submitConnector);
         customCommand.javaScriptClick(driver,submitConnector);
+    }
+
+    public WebElement getElementConnectorDescription(String plugID, String description){
+        WebElement ele = driver.findElement(By.xpath("//*[name()='g' and @id='"+plugID+"']//*[name()='g']//*[name()='text' and text()='"+description+"']"));
+        return ele;
     }
     public void addRowInCavityTable(Integer numberOfCavities) throws InterruptedException {
         customCommand.waitForElementVisibility(driver,wireTable);
@@ -147,13 +153,13 @@ public class ConnectorPage extends BasePage {
 
     public void enterConnectorDescription(String description){
         customCommand.waitForElementVisibility(driver,connectorDescription);
+        connectorDescription.clear();
         connectorDescription.sendKeys(description);
     }
 
     public void verifyConnectorDescription(String description, String connectorPlugId){
-//        WebElement ele = driver.findElement(By.xpath("g[@id=
-                //"g#6e6cdbf390e911ed908802de8e05bcf8>g>text"
-
+        WebElement ele = getElementConnectorDescription(connectorPlugId,description);
+        Assert.assertTrue(ele.isDisplayed());
     }
 
 }

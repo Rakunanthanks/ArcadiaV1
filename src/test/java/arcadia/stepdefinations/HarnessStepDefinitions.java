@@ -56,15 +56,15 @@ public class HarnessStepDefinitions {
         new DrawingHelper().openValidatorHarness(context.driver);
     }
 
-    @And("connector plug is opened")
-    public void connectorPlugIsOpened() {
-        String connectorid = new ConnectorPage(context.driver).getConnectorPlugELementIdsFromDrawingPage().get(0).getConnectorId();
+    @And("connector plug {string} is opened")
+    public void connectorPlugIsOpened(String connectorPlugIndex) throws InterruptedException {
+        String connectorid = new ConnectorPage(context.driver).getConnectorPlugELementIdsFromDrawingPage().get(Integer.parseInt(connectorPlugIndex)).getConnectorId();
         harnessPage.clickConnectorPlug(connectorid);
     }
 
     @And("user sets label {string} to {string}")
     public void userSetsLabelsToShowHide(String labelName, String showHide) throws InterruptedException {
-        Thread.sleep(3000);
+        Thread.sleep(2000);
         harnessPage.selectHeader("Advanced");
         harnessPage.clickVisibility();
         harnessPage.showHideComponentLabel(labelName,showHide);

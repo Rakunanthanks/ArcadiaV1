@@ -6,7 +6,7 @@ Feature: Edit Harness Components
     And Navigated to quickstart project
     And harness connectorvalidator is opened
     And user sets label 'connector cavity table' to "Show"
-    And connector plug is opened
+    And connector plug '0' is opened
     And user enters description in connector details
     And Submit connector
     Then User verifies the connectordescription is added successfully
