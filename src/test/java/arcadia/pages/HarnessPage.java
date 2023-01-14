@@ -55,9 +55,9 @@ public class HarnessPage extends BasePage{
         return ele;
     }
 
-    public WebElement getHarnessElement(String description){
-        WebElement ele = driver.findElement(By.xpath("//table[@id=\"tableHAR\"]/tbody//tr//td[text()=\""+description+"\"]"));
-        return ele;
+    public Boolean isHarnessAlreadyExists(String description){
+        Boolean elementExists = driver.findElements(By.xpath("//table[@id=\"tableHAR\"]/tbody//tr//td[text()=\"" + description + "\"]")).size()!=0;
+        return elementExists ;
     }
 
     public void clickOnBundle() throws AWTException, InterruptedException {

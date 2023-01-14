@@ -19,4 +19,5 @@ public class FlowContext {
     public static String defaultLineFont = null;
     public static String referencesPartNumber = "";
     public static String testDescription = "";
+    public static Boolean harnessComponentAlreadyCreated = false;
 }

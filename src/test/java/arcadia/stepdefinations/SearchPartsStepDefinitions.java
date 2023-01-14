@@ -21,6 +21,8 @@ import org.testng.Assert;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -51,12 +53,19 @@ public class SearchPartsStepDefinitions {
 
     @Then("Verify user can filter {string} using {string}")
     public void userFiltersConnectorOnCreateBundle(String component, String filtertype) throws InterruptedException, AWTException, IOException {
-        File f = new File("src/test/resources/componentDB/Connector/ConnectorData.json");
+        File file = new File("src/test/resources/componentDB/Connector/ConnectorData.json");
         List<ConnectorDB> dbData = null;
-            System.out.println("Resuse JSON");
+        if (file.exists()) {
             ObjectMapper mapper = new ObjectMapper();
             dbData = mapper.readValue(new File("src/test/resources/componentDB/Connector/ConnectorData.json"), new TypeReference<List<ConnectorDB>>() {
             });
+        }
+        if (!file.exists()) {
+            dbData = new ConnectorsDBPage(context.driver).getConnectorsData();
+            ObjectMapper mapper = new ObjectMapper();
+            Files.createDirectories(Paths.get("src/test/resources/componentDB/Connector"));
+            mapper.writeValue(new File("src/test/resources/componentDB/Connector/ConnectorData.json"), dbData);
+        }
         ConnectorDB randomConnectorData = new ConnectorsDBPage(context.driver).getRandomConnectorComponent(dbData);
         List<ConnectorDB> filteredDbData = new ArrayList<>();
         searchPartsDatabasePage.selectSearchDB(System.getProperty("componentDB"));
@@ -98,9 +107,6 @@ public class SearchPartsStepDefinitions {
         List<String> differenceFromActualPartNumberList = actualUniquePartList.stream()
                 .filter(element -> !expectedPartNumberList.contains(element))
                 .collect(Collectors.toList());
-        if(differenceFromActualPartNumberList.size()>0){
-//            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
-        }
         Assert.assertEquals(actualUniquePartList.size(),expectedPartNumberList.size());
     }
 

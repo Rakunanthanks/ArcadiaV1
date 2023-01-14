@@ -23,6 +23,7 @@ import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import org.python.antlr.ast.Str;
 import org.testng.Assert;
@@ -1196,13 +1197,11 @@ public class ComponentDBStepDefinitions {
         File f = new File("src/test/resources/componentDB/Component/ComponentData.json");
         List<ComponentsDB> dbData = null;
         if (f.exists()) {
-            System.out.println("Resuse JSON");
             ObjectMapper mapper = new ObjectMapper();
             dbData = mapper.readValue(new File("src/test/resources/componentDB/Component/ComponentData.json"), new TypeReference<List<ComponentsDB>>() {
             });
         }
         if (!f.exists()) {
-            System.out.println("Scanning UI");
             dbData = new ComponentsDBPage(context.driver).getComponentsData();
             ObjectMapper mapper = new ObjectMapper();
             Files.createDirectories(Paths.get("src/test/resources/componentDB/Component"));
@@ -1459,18 +1458,32 @@ public class ComponentDBStepDefinitions {
         new CommonElements(context.driver).verifyAlertSuccessMessage("Component updated");
     }
 
+    @Given("{string} details are extracted successfully")
+    public void details_are_extracted_successfully(String componentName) throws IOException, InterruptedException {
+        switch (componentName.toLowerCase()) {
+            case "connector":
+                File file = new File("src/test/resources/componentDB/Connector/ConnectorData.json");
+                if (!file.exists()) {
+                    List<ConnectorDB> dbData = new ConnectorsDBPage(context.driver).getConnectorsData();
+                    ObjectMapper mapper = new ObjectMapper();
+                    Files.createDirectories(Paths.get("src/test/resources/componentDB/Connector"));
+                    mapper.writeValue(new File("src/test/resources/componentDB/Connector/ConnectorData.json"), dbData);
+                }
+                break;
+        }
+    }
+
+
     @Then("verify user can filter connector based on property {string}")
     public void verifyUserCanFilterConnectorBasedOnProperty(String propertyName) throws IOException, InterruptedException {
         File f = new File("src/test/resources/componentDB/Connector/ConnectorData.json");
         List<ConnectorDB> dbData = null;
         if (f.exists()) {
-            System.out.println("Resuse JSON");
             ObjectMapper mapper = new ObjectMapper();
             dbData = mapper.readValue(new File("src/test/resources/componentDB/Connector/ConnectorData.json"), new TypeReference<List<ConnectorDB>>() {
             });
         }
         if (!f.exists()) {
-            System.out.println("Scanning UI");
             dbData = new ConnectorsDBPage(context.driver).getConnectorsData();
             ObjectMapper mapper = new ObjectMapper();
             Files.createDirectories(Paths.get("src/test/resources/componentDB/Connector"));

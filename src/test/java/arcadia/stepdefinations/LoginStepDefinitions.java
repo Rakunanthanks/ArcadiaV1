@@ -15,6 +15,8 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.List;
 
+import static arcadia.context.FlowContext.harnessComponentAlreadyCreated;
+
 public class LoginStepDefinitions {
     private final LoginPage loginPage;
     private final TestContext context;
@@ -64,8 +66,11 @@ public class LoginStepDefinitions {
 
     @Given("based on drawing orchestrator components are created")
     public void based_on_drawing_orchestrator_components_are_created() throws IOException, InterruptedException, AWTException {
-        List<DrawingInstructor> drawingInstructorList =  new DrawingHelper().getDrawingInstruction(context.testIdentifier);
-        new DrawingHelper().drawOrchestrator(drawingInstructorList,context.driver);
+        if(!harnessComponentAlreadyCreated){
+            List<DrawingInstructor> drawingInstructorList =  new DrawingHelper().getDrawingInstruction(context.testIdentifier);
+            new DrawingHelper().drawOrchestrator(drawingInstructorList,context.driver);
+        }
+
     }
 
 

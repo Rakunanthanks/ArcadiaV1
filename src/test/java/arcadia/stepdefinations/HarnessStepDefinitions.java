@@ -6,16 +6,22 @@ import arcadia.domainobjects.ConnectorPlugIdentifier;
 import arcadia.domainobjects.Harness;
 import arcadia.mapperObjects.TestMapper;
 import arcadia.pages.*;
+import arcadia.pages.ComponentDB.AddNewComponentPage;
 import arcadia.utils.ConversionUtil;
 import arcadia.utils.DrawingHelper;
+import arcadia.utils.SeleniumCustomCommand;
 import arcadia.utils.StringHelper;
 import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.hu.Ha;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import java.io.IOException;
 import java.util.List;
+
+import static arcadia.context.FlowContext.harnessComponentAlreadyCreated;
 
 public class HarnessStepDefinitions {
     private final CreateHarness createHarness;
@@ -29,17 +35,52 @@ public class HarnessStepDefinitions {
         harnessPage = PageFactoryManager.getDrawingPage(context.driver);
         projectLanding = PageFactoryManager.getProjectLanding(context.driver);
     }
+
+    @And("harness with name {string} is launched successfully")
+    public void harness_with_name_is_launched_successfully(String connectorDescription) throws InterruptedException {
+        Boolean isHarnessAlreadyExists = new HarnessPage(context.driver).isHarnessAlreadyExists(connectorDescription);
+        if(isHarnessAlreadyExists){
+            openExistingHarness(connectorDescription);
+        }
+        if(!isHarnessAlreadyExists){
+            createNewHarnessInstance(connectorDescription);
+        }
+    }
+
+    private void createNewHarnessInstance(String connectorDescription) throws InterruptedException {
+        String partNumber = new StringHelper().generateRandomDigit().toString();
+        projectLanding.invokeCreateHarness();
+        arcadia.mapperObjects.CreateHarness harnessData = new arcadia.mapperObjects.CreateHarness();
+        harnessData.setComponentDB(System.getProperty("componentDB"));
+        harnessData.setPartNumber(partNumber);
+        harnessData.setDescription(connectorDescription);
+        harnessData.setRevision(new StringHelper().generateRandomDigit().toString());
+        harnessData.setTitle(new StringHelper().generateRandomDigit().toString());
+        harnessData.setWorkTask(new StringHelper().generateRandomDigit().toString());
+        FlowContext.testDescription = connectorDescription;
+        createHarness.submitHarnessData(new Harness(harnessData.getWorkTask(), harnessData.getTitle(), harnessData.getDescription(), harnessData.getPartNumber(), harnessData.getRevision(), harnessData.getComponentDB()));
+    }
+
+    private void openExistingHarness(String connectorDescription) {
+       WebElement harnessElement =  context.driver.findElement(By.xpath("//table[@id=\"tableHAR\"]/tbody//tr//td[text()=\"" + connectorDescription + "\"]"));
+        harnessElement.click();
+        if(!connectorDescription.equalsIgnoreCase("connectorFilter")){
+            harnessComponentAlreadyCreated = true;
+        }
+        try{
+            new AddNewComponentPage(context.driver).verifyConfirmationMessage("It appears you are already editing this task! It is advised that you only edit a single instance of this task");
+            new AddNewComponentPage(context.driver).acceptConfirmationPopup();
+        }
+        catch (Exception e){
+            new SeleniumCustomCommand().waitForElementVisibility(context.driver, context.driver.findElement(By.cssSelector("div[title=\"Insert Connector\"]")));
+        }
+    }
+
+
     @And("harness is created successfully")
     public void createHarness() throws IOException, InterruptedException {
-        String description;
-        projectLanding.invokeCreateHarness();
-        TestMapper mapper = conversionUtil.getTestMapperConfig(context.testIdentifier);
-        arcadia.mapperObjects.CreateHarness createHarnessData = mapper.getCreateHarness();
-        description = String.format("testdescription-%04d", new StringHelper().generateRandomDigit());
-        createHarnessData.setDescription(description);
-        FlowContext.testDescription = description;
-        ExtentCucumberAdapter.addTestStepLog(String.format("Harness data description is %s and part number is %s", createHarnessData.getDescription(),createHarnessData.getPartNumber()));
-        createHarness.submitHarnessData(new Harness(createHarnessData.getWorkTask(), createHarnessData.getTitle(), createHarnessData.getDescription(), createHarnessData.getPartNumber(), createHarnessData.getRevision(), createHarnessData.getComponentDB()));
+        String description = String.format("testdescription-%04d", new StringHelper().generateRandomDigit());
+        createNewHarnessInstance(description);
     }
 
     @And("User try operation {string} for connector")
@@ -53,7 +94,7 @@ public class HarnessStepDefinitions {
     @And("harness connectorvalidator is opened")
     public void harnessConnectorvalidatorIsOpened() throws InterruptedException {
         Thread.sleep(3000);
-        new DrawingHelper().openValidatorHarness(context.driver);
+       // new DrawingHelper().openValidatorHarness(context.driver);
     }
 
     @And("connector plug {string} is opened")

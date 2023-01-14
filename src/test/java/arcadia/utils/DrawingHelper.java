@@ -193,17 +193,4 @@ public class DrawingHelper {
             new ConnectorPage(driver).getConnectorPlugELementIdsFromDrawingPage();
         }
     }
-
-    public void openValidatorHarness(WebDriver driver){
-        WebElement ele = new HarnessPage(driver).getHarnessElement("ConnectorValidator");
-        ele.click();
-        try{
-            new AddNewComponentPage(driver).verifyConfirmationMessage("It appears you are already editing this task! It is advised that you only edit a single instance of this task");
-            new AddNewComponentPage(driver).acceptConfirmationPopup();
-        }
-        catch (Exception e){
-            customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector("div[title=\"Insert Connector\"]")));
-        }
-    }
-
 }
