@@ -44,7 +44,7 @@ public class SleeveTubeComponentDB extends BasePage {
                 driver.switchTo().window(winHandle);
             }
         }
-        driver.get(ConfigLoader.getInstance().getBaseUrl() + EndPoint.SLEEVETUBE.url);
+        driver.get(ConfigLoader.getInstance().getBaseUrl() + EndPoint.SLEEVETUBE.url.replace("databaseName",System.getProperty("componentDB")));
     }
     public void filterComponentDB(String interDia , String defaultLineFont) throws InterruptedException {
         Thread.sleep(2000 );

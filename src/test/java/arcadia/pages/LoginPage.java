@@ -18,6 +18,7 @@ public class LoginPage extends BasePage{
     }
     public  void Login(){
         new WebDriverWait(driver, Duration.ofSeconds(2000)).until(ExpectedConditions.elementToBeClickable(userName));
+        System.out.println("component is " + System.getProperty("componentDB"));
         userName.sendKeys(System.getProperty("userName"));
         passWord.sendKeys(System.getProperty("password"));
         submitButton.click();

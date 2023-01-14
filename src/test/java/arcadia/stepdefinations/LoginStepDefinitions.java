@@ -34,17 +34,13 @@ public class LoginStepDefinitions {
 
     @Given("Navigated to selected componentDB")
     public void navigated_to_selected_component_db() {
-        String selectedComponentDB = System.getProperty("componentDB");
-//        ExtentCucumberAdapter.addTestStepLog(String.format("Selected component is %s", selectedComponentDB));
-        System.out.println("selectedComponentDB "+ selectedComponentDB);
-        String endpoint = EndPoint.COMPONENTDB.url.replace("componentDB",selectedComponentDB);
-        loginPage.load(endpoint);
+        loginPage.load(EndPoint.COMPONENTDB.url.replace("databaseName",System.getProperty("componentDB")));
 
     }
 
     @And("Navigated to quickstart project")
     public void navigateToProjectQuickStart(){
-        loginPage.load(EndPoint.PROJECT.url);
+        loginPage.load(EndPoint.PROJECT.url.replace("projectName",System.getProperty("projectName")));
     }
 
     @Given("User selected {string} from componentDB")
@@ -59,7 +55,7 @@ public class LoginStepDefinitions {
 
     @And("Harness bundle default values are captured")
     public void captureHarnessBundleDefaults(){
-        loginPage.load(EndPoint.HARNESSBUNDLEDISPLAY.url);
+        loginPage.load(EndPoint.HARNESSBUNDLEDISPLAY.url.replace("profileName",System.getProperty("profileName")));
         new HarnessBundleDisplayPage(context.driver).captureDefaultHarnessBundleValues();
         System.out.println(FlowContext.defaultBundleDisplay.get(0).getCoveringTypes());
         System.out.println(FlowContext.defaultBundleDisplay.get(0).getDiameterAddon());
@@ -76,8 +72,6 @@ public class LoginStepDefinitions {
     @And("Navigated to Profiles setting for profile {string}")
     public void navigatedToProfilesSettingForProfileQuickstart(String profileCode)
     {
-        String endpoint="?app=generaledit&profilecode="+profileCode;
-        System.out.println("Navigated to profile: "+profileCode);
-        loginPage.load(endpoint);
+        loginPage.load(EndPoint.PROFILE.url.replace("profileName",System.getProperty("profileName")));
     }
 }
