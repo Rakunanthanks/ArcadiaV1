@@ -13,6 +13,7 @@ import arcadia.utils.ConversionUtil;
 import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import org.testng.Assert;
@@ -48,8 +49,8 @@ public class SearchPartsStepDefinitions {
         searchPartsDatabasePage.populateParts();
     }
 
-    @Then("Verify user can filter {string} in {string} componentdb using {string}")
-    public void userFiltersConnectorOnCreateBundle(String component, String compDB, String filtertype) throws InterruptedException, AWTException, IOException {
+    @Then("Verify user can filter {string} using {string}")
+    public void userFiltersConnectorOnCreateBundle(String component, String filtertype) throws InterruptedException, AWTException, IOException {
         File f = new File("src/test/resources/componentDB/Connector/ConnectorData.json");
         List<ConnectorDB> dbData = null;
             System.out.println("Resuse JSON");
@@ -58,7 +59,7 @@ public class SearchPartsStepDefinitions {
             });
         ConnectorDB randomConnectorData = new ConnectorsDBPage(context.driver).getRandomConnectorComponent(dbData);
         List<ConnectorDB> filteredDbData = new ArrayList<>();
-        searchPartsDatabasePage.selectSearchDB(compDB);
+        searchPartsDatabasePage.selectSearchDB(System.getProperty("componentDB"));
         searchPartsDatabasePage.selectComponentType(component);
         switch (filtertype.toLowerCase()){
             case "partnumber":
@@ -98,7 +99,7 @@ public class SearchPartsStepDefinitions {
                 .filter(element -> !expectedPartNumberList.contains(element))
                 .collect(Collectors.toList());
         if(differenceFromActualPartNumberList.size()>0){
-            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
+//            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
         }
         Assert.assertEquals(actualUniquePartList.size(),expectedPartNumberList.size());
     }
@@ -147,5 +148,10 @@ public class SearchPartsStepDefinitions {
             ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
         }
         Assert.assertEquals(actualUniquePartList.size(),expectedPartNumberList.size());
+    }
+
+    @And("User closes the searchparts window")
+    public void userClosesTheSearchpartsWindow() throws InterruptedException {
+        searchPartsDatabasePage.closeSearchPartsWindow();
     }
 }

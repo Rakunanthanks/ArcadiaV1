@@ -69,4 +69,14 @@ public class HarnessStepDefinitions {
         harnessPage.clickVisibility();
         harnessPage.showHideComponentLabel(labelName,showHide);
     }
+
+    @And("User deletes Harness successfully")
+    public void harnessIsDeletedSuccessfully() {
+        harnessPage.deleteHarness(FlowContext.testDescription);
+    }
+
+    @And("User exits the drawing page")
+    public void userExitsTheDrawingPage() throws InterruptedException {
+        harnessPage.exitDrawingPage();
+    }
 }

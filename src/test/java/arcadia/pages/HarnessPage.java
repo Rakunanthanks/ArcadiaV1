@@ -1,4 +1,5 @@
 package arcadia.pages;
+import arcadia.pages.ComponentDB.AddNewComponentPage;
 import arcadia.utils.SeleniumCustomCommand;
 import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import org.openqa.selenium.By;
@@ -33,6 +34,8 @@ public class HarnessPage extends BasePage{
 
     @FindBy(xpath = "//div[@id='appContextMenu']/li") private  List<WebElement> operations;
     @FindBy(xpath = "//div[@title='Draw Select']") private  WebElement drawSelectPointer;
+
+    @FindBy(css = "div[title=\"Exit\"]") private WebElement buttonExitDrawing;
 
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
     public HarnessPage(WebDriver driver) {
@@ -207,6 +210,21 @@ public class HarnessPage extends BasePage{
         WebElement ele = getConnectorPlugElement(connectorPlugId);
         customCommand.waitForElementVisibility(driver,ele);
         customCommand.doubleClick(driver,ele);
+    }
+
+    public void deleteHarness(String description){
+        driver.findElement(By.xpath("//table[@id=\"tableHAR\"]/tbody//tr//td[text()=\""+description+"\"]/following-sibling::td[last()]//a[@title=\"Delete Task\"]")).click();
+        new AddNewComponentPage(driver).verifyConfirmationMessage("Do you want to delete?");
+        new AddNewComponentPage(driver).acceptConfirmationPopup();
+        new AddNewComponentPage(driver).verifyAlertMessage("Task Deleted Successfully!");
+        new AddNewComponentPage(driver).closeAlertPopUp();
+    }
+
+    public void exitDrawingPage() throws InterruptedException {
+        getHeaderElement("Exit").click();
+        customCommand.waitForElementVisibility(driver,buttonExitDrawing);
+        buttonExitDrawing.click();
+        Thread.sleep(2000);
     }
 
 }

@@ -1,6 +1,6 @@
-Feature: Edit Harness Components
+Feature: Verify Harness Components
 
-  @EditHarness
+  @VerifyConnector
   Scenario: Test verifies a description can be added to a connector
     Given I'm on Arcadia test environment
     And Navigated to quickstart project

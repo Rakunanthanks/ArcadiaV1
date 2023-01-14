@@ -32,6 +32,8 @@ public class SearchPartsDatabasePage extends BasePage{
 
     @FindBy(css = "input#btnFetchBOMPartInfo") private WebElement arrowbuttonfetchInfo;
 
+    @FindBy(css = "div[aria-describedby=\"searchdialog\"] button[title=\"close\"]") private WebElement buttonCloseSearchParts;
+
     String tablePartsRows = "#tblBOMPartNoList > tbody > tr";
     public SearchPartsDatabasePage(WebDriver driver) {
         super(driver);
@@ -135,5 +137,10 @@ public class SearchPartsDatabasePage extends BasePage{
             Thread.sleep(2000);
         }
         return searchPartsData;
+    }
+
+    public void closeSearchPartsWindow() throws InterruptedException {
+        buttonCloseSearchParts.click();
+        Thread.sleep(2000);
     }
 }
