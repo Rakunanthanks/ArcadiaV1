@@ -194,14 +194,6 @@ public class DrawingHelper {
         }
     }
 
-    public void deleteHarness(String description,WebDriver driver){
-        driver.findElement(By.xpath("//table[@id=\"tableHAR\"]/tbody//tr//td[text()=\""+description+"\"]/following-sibling::td[last()]//a[@title=\"Delete Task\"]")).click();
-        new AddNewComponentPage(driver).verifyConfirmationMessage("Do you want to delete?");
-        new AddNewComponentPage(driver).acceptConfirmationPopup();
-        new AddNewComponentPage(driver).verifyAlertMessage("Task Deleted Successfully!");
-        new AddNewComponentPage(driver).closeAlertPopUp();
-    }
-
     public void openValidatorHarness(WebDriver driver){
         WebElement ele = new HarnessPage(driver).getHarnessElement("ConnectorValidator");
         ele.click();

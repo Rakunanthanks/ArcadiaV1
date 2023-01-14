@@ -74,4 +74,25 @@ public class ConnectorCopyStepDefinitions {
     public void userVerifiesTheConnectordescriptionIsAddedSuccessfully() {
         connectorPage.verifyConnectorDescription(FlowContext.testDescription,FlowContext.connectorPlugIdentifierList.get(0).getConnectorId());
     }
+
+    @And("user enters piped description in connector details")
+    public void userEntersPipedDescriptionInConnectorDetails() {
+        String description1 ="";
+        String description2="";
+        description1 = String.format("testdescription-%04d", new StringHelper().generateRandomDigit());
+        description2 = String.format("testdescription-%04d", new StringHelper().generateRandomDigit());
+        String description = description1 + "|" + description2;
+        FlowContext.testDescription = description;
+        connectorPage.enterConnectorDescription(description);
+    }
+
+    @And("user sets cavitytable display to {string}")
+    public void userSetsCavitytableDisplay(String displayYesNo) throws InterruptedException {
+        connectorPage.selectCavityTableDisplay(displayYesNo);
+    }
+
+    @Then("User verifies {string} cavityTable displayed")
+    public void userVerifiesTheCavityTableDisplay(String numberOfTables) {
+        connectorPage.verifyCavityTableDisplayed(Integer.parseInt(numberOfTables),FlowContext.connectorPlugIdentifierList.get(0).getConnectorId());
+        }
 }
