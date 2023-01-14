@@ -50,8 +50,8 @@ public class HarnessPage extends BasePage{
         return ele;
     }
 
-    public WebElement getConnectorPlugElement(String connectorPlugId){
-        WebElement ele = driver.findElement(By.cssSelector("g#"+connectorPlugId+">rect[etype='connector']"));
+    public WebElement getConnectorPlugElement(String connectorPlugId) throws InterruptedException {
+        WebElement ele = driver.findElement(By.xpath("//*[name()='g' and @id='"+connectorPlugId+"']//*[name()='rect' and @etype='connector']"));
         return ele;
     }
 
@@ -162,6 +162,7 @@ public class HarnessPage extends BasePage{
     }
 
     public void clickVisibility() throws InterruptedException {
+        customCommand.waitForElementVisibility(driver,buttonVisibility);
         customCommand.waitClick(buttonVisibility);
     }
 

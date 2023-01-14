@@ -58,13 +58,14 @@ public class HarnessStepDefinitions {
 
     @And("connector plug {string} is opened")
     public void connectorPlugIsOpened(String connectorPlugIndex) throws InterruptedException {
+        Thread.sleep(3000);
         String connectorid = new ConnectorPage(context.driver).getConnectorPlugELementIdsFromDrawingPage().get(Integer.parseInt(connectorPlugIndex)).getConnectorId();
         harnessPage.clickConnectorPlug(connectorid);
     }
 
     @And("user sets label {string} to {string}")
     public void userSetsLabelsToShowHide(String labelName, String showHide) throws InterruptedException {
-        Thread.sleep(2000);
+        Thread.sleep(4000);
         harnessPage.selectHeader("Advanced");
         harnessPage.clickVisibility();
         harnessPage.showHideComponentLabel(labelName,showHide);

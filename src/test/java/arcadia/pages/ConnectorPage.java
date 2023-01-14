@@ -22,6 +22,8 @@ public class ConnectorPage extends BasePage {
     @FindBy(css = "h3[id=\"ui-accordion-accordion-header-4\"]") private WebElement cavityTable;
 
     @FindBy(css = "input[name=\"node.functiondescription\"]") private WebElement connectorDescription;
+
+    @FindBy(css = "select[name=\"bom.cavityDisplay\"]") private WebElement selectCavityTableDisplay;
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
 
     public void submitConnector() throws InterruptedException{
@@ -33,6 +35,16 @@ public class ConnectorPage extends BasePage {
     public WebElement getElementConnectorDescription(String plugID, String description){
         WebElement ele = driver.findElement(By.xpath("//*[name()='g' and @id='"+plugID+"']//*[name()='g']//*[name()='text' and text()='"+description+"']"));
         return ele;
+    }
+
+    public WebElement getElementConnectorMultiDescription(String plugID, String description){
+        WebElement ele = driver.findElement(By.xpath("//*[name()='g' and @id='"+plugID+"']//*[name()='g']//*[name()='text']//*[name()='tspan' and text()='"+description+"']"));
+        return ele;
+    }
+
+    public List<WebElement> getElementsConnectorCavityTable(String plugID){
+        List<WebElement> elements = driver.findElements(By.xpath("//*[name()='g' and @id='"+plugID+"']//*[name()='g']//table"));
+        return elements;
     }
     public void addRowInCavityTable(Integer numberOfCavities) throws InterruptedException {
         customCommand.waitForElementVisibility(driver,wireTable);
@@ -158,8 +170,29 @@ public class ConnectorPage extends BasePage {
     }
 
     public void verifyConnectorDescription(String description, String connectorPlugId){
-        WebElement ele = getElementConnectorDescription(connectorPlugId,description);
-        Assert.assertTrue(ele.isDisplayed());
+        String[] desc;
+        WebElement ele;
+        if (description.contains("|")){
+            desc = description.split("\\|");
+            for (String conDesc: desc){
+                ele = getElementConnectorMultiDescription(connectorPlugId,conDesc);
+                Assert.assertTrue(ele.isDisplayed());
+            }
+        }
+        else {
+            ele = getElementConnectorDescription(connectorPlugId,description);
+            Assert.assertTrue(ele.isDisplayed());
+        }
+    }
+
+    public void selectCavityTableDisplay(String displayValue) throws InterruptedException {
+        customCommand.waitForElementVisibility(driver,selectCavityTableDisplay);
+        customCommand.selectDropDownByValue(selectCavityTableDisplay,displayValue);
+    }
+
+    public void verifyCavityTableDisplayed(int numberOfTables, String connectorPlugId){
+        List<WebElement> cavityTables = getElementsConnectorCavityTable(connectorPlugId);
+        Assert.assertTrue(cavityTables.size()==numberOfTables);
     }
 
 }
