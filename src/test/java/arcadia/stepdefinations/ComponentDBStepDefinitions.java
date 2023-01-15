@@ -1460,14 +1460,24 @@ public class ComponentDBStepDefinitions {
 
     @Given("{string} details are extracted successfully")
     public void details_are_extracted_successfully(String componentName) throws IOException, InterruptedException {
+        File file;
         switch (componentName.toLowerCase()) {
             case "connector":
-                File file = new File("src/test/resources/componentDB/Connector/ConnectorData.json");
+                file = new File("src/test/resources/componentDB/Connector/ConnectorData.json");
                 if (!file.exists()) {
                     List<ConnectorDB> dbData = new ConnectorsDBPage(context.driver).getConnectorsData();
                     ObjectMapper mapper = new ObjectMapper();
                     Files.createDirectories(Paths.get("src/test/resources/componentDB/Connector"));
                     mapper.writeValue(new File("src/test/resources/componentDB/Connector/ConnectorData.json"), dbData);
+                }
+                break;
+            case "wire":
+                file = new File("src/test/resources/componentDB/Wire/WireData.json");
+                if (!file.exists()) {
+                    List<WiresComponentDB> dbData = new WiresComponentDBPage(context.driver).getWiresData();
+                    ObjectMapper mapper = new ObjectMapper();
+                    Files.createDirectories(Paths.get("src/test/resources/componentDB/Wire"));
+                    mapper.writeValue(new File("src/test/resources/componentDB/Wire/WireData.json"), dbData);
                 }
                 break;
         }

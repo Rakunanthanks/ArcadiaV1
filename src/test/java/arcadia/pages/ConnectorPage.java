@@ -48,6 +48,10 @@ public class ConnectorPage extends BasePage {
 
     @FindBy(css = "div[aria-describedby=\"idFetchdiscrete_components\"] button[title=\"close\"]") private WebElement buttonCloseSearchDiscreteComp;
 
+    String wireTableRows = "#wiretable>tbody>tr";
+
+    @FindBy(css = "input[name=\"wiretable.get\"]") private WebElement buttonGetWireDetails;
+
 
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
 
@@ -267,6 +271,17 @@ public class ConnectorPage extends BasePage {
         customCommand.waitClick(buttonDeleteDiscrete);
         new CommonElements(driver).verifyAlertMessage("Do you want to delete the selected one?");
         new CommonElements(driver).acceptAlertMessage();
+    }
+
+    public void addWire() throws InterruptedException {
+        if (driver.findElements(By.cssSelector(wireTableRows)).size()==0){
+            addRowInCavityTable(1);
+        }
+    }
+
+    public void clickGetWireDetails(){
+        customCommand.waitForElementToBeClickable(driver,buttonGetWireDetails);
+        buttonGetWireDetails.click();
     }
 
 }

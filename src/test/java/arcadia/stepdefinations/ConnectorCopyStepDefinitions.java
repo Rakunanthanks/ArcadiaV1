@@ -8,6 +8,7 @@ import arcadia.mapperObjects.WireTable;
 import arcadia.pages.ConnectorPage;
 import arcadia.pages.HarnessPage;
 import arcadia.pages.PageFactoryManager;
+import arcadia.pages.SearchPartsDatabasePage;
 import arcadia.utils.ConversionUtil;
 import arcadia.utils.StringHelper;
 import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
@@ -119,5 +120,12 @@ public class ConnectorCopyStepDefinitions {
         connectorPage.deleteFirstDiscretePart();
         Thread.sleep(2000);
         connectorPage.submitConnector();
+    }
+
+    @And("User opens searchwire window")
+    public void userOpensSearchWireWindow() throws InterruptedException {
+        connectorPage.addWire();
+        connectorPage.clickGetWireDetails();
+        new SearchPartsDatabasePage(context.driver).verifySearchWiresWindowIsOpen();
     }
 }
