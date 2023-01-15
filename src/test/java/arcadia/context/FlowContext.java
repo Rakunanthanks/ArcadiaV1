@@ -20,4 +20,6 @@ public class FlowContext {
     public static String referencesPartNumber = "";
     public static String testDescription = "";
     public static Boolean harnessComponentAlreadyCreated = false;
+
+    public static String connectorID = "";
 }

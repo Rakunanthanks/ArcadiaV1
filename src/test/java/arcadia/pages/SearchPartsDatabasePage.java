@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -30,11 +31,28 @@ public class SearchPartsDatabasePage extends BasePage{
 
     @FindBy(css = "input.next") private WebElement buttonNext;
 
+    @FindBy(css = "div#idFetchwiretable input.next") private WebElement buttonNextWiresTable;
+
     @FindBy(css = "input#btnFetchBOMPartInfo") private WebElement arrowbuttonfetchInfo;
 
     @FindBy(css = "div[aria-describedby=\"searchdialog\"] button[title=\"close\"]") private WebElement buttonCloseSearchParts;
 
+    @FindBy(css = "table#wirefilter") private WebElement tableSearchWires;
+    @FindBy(css = "select[name=\"wiretype\"]") private WebElement selectWireType;
+
+    @FindBy(css = "table#wirefilter input[name=\"nPartNumber\"]") private WebElement inputWirePnDescription;
+
+    @FindBy(css = "table#wirefilter input[name=\"nMaterial\"]") private WebElement inputMaterial;
+
+    @FindBy(css = "table#wirefilter input[name=\"nGauge\"]") private WebElement inputGauge;
+
+    @FindBy(css = "table#wirefilter input[name=\"nCsa\"]") private WebElement inputCSA;
+
+    @FindBy(css = "table#wirefilter input[name=\"nOuterdia\"]") private WebElement inputOuterDia;
+
     String tablePartsRows = "#tblBOMPartNoList > tbody > tr";
+
+    String tableWiresRows = "#tblWirePartNoList>tbody>tr";
     public SearchPartsDatabasePage(WebDriver driver) {
         super(driver);
     }
@@ -139,8 +157,82 @@ public class SearchPartsDatabasePage extends BasePage{
         return searchPartsData;
     }
 
+    public List<String> getSearchWiresData() throws InterruptedException {
+        List<String> searchWiresData = new ArrayList<>();
+        List<WebElement> tableWiresElement;
+        while (true){
+            tableWiresElement = driver.findElements(By.cssSelector(tableWiresRows));
+            if (tableWiresElement.size()==0){
+                break;
+            }
+            int i = 0;
+            for( WebElement element : tableWiresElement){
+                i++;
+                List<WebElement> tdElements = element.findElements(By.cssSelector("td"));
+                String partNumber = tdElements.get(0).getText();
+                searchWiresData.add(partNumber);
+            }
+            try {
+                customCommand.waitForElementToBeClickable(driver,buttonNextWiresTable);
+                buttonNextWiresTable.click();
+                Thread.sleep(2000);
+            }
+            catch (Exception e){
+                System.out.println("Reached end of records");
+                break;
+            }
+        }
+        return searchWiresData;
+    }
     public void closeSearchPartsWindow() throws InterruptedException {
         buttonCloseSearchParts.click();
         Thread.sleep(2000);
+    }
+
+    public void verifySearchWiresWindowIsOpen(){
+        customCommand.waitForElementVisibility(driver,tableSearchWires);
+        Assert.assertTrue(tableSearchWires.isDisplayed());
+    }
+
+    public void selectWireType(String wireType) throws InterruptedException {
+        Thread.sleep(2000 );
+        customCommand.waitForElementVisibility(driver,selectWireType);
+        customCommand.selectDropDownByValue(selectWireType,wireType.toLowerCase());
+    }
+
+    public void searchWireUsingPartNumber(String partNumberDescription) throws InterruptedException, AWTException {
+        customCommand.simulateKeyEnterWithValue(inputWirePnDescription,partNumberDescription);
+        customCommand.simulateKeyEnter();
+        Thread.sleep(4000);
+        customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tableWiresRows)));
+    }
+
+    public void searchWireUsingMaterial(String material) throws InterruptedException, AWTException {
+        inputMaterial.clear();
+        customCommand.simulateKeyEnterWithValue(inputMaterial,material);
+        customCommand.simulateKeyEnter();
+        Thread.sleep(4000);
+        customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tableWiresRows)));
+    }
+
+    public void searchWireUsingGauge(String gaugeValue) throws InterruptedException, AWTException {
+        customCommand.simulateKeyEnterWithValue(inputGauge,gaugeValue);
+        customCommand.simulateKeyEnter();
+        Thread.sleep(4000);
+        customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tableWiresRows)));
+    }
+
+    public void searchWireUsingCSA(String csaValue) throws InterruptedException, AWTException {
+        customCommand.simulateKeyEnterWithValue(inputCSA,csaValue);
+        customCommand.simulateKeyEnter();
+        Thread.sleep(4000);
+        customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tableWiresRows)));
+    }
+
+    public void searchWireUsingOuterDia(String outerDiaValue) throws InterruptedException, AWTException {
+        customCommand.simulateKeyEnterWithValue(inputOuterDia,outerDiaValue);
+        customCommand.simulateKeyEnter();
+        Thread.sleep(4000);
+        customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tableWiresRows)));
     }
 }

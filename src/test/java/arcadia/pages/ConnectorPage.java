@@ -2,6 +2,7 @@ package arcadia.pages;
 
 import arcadia.context.FlowContext;
 import arcadia.domainobjects.*;
+import arcadia.pages.ComponentDB.CommonElements;
 import arcadia.utils.SeleniumCustomCommand;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -24,6 +25,34 @@ public class ConnectorPage extends BasePage {
     @FindBy(css = "input[name=\"node.functiondescription\"]") private WebElement connectorDescription;
 
     @FindBy(css = "select[name=\"bom.cavityDisplay\"]") private WebElement selectCavityTableDisplay;
+
+    @FindBy(css = "select[name=\"discrete_components.Dest_type\"]") private WebElement selectDestType;
+
+    @FindBy(css = "select[name=\"discrete_components.cav_value\"]") private WebElement selectFromCavity;
+
+    @FindBy(css = "select[name=\"discrete_components.dest_value\"]") private WebElement selectToCavity;
+
+    @FindBy(css = "select[name=\"discrete_components.discrete_type\"]") private WebElement selectDiscreteType;
+
+    @FindBy(css = "select[name=\"discrete_components.discretelibrary\"]") private WebElement selectDiscreteComponentDB;
+
+    @FindBy(css = "table#discrete_components input[title=\"Get Details\"]") private WebElement buttonGetDiscreteCompDetails;
+
+    @FindBy(css = "#tblAttachPartNoList>tbody>tr") private WebElement rowSearchedDiscreteParts;
+
+    @FindBy(css = "select[name=\"node.connector.showdiscreteimage\"]") private WebElement selectShowDiscreteImage;
+
+    @FindBy(css = "input[name=\"bom.name\"]") private WebElement inputConnectorId;
+
+    @FindBy(css = "table#discrete_components input[title=\"Delete\"]") private WebElement buttonDeleteDiscrete;
+
+    @FindBy(css = "div[aria-describedby=\"idFetchdiscrete_components\"] button[title=\"close\"]") private WebElement buttonCloseSearchDiscreteComp;
+
+    String wireTableRows = "#wiretable>tbody>tr";
+
+    @FindBy(css = "input[name=\"wiretable.get\"]") private WebElement buttonGetWireDetails;
+
+
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
 
     public void submitConnector() throws InterruptedException{
@@ -45,6 +74,11 @@ public class ConnectorPage extends BasePage {
     public List<WebElement> getElementsConnectorCavityTable(String plugID){
         List<WebElement> elements = driver.findElements(By.xpath("//*[name()='g' and @id='"+plugID+"']//*[name()='g']//table"));
         return elements;
+    }
+
+    public WebElement getElementConnectorDiscreteComp(String plugID, String connectorId){
+        WebElement ele = driver.findElement(By.xpath("//*[name()='g' and @id='"+plugID+"']//*[name()='g']//*[name()='text' and contains(text(),'"+connectorId+"')]"));
+        return ele;
     }
     public void addRowInCavityTable(Integer numberOfCavities) throws InterruptedException {
         customCommand.waitForElementVisibility(driver,wireTable);
@@ -193,6 +227,61 @@ public class ConnectorPage extends BasePage {
     public void verifyCavityTableDisplayed(int numberOfTables, String connectorPlugId){
         List<WebElement> cavityTables = getElementsConnectorCavityTable(connectorPlugId);
         Assert.assertTrue(cavityTables.size()==numberOfTables);
+    }
+
+    public void enterDiscreteComponentDetails(String destType,int fromCavity,int toCavity, String discreteType, String componentDB ) throws InterruptedException {
+        customCommand.waitForElementVisibility(driver,selectDestType);
+        customCommand.selectDropDownByValue(selectDestType,destType.toLowerCase());
+        customCommand.selectDropDownByValue(selectFromCavity, String.valueOf(fromCavity));
+        customCommand.selectDropDownByValue(selectToCavity, String.valueOf(toCavity));
+        customCommand.selectDropDownByValue(selectDiscreteType,discreteType.toLowerCase());
+        customCommand.selectDropDownByValue(selectDiscreteComponentDB,componentDB);
+        buttonGetDiscreteCompDetails.click();
+    }
+
+    public void selectFirstDiscretePart() throws InterruptedException {
+        customCommand.waitForElementVisibility(driver,rowSearchedDiscreteParts);
+        customCommand.waitForElementToBeClickable(driver,rowSearchedDiscreteParts);
+        customCommand.doubleClick(driver,rowSearchedDiscreteParts);
+        Thread.sleep(4000);
+        if(driver.findElements(By.cssSelector("div[aria-describedby=\"idFetchdiscrete_components\"] button[title=\"close\"]")).size()!=0){
+            buttonCloseSearchDiscreteComp.click();
+            Thread.sleep(2000);
+        }
+    }
+
+    public void setShowDiscreteImage(String showHide) throws InterruptedException {
+        customCommand.waitForElementVisibility(driver,selectShowDiscreteImage);
+        customCommand.waitForElementToBeClickable(driver,selectShowDiscreteImage);
+        customCommand.selectDropDownByValue(selectShowDiscreteImage,showHide);
+    }
+
+    public String getConnectorID(){
+        String connectorId = inputConnectorId.getAttribute("value");
+        return connectorId;
+    }
+
+    public void verifyDiscreteComponentDisplayed(String connectorPlugId, String connectorId){
+        WebElement elementDiscreteComponent = getElementConnectorDiscreteComp(connectorPlugId,connectorId);
+        Assert.assertTrue(elementDiscreteComponent.isDisplayed());
+    }
+
+    public void deleteFirstDiscretePart() throws InterruptedException {
+        customCommand.waitForElementVisibility(driver,buttonDeleteDiscrete);
+        customCommand.waitClick(buttonDeleteDiscrete);
+        new CommonElements(driver).verifyAlertMessage("Do you want to delete the selected one?");
+        new CommonElements(driver).acceptAlertMessage();
+    }
+
+    public void addWire() throws InterruptedException {
+        if (driver.findElements(By.cssSelector(wireTableRows)).size()==0){
+            addRowInCavityTable(1);
+        }
+    }
+
+    public void clickGetWireDetails(){
+        customCommand.waitForElementToBeClickable(driver,buttonGetWireDetails);
+        buttonGetWireDetails.click();
     }
 
 }
