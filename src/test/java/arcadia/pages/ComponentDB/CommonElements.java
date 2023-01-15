@@ -94,6 +94,11 @@ public class CommonElements extends BasePage {
     @FindBy(xpath = "//table[contains(@id,'termsavail')]/tbody//tr") private  List<WebElement> dbRows;
     @FindBy(xpath = "(//h4[@id='myModalLabel']/parent::div/button[@class='close'])[1]") private WebElement closeButtonDB;
 
+    @FindBy(css = "div.msgBoxContainer>div.msgBoxContent span") private WebElement alertMessageBox;
+
+    @FindBy(css = "div.msgBoxButtons>input[name=\"Yes\"]") private WebElement buttonAcceptMessage;
+
+
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
     public void selectFirstComponent(){
         checkboxfirstComponent.click();
@@ -162,7 +167,6 @@ public class CommonElements extends BasePage {
         tagInput.sendKeys("testTag");
         Thread.sleep(2000);
     }
-
     public void clickAddSimilarOnPopup(){
         buttonConfirmAddSimilar.click();
     }
@@ -176,6 +180,8 @@ public class CommonElements extends BasePage {
         paginationAll.click();
         Thread.sleep(3000);
     }
+
+
 
     public void viewAllFields() throws InterruptedException {
         driver.findElement(By.cssSelector("div[title=\"Columns\"]>button.dropdown-toggle")).click();
@@ -456,7 +462,16 @@ public class CommonElements extends BasePage {
 
     public void verifyAlertSuccessMessage(String message){
         customCommand.waitForElementVisibility(driver,alertSuccessMessage);
-        alertSuccessMessage.getText().contains(message);
+        alertSuccessMessage.getText().equals(message);
+    }
+
+    public void verifyAlertMessage(String message){
+        customCommand.waitForElementVisibility(driver,alertMessageBox);
+        alertMessageBox.getText().equals(message);
+    }
+
+    public void acceptAlertMessage(){
+        buttonAcceptMessage.click();
     }
 
 }

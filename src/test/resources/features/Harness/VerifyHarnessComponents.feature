@@ -30,3 +30,35 @@ Feature: Verify Harness Components
     And user sets cavitytable display to 'false'
     And Submit connector
     Then User verifies '0' cavityTable displayed
+
+  @VerifyConnector
+  Scenario: Test verifies a discrete component Resistor can be added on connector
+    And adds discrete component 'Resistor' with dest type 'Cavity'
+    And Submit connector
+    Then User verifies the discrete component is displayed
+    And connector plug '0' is opened
+    And user deletes the discrete component successfully
+
+  @VerifyConnector
+  Scenario: Test verifies a discrete component Capacitor can be added on connector
+    And adds discrete component 'Capacitor' with dest type 'Cavity'
+    And Submit connector
+    Then User verifies the discrete component is displayed
+    And connector plug '0' is opened
+    And user deletes the discrete component successfully
+
+  @VerifyConnector
+  Scenario: Test verifies a discrete component Diode can be added on connector
+    And adds discrete component 'Diode' with dest type 'Cavity'
+    And Submit connector
+    Then User verifies the discrete component is displayed
+    And connector plug '0' is opened
+    And user deletes the discrete component successfully
+
+  @VerifyConnector
+  Scenario: Test verifies a discrete component Inductor can be added on connector
+    And adds discrete component 'Inductor' with dest type 'Cavity'
+    And Submit connector
+    Then User verifies the discrete component is displayed
+    And connector plug '0' is opened
+    And user deletes the discrete component successfully

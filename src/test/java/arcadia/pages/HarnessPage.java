@@ -155,10 +155,11 @@ public class HarnessPage extends BasePage{
         }
 
     }
-    public void selectHeader(String headerName){
+    public void selectHeader(String headerName) throws InterruptedException {
         WebElement ele = getHeaderElement(headerName);
+        customCommand.waitForElementVisibility(driver,ele);
         customCommand.waitForElementToBeClickable(driver,ele);
-        ele.click();
+        customCommand.waitClick(ele);
     }
 
     public void clickVisibility() throws InterruptedException {
@@ -211,6 +212,7 @@ public class HarnessPage extends BasePage{
         WebElement ele = getConnectorPlugElement(connectorPlugId);
         customCommand.waitForElementVisibility(driver,ele);
         customCommand.doubleClick(driver,ele);
+        Thread.sleep(2000);
     }
 
     public void deleteHarness(String description){
