@@ -14,6 +14,7 @@ import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
 import java.io.IOException;
@@ -95,4 +96,28 @@ public class ConnectorCopyStepDefinitions {
     public void userVerifiesTheCavityTableDisplay(String numberOfTables) {
         connectorPage.verifyCavityTableDisplayed(Integer.parseInt(numberOfTables),FlowContext.connectorPlugIdentifierList.get(0).getConnectorId());
         }
+
+    @And("adds discrete component {string} with dest type {string}")
+    public void addsDiscreteComponent(String discreteType,String destType ) throws InterruptedException {
+        int FromCavity = 1;
+        int ToCavity = 1;
+        String componentDB = System.getProperty("componentDB");
+        connectorPage.enterDiscreteComponentDetails(destType,FromCavity,ToCavity,discreteType,componentDB);
+        connectorPage.selectFirstDiscretePart();
+        connectorPage.setShowDiscreteImage("true");
+        FlowContext.connectorID = connectorPage.getConnectorID();
+    }
+
+    @Then("User verifies the discrete component is displayed")
+    public void userVerifiesTheDiscreteComponentIsDisplayed() throws InterruptedException {
+        Thread.sleep(3000);
+        connectorPage.verifyDiscreteComponentDisplayed(FlowContext.connectorPlugIdentifierList.get(0).getConnectorId(),FlowContext.connectorID);
+    }
+
+    @And("user deletes the discrete component successfully")
+    public void userDeletesTheDiscreteComponentSuccessfully() throws InterruptedException {
+        connectorPage.deleteFirstDiscretePart();
+        Thread.sleep(2000);
+        connectorPage.submitConnector();
+    }
 }

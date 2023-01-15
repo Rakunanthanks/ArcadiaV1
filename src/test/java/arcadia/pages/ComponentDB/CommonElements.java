@@ -84,6 +84,11 @@ public class CommonElements extends BasePage {
     @FindBy(css = "input[rel=\"partnumber\"]+div input") private WebElement linkPartNumber;
 
     @FindBy(css = "#idMsg.alert-success") private WebElement alertSuccessMessage;
+
+    @FindBy(css = "div.msgBoxContainer>div.msgBoxContent span") private WebElement alertMessageBox;
+
+    @FindBy(css = "div.msgBoxButtons>input[name=\"Yes\"]") private WebElement buttonAcceptMessage;
+
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
     public void selectFirstComponent(){
         checkboxfirstComponent.click();
@@ -399,6 +404,15 @@ public class CommonElements extends BasePage {
     public void verifyAlertSuccessMessage(String message){
         customCommand.waitForElementVisibility(driver,alertSuccessMessage);
         alertSuccessMessage.getText().equals(message);
+    }
+
+    public void verifyAlertMessage(String message){
+        customCommand.waitForElementVisibility(driver,alertMessageBox);
+        alertMessageBox.getText().equals(message);
+    }
+
+    public void acceptAlertMessage(){
+        buttonAcceptMessage.click();
     }
 
 }
