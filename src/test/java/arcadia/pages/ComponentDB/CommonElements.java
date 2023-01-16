@@ -84,10 +84,20 @@ public class CommonElements extends BasePage {
     @FindBy(css = "input[rel=\"partnumber\"]+div input") private WebElement linkPartNumber;
 
     @FindBy(css = "#idMsg.alert-success") private WebElement alertSuccessMessage;
+    @FindBy(xpath = "//input[@name='Cavity_Seal.cavityplug']/following-sibling::div/div/input") private WebElement cavityPlugInput;
+
+    @FindBy(xpath = "//input[@name='Tags.termsused.Tag']/following-sibling::div/div/input") private WebElement tagInput;
+    @FindBy(xpath = "//input[@name='Cavity_Seal.cavityplug']/following-sibling::div/div/div/div[1]") private  WebElement selectFirstCavity;
+    @FindBy(xpath = "//input[@name='Cavity_Seal.wireinsfrom']") private WebElement wireinsfrom;
+    @FindBy(xpath = "//input[@name='Cavity_Seal.wireinsto']") private WebElement wireinsto;
+    @FindBy(xpath = "//button[@id='loadDataDb']") private WebElement loadDBButton;
+    @FindBy(xpath = "//table[contains(@id,'termsavail')]/tbody//tr") private  List<WebElement> dbRows;
+    @FindBy(xpath = "(//h4[@id='myModalLabel']/parent::div/button[@class='close'])[1]") private WebElement closeButtonDB;
 
     @FindBy(css = "div.msgBoxContainer>div.msgBoxContent span") private WebElement alertMessageBox;
 
     @FindBy(css = "div.msgBoxButtons>input[name=\"Yes\"]") private WebElement buttonAcceptMessage;
+
 
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
     public void selectFirstComponent(){
@@ -110,6 +120,53 @@ public class CommonElements extends BasePage {
         customCommand.simulateKeyEnter();
     }
 
+    public void loadDataFromDB() throws InterruptedException, AWTException {
+        customCommand.javaScriptClick(driver,loadDBButton);
+        Thread.sleep(2000);
+        for(int i=0;i<dbRows.size();i++)
+        {
+            if(dbRows.get(i).findElement(By.xpath("td[2]")).getText().contains("testdescription"))
+            {
+                continue;
+            }
+            else{
+                dbRows.get(i).findElement(By.xpath("td/button[@title='Add']")).click();
+                break;
+            }
+        }
+        customCommand.javaScriptClick(driver,closeButtonDB);
+
+    }
+
+    public void enterApplicator(String partNumber) throws AWTException, InterruptedException {
+        customCommand.waitForElementVisibility(driver,linkPartNumber);
+        customCommand.simulateKeyEnterWithValue(linkPartNumber,partNumber);
+        Thread.sleep(2000);
+        customCommand.simulateKeyEnter();
+    }
+
+    public void enterEquivalents(String partNumber) throws AWTException, InterruptedException {
+        customCommand.waitForElementVisibility(driver,linkPartNumber);
+        customCommand.simulateKeyEnterWithValue(linkPartNumber,partNumber);
+        Thread.sleep(2000);
+        customCommand.simulateKeyEnter();
+    }
+
+    public void enterLinkCavityPlug() throws AWTException, InterruptedException {
+        cavityPlugInput.click();
+        cavityPlugInput.sendKeys("1");
+        Thread.sleep(2000);
+        selectFirstCavity.click();
+        customCommand.enterText(wireinsfrom,"2.03");
+        customCommand.enterText(wireinsto,"3.03");
+        Thread.sleep(1000);
+    }
+
+    public void enterTag() throws AWTException, InterruptedException {
+        tagInput.click();
+        tagInput.sendKeys("testTag");
+        Thread.sleep(2000);
+    }
     public void clickAddSimilarOnPopup(){
         buttonConfirmAddSimilar.click();
     }
@@ -123,6 +180,8 @@ public class CommonElements extends BasePage {
         paginationAll.click();
         Thread.sleep(3000);
     }
+
+
 
     public void viewAllFields() throws InterruptedException {
         driver.findElement(By.cssSelector("div[title=\"Columns\"]>button.dropdown-toggle")).click();

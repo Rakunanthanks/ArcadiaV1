@@ -10,6 +10,8 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 
+import java.util.concurrent.TimeUnit;
+
 import static arcadia.context.FlowContext.*;
 
 public class MyHooks {
@@ -25,6 +27,7 @@ public class MyHooks {
         System.out.println("BEFORE: THREAD ID : " + Thread.currentThread().getId() + "," +
                 "SCENARIO NAME: " + scenario.getName());
         driver = DriverFactory.initializeDriver(System.getProperty("browser", "chrome"));
+        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         context.driver = driver;
         nodeIdentifierList.removeAll(nodeIdentifierList);
         nodeIdentifierList.clear();
