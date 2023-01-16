@@ -55,6 +55,18 @@ public class SeleniumCustomCommand {
         Thread.sleep(1000);
     }
 
+    public void javaScriptClickAndEnterValue(WebDriver driver , WebElement element,String value) throws InterruptedException {
+        ((JavascriptExecutor)driver).executeScript("arguments[0].click();", element);
+        ((JavascriptExecutor)driver).executeScript("arguments[0].value='"+value+"'", element);
+        Thread.sleep(1000);
+    }
+
+    public String javaScriptGetValueOfElement(WebDriver driver, WebElement element)
+    {
+        String value= String.valueOf(((JavascriptExecutor)driver).executeScript("return arguments[0].value", element));
+        return value;
+    }
+
     public void movePointerAndDoubleClick(int xCoordinates , int yCoordinates) throws AWTException, InterruptedException {
         Robot robot = new Robot();
         robot.mouseMove(xCoordinates, yCoordinates);
@@ -112,6 +124,12 @@ public class SeleniumCustomCommand {
     public void doubleClick(WebDriver driver , WebElement element){
         Actions actions = new Actions(driver);
         actions.doubleClick(element).perform();
+    }
+
+    public void clickEscape(WebDriver driver) throws AWTException {
+        Robot robot = new Robot();
+        robot.keyPress(KeyEvent.VK_ESCAPE);
+        robot.keyRelease(KeyEvent.VK_ESCAPE);
     }
 
 }

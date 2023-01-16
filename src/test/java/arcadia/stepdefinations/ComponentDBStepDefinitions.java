@@ -1451,8 +1451,25 @@ public class ComponentDBStepDefinitions {
                 break;
             case "part":
                 new HeaderPanel(context.driver).invokeFormTabs("Link_Parts");
-                new CommonElements(context.driver).enterLinkPartNumber("12020807");
+                new CommonElements(context.driver).loadDataFromDB();
                 break;
+            case "cavity":
+                new HeaderPanel(context.driver).invokeFormTabs("Cavity_Seal");
+                new CommonElements(context.driver).enterLinkCavityPlug();
+                break;
+            case "applicator":
+                new HeaderPanel(context.driver).invokeFormTabs("Applicator");
+                new CommonElements(context.driver).loadDataFromDB();
+                break;
+            case "equivalents":
+                new HeaderPanel(context.driver).invokeFormTabs("Equivalents");
+                new CommonElements(context.driver).loadDataFromDB();
+                break;
+            case "tags":
+                new HeaderPanel(context.driver).invokeFormTabs("Tags");
+                new CommonElements(context.driver).enterTag();
+                break;
+
         }
         new CommonElements(context.driver).clickUpdateComponent();
         new CommonElements(context.driver).verifyAlertSuccessMessage("Component updated");
