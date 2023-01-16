@@ -130,7 +130,9 @@ public class DefineBundleTolerance extends BasePage {
 
   public void Customcommands() throws InterruptedException {
     driver.manage().timeouts().implicitlyWait(600, TimeUnit.SECONDS);
-    WebElement customcommands = driver.findElement(By.xpath("//*[@id=\"commandline\"]"));
+
+    WebElement customcommands = wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath("//*[@id=\"commandline\"]"))));
+    Thread.sleep(2000);
     String command100 = "freebundle 0 -72.5mm,38.75mm -72.5mm,38.75mm 27.5mm,38.75mm";
     WebElement okaybutton = driver.findElement(By.xpath("//*[@id=\"commandbar-buttons\"]/button[2]/span"));
     customcommands.clear();
@@ -192,7 +194,29 @@ public class DefineBundleTolerance extends BasePage {
     bundleuppertolerance1 = uppertolerance.getAttribute("placeholder");
 
   }
+
+  public void ValuesOfComplabel() throws InterruptedException
+  {
+    driver.manage().timeouts().implicitlyWait(600, TimeUnit.SECONDS);
+    WebElement Complabel = driver.findElement(By.xpath("//*[name()='text' and contains(@class,'complabel')]"));
+    complabelvalue = Complabel.getText();
+    System.out.println(complabelvalue);
+  }
   public void changing_bundletolerance_value() throws InterruptedException{
     CaptureBundleTollerance();
+  }
+
+  public void bundles_deleted() throws InterruptedException {
+    WebElement customcommands = wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath("//*[@id=\"commandline\"]"))));
+    Thread.sleep(2000);
+    String command100 = "# -136.15mm,10.83mm 76.26mm,72.13mm";
+    WebElement okaybutton = driver.findElement(By.xpath("//*[@id=\"commandbar-buttons\"]/button[2]/span"));
+    customcommands.clear();
+    customCommand.enterText(customcommands, command100);
+    customCommand.waitClick(okaybutton);
+    Thread.sleep(4000);
+    WebElement delete = driver.findElement(By.id("idrawdestroy"));
+    delete.click();
+    System.out.println("The Drawn Nodes are Deleted");
   }
 }
