@@ -131,9 +131,19 @@ public class LoginStepDefinitions {
         new DefineBundleTolerance(context.driver).InspectingBundletolerancevalue();
     }
 
+    @And("Getting the Values of Component Label")
+    public void values_of_comp_label() throws InterruptedException{
+        new DefineBundleTolerance(context.driver).ValuesOfComplabel();
+    }
+
     @And("Changing Bundle Tolerance Value")
     public void changing_bundletolerance_value() throws InterruptedException{
         new DefineBundleTolerance(context.driver).changing_bundletolerance_value();
+    }
+    @Then("Bundles are Deleted")
+    public void bundles_are_deleted()throws InterruptedException
+    {
+        new DefineBundleTolerance(context.driver).bundles_deleted();
     }
 
 
