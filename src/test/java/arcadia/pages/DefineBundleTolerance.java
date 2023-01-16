@@ -36,6 +36,8 @@ public class DefineBundleTolerance extends BasePage {
   public  static String bundlelowertolerance1;
   public static String bundleuppertolerance1;
 
+  public static String complabelvalue;
+
   public static String lengthRangeOneTo_1;
   public static String lowerToleranceOne_1;
   public static String upperToleranceOne_1;
@@ -145,9 +147,9 @@ public class DefineBundleTolerance extends BasePage {
     customCommand.enterText(customcommands,command200);
     customCommand.waitClick(okaybutton);
     Thread.sleep(3000);
-    customCommand.enterText(customcommands,command100);
-    customCommand.waitClick(okaybutton);
-    Thread.sleep(3000);
+//    customCommand.enterText(customcommands,command100);
+//    customCommand.waitClick(okaybutton);
+//    Thread.sleep(3000);
   }
 
   public void InspectingBundle() throws InterruptedException{
