@@ -16,7 +16,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-<<<<<<< HEAD
+
 
 import io.cucumber.java.en.Then;
 import org.openqa.selenium.By;
@@ -25,9 +25,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import static arcadia.context.FlowContext.harnessComponentAlreadyCreated;
-=======
+
 import org.openqa.selenium.WebDriver;
->>>>>>> 445fded (Created Test Scenario for Bundle Tolerance)
 
 public class LoginStepDefinitions {
     private final LoginPage loginPage;
@@ -38,11 +37,11 @@ public class LoginStepDefinitions {
     }
     @Given("I'm on Arcadia test environment")
     public void i_m_on_arcadia_test_environment() throws IOException, InterruptedException {
-<<<<<<< HEAD
+
         loginPage.load();
-=======
+
         loginPage.load(EndPoint.TRAINING.url);
->>>>>>> 445fded (Created Test Scenario for Bundle Tolerance)
+
         loginPage.Login();
         Thread.sleep(1000);
     }
@@ -139,9 +138,19 @@ public class LoginStepDefinitions {
         new DefineBundleTolerance(context.driver).InspectingBundletolerancevalue();
     }
 
+    @And("Getting the Values of Component Label")
+    public void values_of_comp_label() throws InterruptedException{
+        new DefineBundleTolerance(context.driver).ValuesOfComplabel();
+    }
+
     @And("Changing Bundle Tolerance Value")
     public void changing_bundletolerance_value() throws InterruptedException{
         new DefineBundleTolerance(context.driver).changing_bundletolerance_value();
+    }
+    @Then("Bundles are Deleted")
+    public void bundles_are_deleted()throws InterruptedException
+    {
+        new DefineBundleTolerance(context.driver).bundles_deleted();
     }
 
     @And("Navigating to Company profile page")
