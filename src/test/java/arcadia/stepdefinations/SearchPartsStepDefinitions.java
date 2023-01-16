@@ -2,11 +2,13 @@ package arcadia.stepdefinations;
 
 import arcadia.context.TestContext;
 import arcadia.domainobjects.ConnectorDB;
+import arcadia.domainobjects.MulticoreComponentDB;
 import arcadia.domainobjects.WiresComponentDB;
 import arcadia.mapperObjects.SearchParts;
 import arcadia.mapperObjects.TestMapper;
 import arcadia.pages.BundlePage;
 import arcadia.pages.ComponentDB.Connectors.ConnectorsDBPage;
+import arcadia.pages.ComponentDB.Multicore.MulticoreComponentDBPage;
 import arcadia.pages.ComponentDB.Wires.WiresComponentDBPage;
 import arcadia.pages.HarnessPage;
 import arcadia.pages.PageFactoryManager;
@@ -163,8 +165,8 @@ public class SearchPartsStepDefinitions {
         searchPartsDatabasePage.closeSearchPartsWindow();
     }
 
-    @Then("Verify user filters {string} using {string} successfully")
-    public void verifyUserFiltersWire(String wireType, String filterName) throws IOException, InterruptedException, AWTException {
+    @Then("Verify user filters wire using {string} successfully")
+    public void verifyUserFiltersWire(String filterName) throws IOException, InterruptedException, AWTException {
         File file = new File("src/test/resources/componentDB/Wire/WireData.json");
         List<WiresComponentDB> dbData = null;
         if (file.exists()) {
@@ -174,29 +176,104 @@ public class SearchPartsStepDefinitions {
         }
         WiresComponentDB randomWiresData = new WiresComponentDBPage(context.driver).getRandomWireComponent(dbData);
         List<WiresComponentDB> filteredDbData = new ArrayList<>();
-        searchPartsDatabasePage.selectWireType(wireType);
+        searchPartsDatabasePage.selectWireType("wire");
         switch (filterName.toLowerCase()) {
             case "partnumber":
                 filteredDbData = dbData.stream().filter(x -> x.getPartNumber().equals(randomWiresData.getPartNumber())).collect(Collectors.toList());
-                searchPartsDatabasePage.searchWireUsingPartNumber(randomWiresData.getPartNumber());
+                searchPartsDatabasePage.searchWireMulticoreUsingPartNumber(randomWiresData.getPartNumber());
                 break;
             case "material":
                 filteredDbData = dbData.stream().filter(x -> x.getMaterial().equals(randomWiresData.getMaterial())).collect(Collectors.toList());
-                searchPartsDatabasePage.searchWireUsingMaterial(randomWiresData.getMaterial());
+                searchPartsDatabasePage.searchWireMulticoreUsingMaterial(randomWiresData.getMaterial());
                 break;
             case "gauge":
                 filteredDbData = dbData.stream().filter(x -> x.getGauge().equals(randomWiresData.getGauge())).collect(Collectors.toList());
-                searchPartsDatabasePage.searchWireUsingGauge(randomWiresData.getGauge());
+                searchPartsDatabasePage.searchWireMulticoreUsingGauge(randomWiresData.getGauge());
                 break;
             case "csa":
                 filteredDbData = dbData.stream().filter(x -> x.getWireCSA().equals(randomWiresData.getWireCSA())).collect(Collectors.toList());
-                searchPartsDatabasePage.searchWireUsingCSA(String.valueOf(randomWiresData.getWireCSA()));
+                searchPartsDatabasePage.searchWireMulticoreUsingCSA(String.valueOf(randomWiresData.getWireCSA()));
                 break;
             case "outerdia":
                 filteredDbData = dbData.stream().filter(x -> x.getOutsideDia().equals(randomWiresData.getOutsideDia())).collect(Collectors.toList());
-                searchPartsDatabasePage.searchWireUsingOuterDia(String.valueOf(randomWiresData.getOutsideDia()));
+                searchPartsDatabasePage.searchWireMulticoreUsingOuterDia(String.valueOf(randomWiresData.getOutsideDia()));
+                break;
+            case "primarycolour":
+                filteredDbData = dbData.stream().filter(x -> x.getColour().split("-")[0].equals(randomWiresData.getColour().split("-")[0])).collect(Collectors.toList());
+                searchPartsDatabasePage.searchWireMulticoreUsingPrimaryColour(randomWiresData.getColour().split("-")[0]);
+                break;
+
+        }
+        List<String> actualUniquePartList = searchPartsDatabasePage.getSearchWiresData();
+        List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
+        List<String> differenceFromExpectedPartNumberList = expectedPartNumberList.stream()
+                .filter(element -> !actualUniquePartList.contains(element))
+                .collect(Collectors.toList());
+        if(differenceFromExpectedPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with expected %s", differenceFromExpectedPartNumberList.toString()));
+        }
+        List<String> differenceFromActualPartNumberList = actualUniquePartList.stream()
+                .filter(element -> !expectedPartNumberList.contains(element))
+                .collect(Collectors.toList());
+        if(differenceFromActualPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
+        }
+        Assert.assertEquals(actualUniquePartList.size(),expectedPartNumberList.size());
+    }
+
+    @Then("Verify user filters multicore using {string} successfully")
+    public void verifyUserFiltersMulticore(String filterName) throws IOException, InterruptedException, AWTException {
+        File file = new File("src/test/resources/componentDB/Multicore/MulticoreData.json");
+        List<MulticoreComponentDB> dbData = null;
+        if (file.exists()) {
+            ObjectMapper mapper = new ObjectMapper();
+            dbData = mapper.readValue(new File("src/test/resources/componentDB/Multicore/MulticoreData.json"), new TypeReference<List<MulticoreComponentDB>>() {
+            });
+        }
+        MulticoreComponentDB randomMulticoreData = new MulticoreComponentDBPage(context.driver).getRandomMulticoreComponent(dbData);
+        List<MulticoreComponentDB> filteredDbData = new ArrayList<>();
+        searchPartsDatabasePage.selectWireType("multicore");
+        switch (filterName.toLowerCase()) {
+            case "partnumber":
+                filteredDbData = dbData.stream().filter(x -> x.getPartNumber().equals(randomMulticoreData.getPartNumber())).collect(Collectors.toList());
+                searchPartsDatabasePage.searchWireMulticoreUsingPartNumber(randomMulticoreData.getPartNumber());
+                break;
+            case "primarycolour":
+                filteredDbData = dbData.stream().filter(x -> x.getColour().equals(randomMulticoreData.getColour())).collect(Collectors.toList());
+                searchPartsDatabasePage.searchWireMulticoreUsingPrimaryColour(randomMulticoreData.getColour());
                 break;
         }
+        List<String> actualUniquePartList = searchPartsDatabasePage.getSearchWiresData();
+        List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
+        List<String> differenceFromExpectedPartNumberList = expectedPartNumberList.stream()
+                .filter(element -> !actualUniquePartList.contains(element))
+                .collect(Collectors.toList());
+        if(differenceFromExpectedPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with expected %s", differenceFromExpectedPartNumberList.toString()));
+        }
+        List<String> differenceFromActualPartNumberList = actualUniquePartList.stream()
+                .filter(element -> !expectedPartNumberList.contains(element))
+                .collect(Collectors.toList());
+        if(differenceFromActualPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
+        }
+        Assert.assertEquals(actualUniquePartList.size(),expectedPartNumberList.size());
+    }
+
+    @Then("Verify user filters wire using {string} and {string} successfully")
+    public void verifyUserFiltersWireUsingMultipleFilters(String filter1, String filter2) throws IOException, InterruptedException, AWTException {
+        File file = new File("src/test/resources/componentDB/Wire/WireData.json");
+        List<WiresComponentDB> dbData = null;
+        if (file.exists()) {
+            ObjectMapper mapper = new ObjectMapper();
+            dbData = mapper.readValue(new File("src/test/resources/componentDB/Wire/WireData.json"), new TypeReference<List<WiresComponentDB>>() {
+            });
+        }
+        WiresComponentDB randomWiresData = new WiresComponentDBPage(context.driver).getRandomWireComponent(dbData);
+        List<WiresComponentDB> filteredDbData = new ArrayList<>();
+        searchPartsDatabasePage.selectWireType("wire");
+        filteredDbData = dbData.stream().filter(x -> x.getPartNumber().equals(randomWiresData.getPartNumber())).collect(Collectors.toList());
+        searchPartsDatabasePage.searchWireUsingPartNumberAndMaterial(randomWiresData.getPartNumber(), randomWiresData.getMaterial());
         List<String> actualUniquePartList = searchPartsDatabasePage.getSearchWiresData();
         List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
         List<String> differenceFromExpectedPartNumberList = expectedPartNumberList.stream()
