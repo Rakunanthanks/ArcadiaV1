@@ -50,6 +50,11 @@ public class SearchPartsDatabasePage extends BasePage{
 
     @FindBy(css = "table#wirefilter input[name=\"nOuterdia\"]") private WebElement inputOuterDia;
 
+    @FindBy(css = "select[name=\"nPricolors\"]") private WebElement selectPrimaryColour;
+
+    @FindBy(css = "select[name=\"nSeccolors\"]") private WebElement selectSecondaryColour;
+
+    @FindBy(css = "select[name=\"nTercolors\"]") private WebElement selectTertiaryColour;
     String tablePartsRows = "#tblBOMPartNoList > tbody > tr";
 
     String tableWiresRows = "#tblWirePartNoList>tbody>tr";
@@ -200,39 +205,49 @@ public class SearchPartsDatabasePage extends BasePage{
         customCommand.selectDropDownByValue(selectWireType,wireType.toLowerCase());
     }
 
-    public void searchWireUsingPartNumber(String partNumberDescription) throws InterruptedException, AWTException {
+    public void searchWireMulticoreUsingPartNumber(String partNumberDescription) throws InterruptedException, AWTException {
         customCommand.simulateKeyEnterWithValue(inputWirePnDescription,partNumberDescription);
         customCommand.simulateKeyEnter();
         Thread.sleep(4000);
-        customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tableWiresRows)));
     }
 
-    public void searchWireUsingMaterial(String material) throws InterruptedException, AWTException {
+    public void searchWireMulticoreUsingMaterial(String material) throws InterruptedException, AWTException {
         inputMaterial.clear();
         customCommand.simulateKeyEnterWithValue(inputMaterial,material);
         customCommand.simulateKeyEnter();
         Thread.sleep(4000);
-        customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tableWiresRows)));
     }
 
-    public void searchWireUsingGauge(String gaugeValue) throws InterruptedException, AWTException {
+    public void searchWireMulticoreUsingGauge(String gaugeValue) throws InterruptedException, AWTException {
         customCommand.simulateKeyEnterWithValue(inputGauge,gaugeValue);
         customCommand.simulateKeyEnter();
         Thread.sleep(4000);
-        customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tableWiresRows)));
     }
 
-    public void searchWireUsingCSA(String csaValue) throws InterruptedException, AWTException {
+    public void searchWireMulticoreUsingCSA(String csaValue) throws InterruptedException, AWTException {
         customCommand.simulateKeyEnterWithValue(inputCSA,csaValue);
         customCommand.simulateKeyEnter();
         Thread.sleep(4000);
-        customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tableWiresRows)));
     }
 
-    public void searchWireUsingOuterDia(String outerDiaValue) throws InterruptedException, AWTException {
+    public void searchWireMulticoreUsingOuterDia(String outerDiaValue) throws InterruptedException, AWTException {
         customCommand.simulateKeyEnterWithValue(inputOuterDia,outerDiaValue);
         customCommand.simulateKeyEnter();
         Thread.sleep(4000);
-        customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tableWiresRows)));
+    }
+
+    public void searchWireMulticoreUsingPrimaryColour(String primaryColour) throws InterruptedException, AWTException {
+        customCommand.selectDropDownByValue(selectPrimaryColour,primaryColour);
+        customCommand.simulateKeyEnter();
+        Thread.sleep(4000);
+    }
+
+    public void searchWireUsingPartNumberAndMaterial(String partNumberDescription, String material) throws InterruptedException, AWTException {
+        customCommand.enterText(inputWirePnDescription,partNumberDescription);
+        customCommand.waitForElementToBeClickable(driver,inputMaterial);
+        inputMaterial.clear();
+        customCommand.simulateKeyEnterWithValue(inputMaterial,material);
+        customCommand.simulateKeyEnter();
+        Thread.sleep(4000);
     }
 }

@@ -1512,6 +1512,15 @@ public class ComponentDBStepDefinitions {
                     mapper.writeValue(new File("src/test/resources/componentDB/Wire/WireData.json"), dbData);
                 }
                 break;
+            case "multicore":
+                file = new File("src/test/resources/componentDB/Multicore/MulticoreData.json");
+                if (!file.exists()) {
+                    List<MulticoreComponentDB> dbData = new MulticoreComponentDBPage(context.driver).getMulticoreData();
+                    ObjectMapper mapper = new ObjectMapper();
+                    Files.createDirectories(Paths.get("src/test/resources/componentDB/Multicore"));
+                    mapper.writeValue(new File("src/test/resources/componentDB/Multicore/MulticoreData.json"), dbData);
+                }
+                break;
         }
     }
 
