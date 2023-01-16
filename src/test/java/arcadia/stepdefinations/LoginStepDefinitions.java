@@ -24,10 +24,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import static arcadia.context.FlowContext.harnessComponentAlreadyCreated;
-
-import org.openqa.selenium.WebDriver;
-
 public class LoginStepDefinitions {
     private final LoginPage loginPage;
     private final TestContext context;
