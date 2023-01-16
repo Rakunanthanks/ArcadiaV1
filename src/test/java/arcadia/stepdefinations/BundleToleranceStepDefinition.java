@@ -2,6 +2,9 @@ package arcadia.stepdefinations;
 
 import io.cucumber.java.en.Then;
 import arcadia.pages.DefineBundleTolerance;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 
 public class BundleToleranceStepDefinition {
@@ -24,6 +27,8 @@ public class BundleToleranceStepDefinition {
     static String bundleuppertolerance=DefineBundleTolerance.bundleuppertolerance;
     static  String bundlelowertolerance1= DefineBundleTolerance.bundlelowertolerance1;
     static String bundleuppertolerance1=DefineBundleTolerance.bundleuppertolerance1;
+
+    static String complabel=DefineBundleTolerance.complabelvalue;
     @Then("Check the Bundle Tolerance Value as per the Company Profile")
     public static  void check_the_bundle_tolerance_value_as_per_the_company_profile() {
 //           System.out.println(lengthRangeOneTo.equals(lengthRangeOneTo1_1));
@@ -73,6 +78,16 @@ public class BundleToleranceStepDefinition {
             System.out.println("Scenario 3 failed the values are not matching as expected value");
         }
     }
-}
+    @Then("Check the component label value")
+    public static void check_the_complabel_value()
+    {
+        try {
+            Assert.assertEquals(complabel, "100.00 (+/-5)");
+            System.out.println("Scenario 4 has been verified the values are Displayed as expected");
+    }catch (Throwable throwable){
+            System.out.println("Scenario 4 failed the values are not Displayed as expected value");
+        }
+    }
 
+}
 

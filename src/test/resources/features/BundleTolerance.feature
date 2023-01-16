@@ -16,6 +16,7 @@ Feature: Bundle Tolerance
     And Bundles are drawn
     And Inspecting Bundle
     Then Check outside focus changes lower tolerance and Upper tolerance
+    Then Bundles are Deleted
 
   @BundleTolerance
   Scenario: Test Verifies the bundle tolerance by drawing Bundle and inspecting the bundle .
@@ -25,5 +26,16 @@ Feature: Bundle Tolerance
     And Bundles are drawn
     And Inspecting Bundle Tolerance Value
     Then Check Bundle Tolerance Value By Inspecting Bundle
+    Then Bundles are Deleted
+
+  @BundleTolerance
+  Scenario: Test Verifies the Component Label Value.
+    Given I'm on Arcadia test environment
+    And test data config loaded for test identifier test4
+    And Navigated to Test Project
+    And Bundles are drawn
+    And Getting the Values of Component Label
+    Then Check the component label value
+    Then Bundles are Deleted
 
 
