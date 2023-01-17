@@ -52,6 +52,10 @@ public class ConnectorPage extends BasePage {
 
     @FindBy(css = "input[name=\"wiretable.get\"]") private WebElement buttonGetWireDetails;
 
+    @FindBy(css = "input[name=\"wiretable.fromtag\"]") private WebElement tagWireFromConnector;
+
+    @FindBy(css = "input[name=\"wiretable.totag\"]") private WebElement tagWireToConnector;
+
 
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
 
@@ -282,6 +286,14 @@ public class ConnectorPage extends BasePage {
     public void clickGetWireDetails(){
         customCommand.waitForElementToBeClickable(driver,buttonGetWireDetails);
         buttonGetWireDetails.click();
+    }
+
+    public void verifyTagWireFromConnector(String expectedTagValue){
+        Assert.assertEquals(tagWireFromConnector.getAttribute("value"),expectedTagValue);
+    }
+
+    public void verifyTagWireToConnector(String expectedTagValue){
+        Assert.assertEquals(tagWireToConnector.getAttribute("value"),expectedTagValue);
     }
 
 }
