@@ -11,3 +11,5 @@ Feature: General WireHarness Validations
     And harness with name 'connectorValidator' is launched successfully
     And based on drawing orchestrator components are created
     And connector plug '0' is opened
+    And wire is added to cavity
+    Then User verifies the tags for 'wire'

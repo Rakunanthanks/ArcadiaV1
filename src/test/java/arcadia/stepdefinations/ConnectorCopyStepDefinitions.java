@@ -2,6 +2,7 @@ package arcadia.stepdefinations;
 
 import arcadia.context.FlowContext;
 import arcadia.context.TestContext;
+import arcadia.domainobjects.Macros.WireTags;
 import arcadia.mapperObjects.SearchParts;
 import arcadia.mapperObjects.TestMapper;
 import arcadia.mapperObjects.WireTable;
@@ -12,21 +13,22 @@ import arcadia.pages.SearchPartsDatabasePage;
 import arcadia.utils.ConversionUtil;
 import arcadia.utils.StringHelper;
 import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
-import org.openqa.selenium.WebElement;
-import org.testng.Assert;
 
+import java.io.File;
 import java.io.IOException;
 
 public class ConnectorCopyStepDefinitions {
-    private HarnessPage harnessPage;
-    private ConnectorPage connectorPage;
     private final TestContext context;
     ConversionUtil conversionUtil = new ConversionUtil();
+    private HarnessPage harnessPage;
+    private ConnectorPage connectorPage;
 
-    public ConnectorCopyStepDefinitions(TestContext context){
+    public ConnectorCopyStepDefinitions(TestContext context) {
         this.context = context;
         harnessPage = PageFactoryManager.getDrawingPage(context.driver);
         connectorPage = PageFactoryManager.getConnectorPage(context.driver);
@@ -45,7 +47,7 @@ public class ConnectorCopyStepDefinitions {
     public void connector_added_to_second_node_of_bundle() throws InterruptedException {
         Thread.sleep(2000);
         harnessPage = PageFactoryManager.getDrawingPage(context.driver);
-       // connectorPage.addConnectorToNode(context.bundleNodes.get(1).getAttribute("id"));
+        // connectorPage.addConnectorToNode(context.bundleNodes.get(1).getAttribute("id"));
     }
 
     @Given("connectors are wired successfully")
@@ -56,7 +58,7 @@ public class ConnectorCopyStepDefinitions {
         connectorPage.addRowInCavityTable(Integer.valueOf(searchParts.getCavityNumber()));
         connectorPage = PageFactoryManager.getConnectorPage(context.driver);
         WireTable wireTable = mapper.getWireTable();
-       // context.wireProperties = connectorPage.updateWireTableConnector(wireTable.getConnectTo(),wireTable.getWireDescription(), Integer.valueOf(searchParts.getCavityNumber()));
+        // context.wireProperties = connectorPage.updateWireTableConnector(wireTable.getConnectTo(),wireTable.getWireDescription(), Integer.valueOf(searchParts.getCavityNumber()));
     }
 
     @Given("Submit connector")
@@ -74,13 +76,13 @@ public class ConnectorCopyStepDefinitions {
 
     @Then("User verifies the connectordescription is added successfully")
     public void userVerifiesTheConnectordescriptionIsAddedSuccessfully() {
-        connectorPage.verifyConnectorDescription(FlowContext.testDescription,FlowContext.connectorPlugIdentifierList.get(0).getConnectorId());
+        connectorPage.verifyConnectorDescription(FlowContext.testDescription, FlowContext.connectorPlugIdentifierList.get(0).getConnectorId());
     }
 
     @And("user enters piped description in connector details")
     public void userEntersPipedDescriptionInConnectorDetails() {
-        String description1 ="";
-        String description2="";
+        String description1 = "";
+        String description2 = "";
         description1 = String.format("testdescription-%04d", new StringHelper().generateRandomDigit());
         description2 = String.format("testdescription-%04d", new StringHelper().generateRandomDigit());
         String description = description1 + "|" + description2;
@@ -95,15 +97,15 @@ public class ConnectorCopyStepDefinitions {
 
     @Then("User verifies {string} cavityTable displayed")
     public void userVerifiesTheCavityTableDisplay(String numberOfTables) {
-        connectorPage.verifyCavityTableDisplayed(Integer.parseInt(numberOfTables),FlowContext.connectorPlugIdentifierList.get(0).getConnectorId());
-        }
+        connectorPage.verifyCavityTableDisplayed(Integer.parseInt(numberOfTables), FlowContext.connectorPlugIdentifierList.get(0).getConnectorId());
+    }
 
     @And("adds discrete component {string} with dest type {string}")
-    public void addsDiscreteComponent(String discreteType,String destType ) throws InterruptedException {
+    public void addsDiscreteComponent(String discreteType, String destType) throws InterruptedException {
         int FromCavity = 1;
         int ToCavity = 1;
         String componentDB = System.getProperty("componentDB");
-        connectorPage.enterDiscreteComponentDetails(destType,FromCavity,ToCavity,discreteType,componentDB);
+        connectorPage.enterDiscreteComponentDetails(destType, FromCavity, ToCavity, discreteType, componentDB);
         connectorPage.selectFirstDiscretePart();
         connectorPage.setShowDiscreteImage("true");
         FlowContext.connectorID = connectorPage.getConnectorID();
@@ -112,7 +114,7 @@ public class ConnectorCopyStepDefinitions {
     @Then("User verifies the discrete component is displayed")
     public void userVerifiesTheDiscreteComponentIsDisplayed() throws InterruptedException {
         Thread.sleep(3000);
-        connectorPage.verifyDiscreteComponentDisplayed(FlowContext.connectorPlugIdentifierList.get(0).getConnectorId(),FlowContext.connectorID);
+        connectorPage.verifyDiscreteComponentDisplayed(FlowContext.connectorPlugIdentifierList.get(0).getConnectorId(), FlowContext.connectorID);
     }
 
     @And("user deletes the discrete component successfully")
@@ -127,5 +129,32 @@ public class ConnectorCopyStepDefinitions {
         connectorPage.addWire();
         connectorPage.clickGetWireDetails();
         new SearchPartsDatabasePage(context.driver).verifySearchWiresWindowIsOpen();
+    }
+
+    @And("wire is added to cavity")
+    public void wireIsAddedToCavity() throws InterruptedException {
+        connectorPage.addWire();
+    }
+
+    @Then("User verifies the tags for {string}")
+    public void userVerifiesTheTags(String component) throws IOException {
+        File file;
+        String tagPrefix = "@@";
+        String tagSuffix = "#";
+        switch (component.toLowerCase()) {
+            case "wire":
+                file = new File("src/test/resources/macros/Wire/WireMacrosData.json");
+                WireTags dbMacrosData = null;
+                if (file.exists()) {
+                    ObjectMapper mapper = new ObjectMapper();
+                    dbMacrosData = mapper.readValue(new File("src/test/resources/macros/Wire/WireMacrosData.json"), new TypeReference<WireTags>() {
+                    });
+                }
+                String expectedFromTag = tagPrefix + dbMacrosData.getTagfromConnector()+ tagSuffix;
+                String expectedToTag = tagPrefix +dbMacrosData.getTagToConnector()+ tagSuffix;
+                connectorPage.verifyTagWireFromConnector(expectedFromTag);
+                connectorPage.verifyTagWireToConnector(expectedToTag);
+                break;
+        }
     }
 }
