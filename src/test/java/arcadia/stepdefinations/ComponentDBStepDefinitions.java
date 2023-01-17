@@ -4,6 +4,7 @@ import arcadia.context.FlowContext;
 import arcadia.context.TestContext;
 import arcadia.datasources.ComponentDataJDBC;
 import arcadia.domainobjects.*;
+import arcadia.domainobjects.Macros.WireTags;
 import arcadia.pages.ComponentDB.AddNewComponentPage;
 import arcadia.pages.ComponentDB.Applicators.ApplicatorsComponentDBPage;
 import arcadia.pages.ComponentDB.CommonElements;
@@ -17,6 +18,7 @@ import arcadia.pages.ComponentDB.Seals.SealsComponentDBPage;
 import arcadia.pages.ComponentDB.Splices.SplicesComponentDBPage;
 import arcadia.pages.ComponentDB.Terminals.TerminalsComponentDBPage;
 import arcadia.pages.ComponentDB.Wires.WiresComponentDBPage;
+import arcadia.pages.GeneralMacrosPage;
 import arcadia.utils.PropertyUtils;
 import arcadia.utils.StringHelper;
 import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
@@ -1696,5 +1698,21 @@ public class ComponentDBStepDefinitions {
             ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
         }
         Assert.assertEquals(actualUniquePartList.size(),expectedPartNumberList.size());
+    }
+
+    @And("{string} macros tags are extracted successfully")
+    public void macrosTagsAreExtractedSuccessfully(String componentName) throws IOException {
+        File file;
+        switch (componentName.toLowerCase()) {
+            case "wire":
+                file = new File("src/test/resources/macros/Wire/WireMacrosData.json");
+                if (!file.exists()) {
+                    WireTags macrosData = new GeneralMacrosPage(context.driver).getWiresTagData();
+                    ObjectMapper mapper = new ObjectMapper();
+                    Files.createDirectories(Paths.get("src/test/resources/macros/Wire"));
+                    mapper.writeValue(new File("src/test/resources/macros/Wire/WireMacrosData.json"), macrosData);
+                }
+                break;
+        }
     }
 }

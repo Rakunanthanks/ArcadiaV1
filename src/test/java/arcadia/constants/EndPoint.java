@@ -6,7 +6,9 @@ public enum EndPoint {
     PROFILE("/index.lp??app=generaledit&profilecode=profileName"),
     COMPONENTDB("/index.lp?app=componentsv2&database=databaseName"),
     SLEEVETUBE("/index.lp?app=componentsv2&form=sleevetube&company=CADONIX&database=databaseName"),
-    HARNESSBUNDLEDISPLAY("/index.lp?app=generaledit&appoption=3&section=Bundle%20Default%20Display&mainsection=Harness&profilecode=profileName");
+    HARNESSBUNDLEDISPLAY("/index.lp?app=generaledit&appoption=3&section=Bundle%20Default%20Display&mainsection=Harness&profilecode=profileName"),
+
+    GENERALMACROS("/index.lp?app=generaledit&appoption=3&section=Macros&mainsection=General&profilecode=quickstart");
     public final String url;
 
     EndPoint(String url) {

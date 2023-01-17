@@ -49,6 +49,10 @@ public class WireTags {
         this.tagOptions = tagOptions;
     }
 
+    public WireTags() {
+
+    }
+
     public String getTagfromConnector() {
         return tagfromConnector;
     }
