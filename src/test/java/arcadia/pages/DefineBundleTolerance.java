@@ -161,7 +161,7 @@ public class DefineBundleTolerance extends BasePage {
 
     WebElement length = driver.findElement(By.name("bundle.length"));
     length.clear();
-    length.sendKeys("200");
+    length.sendKeys("150");
     WebElement focus = driver.findElement(By.name("coverings.internaldia"));
     focus.clear();
     focus.sendKeys("200");

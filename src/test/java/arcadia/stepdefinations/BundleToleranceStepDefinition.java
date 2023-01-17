@@ -70,8 +70,8 @@ public class BundleToleranceStepDefinition {
     public static void Check_bundle_tolerance_value_by_inspecting_bundle()
     {
         try {
-            Assert.assertEquals(bundlelowertolerance1,"-10.00mm");
-            Assert.assertEquals(bundleuppertolerance1,"10.00mm");
+            Assert.assertEquals(bundlelowertolerance1,"-5mm");
+            Assert.assertEquals(bundleuppertolerance1,"5mm");
             System.out.println("Scenario 3 has been verified the values are stored expected");
 
         }catch (Throwable throwable){
