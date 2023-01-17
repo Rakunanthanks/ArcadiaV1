@@ -126,10 +126,9 @@ public class SeleniumCustomCommand {
         actions.doubleClick(element).perform();
     }
 
-    public void clickEscape(WebDriver driver) throws AWTException {
-        Robot robot = new Robot();
-        robot.keyPress(KeyEvent.VK_ESCAPE);
-        robot.keyRelease(KeyEvent.VK_ESCAPE);
+    public void clearAndEnterText(WebElement ele, String text) {
+     ele.clear();
+     ele.sendKeys(text);
     }
 
 }
