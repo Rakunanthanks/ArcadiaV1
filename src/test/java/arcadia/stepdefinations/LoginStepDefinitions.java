@@ -126,4 +126,9 @@ public class LoginStepDefinitions {
     {
         loginPage.load(EndPoint.PROFILE.url.replace("profileName",System.getProperty("profileName")));
     }
+
+    @And("Navigated to GeneralMacros page")
+    public void navigatedToGeneralMacrosPage() {
+        loginPage.load(EndPoint.GENERALMACROS.url);
+    }
 }
