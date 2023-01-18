@@ -4,6 +4,7 @@ import arcadia.context.FlowContext;
 import arcadia.context.TestContext;
 import arcadia.domainobjects.ConnectorPlugIdentifier;
 import arcadia.domainobjects.Harness;
+import arcadia.mapperObjects.DrawingInstructor;
 import arcadia.mapperObjects.TestMapper;
 import arcadia.pages.*;
 import arcadia.pages.ComponentDB.AddNewComponentPage;
@@ -18,6 +19,7 @@ import io.cucumber.java.hu.Ha;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.List;
 
