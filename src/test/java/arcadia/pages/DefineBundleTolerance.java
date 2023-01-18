@@ -137,7 +137,6 @@ public class DefineBundleTolerance extends BasePage {
 
   public void Customcommands() throws InterruptedException {
     driver.manage().timeouts().implicitlyWait(600, TimeUnit.SECONDS);
-
     WebElement customcommands = wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath("//*[@id=\"commandline\"]"))));
     Thread.sleep(2000);
     String command100 = "freebundle 0 -72.5mm,38.75mm -72.5mm,38.75mm 27.5mm,38.75mm";
