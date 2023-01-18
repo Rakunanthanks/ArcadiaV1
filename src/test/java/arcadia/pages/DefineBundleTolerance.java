@@ -134,6 +134,7 @@ public class DefineBundleTolerance extends BasePage {
     WebElement customcommands = wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath("//*[@id=\"commandline\"]"))));
     Thread.sleep(2000);
     String command100 = "freebundle 0 -72.5mm,38.75mm -72.5mm,38.75mm 27.5mm,38.75mm";
+    Thread.sleep(2000);
     WebElement okaybutton = driver.findElement(By.xpath("//*[@id=\"commandbar-buttons\"]/button[2]/span"));
     customcommands.clear();
     customCommand.enterText(customcommands,command100);
