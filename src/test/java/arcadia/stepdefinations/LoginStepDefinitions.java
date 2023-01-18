@@ -14,6 +14,8 @@ import io.cucumber.java.en.Given;
 import java.awt.*;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import org.openqa.selenium.WebDriver;
 
 import static arcadia.context.FlowContext.harnessComponentAlreadyCreated;
 
@@ -28,9 +30,11 @@ public class LoginStepDefinitions {
     public void i_m_on_arcadia_test_environment() throws IOException {
         loginPage.load();
         loginPage.Login();
+        Thread.sleep(1000);
     }
     @Given("test data config loaded for test identifier {word}")
     public void test_data_config_loaded_for_test_identifier(String string) throws IOException, InterruptedException {
+        Thread.sleep(1000);
         context.testIdentifier = string;
     }
 
@@ -43,6 +47,28 @@ public class LoginStepDefinitions {
     @And("Navigated to quickstart project")
     public void navigateToProjectQuickStart(){
         loginPage.load(EndPoint.PROJECT.url.replace("projectName",System.getProperty("projectName")));
+    }
+    @And( "Navigated to Test Project")
+    public void navigateToTestProject() throws InterruptedException {
+        Thread.sleep(1000);
+        loginPage.load(EndPoint.TEST.url);
+        Thread.sleep(1000);
+        new DefineBundleTolerance(context.driver).CaptureBundleTollerance();
+
+    }
+
+    @And("Navigating to Company profile page")
+    public void navigateToSettings() throws InterruptedException {
+        Thread.sleep(1000);
+        loginPage.load(EndPoint.SETTINGS.url);
+        Thread.sleep(1000);
+        loginPage.load(EndPoint.AutomationCompanyProfile.url);
+        Thread.sleep(1000);
+        loginPage.load(EndPoint.BUNDLEDEFAULTDISPLAY.url);
+        Thread.sleep(1000);
+       new DefineBundleTolerance(context.driver).CaptureModifyBundleTollerance();
+        Thread.sleep(1000);
+
     }
 
     @Given("User selected {string} from componentDB")

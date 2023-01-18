@@ -6,6 +6,7 @@ public class CreateHarness {
     private String description;
     private String partNumber;
     private String revision;
+    private String profile;
     private String componentDB;
 
     public String getWorkTask() {
@@ -47,7 +48,13 @@ public class CreateHarness {
     public void setRevision(String revision) {
         this.revision = revision;
     }
+    public String getProfile() {
+        return profile;
+    }
 
+    public void setProfile(String profile) {
+        this.profile = profile;
+    }
     public String getComponentDB() {
         return componentDB;
     }
