@@ -4,7 +4,6 @@ import arcadia.context.FlowContext;
 import arcadia.context.TestContext;
 import arcadia.domainobjects.ConnectorPlugIdentifier;
 import arcadia.domainobjects.Harness;
-import arcadia.mapperObjects.DrawingInstructor;
 import arcadia.mapperObjects.TestMapper;
 import arcadia.pages.*;
 import arcadia.pages.ComponentDB.AddNewComponentPage;
@@ -19,7 +18,6 @@ import io.cucumber.java.hu.Ha;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import java.awt.*;
 import java.io.IOException;
 import java.util.List;
 
@@ -60,7 +58,7 @@ public class HarnessStepDefinitions {
         harnessData.setTitle(new StringHelper().generateRandomDigit().toString());
         harnessData.setWorkTask(new StringHelper().generateRandomDigit().toString());
         FlowContext.testDescription = connectorDescription;
-        createHarness.submitHarnessData(new Harness(harnessData.getWorkTask(), harnessData.getTitle(), harnessData.getDescription(), harnessData.getPartNumber(), harnessData.getRevision(), harnessData.getComponentDB()));
+      //  createHarness.submitHarnessData(new Harness(harnessData.getWorkTask(), harnessData.getTitle(), harnessData.getDescription(), harnessData.getPartNumber(), harnessData.getRevision(), harnessData.getComponentDB()));
     }
 
     private void openExistingHarness(String connectorDescription) {
