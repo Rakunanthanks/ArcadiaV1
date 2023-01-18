@@ -39,9 +39,6 @@ public class LoginStepDefinitions {
     public void i_m_on_arcadia_test_environment() throws IOException, InterruptedException {
 
         loginPage.load();
-
-        loginPage.load(EndPoint.TRAINING.url);
-
         loginPage.Login();
         Thread.sleep(1000);
     }
