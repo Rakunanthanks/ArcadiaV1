@@ -59,7 +59,7 @@ public class HarnessStepDefinitions {
         harnessData.setTitle(new StringHelper().generateRandomDigit().toString());
         harnessData.setWorkTask(new StringHelper().generateRandomDigit().toString());
         FlowContext.testDescription = connectorDescription;
-      //  createHarness.submitHarnessData(new Harness(harnessData.getWorkTask(), harnessData.getTitle(), harnessData.getDescription(), harnessData.getPartNumber(), harnessData.getRevision(), harnessData.getComponentDB()));
+        createHarness.submitHarnessData(new Harness(harnessData.getWorkTask(), harnessData.getTitle(), harnessData.getDescription(), harnessData.getPartNumber(), harnessData.getRevision(), harnessData.getComponentDB()));
     }
 
     private void openExistingHarness(String connectorDescription) {
