@@ -57,43 +57,7 @@ public class LoginStepDefinitions {
     public void navigateToProjectQuickStart(){
         loginPage.load(EndPoint.PROJECT.url.replace("projectName",System.getProperty("projectName")));
     }
-    @And( "Navigated to Test Project")
-    public void navigateToTestProject() throws InterruptedException {
-        Thread.sleep(1000);
-        loginPage.load(EndPoint.TEST.url);
-        Thread.sleep(1000);
-    }
-    @And( "Checking the Bundle Tolerance Value")
-    public void Checking_the_Bundle_Tolerance_Value() throws InterruptedException {
-        new DefineBundleTolerance(context.driver).CaptureBundleTollerance();
-    }
-    @And("Bundles are drawn")
-    public void bundlesdrawn() throws InterruptedException{
-        new DefineBundleTolerance(context.driver).Customcommands();
-    }
-    @And( "Inspecting Bundle")
-    public void inspecting_bundle() throws InterruptedException{
-        new DefineBundleTolerance(context.driver).InspectingBundle();
-    }
-    @And( "Inspecting Bundle Tolerance Value")
-    public void inspecting_bundletolerance_value() throws InterruptedException{
-        new DefineBundleTolerance(context.driver).InspectingBundletolerancevalue();
-    }
 
-    @And("Getting the Values of Component Label")
-    public void values_of_comp_label() throws InterruptedException{
-        new DefineBundleTolerance(context.driver).ValuesOfComplabel();
-    }
-
-    @And("Changing Bundle Tolerance Value")
-    public void changing_bundletolerance_value() throws InterruptedException{
-        new DefineBundleTolerance(context.driver).changing_bundletolerance_value();
-    }
-    @Then("Bundles are Deleted")
-    public void bundles_are_deleted()throws InterruptedException
-    {
-        new DefineBundleTolerance(context.driver).bundles_deleted();
-    }
 
     @And("Navigating to Company profile page")
     public void navigateToSettings() throws InterruptedException {
