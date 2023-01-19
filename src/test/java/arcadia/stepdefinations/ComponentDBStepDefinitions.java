@@ -63,7 +63,7 @@ public class ComponentDBStepDefinitions {
         componentDetails.setDescription(String.format("testdescription-%04d", new StringHelper().generateRandomDigit()));
         componentDetails.setStatus(componentStatus);
         addComponentForm.setComponentDetails(componentDetails);
-        ExtentCucumberAdapter.addTestStepLog(String.format("Component Name is "+ componentName+", Component Status is "+componentStatus));
+//        ExtentCucumberAdapter.addTestStepLog(String.format("Component Name is "+ componentName+", Component Status is "+componentStatus));
 
         //Adding additional references details
         csvQuery = "Select * from AdditionalReferencesDetails where componentName='" + componentName.toLowerCase() + "'";
@@ -74,7 +74,7 @@ public class ComponentDBStepDefinitions {
         additionalReferences1.setReferencesPartNumber(referencesPartNumber);
         additionalReferencesList.add(additionalReferences1);
         addComponentForm.setAdditionalReferences(additionalReferencesList);
-        ExtentCucumberAdapter.addTestStepLog(String.format("Reference part number is "+ referencesPartNumber));
+//        ExtentCucumberAdapter.addTestStepLog(String.format("Reference part number is "+ referencesPartNumber));
 
         //Adding bom details
         csvQuery = "Select * from BomDetails where componentName='" + componentName.toLowerCase() + "'";
@@ -95,7 +95,7 @@ public class ComponentDBStepDefinitions {
         String csvQuery = "";
         String csvDirectoryPath = "src/test/resources/componentDB/TestData";
         new HeaderPanel(context.driver).openAddNewComponentPage();
-        ExtentCucumberAdapter.addTestStepLog(String.format("Component Name is "+ componentName+" bill type is "+componentBomBillType));
+//        ExtentCucumberAdapter.addTestStepLog(String.format("Component Name is "+ componentName+" bill type is "+componentBomBillType));
 
         //Adding component details
         csvQuery = "Select * from ComponentDetails where componentName='" + componentName.toLowerCase() + "'";
@@ -467,7 +467,7 @@ public class ComponentDBStepDefinitions {
     public void userSearchesComponent(String componentName, String searchType) throws InterruptedException {
         switch (searchType.toLowerCase()) {
             case "partnumber":
-                ExtentCucumberAdapter.addTestStepLog(String.format("Searched component is ", componentName+ ", Searched type is "+searchType));
+//                ExtentCucumberAdapter.addTestStepLog(String.format("Searched component is ", componentName+ ", Searched type is "+searchType));
                 new CommonElements(context.driver).filterComponentBasedOnPartNumber(FlowContext.referencesPartNumber);
                 break;
         }
@@ -1443,11 +1443,15 @@ public class ComponentDBStepDefinitions {
         switch (componentName.toLowerCase()) {
             case "terminal":
                 new HeaderPanel(context.driver).invokeFormTabs("Link_Terminals");
-                new CommonElements(context.driver).enterLinkPartNumber("7780");
+                new CommonElements(context.driver).loadDataFromDB();
                 break;
             case "seal":
                 new HeaderPanel(context.driver).invokeFormTabs("Link_Seals");
-                new CommonElements(context.driver).enterLinkPartNumber("4526");
+                new CommonElements(context.driver).loadDataFromDB();
+                break;
+            case "mating_halves":
+                new HeaderPanel(context.driver).invokeFormTabs("Mating_Halves");
+                new CommonElements(context.driver).loadDataFromDB();
                 break;
             case "part":
                 new HeaderPanel(context.driver).invokeFormTabs("Link_Parts");
@@ -1469,7 +1473,18 @@ public class ComponentDBStepDefinitions {
                 new HeaderPanel(context.driver).invokeFormTabs("Tags");
                 new CommonElements(context.driver).enterTag();
                 break;
-
+            case "splice":
+                new HeaderPanel(context.driver).invokeFormTabs("Splice");
+                new CommonElements(context.driver).enterSpliceDetails();
+                break;
+            case "nwf":
+                new HeaderPanel(context.driver).invokeFormTabs("NWF");
+                new CommonElements(context.driver).enterNWFDetails();
+                break;
+            case "connectors":
+                new HeaderPanel(context.driver).invokeFormTabs("Link_Connectors");
+                new CommonElements(context.driver).loadDataFromDB();
+                break;
         }
         new CommonElements(context.driver).clickUpdateComponent();
         new CommonElements(context.driver).verifyAlertSuccessMessage("Component updated");
