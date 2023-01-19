@@ -2,10 +2,15 @@ package arcadia.pages;
 
 import arcadia.domainobjects.Harness;
 import arcadia.utils.SeleniumCustomCommand;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.util.concurrent.TimeUnit;
 
 public class CreateHarness extends BasePage {
     public CreateHarness(WebDriver driver) {
@@ -30,7 +35,12 @@ public class CreateHarness extends BasePage {
         customCommand.enterText(partNumber,harnessData.getPartNumber());
         customCommand.enterText(revision,harnessData.getRevision());
         customCommand.selectDropDownByValue(componentDB,harnessData.getComponentDB());
-        harnessSubmitButton.click();
+      //  harnessSubmitButton.click();
+        WebElement Submitbutton = driver.findElement(By.cssSelector("#formSubmit"));
+        Submitbutton.click();
+        driver.manage().timeouts().implicitlyWait(300, TimeUnit.SECONDS);
+        new WebDriverWait(driver, 20).until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"ibundleTolerances\"]"))).click();
+        System.out.println("Element was clicked");
     }
 
     public void verifyHarnessCreated(){

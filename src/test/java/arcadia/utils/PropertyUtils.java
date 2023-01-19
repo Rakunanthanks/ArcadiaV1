@@ -1,16 +1,15 @@
 package arcadia.utils;
-
 import java.io.*;
 import java.net.URL;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Properties;
-
 public class PropertyUtils {
-
     public static Properties propertyLoader(String filePath) {
         Properties properties = new Properties();
         BufferedReader reader;
         try {
-            reader = new BufferedReader(new FileReader(filePath));
+            reader = new BufferedReader(new FileReader(URLDecoder.decode(filePath, StandardCharsets.UTF_8.toString())));
             try {
                 properties.load(reader);
                 reader.close();
@@ -21,6 +20,9 @@ public class PropertyUtils {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             throw new RuntimeException("properties file not found at " + filePath);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Incorrect file path " + filePath);
         }
         return properties;
     }
