@@ -14,3 +14,6 @@ Feature: Link components
     And User links 'terminal' from componentDB
     And User links 'seal' from componentDB
     And User links 'part' from componentDB
+    And User links 'Mating_Halves' from componentDB
+    And User links 'equivalents' from componentDB
+    And User links 'nwf' from componentDB
