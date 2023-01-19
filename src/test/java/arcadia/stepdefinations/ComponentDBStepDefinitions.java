@@ -1443,11 +1443,15 @@ public class ComponentDBStepDefinitions {
         switch (componentName.toLowerCase()) {
             case "terminal":
                 new HeaderPanel(context.driver).invokeFormTabs("Link_Terminals");
-                new CommonElements(context.driver).enterLinkPartNumber("7780");
+                new CommonElements(context.driver).loadDataFromDB();
                 break;
             case "seal":
                 new HeaderPanel(context.driver).invokeFormTabs("Link_Seals");
-                new CommonElements(context.driver).enterLinkPartNumber("4526");
+                new CommonElements(context.driver).loadDataFromDB();
+                break;
+            case "mating_halves":
+                new HeaderPanel(context.driver).invokeFormTabs("Mating_Halves");
+                new CommonElements(context.driver).loadDataFromDB();
                 break;
             case "part":
                 new HeaderPanel(context.driver).invokeFormTabs("Link_Parts");
@@ -1476,6 +1480,10 @@ public class ComponentDBStepDefinitions {
             case "nwf":
                 new HeaderPanel(context.driver).invokeFormTabs("NWF");
                 new CommonElements(context.driver).enterNWFDetails();
+                break;
+            case "connectors":
+                new HeaderPanel(context.driver).invokeFormTabs("Link_Connectors");
+                new CommonElements(context.driver).loadDataFromDB();
                 break;
         }
         new CommonElements(context.driver).clickUpdateComponent();

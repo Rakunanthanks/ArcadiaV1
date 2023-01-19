@@ -154,6 +154,11 @@ public class CommonElements extends BasePage {
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
 
     public void selectFirstComponent() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         checkboxfirstComponent.click();
     }
 
