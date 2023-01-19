@@ -52,13 +52,14 @@ public class HarnessStepDefinitions {
         projectLanding.invokeCreateHarness();
         arcadia.mapperObjects.CreateHarness harnessData = new arcadia.mapperObjects.CreateHarness();
         harnessData.setComponentDB(System.getProperty("componentDB"));
+        harnessData.setProfile(System.getProperty("profileName"));
         harnessData.setPartNumber(partNumber);
         harnessData.setDescription(connectorDescription);
         harnessData.setRevision(new StringHelper().generateRandomDigit().toString());
         harnessData.setTitle(new StringHelper().generateRandomDigit().toString());
         harnessData.setWorkTask(new StringHelper().generateRandomDigit().toString());
         FlowContext.testDescription = connectorDescription;
-        createHarness.submitHarnessData(new Harness(harnessData.getWorkTask(), harnessData.getTitle(), harnessData.getDescription(), harnessData.getPartNumber(), harnessData.getRevision(), harnessData.getComponentDB()));
+        createHarness.submitHarnessData(new Harness(harnessData.getWorkTask(), harnessData.getTitle(), harnessData.getDescription(), harnessData.getPartNumber(), harnessData.getRevision(), harnessData.getComponentDB(),harnessData.getProfile()));
     }
 
     private void openExistingHarness(String connectorDescription) {

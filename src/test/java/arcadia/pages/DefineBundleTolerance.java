@@ -53,19 +53,24 @@ public class DefineBundleTolerance extends BasePage {
     public static String lowerToleranceTwo_1;
     public static String upperToleranceTwo_1;
 
-
+    public void turningvisibilityon(){
+        WebElement advanced = driver.findElement(By.xpath("//span[@class='ribbon-title'][normalize-space()='Advanced']"));
+        advanced.click();
+        WebElement visibility = driver.findElement(By.xpath("(//div[@id='iglabeledit'])[1]"));
+        visibility.click();
+        WebElement bundletoleranceon =driver.findElement(By.cssSelector("input[value='true'][name='bundle_Tolerances']"));
+        bundletoleranceon.click();
+        WebElement submit = driver.findElement(By.cssSelector("button[title='Submit'] span"));
+        submit.click();
+    }
     public static void CaptureBundleTollerance() {
         driver.manage().timeouts().implicitlyWait(600, TimeUnit.SECONDS);
-        //  new WebDriverWait(driver, 20).until(ExpectedConditions.elementToBeClickable(By.cssSelector("#ibundleTolerances"))).click();
-
         try {
             driver.findElement(By.cssSelector("#ibundleTolerances")).click();
         } catch (Exception e) {
             JavascriptExecutor executor = (JavascriptExecutor) driver;
             executor.executeScript("arguments[0].click();", driver.findElement(By.cssSelector("#ibundleTolerances")));
         }
-
-        // new WebDriverWait(driver, Duration.ofSeconds(2000)).until(ExpectedConditions.elementToBeClickable(By.cssSelector("#ibundleTolerances"))).click();
         System.out.println("Element was clicked");
         driver.manage().timeouts().implicitlyWait(600, TimeUnit.SECONDS);
         WebElement lengthrange1bundlelength = driver.findElement(By.name("lengthRangeOneTo"));
@@ -95,7 +100,6 @@ public class DefineBundleTolerance extends BasePage {
     }
 
     public void CaptureModifyBundleTollerance() throws InterruptedException {
-
 
         WebElement lengthrange1bundlelength = driver.findElement(By.name("lengthRangeOneTo"));
         lengthrange1bundlelength.clear();
@@ -127,7 +131,11 @@ public class DefineBundleTolerance extends BasePage {
         upperToleranceTwo_1 = "10";
         WebElement savebutton = driver.findElement(By.cssSelector("button[value='Save']"));
         savebutton.click();
-        WebElement checkbutton = driver.findElement(By.cssSelector("#HAR34"));
+        WebElement pagination = driver.findElement(By.xpath("//button[@type='button']"));
+        pagination.click();
+        WebElement selectall = driver.findElement(By.xpath("//a[normalize-space()='All']"));
+        selectall.click();
+        WebElement checkbutton = driver.findElement(By.xpath("//td[normalize-space()='BundleTolerance']"));
         checkbutton.click();
         driver.manage().timeouts().implicitlyWait(300, TimeUnit.SECONDS);
         WebElement savebutton1 = driver.findElement(By.cssSelector("button[value='Save']"));
@@ -156,18 +164,14 @@ public class DefineBundleTolerance extends BasePage {
         customCommand.enterText(customcommands,command200);
         customCommand.waitClick(okaybutton);
         Thread.sleep(3000);
-//    customCommand.enterText(customcommands,command100);
-//    customCommand.waitClick(okaybutton);
-//    Thread.sleep(3000);
     }
 
-    public void InspectingBundle() throws InterruptedException{
+    public static void InspectingBundle() throws InterruptedException{
         Actions act = new Actions(driver);
         driver.manage().timeouts().implicitlyWait(600, TimeUnit.SECONDS);
         WebElement inspectbundle = driver.findElement(By.cssSelector("path[d='M -72.5 38.75 L -72.5 38.75 L 27.5 38.75'][stroke='TRANSPARENT']"));
         act.doubleClick(inspectbundle).perform();
         Thread.sleep(4000);
-
         WebElement length = driver.findElement(By.name("bundle.length"));
         length.clear();
         length.sendKeys("150");
@@ -184,7 +188,7 @@ public class DefineBundleTolerance extends BasePage {
         bundleuppertolerance = uppertolerance.getAttribute("placeholder");
     }
 
-    public void InspectingBundletolerancevalue()throws InterruptedException
+    public static void InspectingBundletolerancevalue()throws InterruptedException
     {
         Actions act = new Actions(driver);
         driver.manage().timeouts().implicitlyWait(600, TimeUnit.SECONDS);
@@ -199,10 +203,9 @@ public class DefineBundleTolerance extends BasePage {
         Thread.sleep(4000);
         System.out.println(uppertolerance.getAttribute("placeholder"));
         bundleuppertolerance1 = uppertolerance.getAttribute("placeholder");
-
     }
 
-    public void ValuesOfComplabel() throws InterruptedException
+    public static void ValuesOfComplabel() throws InterruptedException
     {
         driver.manage().timeouts().implicitlyWait(600, TimeUnit.SECONDS);
         WebElement Complabel = driver.findElement(By.xpath("//*[name()='text' and contains(@class,'complabel')]"));
@@ -212,7 +215,6 @@ public class DefineBundleTolerance extends BasePage {
     public void changing_bundletolerance_value() throws InterruptedException{
         CaptureBundleTollerance();
     }
-
     public void bundles_deleted() throws InterruptedException {
         WebElement customcommands = wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath("//*[@id=\"commandline\"]"))));
         Thread.sleep(2000);

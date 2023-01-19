@@ -22,6 +22,7 @@ public class CreateHarness extends BasePage {
     @FindBy(css = "input[name=\"Part Number\"]") private WebElement partNumber;
     @FindBy(css = "input[name=\"Revision\"]") private WebElement revision;
     @FindBy(css = "select[name=\"Library\"]") private WebElement componentDB;
+    @FindBy(css = "select[name=\"Profile\"]") private WebElement profile;
     @FindBy(id = "formSubmit") private WebElement harnessSubmitButton;
 
     SeleniumCustomCommand  customCommand = new SeleniumCustomCommand();
@@ -35,12 +36,9 @@ public class CreateHarness extends BasePage {
         customCommand.enterText(partNumber,harnessData.getPartNumber());
         customCommand.enterText(revision,harnessData.getRevision());
         customCommand.selectDropDownByValue(componentDB,harnessData.getComponentDB());
-      //  harnessSubmitButton.click();
-        WebElement Submitbutton = driver.findElement(By.cssSelector("#formSubmit"));
-        Submitbutton.click();
-        driver.manage().timeouts().implicitlyWait(300, TimeUnit.SECONDS);
-        new WebDriverWait(driver, 20).until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"ibundleTolerances\"]"))).click();
-        System.out.println("Element was clicked");
+        customCommand.selectDropDownByValue(profile,harnessData.getprofile());
+        harnessSubmitButton.click();
+
     }
 
     public void verifyHarnessCreated(){

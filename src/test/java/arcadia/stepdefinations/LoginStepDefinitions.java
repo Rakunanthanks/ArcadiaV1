@@ -8,6 +8,7 @@ import arcadia.pages.*;
 import arcadia.pages.ComponentDB.HeaderPanel;
 import arcadia.utils.DrawingHelper;
 import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
+import io.cucumber.java.bs.A;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import static arcadia.context.FlowContext.harnessComponentAlreadyCreated;
@@ -44,6 +45,11 @@ public class LoginStepDefinitions {
         loginPage.load(EndPoint.PROJECT.url.replace("projectName",System.getProperty("projectName")));
     }
 
+    @And("Turning Visibility on for Bundle Tolerance")
+    public void turning_visibility_on()
+    {
+        new DefineBundleTolerance(context.driver).turningvisibilityon();
+    }
 
     @And("Navigating to Company profile page")
     public void navigateToSettings() throws InterruptedException {
@@ -57,12 +63,6 @@ public class LoginStepDefinitions {
         new DefineBundleTolerance(context.driver).CaptureModifyBundleTollerance();
         Thread.sleep(1000);
 
-    }
-    @And( "Navigated to Test Project")
-    public void navigateToTestProject() throws InterruptedException {
-        Thread.sleep(1000);
-        loginPage.load(EndPoint.TEST.url);
-        Thread.sleep(1000);
     }
     @And( "Checking the Bundle Tolerance Value")
     public void Checking_the_Bundle_Tolerance_Value() throws InterruptedException {
