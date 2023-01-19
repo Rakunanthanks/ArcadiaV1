@@ -4,26 +4,18 @@ import arcadia.constants.EndPoint;
 import arcadia.context.FlowContext;
 import arcadia.context.TestContext;
 import arcadia.mapperObjects.DrawingInstructor;
-
 import arcadia.pages.*;
 import arcadia.pages.ComponentDB.HeaderPanel;
 import arcadia.utils.DrawingHelper;
 import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
-
+import static arcadia.context.FlowContext.harnessComponentAlreadyCreated;
 import java.awt.*;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-
 import io.cucumber.java.en.Then;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-
 public class LoginStepDefinitions {
     private final LoginPage loginPage;
     private final TestContext context;
@@ -36,21 +28,15 @@ public class LoginStepDefinitions {
 
         loginPage.load();
         loginPage.Login();
-        Thread.sleep(1000);
     }
     @Given("test data config loaded for test identifier {word}")
     public void test_data_config_loaded_for_test_identifier(String string) throws IOException, InterruptedException {
-        Thread.sleep(1000);
         context.testIdentifier = string;
     }
 
     @Given("Navigated to selected componentDB")
     public void navigated_to_selected_component_db() {
-        String selectedComponentDB = System.getProperty("componentDB");
-        System.out.println("selectedComponentDB "+ selectedComponentDB);
-        String endpoint = EndPoint.COMPONENTDB.url.replace("componentDB",selectedComponentDB);
-        loginPage.load(endpoint);
-
+        loginPage.load(EndPoint.COMPONENTDB.url.replace("databaseName",System.getProperty("componentDB")));
     }
 
     @And("Navigated to quickstart project")
@@ -119,7 +105,6 @@ public class LoginStepDefinitions {
         }
         new HeaderPanel(context.driver).invokeMainMenu(menuName);
     }
-
     @And("Harness bundle default values are captured")
     public void captureHarnessBundleDefaults(){
         loginPage.load(EndPoint.HARNESSBUNDLEDISPLAY.url.replace("profileName",System.getProperty("profileName")));
@@ -131,11 +116,11 @@ public class LoginStepDefinitions {
 
     @Given("based on drawing orchestrator components are created")
     public void based_on_drawing_orchestrator_components_are_created() throws IOException, InterruptedException, AWTException {
-        List<DrawingInstructor> drawingInstructorList =  new DrawingHelper().getDrawingInstruction(context.testIdentifier);
-        new DrawingHelper().drawOrchestrator(drawingInstructorList,context.driver);
+        if (!harnessComponentAlreadyCreated) {
+            List<DrawingInstructor> drawingInstructorList = new DrawingHelper().getDrawingInstruction(context.testIdentifier);
+            new DrawingHelper().drawOrchestrator(drawingInstructorList, context.driver);
+        }
     }
-
-
     @And("Navigated to Profiles setting for profile {string}")
     public void navigatedToProfilesSettingForProfileQuickstart(String profileCode)
     {
