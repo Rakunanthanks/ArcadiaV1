@@ -59,3 +59,12 @@ Feature: Filter wires harness
     And connector plug '0' is opened
     And User opens searchwire window
     Then Verify user filters wire using 'partNumber' and 'material' successfully
+
+  @UpdateWirePN
+  Scenario: Test verifies a wire can be filtered using material and gauge in wiretable
+    And Navigated to quickstart project
+    And harness with name 'connectorValidator' is launched successfully
+    And based on drawing orchestrator components are created
+    And connector plug '0' is opened
+    And wire is added to cavity
+    Then Verify updateWirePN functionality in wiretable successfully
