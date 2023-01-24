@@ -228,4 +228,41 @@ public class DrawingInstructor {
 
     @CsvBindByName
     private String Draw;
+
+    public String getWireod() { return wireod;}
+    public  void setWireod(String wireod){this.wireod=wireod;}
+
+    @CsvBindByName
+    private String wireod;
+
+    public String getFamily() { return family;}
+    public  void setFamily(String family){this.family=family;}
+
+    @CsvBindByName
+    private String family;
+
+    public String getType() { return type;}
+    public  void setType(String type){this.type=type;}
+
+    @CsvBindByName
+    private String type;
+
+    public String getFinish() { return finish;}
+    public  void setFinish(String finish){this.finish=finish;}
+
+    @CsvBindByName
+    private String finish;
+
+    public String getCmaterial() { return cmaterial;}
+    public  void setCmaterial(String material){this.cmaterial=cmaterial;}
+
+    @CsvBindByName
+    private String cmaterial;
+
+    public String getGender() { return gender;}
+    public  void setGender(String gender){this.gender=gender;}
+
+    @CsvBindByName
+    private String gender;
+
 }

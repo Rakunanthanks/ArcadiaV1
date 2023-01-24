@@ -238,6 +238,13 @@ public class ConnectorPage extends BasePage {
             }
         return  FlowContext.connectorPlugIdentifierList;
     }
+    public void rightClickConnectorPlugElement(String connectorPlugId) throws InterruptedException {
+
+        Actions actions = new Actions(driver);
+        WebElement ele = driver.findElement(By.xpath("//*[name()='g' and @id='"+connectorPlugId+"']//*[name()='rect' and contains(@etype,'connector')]"));
+        actions.contextClick(ele).perform();
+        Thread.sleep(2000);
+    }
 
     public void addSpliceWithCommand(String command) throws InterruptedException {
         customCommand.simulateKeyEnterWithValue(commandLine,command);

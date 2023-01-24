@@ -31,7 +31,6 @@ public class TerminalsComponentDBPage extends BasePage {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(jsonValue);
         jsonValue=jsonNode.get("rows").toString();
-
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
         List<TerminalsComponentDB> dbData = objectMapper.readValue(jsonValue, new TypeReference<List<TerminalsComponentDB>>(){});

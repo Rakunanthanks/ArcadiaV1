@@ -39,12 +39,17 @@ public class LoginStepDefinitions {
     }
     @Given("test data config loaded for test identifier {word}")
     public void test_data_config_loaded_for_test_identifier(String string) throws IOException, InterruptedException {
+        System.out.println(string);
         context.testIdentifier = string;
     }
 
     @Given("Navigated to selected componentDB")
     public void navigated_to_selected_component_db() {
         loginPage.load(EndPoint.COMPONENTDB.url.replace("databaseName",System.getProperty("componentDB")));
+    }
+    @And("Navigate to component DB Page")
+    public void componentdbList() {
+        loginPage.load(EndPoint.COMPONENTDBLIST.url);
     }
 
     @And("Navigated to quickstart project")
@@ -166,6 +171,7 @@ public class LoginStepDefinitions {
 
     @Given("based on drawing orchestrator components are created")
     public void based_on_drawing_orchestrator_components_are_created() throws IOException, InterruptedException, AWTException {
+        harnessComponentAlreadyCreated= false;
         if (!harnessComponentAlreadyCreated) {
             List<DrawingInstructor> drawingInstructorList = new DrawingHelper().getDrawingInstruction(context.testIdentifier);
             new DrawingHelper().drawOrchestrator(drawingInstructorList, context.driver);
