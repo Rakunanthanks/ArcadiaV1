@@ -2,10 +2,15 @@ package arcadia.pages;
 
 import arcadia.domainobjects.Harness;
 import arcadia.utils.SeleniumCustomCommand;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.util.concurrent.TimeUnit;
 
 public class CreateHarness extends BasePage {
     public CreateHarness(WebDriver driver) {
@@ -17,6 +22,7 @@ public class CreateHarness extends BasePage {
     @FindBy(css = "input[name=\"Part Number\"]") private WebElement partNumber;
     @FindBy(css = "input[name=\"Revision\"]") private WebElement revision;
     @FindBy(css = "select[name=\"Library\"]") private WebElement componentDB;
+    @FindBy(css = "select[name=\"Profile\"]") private WebElement profile;
     @FindBy(id = "formSubmit") private WebElement harnessSubmitButton;
 
     SeleniumCustomCommand  customCommand = new SeleniumCustomCommand();
@@ -30,7 +36,9 @@ public class CreateHarness extends BasePage {
         customCommand.enterText(partNumber,harnessData.getPartNumber());
         customCommand.enterText(revision,harnessData.getRevision());
         customCommand.selectDropDownByValue(componentDB,harnessData.getComponentDB());
+        customCommand.selectDropDownByValue(profile,harnessData.getprofile());
         harnessSubmitButton.click();
+
     }
 
     public void verifyHarnessCreated(){

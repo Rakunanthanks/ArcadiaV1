@@ -21,7 +21,6 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import org.testng.Assert;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -163,8 +162,6 @@ public class ConnectorCopyStepDefinitions {
                 break;
         }
     }
-
-
     @Then("Verify updateWirePN functionality in wiretable successfully")
     public void verifyUserUpdatesWIrePNInWiretableSuccessfully() throws IOException, InterruptedException {
         File file = new File("src/test/resources/componentDB/Wire/WireData.json");
