@@ -1,9 +1,7 @@
 package arcadia.stepdefinations;
 
 import arcadia.context.TestContext;
-import arcadia.domainobjects.ConnectorDB;
-import arcadia.domainobjects.MulticoreComponentDB;
-import arcadia.domainobjects.WiresComponentDB;
+import arcadia.domainobjects.*;
 import arcadia.mapperObjects.SearchParts;
 import arcadia.mapperObjects.TestMapper;
 import arcadia.pages.BundlePage;
@@ -284,6 +282,101 @@ public class SearchPartsStepDefinitions {
         }
         List<String> differenceFromActualPartNumberList = actualUniquePartList.stream()
                 .filter(element -> !expectedPartNumberList.contains(element))
+                .collect(Collectors.toList());
+        if(differenceFromActualPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
+        }
+        Assert.assertEquals(actualUniquePartList.size(),expectedPartNumberList.size());
+    }
+
+    @Then("Verify user filters component {string} in attachedparts successfully")
+    public void verifyUserFiltersComponenttypeInAttachedpartsSuccessfully(String componentType) throws IOException, InterruptedException {
+        File file;
+        List<String> expectedPartNumberList = new ArrayList<>();
+        searchPartsDatabasePage.selectAttachPartComponentType(componentType);
+        switch (componentType.toLowerCase()){
+            case "connector":
+                file = new File("src/test/resources/componentDB/Connector/ConnectorData.json");
+                List<ConnectorDB> connectordbData = null;
+                if (file.exists()) {
+                    ObjectMapper mapper = new ObjectMapper();
+                    connectordbData = mapper.readValue(new File("src/test/resources/componentDB/Connector/ConnectorData.json"), new TypeReference<List<ConnectorDB>>() {
+                    });
+                }
+                expectedPartNumberList = connectordbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
+                break;
+            case "splice":
+                file = new File("src/test/resources/componentDB/Splices/SpliceData.json");
+                List<SplicesComponentDB> splicesdbData = null;
+                if (file.exists()) {
+                    ObjectMapper mapper = new ObjectMapper();
+                    splicesdbData = mapper.readValue(new File("src/test/resources/componentDB/Splices/SpliceData.json"), new TypeReference<List<SplicesComponentDB>>() {
+                    });
+                }
+                expectedPartNumberList = splicesdbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
+                break;
+            case "seal":
+                file = new File("src/test/resources/componentDB/Seal/Seal.json");
+                List<SealsComponentDB> sealsdbData = null;
+                if (file.exists()) {
+                    ObjectMapper mapper = new ObjectMapper();
+                    sealsdbData = mapper.readValue(new File("src/test/resources/componentDB/Seal/Seal.json"), new TypeReference<List<SealsComponentDB>>() {
+                    });
+                }
+                expectedPartNumberList = sealsdbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
+                break;
+            case "terminal":
+                file = new File("src/test/resources/componentDB/Terminals/TerminalData.json");
+                List<TerminalsComponentDB> terminalsdbData = null;
+                if (file.exists()) {
+                    ObjectMapper mapper = new ObjectMapper();
+                    terminalsdbData = mapper.readValue(new File("src/test/resources/componentDB/Terminals/TerminalData.json"), new TypeReference<List<TerminalsComponentDB>>() {
+                    });
+                }
+                expectedPartNumberList = terminalsdbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
+                break;
+            case "junctionpart":
+                file = new File("src/test/resources/componentDB/JunctionParts/JunctionPartsData.json");
+                List<JunctionPartComponentDB> junctionpartsdbData = null;
+                if (file.exists()) {
+                    ObjectMapper mapper = new ObjectMapper();
+                    junctionpartsdbData = mapper.readValue(new File("src/test/resources/componentDB/JunctionParts/JunctionPartsData.json"), new TypeReference<List<JunctionPartComponentDB>>() {
+                    });
+                }
+                expectedPartNumberList = junctionpartsdbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
+                break;
+            case "component":
+                file = new File("src/test/resources/componentDB/Component/ComponentData.json");
+                List<ComponentsDB> componentsdbData = null;
+                if (file.exists()) {
+                    ObjectMapper mapper = new ObjectMapper();
+                    componentsdbData = mapper.readValue(new File("src/test/resources/componentDB/Component/ComponentData.json"), new TypeReference<List<ComponentsDB>>() {
+                    });
+                }
+                expectedPartNumberList = componentsdbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
+                break;
+            case "otherpart":
+                file = new File("src/test/resources/componentDB/OtherParts/OtherPartsData.json");
+                List<OtherPartsComponentDB> otherpartsdbData = null;
+                if (file.exists()) {
+                    ObjectMapper mapper = new ObjectMapper();
+                    otherpartsdbData = mapper.readValue(new File("src/test/resources/componentDB/OtherParts/OtherPartsData.json"), new TypeReference<List<OtherPartsComponentDB>>() {
+                    });
+                }
+                expectedPartNumberList = otherpartsdbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
+                break;
+        }
+        List<String> actualUniquePartList = searchPartsDatabasePage.getAttachedWiresData();
+
+        List<String> differenceFromExpectedPartNumberList = expectedPartNumberList.stream()
+                .filter(element -> !actualUniquePartList.contains(element))
+                .collect(Collectors.toList());
+        if(differenceFromExpectedPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with expected %s", differenceFromExpectedPartNumberList.toString()));
+        }
+        List<String> finalExpectedPartNumberList = expectedPartNumberList;
+        List<String> differenceFromActualPartNumberList = actualUniquePartList.stream()
+                .filter(element -> !finalExpectedPartNumberList.contains(element))
                 .collect(Collectors.toList());
         if(differenceFromActualPartNumberList.size()>0){
             ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
