@@ -63,7 +63,6 @@ public class ConnectorPage extends BasePage {
 
     @FindBy(css = "input[name=\"wiretable.partnumber\"]") private WebElement inputWirePN;
 
-
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
 
     public void submitConnector() throws InterruptedException{
@@ -322,5 +321,4 @@ public class ConnectorPage extends BasePage {
         String wirePN = customCommand.javaScriptGetValueOfElement(driver,inputWirePN);
         return wirePN;
     }
-
 }

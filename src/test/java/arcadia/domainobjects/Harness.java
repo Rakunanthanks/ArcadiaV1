@@ -1,13 +1,14 @@
 package arcadia.domainobjects;
 
 public class Harness {
-    public Harness(String workTask, String title, String description, String partNumber, String revision, String componentDB) {
+    public Harness(String workTask, String title, String description, String partNumber, String revision, String componentDB, String profile) {
         this.workTask = workTask;
         this.title = title;
         this.description = description;
         this.partNumber = partNumber;
         this.revision = revision;
         this.componentDB = componentDB;
+        this.profile=profile;
     }
     private String workTask;
     private String title;
@@ -76,6 +77,15 @@ public class Harness {
 
     public void setComponentDB(String componentDB) {
         this.componentDB = componentDB;
+    }
+
+
+    public String getprofile() {
+        return profile;
+    }
+
+    public void setprofile(String profile) {
+        this.profile = profile;
     }
 
 }

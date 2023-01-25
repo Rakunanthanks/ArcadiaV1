@@ -8,6 +8,8 @@ public class CreateHarness {
     private String revision;
     private String componentDB;
 
+    private String profile;
+
     public String getWorkTask() {
         return workTask;
     }
@@ -51,8 +53,15 @@ public class CreateHarness {
     public String getComponentDB() {
         return componentDB;
     }
+    public String getProfile() {
+        return profile;
+    }
 
     public void setComponentDB(String componentDB) {
         this.componentDB = componentDB;
+    }
+    public void setProfile(String profile)
+    {
+        this.profile =profile;
     }
 }
