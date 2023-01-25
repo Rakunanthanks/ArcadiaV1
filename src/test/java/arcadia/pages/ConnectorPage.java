@@ -56,6 +56,12 @@ public class ConnectorPage extends BasePage {
 
     @FindBy(css = "input[name=\"wiretable.totag\"]") private WebElement tagWireToConnector;
 
+    @FindBy(css = "input[name=\"wiretable.material\"]") private WebElement inputMaterial;
+    @FindBy(css = "input[name=\"wiretable.gauge\"]") private WebElement inputGauge;
+
+    @FindBy(css = "button[name=\"wiretable.getPNdet\"]") private WebElement buttonUpdateWirePN;
+
+    @FindBy(css = "input[name=\"wiretable.partnumber\"]") private WebElement inputWirePN;
 
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
 
@@ -296,4 +302,23 @@ public class ConnectorPage extends BasePage {
         Assert.assertEquals(tagWireToConnector.getAttribute("value"),expectedTagValue);
     }
 
+    public void enterMaterialInWireTable(String materialValue ) throws InterruptedException {
+        customCommand.enterText(inputMaterial,materialValue);
+    }
+
+    public void enterGaugeInWireTable(String gaugeValue ) throws InterruptedException {
+        customCommand.enterText(inputGauge,gaugeValue);
+    }
+
+    public void clickUpdateWirePN() throws InterruptedException {
+        customCommand.scrollIntoView(driver,buttonUpdateWirePN);
+        customCommand.waitForElementToBeClickable(driver,buttonUpdateWirePN);
+        buttonUpdateWirePN.click();
+    }
+    public String getValueOfWirePN() throws InterruptedException {
+        customCommand.scrollIntoView(driver,inputWirePN);
+        customCommand.waitForElementToBeClickable(driver,inputWirePN);
+        String wirePN = customCommand.javaScriptGetValueOfElement(driver,inputWirePN);
+        return wirePN;
+    }
 }

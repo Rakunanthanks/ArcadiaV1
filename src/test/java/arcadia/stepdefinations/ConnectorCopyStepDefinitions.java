@@ -3,9 +3,11 @@ package arcadia.stepdefinations;
 import arcadia.context.FlowContext;
 import arcadia.context.TestContext;
 import arcadia.domainobjects.Macros.WireTags;
+import arcadia.domainobjects.WiresComponentDB;
 import arcadia.mapperObjects.SearchParts;
 import arcadia.mapperObjects.TestMapper;
 import arcadia.mapperObjects.WireTable;
+import arcadia.pages.ComponentDB.Wires.WiresComponentDBPage;
 import arcadia.pages.ConnectorPage;
 import arcadia.pages.HarnessPage;
 import arcadia.pages.PageFactoryManager;
@@ -18,9 +20,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
-
+import org.testng.Assert;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ConnectorCopyStepDefinitions {
     private final TestContext context;
@@ -156,5 +161,27 @@ public class ConnectorCopyStepDefinitions {
                 connectorPage.verifyTagWireToConnector(expectedToTag);
                 break;
         }
+    }
+    @Then("Verify updateWirePN functionality in wiretable successfully")
+    public void verifyUserUpdatesWIrePNInWiretableSuccessfully() throws IOException, InterruptedException {
+        File file = new File("src/test/resources/componentDB/Wire/WireData.json");
+        String materialValue;
+        String gaugeValue;
+        List<WiresComponentDB> dbData = null;
+        if (file.exists()) {
+            ObjectMapper mapper = new ObjectMapper();
+            dbData = mapper.readValue(new File("src/test/resources/componentDB/Wire/WireData.json"), new TypeReference<List<WiresComponentDB>>() {
+            });
+        }
+        List<WiresComponentDB> filteredDbData = new ArrayList<>();
+        filteredDbData = dbData.stream().filter(x -> x.getMaterial()!=("")).collect(Collectors.toList());
+        materialValue = filteredDbData.get(0).getMaterial();
+        gaugeValue = filteredDbData.get(0).getGauge();
+        filteredDbData = filteredDbData.stream().filter(x->x.getMaterial().equals(materialValue)).filter(x->x.getGauge().equals(gaugeValue)).collect(Collectors.toList());
+        connectorPage.enterMaterialInWireTable(materialValue);
+        connectorPage.enterGaugeInWireTable(gaugeValue);
+        connectorPage.clickUpdateWirePN();
+        String wirePN = connectorPage.getValueOfWirePN();
+        Assert.assertTrue(filteredDbData.stream().filter(x->x.getPartNumber().equals(wirePN)).collect(Collectors.toList()).size()!=0);
     }
 }
