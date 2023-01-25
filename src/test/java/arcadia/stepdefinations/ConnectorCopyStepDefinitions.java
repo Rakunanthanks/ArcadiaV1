@@ -187,4 +187,10 @@ public class ConnectorCopyStepDefinitions {
         String wirePN = connectorPage.getValueOfWirePN();
         Assert.assertTrue(filteredDbData.stream().filter(x->x.getPartNumber().equals(wirePN)).collect(Collectors.toList()).size()!=0);
     }
+
+    @And("User opens attachedparts details window")
+    public void userOpensSearchAttachedpartsWindow() throws InterruptedException {
+        connectorPage.clickGetDetailsAttachedParts();
+        new SearchPartsDatabasePage(context.driver).verifyGetAttachedPartsDetailsWindowIsOpen();
+    }
 }

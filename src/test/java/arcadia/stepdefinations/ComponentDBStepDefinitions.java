@@ -1523,6 +1523,60 @@ public class ComponentDBStepDefinitions {
                     mapper.writeValue(new File("src/test/resources/componentDB/Multicore/MulticoreData.json"), dbData);
                 }
                 break;
+            case "splice":
+                file = new File("src/test/resources/componentDB/Splices/SpliceData.json");
+                if (!file.exists()) {
+                    List<SplicesComponentDB> dbData = new SplicesComponentDBPage(context.driver).getSplicesData();
+                    ObjectMapper mapper = new ObjectMapper();
+                    Files.createDirectories(Paths.get("src/test/resources/componentDB/Splices"));
+                    mapper.writeValue(new File("src/test/resources/componentDB/Splices/SpliceData.json"), dbData);
+                }
+                break;
+            case "seal":
+                file = new File("src/test/resources/componentDB/Seal/Seal.json");
+                if (!file.exists()) {
+                    List<SealsComponentDB> dbData = new SealsComponentDBPage(context.driver).getSealData();
+                    ObjectMapper mapper = new ObjectMapper();
+                    Files.createDirectories(Paths.get("src/test/resources/componentDB/Seal"));
+                    mapper.writeValue(new File("src/test/resources/componentDB/Seal/Seal.json"), dbData);
+                }
+                break;
+            case "terminal":
+                file = new File("src/test/resources/componentDB/Terminals/TerminalData.json");
+                if (!file.exists()) {
+                    List<TerminalsComponentDB> dbData = new TerminalsComponentDBPage(context.driver).getTerminalsData();
+                    ObjectMapper mapper = new ObjectMapper();
+                    Files.createDirectories(Paths.get("src/test/resources/componentDB/Terminals"));
+                    mapper.writeValue(new File("src/test/resources/componentDB/Terminals/TerminalData.json"), dbData);
+                }
+                break;
+            case "junctionpart":
+                file = new File("src/test/resources/componentDB/JunctionParts/JunctionPartsData.json");
+                if (!file.exists()) {
+                    List<JunctionPartComponentDB> dbData = new JunctionPartsComponentDBPage(context.driver).getJunctionPartsData();
+                    ObjectMapper mapper = new ObjectMapper();
+                    Files.createDirectories(Paths.get("src/test/resources/componentDB/JunctionParts"));
+                    mapper.writeValue(new File("src/test/resources/componentDB/JunctionParts/JunctionPartsData.json"), dbData);
+                }
+                break;
+            case "component":
+                file = new File("src/test/resources/componentDB/Component/ComponentData.json");
+                if (!file.exists()) {
+                    List<ComponentsDB> dbData = new ComponentsDBPage(context.driver).getComponentsData();
+                    ObjectMapper mapper = new ObjectMapper();
+                    Files.createDirectories(Paths.get("src/test/resources/componentDB/Component"));
+                    mapper.writeValue(new File("src/test/resources/componentDB/Component/ComponentData.json"), dbData);
+                }
+                break;
+            case "otherpart":
+                file = new File("src/test/resources/componentDB/OtherParts/OtherPartsData.json");
+                if (!file.exists()) {
+                    List<OtherPartsComponentDB> dbData = new OtherPartsComponentDBPage(context.driver).getOtherPartsData();
+                    ObjectMapper mapper = new ObjectMapper();
+                    Files.createDirectories(Paths.get("src/test/resources/componentDB/OtherParts"));
+                    mapper.writeValue(new File("src/test/resources/componentDB/OtherParts/OtherPartsData.json"), dbData);
+                }
+                break;
         }
     }
 

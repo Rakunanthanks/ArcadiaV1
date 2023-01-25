@@ -63,6 +63,8 @@ public class ConnectorPage extends BasePage {
 
     @FindBy(css = "input[name=\"wiretable.partnumber\"]") private WebElement inputWirePN;
 
+    @FindBy(css = "table#node_attachpart input[title=\"Get Details\"]") private WebElement buttonGetAttachedPartsDetails;
+
 
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
 
@@ -321,6 +323,12 @@ public class ConnectorPage extends BasePage {
         customCommand.waitForElementToBeClickable(driver,inputWirePN);
         String wirePN = customCommand.javaScriptGetValueOfElement(driver,inputWirePN);
         return wirePN;
+    }
+
+    public void clickGetDetailsAttachedParts() throws InterruptedException {
+        customCommand.waitForElementToBeClickable(driver,buttonGetAttachedPartsDetails);
+        buttonGetAttachedPartsDetails.click();
+        Thread.sleep(2000);
     }
 
 }

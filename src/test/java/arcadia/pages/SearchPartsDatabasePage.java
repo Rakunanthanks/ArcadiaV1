@@ -55,9 +55,15 @@ public class SearchPartsDatabasePage extends BasePage{
     @FindBy(css = "select[name=\"nSeccolors\"]") private WebElement selectSecondaryColour;
 
     @FindBy(css = "select[name=\"nTercolors\"]") private WebElement selectTertiaryColour;
+
+    @FindBy(css = "table#Attachfilters+div table#tblAttachPartNoList") private WebElement tableGetAttachedPartsDetails;
+    @FindBy(css = "table#Attachfilters select[name=\"componentType\"]") private WebElement attachedPartComponentType;
+    @FindBy(css = "div#idFetchnode_attachpart input.next") private WebElement buttonNextAttachPartsTable;
     String tablePartsRows = "#tblBOMPartNoList > tbody > tr";
 
     String tableWiresRows = "#tblWirePartNoList>tbody>tr";
+
+    String tableAttachedPartsRows = "table#Attachfilters+div #tblAttachPartNoList > tbody > tr";
     public SearchPartsDatabasePage(WebDriver driver) {
         super(driver);
     }
@@ -249,5 +255,45 @@ public class SearchPartsDatabasePage extends BasePage{
         customCommand.simulateKeyEnterWithValue(inputMaterial,material);
         customCommand.simulateKeyEnter();
         Thread.sleep(4000);
+    }
+
+    public void verifyGetAttachedPartsDetailsWindowIsOpen(){
+        customCommand.waitForElementVisibility(driver,tableGetAttachedPartsDetails);
+        Assert.assertTrue(tableGetAttachedPartsDetails.isDisplayed());
+    }
+
+    public void selectAttachPartComponentType(String componentType) throws InterruptedException {
+        customCommand.waitForElementVisibility(driver,attachedPartComponentType);
+        customCommand.waitForElementToBeClickable(driver,attachedPartComponentType);
+        customCommand.selectDropDownByValue(attachedPartComponentType,componentType.toLowerCase());
+        Thread.sleep(2000);
+    }
+
+    public List<String> getAttachedWiresData() throws InterruptedException {
+        List<String> attachedPartsData = new ArrayList<>();
+        List<WebElement> tableAttachedPartsElement;
+        while (true){
+            tableAttachedPartsElement = driver.findElements(By.cssSelector(tableAttachedPartsRows));
+            if (tableAttachedPartsElement.size()==0){
+                break;
+            }
+            int i = 0;
+            for( WebElement element : tableAttachedPartsElement){
+                i++;
+                List<WebElement> tdElements = element.findElements(By.cssSelector("td"));
+                String partNumber = tdElements.get(0).getText();
+                attachedPartsData.add(partNumber);
+            }
+            try {
+                customCommand.waitForElementToBeClickable(driver,buttonNextAttachPartsTable);
+                buttonNextAttachPartsTable.click();
+                Thread.sleep(2000);
+            }
+            catch (Exception e){
+                System.out.println("Reached end of records");
+                break;
+            }
+        }
+        return attachedPartsData;
     }
 }
