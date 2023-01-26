@@ -7,6 +7,7 @@ Feature: Verify Harness Components
     And based on drawing orchestrator components are created
     And user sets label 'connector cavity table' to "Show"
     And connector plug '0' is opened
+
   @VerifyConnector
   Scenario: Test verifies a description can be added to a connector
     And user enters description in connector details
@@ -62,3 +63,16 @@ Feature: Verify Harness Components
     Then User verifies the discrete component is displayed
     And connector plug '0' is opened
     And user deletes the discrete component successfully
+
+  @VerifyConnector
+  Scenario: Test verifies attached part on connector is checked by default
+    Then Verify attached part on connector is checked
+
+  @VerifyConnector
+  Scenario: Test verifies details of attached part on connector matches componentdb
+    Then Verify attached part details on connector
+
+  @VerifyConnector
+  Scenario: Test verifies imagepath of attached part on connector matches componentdb
+    And User opens attachedparts details window
+    Then Verify imagepath of attached part on connector

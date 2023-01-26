@@ -190,4 +190,21 @@ public class ConnectorCopyStepDefinitions {
         connectorPage.clickGetDetailsAttachedParts();
         new SearchPartsDatabasePage(context.driver).verifyGetAttachedPartsDetailsWindowIsOpen();
     }
+
+    @Then("Verify attached part on connector is checked")
+    public void verifyAttachedPartOnConnectorIsChecked() throws InterruptedException {
+        connectorPage.verifyAttachedPartsAreChecked();
+    }
+
+    @Then("Verify attached part details on connector")
+    public void verifyAttachedPartDetailsOnConnector() {
+        connectorPage.verifyAttachedPartsDetails("15-117-103","COVER- WIRING CONNECTOR","1","EACH","Optional");
+    }
+
+    @Then("Verify imagepath of attached part on connector")
+    public void verifyImagepathOfAttachedPartOnConnector() throws InterruptedException {
+        new SearchPartsDatabasePage(context.driver).selectAttachPartComponentType("connector");
+        String imagePath =  new SearchPartsDatabasePage(context.driver).getImagePathOfFirstAttachPart();
+        connectorPage.verifyImagePath(imagePath);
+    }
 }

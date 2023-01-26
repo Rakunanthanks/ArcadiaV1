@@ -65,6 +65,14 @@ public class ConnectorPage extends BasePage {
 
     @FindBy(css = "table#node_attachpart input[title=\"Get Details\"]") private WebElement buttonGetAttachedPartsDetails;
 
+    String attachedPartsCheckboxes = "input[name=\"node.attachpart.optionenabled\"]";
+
+    @FindBy(css = "input[name=\"node.attachpart.partnumber\"]") private WebElement inputAttachPartNumber;
+    @FindBy(css = "input[name=\"node.attachpart.description\"]") private WebElement inputAttachPartDescription;
+    @FindBy(css = "input[name=\"node.attachpart.quantity\"]") private WebElement inputAttachPartQuantity;
+    @FindBy(css = "input[name=\"node.attachpart.parttype\"]") private WebElement inputAttachPartRequirement;
+    @FindBy(css = "select[name=\"node.attachpart.uom\"]") private WebElement attachPartSelectBoxMeasure;
+    @FindBy(css = "input[name=\"node.attachpart.imagepath\"]") private WebElement inputAttachPartImagePath;
 
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
 
@@ -330,5 +338,25 @@ public class ConnectorPage extends BasePage {
         buttonGetAttachedPartsDetails.click();
         Thread.sleep(2000);
     }
+
+    public void verifyAttachedPartsAreChecked() throws InterruptedException {
+        List<WebElement> listOfCheckboxes = driver.findElements(By.cssSelector(attachedPartsCheckboxes));
+        for(WebElement e: listOfCheckboxes){
+            Assert.assertEquals(e.getAttribute("value"),"yes");
+        }
+    }
+
+    public void verifyAttachedPartsDetails(String partNumber,String description,String quantity,String measure, String requirement) {
+        Assert.assertEquals(inputAttachPartNumber.getAttribute("value"),partNumber);
+        Assert.assertEquals(inputAttachPartDescription.getAttribute("value"),description);
+        Assert.assertEquals(inputAttachPartQuantity.getAttribute("value"),quantity);
+        Assert.assertEquals(customCommand.getSelectedValueFromSelectDropDown(attachPartSelectBoxMeasure),measure);
+        Assert.assertEquals(inputAttachPartRequirement.getAttribute("value"),requirement);
+    }
+
+    public void verifyImagePath(String imagePathValue) {
+        Assert.assertEquals(inputAttachPartImagePath.getAttribute("value"),imagePathValue);
+    }
+
 
 }

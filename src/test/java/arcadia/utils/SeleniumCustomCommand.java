@@ -131,4 +131,11 @@ public class SeleniumCustomCommand {
      ele.sendKeys(text);
     }
 
+    public String getSelectedValueFromSelectDropDown(WebElement element) {
+        Select select = new Select(element);
+        WebElement option = select.getFirstSelectedOption();
+        String selectedvalue = option.getText();
+        return selectedvalue;
+    }
+
 }
