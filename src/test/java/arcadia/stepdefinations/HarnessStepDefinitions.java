@@ -100,7 +100,7 @@ public class HarnessStepDefinitions {
 
     @And("connector plug {string} is opened")
     public void connectorPlugIsOpened(String connectorPlugIndex) throws InterruptedException {
-        Thread.sleep(3000);
+//        Thread.sleep(3000);
         new HarnessPage(context.driver).clickOnSelect();
         String connectorid = new ConnectorPage(context.driver).getConnectorPlugELementIdsFromDrawingPage().get(Integer.parseInt(connectorPlugIndex)).getConnectorId();
         harnessPage.clickConnectorPlug(connectorid);

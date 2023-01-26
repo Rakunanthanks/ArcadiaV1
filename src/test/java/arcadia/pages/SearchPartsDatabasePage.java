@@ -56,6 +56,8 @@ public class SearchPartsDatabasePage extends BasePage{
 
     @FindBy(css = "select[name=\"nTercolors\"]") private WebElement selectTertiaryColour;
 
+    @FindBy(css = "table#Attachfilters+div #tblAttachPartNoList > tbody > tr") private WebElement rowSearchedAttachParts;
+
     @FindBy(css = "table#Attachfilters+div table#tblAttachPartNoList") private WebElement tableGetAttachedPartsDetails;
     @FindBy(css = "table#Attachfilters select[name=\"componentType\"]") private WebElement attachedPartComponentType;
     @FindBy(css = "div#idFetchnode_attachpart input.next") private WebElement buttonNextAttachPartsTable;
@@ -295,5 +297,14 @@ public class SearchPartsDatabasePage extends BasePage{
             }
         }
         return attachedPartsData;
+    }
+
+    public String getImagePathOfFirstAttachPart() throws InterruptedException {
+        customCommand.waitForElementVisibility(driver,rowSearchedAttachParts);
+        customCommand.waitForElementToBeClickable(driver,rowSearchedAttachParts);
+        String imagePathValue = rowSearchedAttachParts.findElement(By.cssSelector("td[rel=\"imagepath\"]")).getText();
+        customCommand.doubleClick(driver,rowSearchedAttachParts);
+        Thread.sleep(4000);
+        return imagePathValue;
     }
 }
