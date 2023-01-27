@@ -76,3 +76,20 @@ Feature: Verify Harness Components
   Scenario: Test verifies imagepath of attached part on connector matches componentdb
     And User opens attachedparts details window
     Then Verify imagepath of attached part on connector
+
+  @VerifyConnector
+  Scenario: Test verifies terminalpn shown in cavity table on connector matches componentdb
+    Then Verify linked terminals are shown in cavity table
+
+  @VerifyConnector
+  Scenario: Test verifies  linked terminalpn shown in cavitytable searchdetails on connector matches componentdb
+    And GetCavityDetails window is opened
+    Then Verify 'linked' terminals are shown in cavity table searchdetails
+
+  @VerifyConnector
+  Scenario: Test verifies seal in cavity table on connector matches componentdb
+    Then Verify linked seals are shown in cavity table
+
+  @VerifyConnector
+  Scenario: Test verifies plug in cavity table on connector matches componentdb
+    Then Verify linked plug are shown in cavity table

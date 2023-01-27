@@ -61,11 +61,20 @@ public class SearchPartsDatabasePage extends BasePage{
     @FindBy(css = "table#Attachfilters+div table#tblAttachPartNoList") private WebElement tableGetAttachedPartsDetails;
     @FindBy(css = "table#Attachfilters select[name=\"componentType\"]") private WebElement attachedPartComponentType;
     @FindBy(css = "div#idFetchnode_attachpart input.next") private WebElement buttonNextAttachPartsTable;
+
+    @FindBy(css = "div#idFetchcavitytable input.next") private WebElement buttonNextCavityDetailsTable;
+
+    @FindBy(css = "table#tblcavityPartNoList") private WebElement tableCavityDetailsSearch;
+
+    @FindBy(css = "div#idFetchcavitytable input#btnClearFilterDetails") private WebElement buttonResetCavityFilterDetails;
+
     String tablePartsRows = "#tblBOMPartNoList > tbody > tr";
 
     String tableWiresRows = "#tblWirePartNoList>tbody>tr";
 
     String tableAttachedPartsRows = "table#Attachfilters+div #tblAttachPartNoList > tbody > tr";
+
+    String tableCavityDetailsRows = "table#tblcavityPartNoList > tbody > tr";
     public SearchPartsDatabasePage(WebDriver driver) {
         super(driver);
     }
@@ -306,5 +315,44 @@ public class SearchPartsDatabasePage extends BasePage{
         customCommand.doubleClick(driver,rowSearchedAttachParts);
         Thread.sleep(4000);
         return imagePathValue;
+    }
+
+    public void verifyGetCavityTableDetailsWindowIsOpen(){
+        customCommand.waitForElementVisibility(driver,tableCavityDetailsSearch);
+        Assert.assertTrue(tableCavityDetailsSearch.isDisplayed());
+    }
+
+    public List<String> getCavityDetailsData() throws InterruptedException {
+        List<String> cavityDetailsData = new ArrayList<>();
+        List<WebElement> tableCavityDetailsElement;
+        while (true){
+            tableCavityDetailsElement = driver.findElements(By.cssSelector(tableCavityDetailsRows));
+            if (tableCavityDetailsElement.size()==0){
+                break;
+            }
+            int i = 0;
+            for( WebElement element : tableCavityDetailsElement){
+                i++;
+                List<WebElement> tdElements = element.findElements(By.cssSelector("td"));
+                String partNumber = tdElements.get(0).getText();
+                cavityDetailsData.add(partNumber);
+            }
+            try {
+                customCommand.waitForElementToBeClickable(driver,buttonNextCavityDetailsTable);
+                buttonNextCavityDetailsTable.click();
+                Thread.sleep(2000);
+            }
+            catch (Exception e){
+                System.out.println("Reached end of records");
+                break;
+            }
+        }
+        return cavityDetailsData;
+    }
+
+    public void resetFiltersCavityDetails() throws InterruptedException {
+        customCommand.scrollIntoView(driver,buttonResetCavityFilterDetails);
+        buttonResetCavityFilterDetails.click();
+        Thread.sleep(2000);
     }
 }

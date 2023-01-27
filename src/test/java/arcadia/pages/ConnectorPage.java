@@ -4,6 +4,7 @@ import arcadia.context.FlowContext;
 import arcadia.domainobjects.*;
 import arcadia.pages.ComponentDB.CommonElements;
 import arcadia.utils.SeleniumCustomCommand;
+import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -13,6 +14,7 @@ import org.testng.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ConnectorPage extends BasePage {
     public ConnectorPage(WebDriver driver) {
@@ -73,6 +75,13 @@ public class ConnectorPage extends BasePage {
     @FindBy(css = "input[name=\"node.attachpart.parttype\"]") private WebElement inputAttachPartRequirement;
     @FindBy(css = "select[name=\"node.attachpart.uom\"]") private WebElement attachPartSelectBoxMeasure;
     @FindBy(css = "input[name=\"node.attachpart.imagepath\"]") private WebElement inputAttachPartImagePath;
+
+    @FindBy(css = "select[name=\"cavitytable.terminalpn\"]+div input") private WebElement terminalPNCavityTable;
+
+    @FindBy(css = "select[name=\"cavitytable.sealpn\"]+div input") private WebElement sealPNCavityTable;
+    @FindBy(css = "select[name=\"cavitytable.plugpn\"]+div input") private WebElement plugPNCavityTable;
+
+    String getDetailsCavityTable = "div#ui-accordion-accordion-panel-4 input[title=\"Get Details\"]";
 
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
 
@@ -358,5 +367,86 @@ public class ConnectorPage extends BasePage {
         Assert.assertEquals(inputAttachPartImagePath.getAttribute("value"),imagePathValue);
     }
 
+    public void openCavityTable() throws InterruptedException {
+        customCommand.waitForElementVisibility(driver,wireTable);
+        customCommand.scrollIntoView(driver,cavityTable);
+        cavityTable.click();
+        Thread.sleep(2000);
+    }
 
+
+    public void verifyTerminalsPNCavityTable(List<String> listOfexpectedLinkedTerminalsPNFromComponentDB) throws InterruptedException {
+        openCavityTable();
+        terminalPNCavityTable.click();
+        List<WebElement> eleTerminalsPN = driver.findElements(By.cssSelector("select[name=\"cavitytable.terminalpn\"]+div div.selectize-dropdown-content>div"));
+        List<String> listOfactualTerminalPn = new ArrayList<>();
+        for (WebElement e: eleTerminalsPN){
+            listOfactualTerminalPn.add(e.getAttribute("data-value"));
+        }
+        List<String> differenceFromExpectedTerminalsPNList = listOfexpectedLinkedTerminalsPNFromComponentDB.stream()
+                .filter(element -> !listOfactualTerminalPn.contains(element))
+                .collect(Collectors.toList());
+        if(differenceFromExpectedTerminalsPNList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with expected %s", differenceFromExpectedTerminalsPNList.toString()));
+        }
+        List<String> differenceFromActualTerminalsPNList = listOfactualTerminalPn.stream()
+                .filter(element -> !listOfexpectedLinkedTerminalsPNFromComponentDB.contains(element))
+                .collect(Collectors.toList());
+        if(differenceFromActualTerminalsPNList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualTerminalsPNList.toString()));
+        }
+        Assert.assertEquals(listOfactualTerminalPn.size(),listOfexpectedLinkedTerminalsPNFromComponentDB.size());
+    }
+
+    public void clickGetCavityTableDetails(){
+        driver.findElements(By.cssSelector(getDetailsCavityTable)).get(0).click();
+    }
+
+    public void verifySealsPNCavityTable(List<String> listOfexpectedLinkedSealsPNFromComponentDB) throws InterruptedException {
+        openCavityTable();
+        customCommand.scrollIntoView(driver,sealPNCavityTable);
+        sealPNCavityTable.click();
+        List<WebElement> eleSealsPN = driver.findElements(By.cssSelector("select[name=\"cavitytable.sealpn\"]+div div.selectize-dropdown-content>div"));
+        List<String> listOfactualSealPn = new ArrayList<>();
+        for (WebElement e: eleSealsPN){
+            listOfactualSealPn.add(e.getAttribute("data-value"));
+        }
+        List<String> differenceFromExpectedSealsPNList = listOfexpectedLinkedSealsPNFromComponentDB.stream()
+                .filter(element -> !listOfactualSealPn.contains(element))
+                .collect(Collectors.toList());
+        if(differenceFromExpectedSealsPNList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with expected %s", differenceFromExpectedSealsPNList.toString()));
+        }
+        List<String> differenceFromActualSealsPNList = listOfactualSealPn.stream()
+                .filter(element -> !listOfexpectedLinkedSealsPNFromComponentDB.contains(element))
+                .collect(Collectors.toList());
+        if(differenceFromActualSealsPNList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualSealsPNList.toString()));
+        }
+        Assert.assertEquals(listOfactualSealPn.size(),listOfexpectedLinkedSealsPNFromComponentDB.size());
+    }
+
+    public void verifyPlugsPNCavityTable(List<String> listOfLinkedPlugsPNFromComponentDB) throws InterruptedException {
+        openCavityTable();
+        customCommand.scrollIntoView(driver,plugPNCavityTable);
+        plugPNCavityTable.click();
+        List<WebElement> elePlugsPN = driver.findElements(By.cssSelector("select[name=\"cavitytable.plugpn\"]+div div.selectize-dropdown-content>div"));
+        List<String> listOfactualPlugPn = new ArrayList<>();
+        for (WebElement e: elePlugsPN){
+            listOfactualPlugPn.add(e.getAttribute("data-value"));
+        }
+        List<String> differenceFromExpectedPlugsPNList = listOfLinkedPlugsPNFromComponentDB.stream()
+                .filter(element -> !listOfactualPlugPn.contains(element))
+                .collect(Collectors.toList());
+        if(differenceFromExpectedPlugsPNList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with expected %s", differenceFromExpectedPlugsPNList.toString()));
+        }
+        List<String> differenceFromActualPlugsPNList = listOfactualPlugPn.stream()
+                .filter(element -> !listOfLinkedPlugsPNFromComponentDB.contains(element))
+                .collect(Collectors.toList());
+        if(differenceFromActualPlugsPNList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPlugsPNList.toString()));
+        }
+        Assert.assertEquals(listOfactualPlugPn.size(),listOfLinkedPlugsPNFromComponentDB.size());
+    }
 }

@@ -20,10 +20,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import org.apache.commons.compress.utils.Lists;
 import org.testng.Assert;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -206,5 +208,30 @@ public class ConnectorCopyStepDefinitions {
         new SearchPartsDatabasePage(context.driver).selectAttachPartComponentType("connector");
         String imagePath =  new SearchPartsDatabasePage(context.driver).getImagePathOfFirstAttachPart();
         connectorPage.verifyImagePath(imagePath);
+    }
+
+    @Then("Verify linked terminals are shown in cavity table")
+    public void verifyLinkedTerminalsAreShownInCavityTable() throws InterruptedException {
+        List<String> listOfLinkedTerminalsPNFromComponentDB = Arrays.asList("0-0444334-2","0-0281381-2","0-0444335-2");
+        connectorPage.verifyTerminalsPNCavityTable(listOfLinkedTerminalsPNFromComponentDB);
+    }
+
+    @And("GetCavityDetails window is opened")
+    public void getcavitydetailsWindowIsOpened() throws InterruptedException {
+        connectorPage.openCavityTable();
+        connectorPage.clickGetCavityTableDetails();
+        new SearchPartsDatabasePage(context.driver).verifyGetCavityTableDetailsWindowIsOpen();
+    }
+
+    @Then("Verify linked seals are shown in cavity table")
+    public void verifyLinkedSealsAreShownInCavityTable() throws InterruptedException {
+        List<String> listOfLinkedSealsPNFromComponentDB = Arrays.asList("3301");
+        connectorPage.verifySealsPNCavityTable(listOfLinkedSealsPNFromComponentDB);
+    }
+
+    @Then("Verify linked plug are shown in cavity table")
+    public void verifyLinkedPlugAreShownInCavityTable() throws InterruptedException {
+        List<String> listOfLinkedPlugsPNFromComponentDB = Arrays.asList("12134");
+        connectorPage.verifyPlugsPNCavityTable(listOfLinkedPlugsPNFromComponentDB);
     }
 }

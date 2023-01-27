@@ -18,6 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import org.python.antlr.ast.Str;
 import org.testng.Assert;
 
 import java.awt.*;
@@ -26,6 +27,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -382,5 +384,43 @@ public class SearchPartsStepDefinitions {
             ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
         }
         Assert.assertEquals(actualUniquePartList.size(),expectedPartNumberList.size());
+    }
+
+    @Then("Verify {string} terminals are shown in cavity table searchdetails")
+    public void verifyLinkedTerminalsAreShownInCavityTableSearchdetails(String terminalsType) throws InterruptedException, IOException {
+        List<String> expectedTerminalsList = new ArrayList<>();
+        switch (terminalsType.toLowerCase()){
+            case "linked":
+                expectedTerminalsList = Arrays.asList("0-0444334-2","0-0281381-2","0-0444335-2");
+                break;
+            case "all":
+                searchPartsDatabasePage.resetFiltersCavityDetails();
+                File file = new File("src/test/resources/componentDB/Terminals/TerminalData.json");
+                List<TerminalsComponentDB> terminalsdbData = null;
+                if (file.exists()) {
+                    ObjectMapper mapper = new ObjectMapper();
+                    terminalsdbData = mapper.readValue(new File("src/test/resources/componentDB/Terminals/TerminalData.json"), new TypeReference<List<TerminalsComponentDB>>() {
+                    });
+                }
+                expectedTerminalsList = terminalsdbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
+                break;
+        }
+
+        List<String> actualListOfLinkedTerminalsShown = searchPartsDatabasePage.getCavityDetailsData();
+        List<String> differenceFromExpectedPartNumberList = expectedTerminalsList.stream()
+                .filter(element -> !actualListOfLinkedTerminalsShown.contains(element))
+                .collect(Collectors.toList());
+        if(differenceFromExpectedPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with expected %s", differenceFromExpectedPartNumberList.toString()));
+        }
+        List<String> finalExpectedTerminalsList = expectedTerminalsList;
+        List<String> differenceFromActualPartNumberList = actualListOfLinkedTerminalsShown.stream()
+                .filter(element -> !finalExpectedTerminalsList.contains(element))
+                .collect(Collectors.toList());
+        if(differenceFromActualPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPartNumberList.toString()));
+        }
+        Assert.assertEquals(actualListOfLinkedTerminalsShown.size(),expectedTerminalsList.size());
+
     }
 }
