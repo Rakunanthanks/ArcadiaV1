@@ -2,13 +2,19 @@ package arcadia.pages.ComponentDB;
 
 import arcadia.pages.BasePage;
 import arcadia.utils.SeleniumCustomCommand;
+import org.apache.tools.ant.types.resources.Files;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.python.antlr.ast.Str;
 
 import java.awt.*;
+import java.io.File;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
 
 public class CommonElements extends BasePage {
     public CommonElements(WebDriver driver) {
@@ -148,8 +154,30 @@ public class CommonElements extends BasePage {
     private WebElement inputLengthOfHeatShrink;
     @FindBy(xpath = "(//label[text()='Splice Loopback Length (mm)']/parent::div/following-sibling::div//input)[1]")
     private WebElement inputSpliceLoopback;
-
-
+    @FindBy(xpath = "//button[@name='idexport']")
+    private WebElement exportButton;
+    @FindBy(xpath = "//a[contains(text(),'Home')]")
+    private WebElement homeButton;
+    @FindBy(xpath = "//button[@id='idnewlibrary']")
+    private WebElement createComponentDBButton;
+    @FindBy(xpath = "//input[@name='libName']")
+    private WebElement dbNameInput;
+    @FindBy(xpath = "//select[@name='profiles']")
+    private WebElement profileSelect;
+    @FindBy(xpath = "//button[@name='btnImport']")
+    private WebElement importButton;
+    @FindBy(xpath = "//span[text()='Component DB']")
+    private WebElement componentDB;
+    @FindBy(xpath = "//button[@id='btnCreate']")
+            private WebElement createButton;
+    @FindBy(xpath = "//input[@name='overwriteimport']")
+            private WebElement overwriteExisting;
+    @FindBy(xpath = "//input[@name='file']")
+    private WebElement importFilePath;
+    @FindBy(xpath = "//button[@name='importcsv']")
+    private WebElement importButtonForCSV;
+    @FindBy(xpath = "//button[@data-bb-handler='confirm']")
+            private WebElement confirmDeleteButton;
 
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
 
@@ -542,6 +570,82 @@ public class CommonElements extends BasePage {
     public void enterNWFDetails()  {
         customCommand.clearAndEnterText(inputNWF,"test");
         customCommand.clearAndEnterText(inputNWFModel,"test");
+    }
+
+    public void exportComponentsData()
+    {
+        try {
+            Thread.sleep(2000);
+            customCommand.javaScriptClick(driver,exportButton);
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void navigateHome()
+    {
+        try {
+            customCommand.javaScriptClick(driver,homeButton);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void openComponentDB()
+    {
+        try {
+            customCommand.javaScriptClick(driver,componentDB);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void createNewComponentDB(String dbName)
+    {
+        try {
+            customCommand.javaScriptClick(driver, createComponentDBButton);
+            customCommand.clearAndEnterText(dbNameInput, dbName);
+            customCommand.selectDropDownByValue(profileSelect, "QUICKSTART");
+            customCommand.javaScriptClick(driver,createButton);
+        }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void clickImportButton(String componentName)
+    {
+        try {
+            Thread.sleep(2000);
+            customCommand.javaScriptClick(driver,importButton);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void importDB(String componentName) throws InterruptedException {
+        String path = System.getProperty("user.dir") + File.separator + "externalFiles" + File.separator + "downloadFiles";
+        File[] files=customCommand.getAllFilesInAFolder(path);
+        Optional<File> matchedFile= Arrays.stream(files).filter(x->x.getName().toLowerCase().contains(componentName.toLowerCase(Locale.ROOT))).findAny();
+        String pathOfFile=matchedFile.get().getAbsolutePath();
+        importFilePath.sendKeys(pathOfFile);
+        customCommand.javaScriptClick(driver,overwriteExisting);
+        customCommand.javaScriptClick(driver,importButtonForCSV);
+    }
+
+    public void deleteComponentDB(String dbName)
+    {
+        WebElement delete=driver.findElement(By.xpath("//button[(contains(@onclick,'"+dbName.toLowerCase()+"')) and (contains(@Title,'Delete'))]"));
+        try {
+            customCommand.javaScriptClick(driver,delete);
+            customCommand.javaScriptClick(driver,confirmDeleteButton);
+            Thread.sleep(5000);
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 }

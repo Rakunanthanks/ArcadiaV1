@@ -27,6 +27,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import org.apache.commons.io.FileUtils;
+import org.checkerframework.checker.units.qual.C;
 import org.python.antlr.ast.Str;
 import org.testng.Assert;
 
@@ -38,6 +40,7 @@ import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class ComponentDBStepDefinitions {
@@ -1783,5 +1786,46 @@ public class ComponentDBStepDefinitions {
                 }
                 break;
         }
+    }
+
+    @And("User export the data for {string}")
+    public void userExportTheDataForApplicator(String componentName)
+    {
+        new CommonElements(context.driver).exportComponentsData();
+    }
+
+    @And("User create new DB with name {string}")
+    public void userCreateNewDBWithNameTestDB(String dbName) {
+        dbName=dbName.toLowerCase(Locale.ROOT)+new StringHelper().generateRandomDigit();
+        FlowContext.dbName=dbName;
+        new CommonElements(context.driver).createNewComponentDB(dbName);
+    }
+
+    @And("User navigated to componentDB")
+    public void userNavigatedToComponentDB()
+    {
+        new CommonElements(context.driver).navigateHome();
+        new CommonElements(context.driver).openComponentDB();
+
+    }
+
+    @And("User import data for {string}")
+    public void userImportDataForConnector(String component) throws InterruptedException {
+        new CommonElements(context.driver).clickImportButton(component);
+        new CommonElements(context.driver).importDB(component);
+
+    }
+
+    @And("User delete the new DB created")
+    public void userDeleteTheNewDBWithNameTestDB()
+    {
+        new CommonElements(context.driver).deleteComponentDB(FlowContext.dbName);
+    }
+
+    @And("User delete all old files from the default download folder")
+    public void userDeleteAllOldFilesFromTheDefaultDownloadFolder() throws IOException {
+       String path=System.getProperty("user.dir") + File.separator + "externalFiles" + File.separator + "downloadFiles";
+        File file = new File(path);
+        FileUtils.cleanDirectory(file);
     }
 }
