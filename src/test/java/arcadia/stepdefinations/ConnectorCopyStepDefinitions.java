@@ -2,6 +2,7 @@ package arcadia.stepdefinations;
 
 import arcadia.context.FlowContext;
 import arcadia.context.TestContext;
+import arcadia.domainobjects.ConnectorWireTable;
 import arcadia.domainobjects.Macros.WireTags;
 import arcadia.domainobjects.WiresComponentDB;
 import arcadia.mapperObjects.SearchParts;
@@ -20,10 +21,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import org.apache.commons.compress.utils.Lists;
 import org.testng.Assert;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -206,5 +209,60 @@ public class ConnectorCopyStepDefinitions {
         new SearchPartsDatabasePage(context.driver).selectAttachPartComponentType("connector");
         String imagePath =  new SearchPartsDatabasePage(context.driver).getImagePathOfFirstAttachPart();
         connectorPage.verifyImagePath(imagePath);
+    }
+
+    @Then("Verify linked terminals are shown in cavity table")
+    public void verifyLinkedTerminalsAreShownInCavityTable() throws InterruptedException {
+        List<String> listOfLinkedTerminalsPNFromComponentDB = Arrays.asList("0-0444334-2","0-0281381-2","0-0444335-2");
+        connectorPage.verifyTerminalsPNCavityTable(listOfLinkedTerminalsPNFromComponentDB);
+    }
+
+    @And("GetCavityDetails window is opened")
+    public void getcavitydetailsWindowIsOpened() throws InterruptedException {
+        connectorPage.openCavityTable();
+        connectorPage.clickGetCavityTableDetails();
+        new SearchPartsDatabasePage(context.driver).verifyGetCavityTableDetailsWindowIsOpen();
+    }
+
+    @Then("Verify linked seals are shown in cavity table")
+    public void verifyLinkedSealsAreShownInCavityTable() throws InterruptedException {
+        List<String> listOfLinkedSealsPNFromComponentDB = Arrays.asList("3301");
+        connectorPage.verifySealsPNCavityTable(listOfLinkedSealsPNFromComponentDB);
+    }
+
+    @Then("Verify linked plug are shown in cavity table")
+    public void verifyLinkedPlugAreShownInCavityTable() throws InterruptedException {
+        List<String> listOfLinkedPlugsPNFromComponentDB = Arrays.asList("12134");
+        connectorPage.verifyPlugsPNCavityTable(listOfLinkedPlugsPNFromComponentDB);
+    }
+
+    @And("user sets visibility of connector table layout to {string}")
+    public void userSetsVisibilityOfConnectorTableLayoutTo(String visible) throws InterruptedException {
+        connectorPage.openTableLayout();
+        connectorPage.setTableLayoutVisibility(visible);
+    }
+
+
+    @And("User sets value of cavitytablewrap to {string}")
+    public void userSetsValueOfCavitytablewrapTo(String wrapValue) throws InterruptedException {
+        connectorPage.setTablePropertyWrapFrom(wrapValue);
+    }
+
+    @And("wire table data is updated")
+    public void wireTableDataIsUpdated() throws InterruptedException {
+        List<ConnectorWireTable> connectorWireTableList = new ArrayList<>();
+        String connectFrom = "X-001";
+        String connectTo = "X-002";
+        String fromCavity = "1";
+        String toCavity = "1";
+        String wiringPart = "WIRE_BK_1.5_FLRY";
+        ConnectorWireTable wireTable = new ConnectorWireTable();
+        wireTable.setConnectFrom(connectFrom);
+        wireTable.setConnectTo(connectTo);
+        wireTable.setCavityFrom(fromCavity);
+        wireTable.setCavityTo(toCavity);
+        wireTable.setWireParts(wiringPart);
+        connectorWireTableList.add(wireTable);
+        connectorPage.addWire(connectorWireTableList, false);
     }
 }
