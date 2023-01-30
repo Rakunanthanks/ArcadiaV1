@@ -24,6 +24,10 @@ public class ConnectorPage extends BasePage {
     @FindBy(css = "h3[id=\"ui-accordion-accordion-header-1\"]") private WebElement wireTable;
     @FindBy(css = "h3[id=\"ui-accordion-accordion-header-4\"]") private WebElement cavityTable;
 
+    @FindBy(css = "h3[id=\"ui-accordion-accordion-header-5\"]") private WebElement tableLayout;
+
+    @FindBy(css = "h3[id=\"ui-accordion-accordion-header-6\"]") private WebElement tableProperties;
+
     @FindBy(css = "input[name=\"node.functiondescription\"]") private WebElement connectorDescription;
 
     @FindBy(css = "select[name=\"bom.cavityDisplay\"]") private WebElement selectCavityTableDisplay;
@@ -81,7 +85,10 @@ public class ConnectorPage extends BasePage {
     @FindBy(css = "select[name=\"cavitytable.sealpn\"]+div input") private WebElement sealPNCavityTable;
     @FindBy(css = "select[name=\"cavitytable.plugpn\"]+div input") private WebElement plugPNCavityTable;
 
+    @FindBy(css = "input[name=\"cavitytablelayout.wrap\"]") private WebElement inputTableWrapFrom;
+
     String getDetailsCavityTable = "div#ui-accordion-accordion-panel-4 input[title=\"Get Details\"]";
+    String cavityTableLayoutShowOptions = "select[name=\"cavitytablelayout.showoptions\"]";
 
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
 
@@ -135,7 +142,7 @@ public class ConnectorPage extends BasePage {
             customCommand.selectDropDownByVisibleText(wireTableCavityFrom.get(Integer.parseInt(connectorItem.getCavityFrom())-1), connectorItem.getCavityFrom());
             customCommand.selectDropDownByVisibleText(wireTableConnectorTo.get(Integer.parseInt(connectorItem.getCavityFrom())-1),connectorItem.getConnectTo());
             customCommand.selectDropDownByValue(wireTableCavityTo.get(Integer.parseInt(connectorItem.getCavityFrom())-1),connectorItem.getCavityTo());
-            customCommand.enterText(wirePartNumber.get(Integer.parseInt(connectorItem.getCavityFrom())-1),connectorItem.getWireParts());
+            customCommand.clearAndEnterText(wirePartNumber.get(Integer.parseInt(connectorItem.getCavityFrom())-1),connectorItem.getWireParts());
             wireTablePopup.get(Integer.parseInt(connectorItem.getCavityFrom())-1).click();
             Thread.sleep(2000);
             SearchWirePage searchWirePage = PageFactoryManager.getSearchWirePage(driver);
@@ -448,5 +455,33 @@ public class ConnectorPage extends BasePage {
             ExtentCucumberAdapter.addTestStepLog(String.format("Differences with actual %s", differenceFromActualPlugsPNList.toString()));
         }
         Assert.assertEquals(listOfactualPlugPn.size(),listOfLinkedPlugsPNFromComponentDB.size());
+    }
+
+    public void openTableLayout() throws InterruptedException {
+        customCommand.waitForElementVisibility(driver,tableLayout);
+        customCommand.scrollIntoView(driver,tableLayout);
+        tableLayout.click();
+        Thread.sleep(2000);
+    }
+
+    public void setTableLayoutVisibility(String visible) throws InterruptedException {
+        List<WebElement> listOfShowOptions = driver.findElements(By.cssSelector(cavityTableLayoutShowOptions));
+        for (WebElement e : listOfShowOptions){
+            customCommand.scrollIntoView(driver,e);
+            customCommand.selectDropDownByValue(e,visible.toLowerCase());
+        }
+    }
+
+    public void openTableProperties() throws InterruptedException {
+        customCommand.waitForElementVisibility(driver,tableProperties);
+        customCommand.scrollIntoView(driver,tableProperties);
+        tableProperties.click();
+        Thread.sleep(2000);
+    }
+
+    public void setTablePropertyWrapFrom(String wrapValue) throws InterruptedException {
+        openTableProperties();
+        inputTableWrapFrom.clear();
+        customCommand.enterText(inputTableWrapFrom,wrapValue);
     }
 }

@@ -126,10 +126,13 @@ public class SeleniumCustomCommand {
         actions.doubleClick(element).perform();
     }
 
-    public void clearAndEnterText(WebElement ele, String text) {
+    public void clearAndEnterText(WebElement ele, String value) {
      ele.clear();
-     ele.sendKeys(text);
+     if (value != null || !value.isEmpty() || !value.trim().isEmpty()){
+     ele.sendKeys(value);
     }
+    }
+
 
     public String getSelectedValueFromSelectDropDown(WebElement element) {
         Select select = new Select(element);

@@ -14,11 +14,13 @@ import arcadia.utils.StringHelper;
 import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
 import io.cucumber.java.hu.Ha;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import static arcadia.context.FlowContext.harnessComponentAlreadyCreated;
@@ -122,5 +124,30 @@ public class HarnessStepDefinitions {
     @And("User exits the drawing page")
     public void userExitsTheDrawingPage() throws InterruptedException {
         harnessPage.exitDrawingPage();
+    }
+
+    @Then("Verify CavityTableData is displayed on connector {string}")
+    public void verifyCavityTableDataIsDisplayedOnConnector(String connectorPlugIndex) throws InterruptedException {
+        List<String> expectedHeaders = Arrays.asList("Cav.","Wire","Colour","Gauge","Length (\")","Mat.","Opt.","To Loc.","Dest.","Signal","Term. PN","Term. Mat","Seal","Plug","Mult. ID","Ident Tag","Outer Dia","Wire CSA","From Tag","To Tag","Variant","Core ID","Term. Strip Length","Cavity Addon","Terminal Finish","Entry Port");
+        String connectorid = FlowContext.connectorPlugIdentifierList.get(Integer.parseInt(connectorPlugIndex)).getConnectorId();
+        harnessPage.verifyCavityTableColumnsDisplayed(connectorid,expectedHeaders);
+        String colour = "BK";
+        String gauge = "1.5";
+        String length = "5.15";
+        String material = "FLRY";
+        String dest = "X-002/1";
+        String outerdia = "2";
+        String wirecsa = "2";
+        String fromTag = "X-001";
+        String toTag = "X-002";
+        String cavityAddOn = "0.39\"";
+        String entryPort = "EP_0";
+        harnessPage.verifyCavityTableData(connectorid,colour,gauge,length,material,dest,outerdia,wirecsa,fromTag,toTag,cavityAddOn,entryPort);
+    }
+
+    @Then("Verify data is wrapped and displayed on connector {string}")
+    public void verifyRowsDisplayedOnConnector(String connectorPlugIndex) {
+        String connectorid = FlowContext.connectorPlugIdentifierList.get(Integer.parseInt(connectorPlugIndex)).getConnectorId();
+        harnessPage.verifyCavityTableWrapped(connectorid);
     }
 }

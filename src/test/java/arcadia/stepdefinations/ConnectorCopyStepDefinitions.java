@@ -2,6 +2,7 @@ package arcadia.stepdefinations;
 
 import arcadia.context.FlowContext;
 import arcadia.context.TestContext;
+import arcadia.domainobjects.ConnectorWireTable;
 import arcadia.domainobjects.Macros.WireTags;
 import arcadia.domainobjects.WiresComponentDB;
 import arcadia.mapperObjects.SearchParts;
@@ -233,5 +234,35 @@ public class ConnectorCopyStepDefinitions {
     public void verifyLinkedPlugAreShownInCavityTable() throws InterruptedException {
         List<String> listOfLinkedPlugsPNFromComponentDB = Arrays.asList("12134");
         connectorPage.verifyPlugsPNCavityTable(listOfLinkedPlugsPNFromComponentDB);
+    }
+
+    @And("user sets visibility of connector table layout to {string}")
+    public void userSetsVisibilityOfConnectorTableLayoutTo(String visible) throws InterruptedException {
+        connectorPage.openTableLayout();
+        connectorPage.setTableLayoutVisibility(visible);
+    }
+
+
+    @And("User sets value of cavitytablewrap to {string}")
+    public void userSetsValueOfCavitytablewrapTo(String wrapValue) throws InterruptedException {
+        connectorPage.setTablePropertyWrapFrom(wrapValue);
+    }
+
+    @And("wire table data is updated")
+    public void wireTableDataIsUpdated() throws InterruptedException {
+        List<ConnectorWireTable> connectorWireTableList = new ArrayList<>();
+        String connectFrom = "X-001";
+        String connectTo = "X-002";
+        String fromCavity = "1";
+        String toCavity = "1";
+        String wiringPart = "WIRE_BK_1.5_FLRY";
+        ConnectorWireTable wireTable = new ConnectorWireTable();
+        wireTable.setConnectFrom(connectFrom);
+        wireTable.setConnectTo(connectTo);
+        wireTable.setCavityFrom(fromCavity);
+        wireTable.setCavityTo(toCavity);
+        wireTable.setWireParts(wiringPart);
+        connectorWireTableList.add(wireTable);
+        connectorPage.addWire(connectorWireTableList, false);
     }
 }
