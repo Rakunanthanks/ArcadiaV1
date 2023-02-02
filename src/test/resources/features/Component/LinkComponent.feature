@@ -1,3 +1,4 @@
+@Regression
 Feature: Link components
 
   @ComponentDB

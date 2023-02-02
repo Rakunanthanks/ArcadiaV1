@@ -1,3 +1,4 @@
+@Regression
 Feature: Copy and Delete connector components
 
   @ConnectorsComponentDB
