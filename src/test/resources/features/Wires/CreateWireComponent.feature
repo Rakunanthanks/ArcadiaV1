@@ -1,3 +1,4 @@
+@Regression
 Feature: Create wire components
 
  @WireComponentDB

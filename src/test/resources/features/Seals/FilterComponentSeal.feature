@@ -1,3 +1,4 @@
+@Regression
 Feature: Create components
 
   @FilterComponent

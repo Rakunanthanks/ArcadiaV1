@@ -1,3 +1,4 @@
+@Regression
 Feature: Create applicator components
 
  @ApplicatorsComponentDB

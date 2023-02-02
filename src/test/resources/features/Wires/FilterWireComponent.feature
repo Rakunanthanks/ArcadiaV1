@@ -1,3 +1,4 @@
+@Regression
 Feature: Filter wire components
 
   @WireComponentDB

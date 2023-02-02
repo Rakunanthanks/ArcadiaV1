@@ -1,7 +1,8 @@
-Feature: Create components
+@Regression
+Feature: Update Prefix
 
   @FilterComponent
-  Scenario: Test verifies a seal component can be filtered with Part Number
+  Scenario: Test verifies a to update the prefix
   Given I'm on Arcadia test environment
   And Navigated to Profiles setting for profile 'quickstart'
   And User selected 'COMPONENT PREFIX EDITOR' from General panel

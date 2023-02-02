@@ -1,3 +1,4 @@
+@Regression
 Feature: Bundle Tolerance
 
   @BundleTolerance

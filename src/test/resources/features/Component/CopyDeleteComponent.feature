@@ -1,3 +1,4 @@
+@Regression
 Feature: Copy and Delete components
 
   @ComponentDB

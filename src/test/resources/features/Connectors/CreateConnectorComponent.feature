@@ -1,3 +1,4 @@
+@Regression
 Feature: Create connector components
 
  @ConnectorsComponentDB

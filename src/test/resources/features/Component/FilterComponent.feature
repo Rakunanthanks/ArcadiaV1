@@ -1,3 +1,4 @@
+@Regression
 Feature: Filter components
 
   @ComponentDB
