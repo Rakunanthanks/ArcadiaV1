@@ -265,4 +265,9 @@ public class ConnectorCopyStepDefinitions {
         connectorWireTableList.add(wireTable);
         connectorPage.addWire(connectorWireTableList, false);
     }
+
+    @Then("User verifies the connector details window is opened successfully")
+    public void userVerifiesTheConnectorDetailsWindowIsOpenedSuccessfully() {
+        connectorPage.verifyConnectorDetailsWindowOpened();
+    }
 }

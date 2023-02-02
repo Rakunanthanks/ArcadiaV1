@@ -1,10 +1,12 @@
 package arcadia.pages;
 import arcadia.pages.ComponentDB.AddNewComponentPage;
+import arcadia.stepdefinations.HarnessStepDefinitions;
 import arcadia.utils.SeleniumCustomCommand;
 import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 
@@ -261,5 +263,20 @@ public class HarnessPage extends BasePage{
         List<WebElement> eleListOfTableHeaders = driver.findElements(By.xpath("//*[name()='g' and @id='"+connectorid+"']//table/thead/tr/th"));
         //There are 26 columns by default. But as we wrapped the data, the column numbers is expected to be doubled
         Assert.assertEquals(eleListOfTableHeaders.size(),52);
+    }
+
+    public void verifyConnectorDoNotExists(String connectorid) {
+        Assert.assertTrue(driver.findElements(By.xpath("//*[name()='g' and @id='"+connectorid+"']//*[name()='rect' and @etype='connector']")).size()==0, "Connector exists on the drawing page");
+    }
+
+    public void verifyResetLabels(String connectorid) throws InterruptedException {
+        int xCoordiante = getConnectorPlugElement(connectorid).getLocation().getX();
+        int yCoordiante = getConnectorPlugElement(connectorid).getLocation().getY();
+        System.out.println("x coordinate is :" + xCoordiante);
+        System.out.println("Y coordinate is :" + yCoordiante);
+        Actions actions = new Actions(driver);
+        actions.dragAndDropBy(getConnectorPlugElement(connectorid),xCoordiante+10, yCoordiante+10);
+        System.out.println("x coordinate after movement is :" + getConnectorPlugElement(connectorid).getLocation().getX());
+        System.out.println("Y coordinate after movement is :" + getConnectorPlugElement(connectorid).getLocation().getY());
     }
 }

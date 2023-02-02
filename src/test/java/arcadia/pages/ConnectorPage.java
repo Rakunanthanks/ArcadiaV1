@@ -484,4 +484,10 @@ public class ConnectorPage extends BasePage {
         inputTableWrapFrom.clear();
         customCommand.enterText(inputTableWrapFrom,wrapValue);
     }
+
+    public void verifyConnectorDetailsWindowOpened() {
+        Assert.assertTrue(driver.findElement(By.id("DynamicForm")).isDisplayed());
+        Assert.assertTrue(inputConnectorId.isDisplayed());
+        Assert.assertTrue(driver.findElement(By.xpath("//h1[text()=\"CONNECTOR\"]")).isDisplayed());
+    }
 }

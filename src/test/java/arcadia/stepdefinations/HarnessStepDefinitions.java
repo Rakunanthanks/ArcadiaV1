@@ -116,9 +116,12 @@ public class HarnessStepDefinitions {
         harnessPage.showHideComponentLabel(labelName,showHide);
     }
 
-    @And("User deletes Harness successfully")
-    public void harnessIsDeletedSuccessfully() {
-        harnessPage.deleteHarness(FlowContext.testDescription);
+    @And("User deletes Harness {string} successfully")
+    public void harnessIsDeletedSuccessfully(String harnessDescription) {
+        if(harnessDescription==""){
+            harnessDescription = FlowContext.testDescription;
+        }
+        harnessPage.deleteHarness(harnessDescription);
     }
 
     @And("User exits the drawing page")
@@ -149,5 +152,17 @@ public class HarnessStepDefinitions {
     public void verifyRowsDisplayedOnConnector(String connectorPlugIndex) {
         String connectorid = FlowContext.connectorPlugIdentifierList.get(Integer.parseInt(connectorPlugIndex)).getConnectorId();
         harnessPage.verifyCavityTableWrapped(connectorid);
+    }
+
+    @Then("User verifies the connector {string} is deleted successfully")
+    public void userVerifiesTheConnectorIsDeletedSuccessfully(String connectorIndex) {
+        String connectorid = FlowContext.connectorPlugIdentifierList.get(Integer.parseInt(connectorIndex)).getConnectorId();
+        harnessPage.verifyConnectorDoNotExists(connectorid);
+    }
+
+    @Then("User verifies reset label works as expected")
+    public void userVerifiesResetLabelWorksAsExpected() throws InterruptedException {
+        String connectorid = FlowContext.connectorPlugIdentifierList.get(0).getConnectorId();
+        harnessPage.verifyResetLabels(connectorid);
     }
 }
