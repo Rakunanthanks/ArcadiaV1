@@ -22,6 +22,8 @@ public class HarnessPage extends BasePage{
     @FindBy(id = "ifreebundle") private WebElement bundle;
     @FindBy(id = "izoom_in") private WebElement zoomIn;
     @FindBy(id = "idrawcom") private WebElement select;
+
+    @FindBy(id = "idrawmove") private WebElement move;
     @FindBy(id = "iaddframe") private WebElement frame;
     @FindBy(id = "iupdateroute") private WebElement wireRoute;
     @FindBy(id = "iupdatesleevetube") private WebElement updateSleeveGlobal;
@@ -279,4 +281,30 @@ public class HarnessPage extends BasePage{
         System.out.println("x coordinate after movement is :" + getConnectorPlugElement(connectorid).getLocation().getX());
         System.out.println("Y coordinate after movement is :" + getConnectorPlugElement(connectorid).getLocation().getY());
     }
+
+    public void clickOnMove() throws InterruptedException {
+        customCommand.waitClick(move);
+    }
+
+    public void verifyConnectorLabels(String connectorID, String testDescription) {
+        List<WebElement> ele = driver.findElements(By.xpath("//*[name()='tspan']"));
+        Assert.assertEquals(ele.get(0).getText(),connectorID);
+        Assert.assertEquals(ele.get(1).getText(),testDescription);
+    }
+
+//    public void clickConnectorDescriptionElement(String testDescription, String connectorId) throws InterruptedException {
+//        WebElement ele = new ConnectorPage(driver).getElementConnectorDescription(connectorId,testDescription);
+//        customCommand.waitForElementToBeClickable(driver,ele);
+//        int xCoordiante = ele.getLocation().getX();
+//        int yCoordiante = ele.getLocation().getY();
+//        System.out.println("x coordinate is :" + xCoordiante);
+//        System.out.println("Y coordinate is :" + yCoordiante);
+//        xCoordiante = xCoordiante + 20;
+//        yCoordiante = yCoordiante + 20;
+//        Actions actions = new Actions(driver);
+//        actions.moveToElement(ele).clickAndHold(ele).moveByOffset(50,50).release().build().perform();
+////        actions.dragAndDropBy(ele,xCoordiante, yCoordiante).perform();
+//        System.out.println("x coordinate after movement is :" + ele.getLocation().getX());
+//        System.out.println("Y coordinate after movement is :" + ele.getLocation().getY());
+//    }
 }

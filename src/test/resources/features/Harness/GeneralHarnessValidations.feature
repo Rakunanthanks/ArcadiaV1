@@ -26,3 +26,22 @@ Feature: General Harness Validations
     And connector plug '0' is opened
     And GetCavityDetails window is opened
     Then Verify 'All' terminals are shown in cavity table searchdetails
+
+  @VerifyConnector
+  Scenario: Test verifies Connector Label context menu functionality on connector
+    And Navigated to GeneralMacros page
+    And 'custom label' macros tags are extracted successfully
+    And custom label macros tags are updated with 'customvalues'
+    And Navigated to quickstart project
+    And harness with name 'connectorValidator' is launched successfully
+    And based on drawing orchestrator components are created
+    And connector plug '0' is opened
+    And value of 'connectorid' is extracted successfully
+    And user enters description in connector details
+    And Submit connector
+    And User try operation 'connector label' for connector
+    Then User verify 'connector' labels are displayed as expected
+    And User exits the drawing page
+    And User deletes Harness 'connectorValidator' successfully
+    When Navigated to GeneralMacros page
+    And custom label macros tags are updated with 'initialvalues'

@@ -19,16 +19,14 @@ Feature: Verify context menu
     And User exits the drawing page
     And User deletes Harness 'connectorValidator' successfully
 
-
-  #Below scenario is in progress
 #  @VerifyConnector
 #  Scenario: Test verifies ResetLabels functionality on connector
+#    And connector plug '0' is opened
+#    And user enters description in connector details
+#    And Submit connector
+#    Then User verifies the connectordescription is added successfully
+#    When User moves the label 'connectordescription' to a different position
 #    And User try operation 'reset labels' for connector
 #    Then User verifies reset label works as expected
 
 
-#  @VerifyConnector
-#  Scenario: Test verifies Connector Label functionality on connector
-#    And Navigated to GeneralMacros page
-#    And 'custom label' macros tags are extracted successfully
-#    And User try operation 'connector label' for connector

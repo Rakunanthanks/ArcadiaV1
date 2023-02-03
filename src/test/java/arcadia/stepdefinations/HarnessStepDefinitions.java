@@ -15,6 +15,7 @@ import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import io.cucumber.java.hu.Ha;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -164,5 +165,21 @@ public class HarnessStepDefinitions {
     public void userVerifiesResetLabelWorksAsExpected() throws InterruptedException {
         String connectorid = FlowContext.connectorPlugIdentifierList.get(0).getConnectorId();
         harnessPage.verifyResetLabels(connectorid);
+    }
+
+    @When("User moves the label {string} to a different position")
+    public void userMovesLabelToADifferentPosition(String elementToBeMoved) throws InterruptedException {
+//        harnessPage.clickOnMove();
+//        harnessPage.clickConnectorDescriptionElement(FlowContext.testDescription, FlowContext.connectorPlugIdentifierList.get(0).getConnectorId());
+
+    }
+
+    @Then("User verify {string} labels are displayed as expected")
+    public void userVerifyConnectorLabelsAreDisplayedAsExpected(String labelType) {
+        switch (labelType.toLowerCase()){
+            case "connector":
+                harnessPage.verifyConnectorLabels(FlowContext.connectorID, FlowContext.testDescription);
+                break;
+        }
     }
 }

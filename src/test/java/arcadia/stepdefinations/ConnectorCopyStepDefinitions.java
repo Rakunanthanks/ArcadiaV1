@@ -270,4 +270,14 @@ public class ConnectorCopyStepDefinitions {
     public void userVerifiesTheConnectorDetailsWindowIsOpenedSuccessfully() {
         connectorPage.verifyConnectorDetailsWindowOpened();
     }
+
+    @And("value of {string} is extracted successfully")
+    public void valueOfConnectoridIsExtractedSuccessfully(String fieldName) {
+        switch (fieldName.toLowerCase()){
+            case "connectorid":
+                FlowContext.connectorID = connectorPage.getConnectorID();
+                break;
+        }
+
+    }
 }
