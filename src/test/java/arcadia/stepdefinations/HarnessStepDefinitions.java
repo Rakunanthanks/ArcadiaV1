@@ -42,12 +42,13 @@ public class HarnessStepDefinitions {
 
     @And("harness with name {string} is launched successfully")
     public void harness_with_name_is_launched_successfully(String connectorDescription) throws InterruptedException {
-        Boolean isHarnessAlreadyExists = new HarnessPage(context.driver).isHarnessAlreadyExists(connectorDescription);
+        String harnessDescription = connectorDescription.concat(" "+System.getProperty("uniqueIdentifier"));
+        Boolean isHarnessAlreadyExists = new HarnessPage(context.driver).isHarnessAlreadyExists(harnessDescription);
         if(isHarnessAlreadyExists){
-            openExistingHarness(connectorDescription);
+            openExistingHarness(harnessDescription);
         }
         if(!isHarnessAlreadyExists){
-            createNewHarnessInstance(connectorDescription);
+            createNewHarnessInstance(harnessDescription);
         }
     }
 
