@@ -1841,7 +1841,7 @@ public class ComponentDBStepDefinitions {
     }
 
     @And("custom label macros tags are updated with {string}")
-    public void customLabelMacrosTagsAreUpdated(String valueType) throws IOException {
+    public void customLabelMacrosTagsAreUpdated(String valueType) throws IOException, InterruptedException {
         String labelValue="";
         switch (valueType.toLowerCase()) {
             case "customvalues":
@@ -1853,11 +1853,12 @@ public class ComponentDBStepDefinitions {
                 CustomLabelTags dbMacrosData = null;
                 if (file.exists()) {
                     ObjectMapper mapper = new ObjectMapper();
-                    dbMacrosData = mapper.readValue(new File("src/test/resources/macros/Wire/WireMacrosData.json"), new TypeReference<CustomLabelTags>() {
+                    dbMacrosData = mapper.readValue(new File("src/test/resources/macros/CustomLabel/CustomLabelData.json"), new TypeReference<CustomLabelTags>() {
                     });
                     labelValue = dbMacrosData.getTagconnectorSpliceLabel();
                 }
         }
+        Thread.sleep(2000);
         new GeneralMacrosPage(context.driver).enterCustomLabelTags(labelValue);
         new GeneralMacrosPage(context.driver).clickSaveButton();
         new GeneralMacrosPage(context.driver).verifyAlertMacrosSuccessMessage("Macros updated successfully");

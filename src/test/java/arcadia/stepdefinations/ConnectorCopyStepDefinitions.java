@@ -23,6 +23,8 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import org.apache.commons.compress.utils.Lists;
 import org.testng.Assert;
+
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -279,5 +281,12 @@ public class ConnectorCopyStepDefinitions {
                 break;
         }
 
+    }
+
+    @And("Cavity is updated with terminal image")
+    public void cavityIsUpdatedWithTerminalImage() throws InterruptedException, AWTException {
+        new SearchPartsDatabasePage(context.driver).addImageTerminalToCavity("0-0444335-2");
+        String imagePath = connectorPage.getImagePathOfCavity();
+        FlowContext.terminalImagePath = imagePath;
     }
 }

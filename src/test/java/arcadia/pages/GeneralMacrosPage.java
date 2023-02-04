@@ -7,6 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ public class GeneralMacrosPage extends BasePage {
     @FindBy(css = "textarea[name=\"labelcustom.LabelText\"]") private WebElement textareaConnectorSpliceLabel;
     @FindBy(css = "textarea[name=\"labelcustom.DrawingLabelText\"]") private WebElement textareaHarnessLabel;
 
-    @FindBy(css = "button[type=\"submit\"]") private WebElement buttonSave;
+    @FindBy(css = "form#macroForm button[type=\"submit\"][class=\"btn btn-success pull-right\"]") private WebElement buttonSave;
 
     @FindBy(css = "#macroForm>div.alert-success") private WebElement alertMacrosSuccessMessage;
 
@@ -59,15 +60,16 @@ public class GeneralMacrosPage extends BasePage {
     }
 
     public void enterCustomLabelTags(String labelValue) {
-        customCommand.enterText(textareaConnectorSpliceLabel,labelValue);
+        customCommand.clearAndEnterText(textareaConnectorSpliceLabel,labelValue);
     }
 
-    public void clickSaveButton() {
+    public void clickSaveButton() throws InterruptedException {
+        customCommand.scrollIntoView(driver,buttonSave);
         buttonSave.click();
     }
 
     public void verifyAlertMacrosSuccessMessage(String message) {
         customCommand.waitForElementVisibility(driver, alertMacrosSuccessMessage);
-        alertMacrosSuccessMessage.getText().equals(message);
+        Assert.assertEquals( alertMacrosSuccessMessage.getText(),message);
     }
 }
