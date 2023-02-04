@@ -1,3 +1,4 @@
+@Regression
 Feature: Import Export Data for all components
 
   @ImportExportDB

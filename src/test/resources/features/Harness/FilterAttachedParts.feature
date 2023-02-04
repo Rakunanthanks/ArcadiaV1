@@ -1,3 +1,4 @@
+@Regression
 Feature: Filter attached parts
   Background: User is Logged In
     Given I'm on Arcadia test environment

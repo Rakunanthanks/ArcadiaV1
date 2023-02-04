@@ -1,3 +1,4 @@
+@Regression
 Feature: Filter applicator components
 
   @ApplicatorsComponentDB

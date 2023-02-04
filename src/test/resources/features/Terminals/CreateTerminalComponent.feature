@@ -1,3 +1,4 @@
+@Regression
 Feature: Create terminal components
 
   @TerminalComponentDB

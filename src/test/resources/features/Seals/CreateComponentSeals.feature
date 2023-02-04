@@ -1,3 +1,4 @@
+@Regression
 Feature: Create seals components
 
   @SealComponentDB
