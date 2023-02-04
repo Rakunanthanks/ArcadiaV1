@@ -16,8 +16,8 @@ public class cleanComponentDB  extends BasePage {
             element.sendKeys(searchString);
             element.sendKeys(Keys.ENTER);
             Thread.sleep(1000);
-            boolean isRecordPresent = driver.findElements(By.cssSelector("#allcomponents >tbody >tr[class=\"no-records-found\"]")).size() > 0;
-            if(!isRecordPresent){
+            boolean noRecordPresentMessageDisplayed = driver.findElements(By.cssSelector("#allcomponents >tbody >tr[class=\"no-records-found\"]")).size() > 0;
+            if(noRecordPresentMessageDisplayed){
                 proceedWithDelete = false;
             }
             if(proceedWithDelete){
@@ -43,6 +43,8 @@ public class cleanComponentDB  extends BasePage {
     public void initiateComponentDBHouseKeeping() throws InterruptedException {
         WebElement companyElement = driver.findElement(By.cssSelector("input[placeholder=\"Company\"]"));
         deleteRecordsInComponentDB(companyElement,"testcompany");
+        driver.navigate().refresh();
+        Thread.sleep(1000);
         WebElement descriptionElement = driver.findElement(By.cssSelector("input[placeholder=\"Description\"]"));
         deleteRecordsInComponentDB(descriptionElement,"testdescription-");
     }
