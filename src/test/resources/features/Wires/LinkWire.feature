@@ -1,3 +1,4 @@
+@Regression
 Feature: Link Wire
 
   @WireComponentDB

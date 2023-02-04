@@ -1,3 +1,4 @@
+@Regression
 Feature: Create other parts components
 
   @OtherPartsComponentDB

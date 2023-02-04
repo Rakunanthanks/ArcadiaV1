@@ -1,3 +1,4 @@
+@Regression
 Feature: Filter connector components
 
   @ConnectorsComponentDB

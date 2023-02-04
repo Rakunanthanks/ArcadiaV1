@@ -1,3 +1,4 @@
+@Regression
 Feature: Update sleeve tube
 
 #  @UpdateSleeveTube
