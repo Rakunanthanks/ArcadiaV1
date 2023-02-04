@@ -1,6 +1,5 @@
 package arcadia.pages;
 import arcadia.pages.ComponentDB.AddNewComponentPage;
-import arcadia.stepdefinations.HarnessStepDefinitions;
 import arcadia.utils.SeleniumCustomCommand;
 import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import org.openqa.selenium.By;
@@ -22,6 +21,8 @@ public class HarnessPage extends BasePage{
     @FindBy(id = "ifreebundle") private WebElement bundle;
     @FindBy(id = "izoom_in") private WebElement zoomIn;
     @FindBy(id = "idrawcom") private WebElement select;
+
+    @FindBy(id = "idrawmove") private WebElement move;
     @FindBy(id = "iaddframe") private WebElement frame;
     @FindBy(id = "iupdateroute") private WebElement wireRoute;
     @FindBy(id = "iupdatesleevetube") private WebElement updateSleeveGlobal;
@@ -54,6 +55,16 @@ public class HarnessPage extends BasePage{
 
     public WebElement getConnectorPlugElement(String connectorPlugId) throws InterruptedException {
         WebElement ele = driver.findElement(By.xpath("//*[name()='g' and @id='"+connectorPlugId+"']//*[name()='rect' and @etype='connector']"));
+        return ele;
+    }
+
+    public WebElement getElementConnectorImage(String connectorId) {
+        WebElement ele = driver.findElement(By.xpath("//*[name()='g' and @id='"+connectorId+"']//*[name()='g']//*[name()='image']"));
+        return ele;
+    }
+
+    public List<WebElement> getElementTerminalImage(String imagePath) {
+        List<WebElement> ele = driver.findElements(By.xpath("//*[name()=\"image\" and @*[contains(.,'"+imagePath+"')]]"));
         return ele;
     }
 
@@ -125,6 +136,7 @@ public class HarnessPage extends BasePage{
             e.printStackTrace();
         }
         customCommand.rightClick(driver,ele);
+        Thread.sleep(2000);
     }
 
     public void performOperation(String operation,String id) throws InterruptedException {
@@ -138,6 +150,7 @@ public class HarnessPage extends BasePage{
         }
         for(WebElement ele:operations)
         {
+            customCommand.waitForElementToBeClickable(driver,ele);
             if(ele.getText().equalsIgnoreCase(operation.toString()))
             {
                 ele.click();
@@ -279,4 +292,49 @@ public class HarnessPage extends BasePage{
         System.out.println("x coordinate after movement is :" + getConnectorPlugElement(connectorid).getLocation().getX());
         System.out.println("Y coordinate after movement is :" + getConnectorPlugElement(connectorid).getLocation().getY());
     }
+
+    public void clickOnMove() throws InterruptedException {
+        customCommand.waitClick(move);
+    }
+
+    public void verifyConnectorLabels(String connectorID, String testDescription) {
+        List<WebElement> ele = driver.findElements(By.xpath("//*[name()='tspan']"));
+        Assert.assertEquals(ele.get(0).getText(),connectorID);
+        Assert.assertEquals(ele.get(1).getText(),testDescription);
+    }
+
+    public void verifyConnectorImageVisible(String connectorId) throws InterruptedException {
+        Thread.sleep(3000);
+        WebElement ele = getElementConnectorImage(connectorId);
+        Assert.assertTrue(ele.isDisplayed(),"Connector image is not displayed");
+    }
+
+    public void verifyConnectorImageNotVisible(String connectorId) throws InterruptedException {
+        Thread.sleep(4000);
+        List<WebElement> eleList = driver.findElements(By.xpath("//*[name()='g' and @id='"+connectorId+"']//*[name()='g']//*[name()='image']"));
+        Assert.assertTrue(eleList.size()==0,"Connector image is displayed");
+    }
+
+    public Boolean TerminalImageVisible(String imagePath) throws InterruptedException {
+        Thread.sleep(3000);
+        Boolean isTerminalImageVisible = getElementTerminalImage(imagePath).size()!=0 && getElementTerminalImage(imagePath).get(0).isDisplayed();
+        return isTerminalImageVisible;
+    }
+
+
+//    public void clickConnectorDescriptionElement(String testDescription, String connectorId) throws InterruptedException {
+//        WebElement ele = new ConnectorPage(driver).getElementConnectorDescription(connectorId,testDescription);
+//        customCommand.waitForElementToBeClickable(driver,ele);
+//        int xCoordiante = ele.getLocation().getX();
+//        int yCoordiante = ele.getLocation().getY();
+//        System.out.println("x coordinate is :" + xCoordiante);
+//        System.out.println("Y coordinate is :" + yCoordiante);
+//        xCoordiante = xCoordiante + 20;
+//        yCoordiante = yCoordiante + 20;
+//        Actions actions = new Actions(driver);
+//        actions.moveToElement(ele).clickAndHold(ele).moveByOffset(50,50).release().build().perform();
+////        actions.dragAndDropBy(ele,xCoordiante, yCoordiante).perform();
+//        System.out.println("x coordinate after movement is :" + ele.getLocation().getX());
+//        System.out.println("Y coordinate after movement is :" + ele.getLocation().getY());
+//    }
 }

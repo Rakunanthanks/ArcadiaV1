@@ -50,6 +50,8 @@ public class ConnectorPage extends BasePage {
 
     @FindBy(css = "input[name=\"bom.name\"]") private WebElement inputConnectorId;
 
+    @FindBy(css = "input[name=\"cavitytable.imagepath\"]") private WebElement inputCavityImagePath;
+
     @FindBy(css = "table#discrete_components input[title=\"Delete\"]") private WebElement buttonDeleteDiscrete;
 
     @FindBy(css = "div[aria-describedby=\"idFetchdiscrete_components\"] button[title=\"close\"]") private WebElement buttonCloseSearchDiscreteComp;
@@ -96,6 +98,7 @@ public class ConnectorPage extends BasePage {
         customCommand.waitForElementToBeClickable(driver,wireTable);
         customCommand.scrollIntoView(driver,submitConnector);
         customCommand.javaScriptClick(driver,submitConnector);
+        Thread.sleep(3000);
     }
 
     public WebElement getElementConnectorDescription(String plugID, String description){
@@ -489,5 +492,11 @@ public class ConnectorPage extends BasePage {
         Assert.assertTrue(driver.findElement(By.id("DynamicForm")).isDisplayed());
         Assert.assertTrue(inputConnectorId.isDisplayed());
         Assert.assertTrue(driver.findElement(By.xpath("//h1[text()=\"CONNECTOR\"]")).isDisplayed());
+    }
+
+    public String getImagePathOfCavity() throws InterruptedException {
+        customCommand.scrollIntoView(driver,inputCavityImagePath);
+        String imagePath = inputCavityImagePath.getAttribute("value");
+        return imagePath;
     }
 }

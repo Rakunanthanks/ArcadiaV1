@@ -4,6 +4,7 @@ import arcadia.context.FlowContext;
 import arcadia.context.TestContext;
 import arcadia.datasources.ComponentDataJDBC;
 import arcadia.domainobjects.*;
+import arcadia.domainobjects.Macros.CustomLabelTags;
 import arcadia.domainobjects.Macros.WireTags;
 import arcadia.pages.ComponentDB.AddNewComponentPage;
 import arcadia.pages.ComponentDB.Applicators.ApplicatorsComponentDBPage;
@@ -29,6 +30,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import org.apache.commons.io.FileUtils;
 import org.checkerframework.checker.units.qual.C;
+import org.openqa.selenium.By;
 import org.python.antlr.ast.Str;
 import org.testng.Assert;
 
@@ -1785,6 +1787,15 @@ public class ComponentDBStepDefinitions {
                     mapper.writeValue(new File("src/test/resources/macros/Wire/WireMacrosData.json"), macrosData);
                 }
                 break;
+            case "custom label":
+                file = new File("src/test/resources/macros/CustomLabel/CustomLabelData.json");
+                if (!file.exists()) {
+                    CustomLabelTags macrosData = new GeneralMacrosPage(context.driver).getCustomLabelTagsData();
+                    ObjectMapper mapper = new ObjectMapper();
+                    Files.createDirectories(Paths.get("src/test/resources/macros/CustomLabel"));
+                    mapper.writeValue(new File("src/test/resources/macros/CustomLabel/CustomLabelData.json"), macrosData);
+                }
+                break;
         }
     }
 
@@ -1827,5 +1838,29 @@ public class ComponentDBStepDefinitions {
        String path=System.getProperty("user.dir") + File.separator + "externalFiles" + File.separator + "downloadFiles";
         File file = new File(path);
         FileUtils.cleanDirectory(file);
+    }
+
+    @And("custom label macros tags are updated with {string}")
+    public void customLabelMacrosTagsAreUpdated(String valueType) throws IOException, InterruptedException {
+        String labelValue="";
+        switch (valueType.toLowerCase()) {
+            case "customvalues":
+                labelValue = "@@ConnectorID#\n" +
+                        "@@Functional Description#";
+                break;
+            case "initialvalues":
+                File file = new File("src/test/resources/macros/CustomLabel/CustomLabelData.json");
+                CustomLabelTags dbMacrosData = null;
+                if (file.exists()) {
+                    ObjectMapper mapper = new ObjectMapper();
+                    dbMacrosData = mapper.readValue(new File("src/test/resources/macros/CustomLabel/CustomLabelData.json"), new TypeReference<CustomLabelTags>() {
+                    });
+                    labelValue = dbMacrosData.getTagconnectorSpliceLabel();
+                }
+        }
+        Thread.sleep(2000);
+        new GeneralMacrosPage(context.driver).enterCustomLabelTags(labelValue);
+        new GeneralMacrosPage(context.driver).clickSaveButton();
+        new GeneralMacrosPage(context.driver).verifyAlertMacrosSuccessMessage("Macros updated successfully");
     }
 }
