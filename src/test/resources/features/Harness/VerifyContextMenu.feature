@@ -9,19 +9,19 @@ Feature: Verify context menu
     And user sets label 'connector cavity table' to "Show"
     And 'connector' list is initialized
 
-  @VerifyConnector
+  @VerifyConnector @VerifyConnectorContextMenu
   Scenario: Test verifies Inspect functionality on connector
     And User try operation 'inspect' for connector
     Then User verifies the connector details window is opened successfully
 
-  @VerifyConnector
+  @VerifyConnector @VerifyConnectorContextMenu
   Scenario: Test verifies Delete functionality on connector
     And User try operation 'delete' for connector
     Then User verifies the connector '0' is deleted successfully
     And User exits the drawing page
     And User deletes Harness 'connectorValidator' successfully
 
-#  @VerifyConnector
+#  @VerifyConnector--TODO--This scenario is not complete yet. Hence commented.
 #  Scenario: Test verifies ResetLabels functionality on connector
 #    And connector plug '0' is opened
 #    And user enters description in connector details
@@ -32,7 +32,7 @@ Feature: Verify context menu
 #    Then User verifies reset label works as expected
 
 
-  @VerifyConnector
+  @VerifyConnector @VerifyConnectorContextMenu
   Scenario: Test verifies ToggleConnectorImage functionality on connector
     Then User verifies 'connector' image is visible
     When User try operation 'Toggle Connector Image' for connector
@@ -40,7 +40,7 @@ Feature: Verify context menu
     And User exits the drawing page
     And User deletes Harness 'connectorValidator' successfully
 
-  @VerifyConnector
+  @VerifyConnector @VerifyConnectorContextMenu
   Scenario: Test verifies ToggleTerminalImage functionality on connector
     And connector plug '0' is opened
     And GetCavityDetails window is opened
@@ -50,5 +50,40 @@ Feature: Verify context menu
     And User exits the drawing page
     And User deletes Harness 'connectorValidator' successfully
 
+  @VerifyConnector @VerifyConnectorContextMenu
+  Scenario: Test verifies ShowToLocations functionality on connector
+    And connector plug '0' is opened
+    And wire is added to cavity
+    And wire table data is updated
+    And user sets visibility of connector table layout to "Yes"
+    And Submit connector
+    When User try operation 'Show To Locations' for connector
+    Then User verify 'wire' destination is displayed successfully
+    And User exits the drawing page
+    And User deletes Harness 'connectorValidator' successfully
 
+  @VerifyConnector @VerifyConnectorContextMenu
+  Scenario: Test verifies ShowHideWireFan functionality on connector
+    And connector plug '0' is opened
+    And user sets visibility of connector table layout to "Yes"
+    And Submit connector
+    Then User verifies the WireFan is ShownHidden successfully
 
+  @VerifyConnector @VerifyConnectorContextMenu
+  Scenario: Test verifies ShowHideUnusedCavities functionality on connector
+    And connector plug '0' is opened
+    And wire is added to cavity
+    And Submit connector
+    Then User verifies the UnusedCavities are ShownHidden successfully
+    And User exits the drawing page
+    And User deletes Harness 'connectorValidator' successfully
+
+  @VerifyConnector @VerifyConnectorContextMenu
+  Scenario: Test verifies ShowHideUnusedCavities with EntryPort functionality on connector
+    And connector plug '0' is opened
+    And wire is added to cavity
+    And user sets visibility of connector table layout to "Yes"
+    And Submit connector
+    Then User verifies the UnusedCavities with EntryPort are ShownHidden successfully
+    And User exits the drawing page
+    And User deletes Harness 'connectorValidator' successfully

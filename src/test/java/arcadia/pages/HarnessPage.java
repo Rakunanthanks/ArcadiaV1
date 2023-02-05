@@ -68,6 +68,11 @@ public class HarnessPage extends BasePage{
         return ele;
     }
 
+    public List<WebElement> getElementWireFan(String connectorId) {
+        List<WebElement> ele = driver.findElements(By.xpath("//*[name()='g' and @id='"+connectorId+"']//*[name()='g']//*[name()='g' and contains(@class,'wirefan')]"));
+        return ele;
+    }
+
     public Boolean isHarnessAlreadyExists(String description){
         Boolean elementExists = driver.findElements(By.xpath("//table[@id=\"tableHAR\"]/tbody//tr//td[text()=\"" + description + "\"]")).size()!=0;
         return elementExists ;
@@ -322,6 +327,28 @@ public class HarnessPage extends BasePage{
         Thread.sleep(3000);
         Boolean isTerminalImageVisible = getElementTerminalImage(imagePath).size()!=0 && getElementTerminalImage(imagePath).get(0).isDisplayed();
         return isTerminalImageVisible;
+    }
+
+    public void verifyWireDestination(String destinationValue, String connectorid) {
+        WebElement eleCavityDataRow = driver.findElement(By.xpath("//*[name()='g' and @id='"+connectorid+"']//table//tbody/tr"));
+        List<WebElement> tdElements = eleCavityDataRow.findElements(By.cssSelector("td"));
+        Assert.assertEquals(tdElements.get(8).getText(),destinationValue);
+    }
+
+    public Boolean WireFanVisible(String connectorId) throws InterruptedException {
+        Thread.sleep(2000);
+        Boolean isWireFanVisible = getElementWireFan(connectorId).size()!=0 && getElementWireFan(connectorId).get(0).isDisplayed();
+        return isWireFanVisible;
+    }
+
+    public void clickFooterWireFan() {
+        driver.findElement(By.id("dropdown_wire_fan")).click();
+    }
+
+    public int getCavityRowCount(String identifier) {
+        List<WebElement> eleCavityDataRow = driver.findElements(By.xpath("//*[name()='g' and @id='"+identifier+"']//table//tbody/tr"));
+        Assert.assertTrue(eleCavityDataRow.size()!=0,"Rowcount inside CavityTable is zero");
+        return  eleCavityDataRow.size();
     }
 
 
