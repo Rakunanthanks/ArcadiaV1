@@ -12,7 +12,7 @@ Feature: Filter multicore harness
     And Navigated to quickstart project
     And harness with name 'connectorValidator' is launched successfully
     And based on drawing orchestrator components are created
-    And connector plug '0' is opened
+    And 'connectorplug' component with index '0' is opened
     And User opens searchwire window
     Then Verify user filters multicore using 'partNumber' successfully
 
@@ -21,6 +21,6 @@ Feature: Filter multicore harness
     And Navigated to quickstart project
     And harness with name 'connectorValidator' is launched successfully
     And based on drawing orchestrator components are created
-    And connector plug '0' is opened
+    And 'connectorplug' component with index '0' is opened
     And User opens searchwire window
     Then Verify user filters multicore using 'primarycolour' successfully

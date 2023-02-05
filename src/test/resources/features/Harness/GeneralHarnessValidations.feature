@@ -11,7 +11,7 @@ Feature: General Harness Validations
     And Navigated to quickstart project
     And harness with name 'connectorValidator' is launched successfully
     And based on drawing orchestrator components are created
-    And connector plug '0' is opened
+    And 'connectorplug' component with index '0' is opened
     And wire is added to cavity
     Then User verifies the tags for 'wire'
 
@@ -24,7 +24,7 @@ Feature: General Harness Validations
     And harness with name 'connectorValidator' is launched successfully
     And based on drawing orchestrator components are created
     And user sets label 'connector cavity table' to "Show"
-    And connector plug '0' is opened
+    And 'connectorplug' component with index '0' is opened
     And GetCavityDetails window is opened
     Then Verify 'All' terminals are shown in cavity table searchdetails
 
@@ -36,7 +36,7 @@ Feature: General Harness Validations
     And Navigated to quickstart project
     And harness with name 'connectorValidator' is launched successfully
     And based on drawing orchestrator components are created
-    And connector plug '0' is opened
+    And 'connectorplug' component with index '0' is opened
     And value of 'connectorid' is extracted successfully
     And user enters description in connector details
     And Submit connector
