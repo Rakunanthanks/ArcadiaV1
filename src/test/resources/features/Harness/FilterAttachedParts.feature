@@ -5,7 +5,6 @@ Feature: Filter attached parts
     And test data config loaded for test identifier test10
     And Navigated to selected componentDB
 
-
   @FilterAttachedParts
   Scenario: Test verifies connectors can be filtered in attached parts
     And User selected 'connector' from componentDB

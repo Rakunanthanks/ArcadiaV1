@@ -40,6 +40,10 @@ public class SeleniumCustomCommand {
     public void waitForElementToBeClickable(WebDriver driver , WebElement element){
         new WebDriverWait(driver, Duration.ofSeconds(8)).until(ExpectedConditions.elementToBeClickable(element));
     }
+
+    public void waitForDrawingElementToBeClickable(WebDriver driver , WebElement element){
+        new WebDriverWait(driver, Duration.ofMinutes(1)).until(ExpectedConditions.elementToBeClickable(element));
+    }
     public void simulateKeyEnterWithValue(WebElement element , String value){
         if (value != null || !value.isEmpty() || !value.trim().isEmpty()){
             element.sendKeys(value);
