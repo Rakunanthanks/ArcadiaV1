@@ -8,7 +8,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class HeaderPanel extends BasePage {
     public HeaderPanel(WebDriver driver) {
@@ -61,6 +60,7 @@ public class HeaderPanel extends BasePage {
         if(menuName.equals("component")){
             menuName = "component&company";
         }
+        customCommand.longWaitForElementToBeClickable(driver,driver.findElement(By.cssSelector(".nav.navbar-nav.pull-right >li >a")));
         List<WebElement> maninMenuElements = driver.findElements(By.cssSelector(".nav.navbar-nav.pull-right >li >a"));
         for(WebElement element : maninMenuElements){
             if(element.getAttribute("href").contains(menuName)){
