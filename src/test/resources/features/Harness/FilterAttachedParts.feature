@@ -13,7 +13,7 @@ Feature: Filter attached parts
     And Navigated to quickstart project
     And harness with name 'connectorValidator' is launched successfully
     And based on drawing orchestrator components are created
-    And connector plug '0' is opened
+    And 'connectorplug' component with index '0' is opened
     And User opens attachedparts details window
     Then Verify user filters component 'connector' in attachedparts successfully
 
@@ -24,7 +24,7 @@ Feature: Filter attached parts
     And Navigated to quickstart project
     And harness with name 'connectorValidator' is launched successfully
     And based on drawing orchestrator components are created
-    And connector plug '0' is opened
+    And 'connectorplug' component with index '0' is opened
     And User opens attachedparts details window
     Then Verify user filters component 'splice' in attachedparts successfully
 
@@ -35,7 +35,7 @@ Feature: Filter attached parts
     And Navigated to quickstart project
     And harness with name 'connectorValidator' is launched successfully
     And based on drawing orchestrator components are created
-    And connector plug '0' is opened
+    And 'connectorplug' component with index '0' is opened
     And User opens attachedparts details window
     Then Verify user filters component 'seal' in attachedparts successfully
 
@@ -46,7 +46,7 @@ Feature: Filter attached parts
     And Navigated to quickstart project
     And harness with name 'connectorValidator' is launched successfully
     And based on drawing orchestrator components are created
-    And connector plug '0' is opened
+    And 'connectorplug' component with index '0' is opened
     And User opens attachedparts details window
     Then Verify user filters component 'terminal' in attachedparts successfully
 
@@ -57,7 +57,7 @@ Feature: Filter attached parts
     And Navigated to quickstart project
     And harness with name 'connectorValidator' is launched successfully
     And based on drawing orchestrator components are created
-    And connector plug '0' is opened
+    And 'connectorplug' component with index '0' is opened
     And User opens attachedparts details window
     Then Verify user filters component 'junctionpart' in attachedparts successfully
 
@@ -68,7 +68,7 @@ Feature: Filter attached parts
     And Navigated to quickstart project
     And harness with name 'connectorValidator' is launched successfully
     And based on drawing orchestrator components are created
-    And connector plug '0' is opened
+    And 'connectorplug' component with index '0' is opened
     And User opens attachedparts details window
     Then Verify user filters component 'component' in attachedparts successfully
 
@@ -79,7 +79,7 @@ Feature: Filter attached parts
     And Navigated to quickstart project
     And harness with name 'connectorValidator' is launched successfully
     And based on drawing orchestrator components are created
-    And connector plug '0' is opened
+    And 'connectorplug' component with index '0' is opened
     And User opens attachedparts details window
     Then Verify user filters component 'otherpart' in attachedparts successfully
 

@@ -57,6 +57,11 @@ public class HarnessPage extends BasePage{
         return ele;
     }
 
+    public WebElement getSpliceElement(String spliceId) throws InterruptedException {
+        WebElement ele = driver.findElement(By.xpath("//*[name()='g' and @id='"+spliceId+"']//*[name()='rect' and @etype='splice']"));
+        return ele;
+    }
+
     public Boolean isHarnessAlreadyExists(String description){
         Boolean elementExists = driver.findElements(By.xpath("//table[@id=\"tableHAR\"]/tbody//tr//td[text()=\"" + description + "\"]")).size()!=0;
         return elementExists ;
@@ -212,6 +217,13 @@ public class HarnessPage extends BasePage{
     public void clickConnectorPlug(String connectorPlugId) throws InterruptedException {
         Thread.sleep(2000);
         WebElement ele = getConnectorPlugElement(connectorPlugId);
+        customCommand.waitForElementVisibility(driver,ele);
+        customCommand.doubleClick(driver,ele);
+        Thread.sleep(2000);
+    }
+    public void clickSplice(String spliceId) throws InterruptedException {
+        Thread.sleep(2000);
+        WebElement ele = getSpliceElement(spliceId);
         customCommand.waitForElementVisibility(driver,ele);
         customCommand.doubleClick(driver,ele);
         Thread.sleep(2000);
