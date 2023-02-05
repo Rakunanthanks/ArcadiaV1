@@ -74,7 +74,7 @@ public class HarnessPage extends BasePage{
     }
 
     public void clickOnBundle() throws AWTException, InterruptedException {
-        customCommand.waitForElementVisibility(driver,insertConnector);
+        customCommand.waitForDrawingElementToBeClickable(driver,insertConnector);
         customCommand.waitClick(bundle);
     }
 
@@ -90,31 +90,34 @@ public class HarnessPage extends BasePage{
     }
 
     public void fillCommandLine(String command){
-        System.out.println("bundle - " + command+"bundle");
         commandLine.clear();
         customCommand.enterText(commandLine,command);
     }
 
     public void clickOnCommandLineOK() throws InterruptedException {
+        customCommand.waitForDrawingElementToBeClickable(driver,commandOK);
         customCommand.waitClick(commandOK);
-//        commandOK.click();
     }
 
 
     public void clickOnConnector() throws InterruptedException {
+        customCommand.waitForDrawingElementToBeClickable(driver,insertConnector);
         customCommand.waitClick(insertConnector);
         insertConnector.click();
     }
 
     public void clickOnSelect() throws InterruptedException {
+        customCommand.waitForDrawingElementToBeClickable(driver,select);
         customCommand.waitClick(select);
     }
 
     public void clickOnFrame() throws InterruptedException {
+        customCommand.waitForDrawingElementToBeClickable(driver,frame);
         customCommand.waitClick(frame);
     }
 
     public void clickOnOpen() throws InterruptedException {
+        customCommand.waitForDrawingElementToBeClickable(driver,open);
         customCommand.waitClick(open);
     }
 
