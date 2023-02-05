@@ -237,4 +237,68 @@ public class HarnessStepDefinitions {
                 break;
         }
     }
+
+    @Then("User verify {string} destination is displayed successfully")
+    public void userVerifyDestinationIsDisplayedSuccessfully(String compType) {
+        String connectorid = FlowContext.connectorPlugIdentifierList.get(0).getConnectorId();
+        switch (compType.toLowerCase()){
+            case "wire":
+                harnessPage.verifyWireDestination("X-002/1",connectorid);
+                break;
+        }
+
+    }
+
+    @Then("User verifies the WireFan is ShownHidden successfully")
+    public void userVerifiesTheWireFanIsShownHiddenSuccessfully() throws InterruptedException {
+        harnessPage.clickFooterWireFan();
+        String identifier=FlowContext.connectorPlugIdentifierList.get(0).getConnectorId();
+        if (harnessPage.WireFanVisible(identifier)){
+            new HarnessPage(context.driver).getContextMenu(identifier);
+            new HarnessPage(context.driver).performOperation("Hide Wire Fan",identifier);
+            Thread.sleep(6000);
+            Assert.assertFalse(harnessPage.WireFanVisible(identifier),"WireFan is visible even after trying to hide");
+        }
+        else {
+            new HarnessPage(context.driver).getContextMenu(identifier);
+            new HarnessPage(context.driver).performOperation("Show Wire Fan",identifier);
+            Thread.sleep(6000);
+            Assert.assertTrue(harnessPage.WireFanVisible(identifier),"WireFan is not visible");
+        }
+    }
+
+    @Then("User verifies the UnusedCavities are ShownHidden successfully")
+    public void userVerifiesTheUnusedCavitiesAreShownHiddenSuccessfully() throws InterruptedException {
+        String identifier=FlowContext.connectorPlugIdentifierList.get(0).getConnectorId();
+        if (harnessPage.getCavityRowCount(identifier)==4){
+            new HarnessPage(context.driver).getContextMenu(identifier);
+            new HarnessPage(context.driver).performOperation("Hide Unused Cavities",identifier);
+            Thread.sleep(6000);
+            Assert.assertEquals(harnessPage.getCavityRowCount(identifier),1);
+        }
+        else {
+            new HarnessPage(context.driver).getContextMenu(identifier);
+            new HarnessPage(context.driver).performOperation("Show Unused Cavities",identifier);
+            Thread.sleep(6000);
+            Assert.assertEquals(harnessPage.getCavityRowCount(identifier),4);
+        }
+
+    }
+
+    @Then("User verifies the UnusedCavities with EntryPort are ShownHidden successfully")
+    public void userVerifiesTheUnusedCavitiesWithEntryPortAreShownHiddenSuccessfully() throws InterruptedException {
+        String identifier=FlowContext.connectorPlugIdentifierList.get(0).getConnectorId();
+        Assert.assertEquals(harnessPage.getCavityRowCount(identifier),4);
+        try {
+            new HarnessPage(context.driver).getContextMenu(identifier);
+            new HarnessPage(context.driver).performOperation("Hide Unused Cavities",identifier);
+            Thread.sleep(6000);
+        }
+        catch (Exception e){
+            new HarnessPage(context.driver).getContextMenu(identifier);
+            new HarnessPage(context.driver).performOperation("Show Unused Cavities",identifier);
+            Thread.sleep(6000);
+        }
+        Assert.assertEquals(harnessPage.getCavityRowCount(identifier),4);
+    }
 }
