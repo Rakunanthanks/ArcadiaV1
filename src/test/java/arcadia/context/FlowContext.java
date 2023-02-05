@@ -24,4 +24,6 @@ public class FlowContext {
     public static String dbName="";
 
     public static String connectorID = "";
+
+    public static String terminalImagePath = "";
 }

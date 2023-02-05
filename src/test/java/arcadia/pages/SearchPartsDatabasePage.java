@@ -1,5 +1,6 @@
 package arcadia.pages;
 
+import arcadia.context.FlowContext;
 import arcadia.utils.SeleniumCustomCommand;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -58,6 +59,10 @@ public class SearchPartsDatabasePage extends BasePage{
 
     @FindBy(css = "table#Attachfilters+div #tblAttachPartNoList > tbody > tr") private WebElement rowSearchedAttachParts;
 
+    @FindBy(css = "table#tblcavityPartNoList > tbody > tr") private WebElement rowSearchCavityDetails;
+
+    @FindBy(xpath = "//div[@aria-describedby=\"idFetchcavitytable\"]//span[contains(text(),\"Populate\")]") private WebElement buttonPopulateCavityDetails;
+
     @FindBy(css = "table#Attachfilters+div table#tblAttachPartNoList") private WebElement tableGetAttachedPartsDetails;
     @FindBy(css = "table#Attachfilters select[name=\"componentType\"]") private WebElement attachedPartComponentType;
     @FindBy(css = "div#idFetchnode_attachpart input.next") private WebElement buttonNextAttachPartsTable;
@@ -68,6 +73,7 @@ public class SearchPartsDatabasePage extends BasePage{
 
     @FindBy(css = "div#idFetchcavitytable input#btnClearFilterDetails") private WebElement buttonResetCavityFilterDetails;
 
+    @FindBy(css = "div#idFetchcavitytable input[name=\"nPartNumber\"]") private WebElement inputPNCavityFilterDetails;
     String tablePartsRows = "#tblBOMPartNoList > tbody > tr";
 
     String tableWiresRows = "#tblWirePartNoList>tbody>tr";
@@ -354,5 +360,18 @@ public class SearchPartsDatabasePage extends BasePage{
         customCommand.scrollIntoView(driver,buttonResetCavityFilterDetails);
         buttonResetCavityFilterDetails.click();
         Thread.sleep(2000);
+    }
+
+    public void addImageTerminalToCavity(String terminalWithImagePartNumber) throws AWTException, InterruptedException {
+        Thread.sleep(2000);
+        resetFiltersCavityDetails();
+        customCommand.enterText(inputPNCavityFilterDetails,terminalWithImagePartNumber);
+        customCommand.simulateKeyEnter();
+        Thread.sleep(2000);
+        customCommand.waitForElementVisibility(driver,rowSearchCavityDetails);
+        customCommand.waitForElementToBeClickable(driver,rowSearchCavityDetails);
+        customCommand.scrollIntoView(driver, buttonPopulateCavityDetails);
+        buttonPopulateCavityDetails.click();
+        Thread.sleep(4000);
     }
 }

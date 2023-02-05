@@ -23,6 +23,8 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import org.apache.commons.compress.utils.Lists;
 import org.testng.Assert;
+
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -269,5 +271,22 @@ public class ConnectorCopyStepDefinitions {
     @Then("User verifies the connector details window is opened successfully")
     public void userVerifiesTheConnectorDetailsWindowIsOpenedSuccessfully() {
         connectorPage.verifyConnectorDetailsWindowOpened();
+    }
+
+    @And("value of {string} is extracted successfully")
+    public void valueOfConnectoridIsExtractedSuccessfully(String fieldName) {
+        switch (fieldName.toLowerCase()){
+            case "connectorid":
+                FlowContext.connectorID = connectorPage.getConnectorID();
+                break;
+        }
+
+    }
+
+    @And("Cavity is updated with terminal image")
+    public void cavityIsUpdatedWithTerminalImage() throws InterruptedException, AWTException {
+        new SearchPartsDatabasePage(context.driver).addImageTerminalToCavity("0-0444335-2");
+        String imagePath = connectorPage.getImagePathOfCavity();
+        FlowContext.terminalImagePath = imagePath;
     }
 }

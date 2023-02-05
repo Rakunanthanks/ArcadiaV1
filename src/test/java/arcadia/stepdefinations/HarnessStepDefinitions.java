@@ -15,9 +15,11 @@ import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import io.cucumber.java.hu.Ha;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -41,12 +43,13 @@ public class HarnessStepDefinitions {
 
     @And("harness with name {string} is launched successfully")
     public void harness_with_name_is_launched_successfully(String connectorDescription) throws InterruptedException {
-        Boolean isHarnessAlreadyExists = new HarnessPage(context.driver).isHarnessAlreadyExists(connectorDescription);
+        String harnessDescription = connectorDescription.concat(" "+System.getProperty("uniqueIdentifier"));
+        Boolean isHarnessAlreadyExists = new HarnessPage(context.driver).isHarnessAlreadyExists(harnessDescription);
         if(isHarnessAlreadyExists){
-            openExistingHarness(connectorDescription);
+            openExistingHarness(harnessDescription);
         }
         if(!isHarnessAlreadyExists){
-            createNewHarnessInstance(connectorDescription);
+            createNewHarnessInstance(harnessDescription);
         }
     }
 
@@ -174,5 +177,68 @@ public class HarnessStepDefinitions {
     public void userVerifiesResetLabelWorksAsExpected() throws InterruptedException {
         String connectorid = FlowContext.connectorPlugIdentifierList.get(0).getConnectorId();
         harnessPage.verifyResetLabels(connectorid);
+    }
+
+    @When("User moves the label {string} to a different position")
+    public void userMovesLabelToADifferentPosition(String elementToBeMoved) throws InterruptedException {
+//        harnessPage.clickOnMove();
+//        harnessPage.clickConnectorDescriptionElement(FlowContext.testDescription, FlowContext.connectorPlugIdentifierList.get(0).getConnectorId());
+
+    }
+
+    @Then("User verify {string} labels are displayed as expected")
+    public void userVerifyConnectorLabelsAreDisplayedAsExpected(String labelType) {
+        switch (labelType.toLowerCase()){
+            case "connector":
+                harnessPage.verifyConnectorLabels(FlowContext.connectorID, FlowContext.testDescription);
+                break;
+        }
+    }
+
+    @Then("User verifies {string} image is visible")
+    public void userVerifiesImageIsVisible(String imageType) throws InterruptedException {
+        switch (imageType.toLowerCase()){
+            case "connector":
+                harnessPage.verifyConnectorImageVisible(FlowContext.connectorPlugIdentifierList.get(0).getConnectorId());
+                break;
+            case "terminal":
+//                harnessPage.verifyTerminalImageVisible(FlowContext.terminalImagePath);
+                break;
+        }
+    }
+
+    @Then("User verifies the {string} image is toggled successfully")
+    public void userVerifiesTheImageIsToggledSuccessfully(String imageType) throws InterruptedException {
+        String identifier=FlowContext.connectorPlugIdentifierList.get(0).getConnectorId();
+        switch (imageType.toLowerCase()){
+            case "connector":
+                harnessPage.verifyConnectorImageNotVisible(FlowContext.connectorPlugIdentifierList.get(0).getConnectorId());
+                break;
+            case "terminal":
+                String terminalImagePath = FlowContext.terminalImagePath;
+                if (harnessPage.TerminalImageVisible(terminalImagePath)){
+                    new HarnessPage(context.driver).getContextMenu(identifier);
+                    new HarnessPage(context.driver).performOperation("Toggle Terminal Image",identifier);
+                    Thread.sleep(5000);
+                    Assert.assertFalse(harnessPage.TerminalImageVisible(terminalImagePath),"Terminal image is visible");
+                }
+                else {
+                    new HarnessPage(context.driver).getContextMenu(identifier);
+                    new HarnessPage(context.driver).performOperation("Toggle Terminal Image",identifier);
+                    Thread.sleep(10000);
+                    Assert.assertTrue(harnessPage.TerminalImageVisible(terminalImagePath),"Terminal image is not visible");
+                }
+                break;
+        }
+    }
+
+
+    @And("{string} list is initialized")
+    public void connectorListIsInitialized(String compType) {
+        switch (compType.toLowerCase()){
+            case "connector":
+                new ConnectorPage(context.driver).getConnectorPlugELementIdsFromDrawingPage();
+                break;
+        }
     }
 }

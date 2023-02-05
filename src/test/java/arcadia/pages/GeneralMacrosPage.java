@@ -1,8 +1,13 @@
 package arcadia.pages;
 
+import arcadia.domainobjects.Macros.CustomLabelTags;
 import arcadia.domainobjects.Macros.WireTags;
+import arcadia.utils.SeleniumCustomCommand;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +17,14 @@ public class GeneralMacrosPage extends BasePage {
         super(driver);
     }
 
+    @FindBy(css = "textarea[name=\"labelcustom.LabelText\"]") private WebElement textareaConnectorSpliceLabel;
+    @FindBy(css = "textarea[name=\"labelcustom.DrawingLabelText\"]") private WebElement textareaHarnessLabel;
+
+    @FindBy(css = "form#macroForm button[type=\"submit\"][class=\"btn btn-success pull-right\"]") private WebElement buttonSave;
+
+    @FindBy(css = "#macroForm>div.alert-success") private WebElement alertMacrosSuccessMessage;
+
+    SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
     public WireTags getWiresTagData(){
         WireTags wiretags = new WireTags();
         wiretags.setTagfromConnector(driver.findElement(By.cssSelector("input[name=\"wire.conid\"]")).getAttribute("value"));
@@ -37,5 +50,26 @@ public class GeneralMacrosPage extends BasePage {
         wiretags.setTagIndentTag(driver.findElement(By.cssSelector("input[name=\"wire.identtag\"]")).getAttribute("value"));
         wiretags.setTagOptions(driver.findElement(By.cssSelector("input[name=\"wire.options\"]")).getAttribute("value"));
         return wiretags;
+    }
+
+    public CustomLabelTags getCustomLabelTagsData(){
+        CustomLabelTags customlabeltags = new CustomLabelTags();
+        customlabeltags.setTagconnectorSpliceLabel(textareaConnectorSpliceLabel.getAttribute("value"));
+        customlabeltags.setTagHarnessLabel(textareaHarnessLabel.getAttribute("value"));
+        return customlabeltags;
+    }
+
+    public void enterCustomLabelTags(String labelValue) {
+        customCommand.clearAndEnterText(textareaConnectorSpliceLabel,labelValue);
+    }
+
+    public void clickSaveButton() throws InterruptedException {
+        customCommand.scrollIntoView(driver,buttonSave);
+        buttonSave.click();
+    }
+
+    public void verifyAlertMacrosSuccessMessage(String message) {
+        customCommand.waitForElementVisibility(driver, alertMacrosSuccessMessage);
+        Assert.assertEquals( alertMacrosSuccessMessage.getText(),message);
     }
 }
