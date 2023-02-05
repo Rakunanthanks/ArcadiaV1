@@ -42,7 +42,7 @@ Feature: Verify context menu
 
   @VerifyConnector @VerifyConnectorContextMenu
   Scenario: Test verifies ToggleTerminalImage functionality on connector
-    And connector plug '0' is opened
+    And 'connectorplug' component with index '0' is opened
     And GetCavityDetails window is opened
     And Cavity is updated with terminal image
     And Submit connector
