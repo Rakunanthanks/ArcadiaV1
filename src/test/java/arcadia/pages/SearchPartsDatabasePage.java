@@ -111,56 +111,63 @@ public class SearchPartsDatabasePage extends BasePage{
         customCommand.simulateKeyEnterWithValue(pnDescription,partNumberDescription);
         customCommand.simulateKeyEnter();
         Thread.sleep(4000);
-        customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tablePartsRows)));
+        checkIfResultsReturned();
     }
 
     public void searchPartUsingCavity(int cavity) throws InterruptedException, AWTException {
         customCommand.simulateKeyEnterWithValue(numberOfCavities, String.valueOf(cavity));
         customCommand.simulateKeyEnter();
         Thread.sleep(4000);
-        customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tablePartsRows)));
+        checkIfResultsReturned();
     }
 
     public void searchPartUsingFamily(String familyName) throws InterruptedException, AWTException {
         customCommand.simulateKeyEnterWithValue(family, familyName);
         customCommand.simulateKeyEnter();
         Thread.sleep(4000);
-        customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tablePartsRows)));
+        checkIfResultsReturned();
     }
 
     public void searchPartUsingSupplier(String companyName) throws InterruptedException, AWTException {
         customCommand.simulateKeyEnterWithValue(supplier, companyName);
         customCommand.simulateKeyEnter();
         Thread.sleep(4000);
-        customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tablePartsRows)));
+        checkIfResultsReturned();
     }
 
     public void searchPartUsingHousingGender(String housingGenderType) throws InterruptedException, AWTException {
         customCommand.selectDropDownByValue(housingGender, housingGenderType);
         arrowbuttonfetchInfo.click();
         Thread.sleep(4000);
-        customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tablePartsRows)));
+        checkIfResultsReturned();
     }
 
     public void searchPartUsingTerminalGender(String terminalGenderType) throws InterruptedException, AWTException {
         customCommand.selectDropDownByValue(gender, terminalGenderType);
         arrowbuttonfetchInfo.click();
         Thread.sleep(4000);
-        customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tablePartsRows)));
+        checkIfResultsReturned();
     }
 
     public void searchPartUsingType(String compTypeValue) throws InterruptedException, AWTException {
         customCommand.simulateKeyEnterWithValue(type, compTypeValue);
         arrowbuttonfetchInfo.click();
         Thread.sleep(4000);
-        customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tablePartsRows)));
+        checkIfResultsReturned();
     }
 
     public void searchPartUsingColour(String colourValue) throws InterruptedException, AWTException {
         customCommand.selectDropDownByValue(colour, colourValue);
         arrowbuttonfetchInfo.click();
         Thread.sleep(4000);
-        customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tablePartsRows)));
+        checkIfResultsReturned();
+    }
+
+    private void checkIfResultsReturned() {
+        boolean isResultAvailable = driver.findElements(By.cssSelector(tablePartsRows)).size() >0 ;
+        if(isResultAvailable){
+            customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tablePartsRows)));
+        }
     }
 
     public List<String> getSearchPartsData() throws InterruptedException {

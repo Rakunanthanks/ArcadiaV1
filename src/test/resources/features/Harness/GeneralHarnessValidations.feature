@@ -28,7 +28,7 @@ Feature: General Harness Validations
     And GetCavityDetails window is opened
     Then Verify 'All' terminals are shown in cavity table searchdetails
 
-  @VerifyConnector
+  @VerifyConnector @VerifyConnectorContextMenu
   Scenario: Test verifies Connector Label context menu functionality on connector
     And Navigated to GeneralMacros page
     And 'custom label' macros tags are extracted successfully
