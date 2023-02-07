@@ -23,7 +23,7 @@ Feature: Verify context menu
 
 #  @VerifyConnector--TODO--This scenario is not complete yet. Hence commented.
 #  Scenario: Test verifies ResetLabels functionality on connector
-#    And connector plug '0' is opened
+#    And 'connectorplug' component with index '0' is opened
 #    And user enters description in connector details
 #    And Submit connector
 #    Then User verifies the connectordescription is added successfully
@@ -52,7 +52,7 @@ Feature: Verify context menu
 
   @VerifyConnector @VerifyConnectorContextMenu
   Scenario: Test verifies ShowToLocations functionality on connector
-    And connector plug '0' is opened
+    And 'connectorplug' component with index '0' is opened
     And wire is added to cavity
     And wire table data is updated
     And user sets visibility of connector table layout to "Yes"
@@ -64,14 +64,14 @@ Feature: Verify context menu
 
   @VerifyConnector @VerifyConnectorContextMenu
   Scenario: Test verifies ShowHideWireFan functionality on connector
-    And connector plug '0' is opened
+    And 'connectorplug' component with index '0' is opened
     And user sets visibility of connector table layout to "Yes"
     And Submit connector
     Then User verifies the WireFan is ShownHidden successfully
 
   @VerifyConnector @VerifyConnectorContextMenu
   Scenario: Test verifies ShowHideUnusedCavities functionality on connector
-    And connector plug '0' is opened
+    And 'connectorplug' component with index '0' is opened
     And wire is added to cavity
     And Submit connector
     Then User verifies the UnusedCavities are ShownHidden successfully
@@ -80,7 +80,7 @@ Feature: Verify context menu
 
   @VerifyConnector @VerifyConnectorContextMenu
   Scenario: Test verifies ShowHideUnusedCavities with EntryPort functionality on connector
-    And connector plug '0' is opened
+    And 'connectorplug' component with index '0' is opened
     And wire is added to cavity
     And user sets visibility of connector table layout to "Yes"
     And Submit connector
