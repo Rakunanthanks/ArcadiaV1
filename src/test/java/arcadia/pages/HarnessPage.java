@@ -251,7 +251,7 @@ public class HarnessPage extends BasePage{
     }
 
     public void deleteHarness(String description){
-        driver.findElement(By.xpath("//table[@id=\"tableHAR\"]/tbody//tr//td[text()=\""+description+"\"]/following-sibling::td[last()]//a[@title=\"Delete Task\"]")).click();
+        driver.findElement(By.xpath("//table[@id=\"tableHAR\"]/tbody//tr//td[contains(text(),\""+description+"\")]/following-sibling::td[last()]//a[@title=\"Delete Task\"]")).click();
         new AddNewComponentPage(driver).verifyConfirmationMessage("Do you want to delete?");
         new AddNewComponentPage(driver).acceptConfirmationPopup();
         new AddNewComponentPage(driver).verifyAlertMessage("Task Deleted Successfully!");
@@ -361,6 +361,22 @@ public class HarnessPage extends BasePage{
         List<WebElement> eleCavityDataRow = driver.findElements(By.xpath("//*[name()='g' and @id='"+identifier+"']//table//tbody/tr"));
         Assert.assertTrue(eleCavityDataRow.size()!=0,"Rowcount inside CavityTable is zero");
         return  eleCavityDataRow.size();
+    }
+
+    public void changeConnectorNode(String identifier) throws InterruptedException {
+        WebElement ele = getConnectorPlugElement(identifier);
+        int xCoordianteBeforeMovement = ele.getLocation().getX();
+        System.out.println("x coordinate BeforeMovement is :" + xCoordianteBeforeMovement);
+        WebElement destination = driver.findElement(By.xpath("//*[name()='g' and @class ='DG1 bundleGroup']//*[name()='use' and @*[contains(.,'node')]]"));
+        int xCoordianteDestinationElement = destination.getLocation().getX();
+        Assert.assertNotEquals(xCoordianteBeforeMovement,xCoordianteDestinationElement);
+        destination.click();
+        Thread.sleep(5000);
+        ele = getConnectorPlugElement(identifier);
+        customCommand.waitForElementToBeClickable(driver,ele);
+        int xCoordianteAfterMovement = ele.getLocation().getX();
+        System.out.println("x coordinate after movement is :" + xCoordianteAfterMovement);
+        Assert.assertNotEquals(xCoordianteBeforeMovement,xCoordianteAfterMovement);
     }
 
 

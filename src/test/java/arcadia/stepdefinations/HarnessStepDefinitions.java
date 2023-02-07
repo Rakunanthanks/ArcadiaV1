@@ -311,4 +311,18 @@ public class HarnessStepDefinitions {
         }
         Assert.assertEquals(harnessPage.getCavityRowCount(identifier),4);
     }
+
+    @Then("User verifies the connector node is moved successfully")
+    public void userVerifiesTheConnectorNodeIsMovedSuccessfully() throws InterruptedException {
+        String identifier=FlowContext.connectorPlugIdentifierList.get(0).getConnectorId();
+        try {
+            harnessPage.changeConnectorNode(identifier);
+        }
+        finally {
+            harnessPage.exitDrawingPage();
+            harnessPage.deleteHarness("connectorValidator");
+
+        }
+
+    }
 }

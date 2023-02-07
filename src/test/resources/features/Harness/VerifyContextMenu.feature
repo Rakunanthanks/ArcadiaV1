@@ -87,3 +87,8 @@ Feature: Verify context menu
     Then User verifies the UnusedCavities with EntryPort are ShownHidden successfully
     And User exits the drawing page
     And User deletes Harness 'connectorValidator' successfully
+
+  @VerifyConnector @VerifyConnectorContextMenu
+  Scenario: Test verifies ChangeNode functionality on connector
+    And User try operation 'Change Node' for connector
+    Then User verifies the connector node is moved successfully
