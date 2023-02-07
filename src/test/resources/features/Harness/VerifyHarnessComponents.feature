@@ -7,7 +7,7 @@ Feature: Verify Harness Components
     And harness with name 'connectorValidator' is launched successfully
     And based on drawing orchestrator components are created
     And user sets label 'connector cavity table' to "Show"
-    And connector plug '0' is opened
+    And 'connectorplug' component with index '0' is opened
 
   @VerifyConnector
   Scenario: Test verifies a description can be added to a connector
@@ -38,7 +38,7 @@ Feature: Verify Harness Components
     And adds discrete component 'Resistor' with dest type 'Cavity'
     And Submit connector
     Then User verifies the discrete component is displayed
-    And connector plug '0' is opened
+    And 'connectorplug' component with index '0' is opened
     And user deletes the discrete component successfully
 
   @VerifyConnector
@@ -46,7 +46,7 @@ Feature: Verify Harness Components
     And adds discrete component 'Capacitor' with dest type 'Cavity'
     And Submit connector
     Then User verifies the discrete component is displayed
-    And connector plug '0' is opened
+    And 'connectorplug' component with index '0' is opened
     And user deletes the discrete component successfully
 
   @VerifyConnector
@@ -54,7 +54,7 @@ Feature: Verify Harness Components
     And adds discrete component 'Diode' with dest type 'Cavity'
     And Submit connector
     Then User verifies the discrete component is displayed
-    And connector plug '0' is opened
+    And 'connectorplug' component with index '0' is opened
     And user deletes the discrete component successfully
 
   @VerifyConnector
@@ -62,7 +62,7 @@ Feature: Verify Harness Components
     And adds discrete component 'Inductor' with dest type 'Cavity'
     And Submit connector
     Then User verifies the discrete component is displayed
-    And connector plug '0' is opened
+    And 'connectorplug' component with index '0' is opened
     And user deletes the discrete component successfully
 
   @VerifyConnector

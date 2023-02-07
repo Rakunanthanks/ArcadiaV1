@@ -12,7 +12,7 @@ Feature: Filter wires harness
     And Navigated to quickstart project
     And harness with name 'connectorValidator' is launched successfully
     And based on drawing orchestrator components are created
-    And connector plug '0' is opened
+    And 'connectorplug' component with index '0' is opened
     And User opens searchwire window
     Then Verify user filters wire using 'partNumber' successfully
 
@@ -21,7 +21,7 @@ Feature: Filter wires harness
     And Navigated to quickstart project
     And harness with name 'connectorValidator' is launched successfully
     And based on drawing orchestrator components are created
-    And connector plug '0' is opened
+    And 'connectorplug' component with index '0' is opened
     And User opens searchwire window
     Then Verify user filters wire using 'material' successfully
 
@@ -30,7 +30,7 @@ Feature: Filter wires harness
     And Navigated to quickstart project
     And harness with name 'connectorValidator' is launched successfully
     And based on drawing orchestrator components are created
-    And connector plug '0' is opened
+    And 'connectorplug' component with index '0' is opened
     And User opens searchwire window
     Then Verify user filters wire using 'gauge' successfully
 
@@ -39,7 +39,7 @@ Feature: Filter wires harness
     And Navigated to quickstart project
     And harness with name 'connectorValidator' is launched successfully
     And based on drawing orchestrator components are created
-    And connector plug '0' is opened
+    And 'connectorplug' component with index '0' is opened
     And User opens searchwire window
     Then Verify user filters wire using 'csa' successfully
 
@@ -48,7 +48,7 @@ Feature: Filter wires harness
     And Navigated to quickstart project
     And harness with name 'connectorValidator' is launched successfully
     And based on drawing orchestrator components are created
-    And connector plug '0' is opened
+    And 'connectorplug' component with index '0' is opened
     And User opens searchwire window
     Then Verify user filters wire using 'outerdia' successfully
 
@@ -57,7 +57,7 @@ Feature: Filter wires harness
     And Navigated to quickstart project
     And harness with name 'connectorValidator' is launched successfully
     And based on drawing orchestrator components are created
-    And connector plug '0' is opened
+    And 'connectorplug' component with index '0' is opened
     And User opens searchwire window
     Then Verify user filters wire using 'partNumber' and 'material' successfully
 
@@ -66,6 +66,6 @@ Feature: Filter wires harness
     And Navigated to quickstart project
     And harness with name 'connectorValidator' is launched successfully
     And based on drawing orchestrator components are created
-    And connector plug '0' is opened
+    And 'connectorplug' component with index '0' is opened
     And wire is added to cavity
     Then Verify updateWirePN functionality in wiretable successfully

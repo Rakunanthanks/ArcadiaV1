@@ -24,6 +24,7 @@ import org.testng.Assert;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import static arcadia.context.FlowContext.harnessComponentAlreadyCreated;
 
@@ -109,12 +110,21 @@ public class HarnessStepDefinitions {
        // new DrawingHelper().openValidatorHarness(context.driver);
     }
 
-    @And("connector plug {string} is opened")
-    public void connectorPlugIsOpened(String connectorPlugIndex) throws InterruptedException {
+    @And("{string} component with index {string} is opened")
+    public void connectorPlugIsOpened(String componentt,String index) throws InterruptedException {
 //        Thread.sleep(3000);
         new HarnessPage(context.driver).clickOnSelect();
-        String connectorid = new ConnectorPage(context.driver).getConnectorPlugELementIdsFromDrawingPage().get(Integer.parseInt(connectorPlugIndex)).getConnectorId();
-        harnessPage.clickConnectorPlug(connectorid);
+        switch (componentt.toLowerCase()){
+            case "connectorplug":
+                String connectorid = new ConnectorPage(context.driver).getConnectorPlugELementIdsFromDrawingPage().get(Integer.parseInt(index)).getConnectorId();
+                harnessPage.clickConnectorPlug(connectorid);
+                break;
+            case "splice":
+                String spliceId = new ConnectorPage(context.driver).getSpliceElementIdsFromDrawingPage().get(Integer.parseInt(index)).getSpliceId();
+                harnessPage.clickSplice(spliceId);
+                break;
+        }
+
     }
 
     @And("user sets label {string} to {string}")
