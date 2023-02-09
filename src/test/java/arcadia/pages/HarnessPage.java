@@ -379,20 +379,58 @@ public class HarnessPage extends BasePage{
         Assert.assertNotEquals(xCoordianteBeforeMovement,xCoordianteAfterMovement);
     }
 
+    public void verifyAutoArrange(String identifier) throws InterruptedException {
+        WebElement eleToBeMoved = driver.findElement(By.xpath("//*[name()='g' and @id='"+identifier+"']//table"));
+        int xCoordianteBeforeMovement = eleToBeMoved.getLocation().getX();
+        System.out.println("x coordinate BeforeMovement is :" + xCoordianteBeforeMovement);
+        eleToBeMoved.click();
+        Actions actions = new Actions(driver);
+        actions.moveByOffset(167,223).click().perform();
+        Thread.sleep(3000);
+        WebElement eleMoved = driver.findElement(By.xpath("//*[name()='g' and @id='"+identifier+"']//table"));
+        int xCoordianteAfterMovement = eleMoved.getLocation().getX();
+        System.out.println("x coordinate after movement is :" + xCoordianteAfterMovement);
+        clickOnSelect();
+        Thread.sleep(2000);
+        getContextMenu(identifier);
+        performOperation("Auto Arrange",identifier);
+        Thread.sleep(5000);
+        eleMoved = driver.findElement(By.xpath("//*[name()='g' and @id='"+identifier+"']//table"));
+        int xCoordianteAfterAutoArrange = eleMoved.getLocation().getX();
+        System.out.println("x coordinate after autoarrange is :" + xCoordianteAfterAutoArrange);
+        Assert.assertEquals(xCoordianteAfterAutoArrange, xCoordianteBeforeMovement);
+    }
 
-//    public void clickConnectorDescriptionElement(String testDescription, String connectorId) throws InterruptedException {
-//        WebElement ele = new ConnectorPage(driver).getElementConnectorDescription(connectorId,testDescription);
-//        customCommand.waitForElementToBeClickable(driver,ele);
-//        int xCoordiante = ele.getLocation().getX();
-//        int yCoordiante = ele.getLocation().getY();
-//        System.out.println("x coordinate is :" + xCoordiante);
-//        System.out.println("Y coordinate is :" + yCoordiante);
-//        xCoordiante = xCoordiante + 20;
-//        yCoordiante = yCoordiante + 20;
+
+    public void verifyResetLabels(String testDescription, String connectorId) throws InterruptedException {
+        WebElement ele = new ConnectorPage(driver).getElementConnectorDescription(connectorId,testDescription);
+        WebElement eleToBeMoved = ele.findElement(By.xpath("./.."));
+        customCommand.waitForElementToBeClickable(driver,eleToBeMoved);
+        int xCoordiante = eleToBeMoved.getLocation().getX();
+        int yCoordiante = eleToBeMoved.getLocation().getY();
+        System.out.println("x coordinate before movement is :" + xCoordiante);
+        System.out.println("Y coordinate before movement is :" + yCoordiante);
+        Actions actions = new Actions(driver);
+        actions.moveToElement(eleToBeMoved).click().perform();
+//        ele.click();
+        Thread.sleep(2000);
 //        Actions actions = new Actions(driver);
-//        actions.moveToElement(ele).clickAndHold(ele).moveByOffset(50,50).release().build().perform();
-////        actions.dragAndDropBy(ele,xCoordiante, yCoordiante).perform();
-//        System.out.println("x coordinate after movement is :" + ele.getLocation().getX());
-//        System.out.println("Y coordinate after movement is :" + ele.getLocation().getY());
-//    }
+        actions.moveByOffset(167,223).click().perform();
+        Thread.sleep(3000);
+        ele = new ConnectorPage(driver).getElementConnectorDescription(connectorId,testDescription);
+        WebElement eleAfterMove = ele.findElement(By.xpath("./.."));
+        System.out.println("x coordinate after movement is :" + eleAfterMove.getLocation().getX());
+        System.out.println("Y coordinate after movement is :" + eleAfterMove.getLocation().getY());
+        clickOnSelect();
+        Thread.sleep(2000);
+        getContextMenu(connectorId);
+        performOperation("Reset Labels",connectorId);
+        Thread.sleep(5000);
+        WebElement eleMoved = new ConnectorPage(driver).getElementConnectorDescription(connectorId,testDescription);
+        eleMoved = eleMoved.findElement(By.xpath("./.."));
+        int xCoordianteAfterResetLabels = eleMoved.getLocation().getX();
+        System.out.println("x coordinate after resetlabels is :" + xCoordianteAfterResetLabels);
+        Assert.assertEquals(xCoordianteAfterResetLabels, xCoordiante);
+
+    }
 }

@@ -4,19 +4,14 @@ import arcadia.context.FlowContext;
 import arcadia.context.TestContext;
 import arcadia.domainobjects.ConnectorPlugIdentifier;
 import arcadia.domainobjects.Harness;
-import arcadia.mapperObjects.TestMapper;
 import arcadia.pages.*;
 import arcadia.pages.ComponentDB.AddNewComponentPage;
 import arcadia.utils.ConversionUtil;
-import arcadia.utils.DrawingHelper;
 import arcadia.utils.SeleniumCustomCommand;
 import arcadia.utils.StringHelper;
-import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import io.cucumber.java.en.And;
-import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.cucumber.java.hu.Ha;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
@@ -24,7 +19,6 @@ import org.testng.Assert;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
 import static arcadia.context.FlowContext.harnessComponentAlreadyCreated;
 
@@ -179,16 +173,10 @@ public class HarnessStepDefinitions {
         harnessPage.verifyConnectorDoNotExists(connectorid);
     }
 
-    @Then("User verifies reset label works as expected")
-    public void userVerifiesResetLabelWorksAsExpected() throws InterruptedException {
-        String connectorid = FlowContext.connectorPlugIdentifierList.get(0).getConnectorId();
-        harnessPage.verifyResetLabels(connectorid);
-    }
-
-    @When("User moves the label {string} to a different position")
-    public void userMovesLabelToADifferentPosition(String elementToBeMoved) throws InterruptedException {
-//        harnessPage.clickOnMove();
-//        harnessPage.clickConnectorDescriptionElement(FlowContext.testDescription, FlowContext.connectorPlugIdentifierList.get(0).getConnectorId());
+    @When("User verifies reset labels functionality")
+    public void userVerifiesResetLabelsFunctionality() throws InterruptedException {
+        harnessPage.clickOnMove();
+        harnessPage.verifyResetLabels(FlowContext.testDescription, FlowContext.connectorPlugIdentifierList.get(0).getConnectorId());
 
     }
 
@@ -325,4 +313,19 @@ public class HarnessStepDefinitions {
         }
 
     }
+
+    @Then("User verifies the view is autoarranged successfully")
+    public void userVerifiesTheAutoarrangeFunctionality() throws InterruptedException {
+        try {
+            harnessPage.clickOnMove();
+            String identifier=FlowContext.connectorPlugIdentifierList.get(0).getConnectorId();
+            harnessPage.verifyAutoArrange(identifier);
+        }
+        finally {
+            harnessPage.exitDrawingPage();
+            harnessPage.deleteHarness("connectorValidator");
+        }
+
+    }
 }
+//Reset Views

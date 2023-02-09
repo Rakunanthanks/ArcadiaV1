@@ -21,15 +21,13 @@ Feature: Verify context menu
     And User exits the drawing page
     And User deletes Harness 'connectorValidator' successfully
 
-#  @VerifyConnector--TODO--This scenario is not complete yet. Hence commented.
+#  @VerifyConnector @VerifyConnectorContextMenu --TODO--This scenario is not complete yet
 #  Scenario: Test verifies ResetLabels functionality on connector
 #    And 'connectorplug' component with index '0' is opened
 #    And user enters description in connector details
 #    And Submit connector
 #    Then User verifies the connectordescription is added successfully
-#    When User moves the label 'connectordescription' to a different position
-#    And User try operation 'reset labels' for connector
-#    Then User verifies reset label works as expected
+#    And User verifies reset labels functionality
 
 
   @VerifyConnector @VerifyConnectorContextMenu
@@ -92,3 +90,7 @@ Feature: Verify context menu
   Scenario: Test verifies ChangeNode functionality on connector
     And User try operation 'Change Node' for connector
     Then User verifies the connector node is moved successfully
+
+  @VerifyConnector @VerifyConnectorContextMenu
+  Scenario: Test verifies AutoArrange functionality on connector
+    Then User verifies the view is autoarranged successfully
