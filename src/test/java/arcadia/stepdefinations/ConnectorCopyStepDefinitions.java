@@ -289,4 +289,15 @@ public class ConnectorCopyStepDefinitions {
         String imagePath = connectorPage.getImagePathOfCavity();
         FlowContext.terminalImagePath = imagePath;
     }
+
+    @Then("User verifies duplicate wire is added to cavity successfully")
+    public void userVerifiesDuplicateWireIsAddedToCavitySuccessfully() throws InterruptedException {
+        try {
+            connectorPage.verifyWireTablesRowCount(2);
+        }
+        finally {
+            harnessPage.exitDrawingPage();
+            harnessPage.deleteHarness("connectorValidator");
+        }
+    }
 }
