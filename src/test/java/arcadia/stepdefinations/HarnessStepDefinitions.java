@@ -381,7 +381,7 @@ public class HarnessStepDefinitions {
         new HarnessPage(context.driver).performOperation("Inspect",spliceId);
         new HarnessPage(context.driver).validateSpliceTechnology(technology);
     }
-}
+
 
     @Then("User verifies the wirepath is shown successfully")
     public void userVerifiesTheWirepathIsShownSuccessfully() throws InterruptedException {
