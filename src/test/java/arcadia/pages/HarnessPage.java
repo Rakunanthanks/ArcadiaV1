@@ -40,6 +40,14 @@ public class HarnessPage extends BasePage{
 
     @FindBy(css = "div[title=\"Exit\"]") private WebElement buttonExitDrawing;
 
+    @FindBy(xpath = "//span[@class=\"ui-dialog-title\"][text()=\"Add Wire\"]") private WebElement popUpAddWire;
+
+    @FindBy(css = "input#wireid") private WebElement inputWireId;
+
+    @FindBy(xpath = "//div[contains(@aria-describedby,\"ui-id\")]//span[text()=\"OK\"]") private WebElement buttonOkAddWire;
+
+    @FindBy(xpath = "//*[name()=\"g\" and @class=\"hilight\"]//*[name()=\"path\" and @nonstroke = \"BLACK\"]") private WebElement wirePath;
+
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
     public HarnessPage(WebDriver driver) {
         super(driver);
@@ -143,6 +151,18 @@ public class HarnessPage extends BasePage{
     public void getContextMenu(String id) throws InterruptedException {
         customCommand.javaScriptClick(driver,drawSelectPointer);
         WebElement ele=driver.findElement(By.xpath("//*[name()='g' and @id='"+id+"']/*[name()='rect']"));
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        customCommand.rightClick(driver,ele);
+        Thread.sleep(2000);
+    }
+
+    public void getCavityTableContextMenu(String id) throws InterruptedException {
+        customCommand.javaScriptClick(driver,drawSelectPointer);
+        WebElement ele = driver.findElement(By.xpath("//*[name()='g' and @id='"+id+"']//table//tbody/tr/td"));
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
@@ -432,5 +452,34 @@ public class HarnessPage extends BasePage{
         System.out.println("x coordinate after resetlabels is :" + xCoordianteAfterResetLabels);
         Assert.assertEquals(xCoordianteAfterResetLabels, xCoordiante);
 
+    }
+
+    public void verifyWireAdded(String identifier) throws InterruptedException {
+        List<WebElement> ele = driver.findElements(By.xpath("//*[name()='g' and @id='"+identifier+"']//table//tbody/tr/td"));
+        customCommand.moveToElementAndClick(driver,ele.get(1));
+        customCommand.waitForElementVisibility(driver,popUpAddWire);
+        customCommand.enterText(inputWireId,"TESTWIRE");
+        buttonOkAddWire.click();
+        Thread.sleep(2000);
+        ele = driver.findElements(By.xpath("//*[name()='g' and @id='"+identifier+"']//table//tbody/tr/td"));
+        Assert.assertEquals(ele.get(1).getText(),"TESTWIRE");
+
+    }
+
+    public void verifyWireSwapped(String identifier) throws InterruptedException {
+        List<WebElement> ele = driver.findElements(By.xpath("//*[name()='g' and @id='"+identifier+"']//table//tbody/tr/td"));
+        customCommand.moveToElementAndClick(driver,ele.get(1));
+        Thread.sleep(2000);
+        ele = driver.findElements(By.xpath("//*[name()='g' and @id='"+identifier+"']//table//tbody/tr/td"));
+        Assert.assertEquals(ele.get(1).getText(),"WIRE001");
+    }
+
+    public void verifyWireDeleted(String identifier) {
+        List<WebElement> ele = driver.findElements(By.xpath("//*[name()='g' and @id='"+identifier+"']//table//tbody/tr/td"));
+        Assert.assertEquals(ele.get(1).getText(),"");
+    }
+
+    public void verifyWirePathIsDisplayed() {
+        Assert.assertTrue(driver.findElements(By.xpath("//*[name()=\"g\" and @class=\"hilight\"]//*[name()=\"path\" and @nonstroke = \"BLACK\"]")).size()!=0,"WirePath is not displayed");
     }
 }

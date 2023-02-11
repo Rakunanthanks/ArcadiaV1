@@ -152,4 +152,9 @@ public class SeleniumCustomCommand {
         File files[] = fObj.listFiles();
         return files;
     }
+
+    public void moveToElementAndClick(WebDriver driver , WebElement element){
+        Actions actions = new Actions(driver);
+        actions.moveToElement(element).click().perform();
+    }
 }

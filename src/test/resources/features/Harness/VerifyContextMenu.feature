@@ -94,3 +94,53 @@ Feature: Verify context menu
   @VerifyConnector @VerifyConnectorContextMenu
   Scenario: Test verifies AutoArrange functionality on connector
     Then User verifies the view is autoarranged successfully
+
+  @VerifyConnector @VerifyCavityTableContextMenu
+  Scenario: Test verifies addWire functionality in context menu for cavitytable
+    And 'connectorplug' component with index '0' is opened
+    And wire is added to cavity
+    And Submit connector
+    And User try operation 'Add Wire' for cavitytable
+    Then User verifies the wire is added successfully
+
+  @VerifyConnector @VerifyCavityTableContextMenu
+  Scenario: Test verifies swapwire functionality in context menu for cavitytable
+    And 'connectorplug' component with index '0' is opened
+    And wire is added to cavity
+    And Submit connector
+    And User try operation 'Swap Wire' for cavitytable
+    Then User verifies the wire is swapped successfully
+
+  @VerifyConnector @VerifyCavityTableContextMenu
+  Scenario: Test verifies deletewire functionality in context menu for cavitytable
+    And 'connectorplug' component with index '0' is opened
+    And wire is added to cavity
+    And Submit connector
+    And User try operation 'Delete Wire' for cavitytable
+    Then User verifies the wire is deleted successfully
+
+  @VerifyConnector @VerifyCavityTableContextMenu
+  Scenario: Test verifies ShowWirePath functionality in context menu for cavitytable
+    And 'connectorplug' component with index '0' is opened
+    And wire is added to cavity
+    And wire table data is updated
+    And Submit connector
+    And User try operation 'Show Wire Path' for cavitytable
+    Then User verifies the wirepath is shown successfully
+
+  @VerifyConnector @VerifyCavityTableContextMenu
+  Scenario: Test verifies CavityProperties functionality in context menu for cavitytable
+    And 'connectorplug' component with index '0' is opened
+    And wire is added to cavity
+    And Submit connector
+    And User try operation 'Cavity Properties' for cavitytable
+    Then User verifies cavitytable is opened successfully
+
+  @VerifyConnector @VerifyCavityTableContextMenu
+  Scenario: Test verifies AddDuplicateCavity functionality in context menu for cavitytable
+    And 'connectorplug' component with index '0' is opened
+    And wire is added to cavity
+    And Submit connector
+    And User try operation 'Add Duplicate Cavity' for cavitytable
+    And 'connectorplug' component with index '0' is opened
+    Then User verifies duplicate wire is added to cavity successfully

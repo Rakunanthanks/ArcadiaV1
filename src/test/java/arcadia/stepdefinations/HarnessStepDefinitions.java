@@ -98,6 +98,15 @@ public class HarnessStepDefinitions {
         new HarnessPage(context.driver).performOperation(operation,identifier);
         Thread.sleep(10000);
     }
+
+    @And("User try operation {string} for cavitytable")
+    public void userTryOperationOnCavityTableContextMenu(String operation) throws InterruptedException {
+        List<ConnectorPlugIdentifier> connector_ids=new ConnectorPage(context.driver).getConnectorPlugELementIdsFromDrawingPage();
+        String identifier=connector_ids.get(0).getConnectorId();
+        new HarnessPage(context.driver).getCavityTableContextMenu(identifier);
+        new HarnessPage(context.driver).performOperation(operation,identifier);
+        Thread.sleep(5000);
+    }
     @And("harness connectorvalidator is opened")
     public void harnessConnectorvalidatorIsOpened() throws InterruptedException {
         Thread.sleep(3000);
@@ -327,5 +336,56 @@ public class HarnessStepDefinitions {
         }
 
     }
+
+    @Then("User verifies the wire is added successfully")
+    public void userVerifiesTheWireIsAddedSuccessfully() throws InterruptedException {
+        try {
+            String identifier=FlowContext.connectorPlugIdentifierList.get(1).getConnectorId();
+            harnessPage.verifyWireAdded(identifier);
+        }
+        finally {
+            harnessPage.exitDrawingPage();
+            harnessPage.deleteHarness("connectorValidator");
+        }
+    }
+
+    @Then("User verifies the wire is swapped successfully")
+    public void userVerifiesTheWireIsSwappedSuccessfully() throws InterruptedException {
+        try {
+            String identifier=FlowContext.connectorPlugIdentifierList.get(1).getConnectorId();
+            harnessPage.verifyWireSwapped(identifier);
+        }
+        finally {
+            harnessPage.exitDrawingPage();
+            harnessPage.deleteHarness("connectorValidator");
+        }
+    }
+
+    @Then("User verifies the wire is deleted successfully")
+    public void userVerifiesTheWireIsDeletedSuccessfully() throws InterruptedException {
+        try {
+            String identifier=FlowContext.connectorPlugIdentifierList.get(0).getConnectorId();
+            harnessPage.verifyWireDeleted(identifier);
+        }
+        finally {
+            harnessPage.exitDrawingPage();
+            harnessPage.deleteHarness("connectorValidator");
+        }
+    }
+
+    @Then("User verifies the wirepath is shown successfully")
+    public void userVerifiesTheWirepathIsShownSuccessfully() throws InterruptedException {
+        try {
+            harnessPage.verifyWirePathIsDisplayed();
+        }
+        finally {
+            harnessPage.exitDrawingPage();
+            harnessPage.deleteHarness("connectorValidator");
+        }
+    }
+
+    @Then("User verifies cavitytable is opened successfully")
+    public void userVerifiesCavitytableIsOpenedSuccessfully() {
+        new ConnectorPage(context.driver).verifyCavityTableDetailsIsOpened();
+    }
 }
-//Reset Views
