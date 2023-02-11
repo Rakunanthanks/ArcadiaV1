@@ -511,4 +511,12 @@ public class ConnectorPage extends BasePage {
         String imagePath = inputCavityImagePath.getAttribute("value");
         return imagePath;
     }
+
+    public void verifyCavityTableDetailsIsOpened() {
+        Assert.assertTrue(terminalPNCavityTable.isDisplayed(),"Cavity table is not opened and terminal pn is not visible");
+    }
+
+    public void verifyWireTablesRowCount(int i) {
+        Assert.assertEquals(driver.findElements(By.cssSelector(wireTableRows)).size(),i,"Number of rows present in cavity table are not as expected");
+    }
 }

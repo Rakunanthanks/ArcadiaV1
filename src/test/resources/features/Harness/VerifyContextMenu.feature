@@ -21,15 +21,13 @@ Feature: Verify context menu
     And User exits the drawing page
     And User deletes Harness 'connectorValidator' successfully
 
-#  @VerifyConnector--TODO--This scenario is not complete yet. Hence commented.
+#  @VerifyConnector @VerifyConnectorContextMenu --TODO--This scenario is not complete yet
 #  Scenario: Test verifies ResetLabels functionality on connector
-#    And connector plug '0' is opened
+#    And 'connectorplug' component with index '0' is opened
 #    And user enters description in connector details
 #    And Submit connector
 #    Then User verifies the connectordescription is added successfully
-#    When User moves the label 'connectordescription' to a different position
-#    And User try operation 'reset labels' for connector
-#    Then User verifies reset label works as expected
+#    And User verifies reset labels functionality
 
 
   @VerifyConnector @VerifyConnectorContextMenu
@@ -52,7 +50,7 @@ Feature: Verify context menu
 
   @VerifyConnector @VerifyConnectorContextMenu
   Scenario: Test verifies ShowToLocations functionality on connector
-    And connector plug '0' is opened
+    And 'connectorplug' component with index '0' is opened
     And wire is added to cavity
     And wire table data is updated
     And user sets visibility of connector table layout to "Yes"
@@ -64,14 +62,14 @@ Feature: Verify context menu
 
   @VerifyConnector @VerifyConnectorContextMenu
   Scenario: Test verifies ShowHideWireFan functionality on connector
-    And connector plug '0' is opened
+    And 'connectorplug' component with index '0' is opened
     And user sets visibility of connector table layout to "Yes"
     And Submit connector
     Then User verifies the WireFan is ShownHidden successfully
 
   @VerifyConnector @VerifyConnectorContextMenu
   Scenario: Test verifies ShowHideUnusedCavities functionality on connector
-    And connector plug '0' is opened
+    And 'connectorplug' component with index '0' is opened
     And wire is added to cavity
     And Submit connector
     Then User verifies the UnusedCavities are ShownHidden successfully
@@ -80,10 +78,69 @@ Feature: Verify context menu
 
   @VerifyConnector @VerifyConnectorContextMenu
   Scenario: Test verifies ShowHideUnusedCavities with EntryPort functionality on connector
-    And connector plug '0' is opened
+    And 'connectorplug' component with index '0' is opened
     And wire is added to cavity
     And user sets visibility of connector table layout to "Yes"
     And Submit connector
     Then User verifies the UnusedCavities with EntryPort are ShownHidden successfully
     And User exits the drawing page
     And User deletes Harness 'connectorValidator' successfully
+
+  @VerifyConnector @VerifyConnectorContextMenu
+  Scenario: Test verifies ChangeNode functionality on connector
+    And User try operation 'Change Node' for connector
+    Then User verifies the connector node is moved successfully
+
+  @VerifyConnector @VerifyConnectorContextMenu
+  Scenario: Test verifies AutoArrange functionality on connector
+    Then User verifies the view is autoarranged successfully
+
+  @VerifyConnector @VerifyCavityTableContextMenu
+  Scenario: Test verifies addWire functionality in context menu for cavitytable
+    And 'connectorplug' component with index '0' is opened
+    And wire is added to cavity
+    And Submit connector
+    And User try operation 'Add Wire' for cavitytable
+    Then User verifies the wire is added successfully
+
+  @VerifyConnector @VerifyCavityTableContextMenu
+  Scenario: Test verifies swapwire functionality in context menu for cavitytable
+    And 'connectorplug' component with index '0' is opened
+    And wire is added to cavity
+    And Submit connector
+    And User try operation 'Swap Wire' for cavitytable
+    Then User verifies the wire is swapped successfully
+
+  @VerifyConnector @VerifyCavityTableContextMenu
+  Scenario: Test verifies deletewire functionality in context menu for cavitytable
+    And 'connectorplug' component with index '0' is opened
+    And wire is added to cavity
+    And Submit connector
+    And User try operation 'Delete Wire' for cavitytable
+    Then User verifies the wire is deleted successfully
+
+  @VerifyConnector @VerifyCavityTableContextMenu
+  Scenario: Test verifies ShowWirePath functionality in context menu for cavitytable
+    And 'connectorplug' component with index '0' is opened
+    And wire is added to cavity
+    And wire table data is updated
+    And Submit connector
+    And User try operation 'Show Wire Path' for cavitytable
+    Then User verifies the wirepath is shown successfully
+
+  @VerifyConnector @VerifyCavityTableContextMenu
+  Scenario: Test verifies CavityProperties functionality in context menu for cavitytable
+    And 'connectorplug' component with index '0' is opened
+    And wire is added to cavity
+    And Submit connector
+    And User try operation 'Cavity Properties' for cavitytable
+    Then User verifies cavitytable is opened successfully
+
+  @VerifyConnector @VerifyCavityTableContextMenu
+  Scenario: Test verifies AddDuplicateCavity functionality in context menu for cavitytable
+    And 'connectorplug' component with index '0' is opened
+    And wire is added to cavity
+    And Submit connector
+    And User try operation 'Add Duplicate Cavity' for cavitytable
+    And 'connectorplug' component with index '0' is opened
+    Then User verifies duplicate wire is added to cavity successfully

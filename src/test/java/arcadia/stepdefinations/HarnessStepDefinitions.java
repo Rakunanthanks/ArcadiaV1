@@ -4,19 +4,14 @@ import arcadia.context.FlowContext;
 import arcadia.context.TestContext;
 import arcadia.domainobjects.ConnectorPlugIdentifier;
 import arcadia.domainobjects.Harness;
-import arcadia.mapperObjects.TestMapper;
 import arcadia.pages.*;
 import arcadia.pages.ComponentDB.AddNewComponentPage;
 import arcadia.utils.ConversionUtil;
-import arcadia.utils.DrawingHelper;
 import arcadia.utils.SeleniumCustomCommand;
 import arcadia.utils.StringHelper;
-import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import io.cucumber.java.en.And;
-import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.cucumber.java.hu.Ha;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
@@ -24,7 +19,6 @@ import org.testng.Assert;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
 import static arcadia.context.FlowContext.harnessComponentAlreadyCreated;
 
@@ -104,6 +98,15 @@ public class HarnessStepDefinitions {
         new HarnessPage(context.driver).performOperation(operation,identifier);
         Thread.sleep(10000);
     }
+
+    @And("User try operation {string} for cavitytable")
+    public void userTryOperationOnCavityTableContextMenu(String operation) throws InterruptedException {
+        List<ConnectorPlugIdentifier> connector_ids=new ConnectorPage(context.driver).getConnectorPlugELementIdsFromDrawingPage();
+        String identifier=connector_ids.get(0).getConnectorId();
+        new HarnessPage(context.driver).getCavityTableContextMenu(identifier);
+        new HarnessPage(context.driver).performOperation(operation,identifier);
+        Thread.sleep(5000);
+    }
     @And("harness connectorvalidator is opened")
     public void harnessConnectorvalidatorIsOpened() throws InterruptedException {
         Thread.sleep(3000);
@@ -179,16 +182,10 @@ public class HarnessStepDefinitions {
         harnessPage.verifyConnectorDoNotExists(connectorid);
     }
 
-    @Then("User verifies reset label works as expected")
-    public void userVerifiesResetLabelWorksAsExpected() throws InterruptedException {
-        String connectorid = FlowContext.connectorPlugIdentifierList.get(0).getConnectorId();
-        harnessPage.verifyResetLabels(connectorid);
-    }
-
-    @When("User moves the label {string} to a different position")
-    public void userMovesLabelToADifferentPosition(String elementToBeMoved) throws InterruptedException {
-//        harnessPage.clickOnMove();
-//        harnessPage.clickConnectorDescriptionElement(FlowContext.testDescription, FlowContext.connectorPlugIdentifierList.get(0).getConnectorId());
+    @When("User verifies reset labels functionality")
+    public void userVerifiesResetLabelsFunctionality() throws InterruptedException {
+        harnessPage.clickOnMove();
+        harnessPage.verifyResetLabels(FlowContext.testDescription, FlowContext.connectorPlugIdentifierList.get(0).getConnectorId());
 
     }
 
@@ -312,6 +309,70 @@ public class HarnessStepDefinitions {
         Assert.assertEquals(harnessPage.getCavityRowCount(identifier),4);
     }
 
+    @Then("User verifies the connector node is moved successfully")
+    public void userVerifiesTheConnectorNodeIsMovedSuccessfully() throws InterruptedException {
+        String identifier=FlowContext.connectorPlugIdentifierList.get(0).getConnectorId();
+        try {
+            harnessPage.changeConnectorNode(identifier);
+        }
+        finally {
+            harnessPage.exitDrawingPage();
+            harnessPage.deleteHarness("connectorValidator");
+
+        }
+
+    }
+
+    @Then("User verifies the view is autoarranged successfully")
+    public void userVerifiesTheAutoarrangeFunctionality() throws InterruptedException {
+        try {
+            harnessPage.clickOnMove();
+            String identifier=FlowContext.connectorPlugIdentifierList.get(0).getConnectorId();
+            harnessPage.verifyAutoArrange(identifier);
+        }
+        finally {
+            harnessPage.exitDrawingPage();
+            harnessPage.deleteHarness("connectorValidator");
+        }
+
+    }
+
+    @Then("User verifies the wire is added successfully")
+    public void userVerifiesTheWireIsAddedSuccessfully() throws InterruptedException {
+        try {
+            String identifier=FlowContext.connectorPlugIdentifierList.get(1).getConnectorId();
+            harnessPage.verifyWireAdded(identifier);
+        }
+        finally {
+            harnessPage.exitDrawingPage();
+            harnessPage.deleteHarness("connectorValidator");
+        }
+    }
+
+    @Then("User verifies the wire is swapped successfully")
+    public void userVerifiesTheWireIsSwappedSuccessfully() throws InterruptedException {
+        try {
+            String identifier=FlowContext.connectorPlugIdentifierList.get(1).getConnectorId();
+            harnessPage.verifyWireSwapped(identifier);
+        }
+        finally {
+            harnessPage.exitDrawingPage();
+            harnessPage.deleteHarness("connectorValidator");
+        }
+    }
+
+    @Then("User verifies the wire is deleted successfully")
+    public void userVerifiesTheWireIsDeletedSuccessfully() throws InterruptedException {
+        try {
+            String identifier=FlowContext.connectorPlugIdentifierList.get(0).getConnectorId();
+            harnessPage.verifyWireDeleted(identifier);
+        }
+        finally {
+            harnessPage.exitDrawingPage();
+            harnessPage.deleteHarness("connectorValidator");
+        }
+    }
+
     @And("{string} can be filtered with technology {string}")
     public void spliceCanBeFilteredWithTechnologyUltrasonic(String component,String technology) throws InterruptedException {
         harnessPage.selectSpliceTechnology(technology);
@@ -319,5 +380,22 @@ public class HarnessStepDefinitions {
         new HarnessPage(context.driver).getContextMenu(spliceId);
         new HarnessPage(context.driver).performOperation("Inspect",spliceId);
         new HarnessPage(context.driver).validateSpliceTechnology(technology);
+    }
+}
+
+    @Then("User verifies the wirepath is shown successfully")
+    public void userVerifiesTheWirepathIsShownSuccessfully() throws InterruptedException {
+        try {
+            harnessPage.verifyWirePathIsDisplayed();
+        }
+        finally {
+            harnessPage.exitDrawingPage();
+            harnessPage.deleteHarness("connectorValidator");
+        }
+    }
+
+    @Then("User verifies cavitytable is opened successfully")
+    public void userVerifiesCavitytableIsOpenedSuccessfully() {
+        new ConnectorPage(context.driver).verifyCavityTableDetailsIsOpened();
     }
 }
