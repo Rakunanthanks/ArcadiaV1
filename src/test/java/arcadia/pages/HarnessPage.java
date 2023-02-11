@@ -39,6 +39,7 @@ public class HarnessPage extends BasePage{
     @FindBy(xpath = "//div[@title='Draw Select']") private  WebElement drawSelectPointer;
 
     @FindBy(css = "div[title=\"Exit\"]") private WebElement buttonExitDrawing;
+    @FindBy(xpath="//select[@name='node.splicetechnology']") private WebElement spliceTechnologyDropdown;
 
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
     public HarnessPage(WebDriver driver) {
@@ -153,13 +154,13 @@ public class HarnessPage extends BasePage{
     }
 
     public void performOperation(String operation,String id) throws InterruptedException {
-        ExtentCucumberAdapter.addTestStepLog(String.format("Performing %s operation on connector with connector id = %s", operation,id));
+//        ExtentCucumberAdapter.addTestStepLog(String.format("Performing %s operation on connector with connector id = %s", operation,id));
         String xpathOfConnector="//*[name()='g' and @id='"+id+"']/*[name()='rect']";
         List<WebElement> connectors;
         boolean flag=false;
         if(operations.size()==0)
         {
-            ExtentCucumberAdapter.addTestStepLog(String.format("Not able to get all the operations allowed on connector"));
+//            ExtentCucumberAdapter.addTestStepLog(String.format("Not able to get all the operations allowed on connector"));
         }
         for(WebElement ele:operations)
         {
@@ -249,6 +250,23 @@ public class HarnessPage extends BasePage{
         customCommand.doubleClick(driver,ele);
         Thread.sleep(2000);
     }
+
+    public void selectSpliceTechnology(String technology) throws InterruptedException {
+        customCommand.selectDropDownByValue(spliceTechnologyDropdown,technology);
+        customCommand.javaScriptClick(driver,buttonSubmitDetails);
+    }
+
+    public void validateSpliceTechnology(String technology) throws InterruptedException {
+      Thread.sleep(2000);
+        String tech = customCommand.getSelectedValueFromSelectDropDown(spliceTechnologyDropdown);
+        if (tech.equalsIgnoreCase(technology)) {
+//            ExtentCucumberAdapter.addTestStepLog(String.format("Expected technology is "+technology+", actual is "+tech));
+        }
+        else {
+//            ExtentCucumberAdapter.addTestStepLog(String.format("Expected technology is "+technology+", actual is "+tech));
+        }
+    }
+
 
     public void deleteHarness(String description){
         driver.findElement(By.xpath("//table[@id=\"tableHAR\"]/tbody//tr//td[text()=\""+description+"\"]/following-sibling::td[last()]//a[@title=\"Delete Task\"]")).click();

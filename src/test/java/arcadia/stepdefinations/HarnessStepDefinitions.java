@@ -311,4 +311,13 @@ public class HarnessStepDefinitions {
         }
         Assert.assertEquals(harnessPage.getCavityRowCount(identifier),4);
     }
+
+    @And("{string} can be filtered with technology {string}")
+    public void spliceCanBeFilteredWithTechnologyUltrasonic(String component,String technology) throws InterruptedException {
+        harnessPage.selectSpliceTechnology(technology);
+        String spliceId = new ConnectorPage(context.driver).getSpliceElementIdsFromDrawingPage().get(Integer.parseInt(String.valueOf(0))).getSpliceId();
+        new HarnessPage(context.driver).getContextMenu(spliceId);
+        new HarnessPage(context.driver).performOperation("Inspect",spliceId);
+        new HarnessPage(context.driver).validateSpliceTechnology(technology);
+    }
 }
