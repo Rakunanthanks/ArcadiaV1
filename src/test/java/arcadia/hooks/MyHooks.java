@@ -30,6 +30,8 @@ public class MyHooks {
         context.driver = driver;
         nodeIdentifierList.removeAll(nodeIdentifierList);
         nodeIdentifierList.clear();
+        connectorPlugIdentifierList.removeAll(connectorPlugIdentifierList);
+        connectorPlugIdentifierList.clear();
         connectorIdentifierList.removeAll(connectorIdentifierList);
         connectorIdentifierList.clear();
         spliceIdentifierList.removeAll(connectorIdentifierList);
@@ -59,8 +61,11 @@ public class MyHooks {
         }
 //        System.out.println("AFTER: THREAD ID : " + Thread.currentThread().getId() + "," +
 //                "SCENARIO NAME: " + scenario.getName());
+        context.driver = driver;
         nodeIdentifierList.removeAll(nodeIdentifierList);
         nodeIdentifierList.clear();
+        connectorPlugIdentifierList.removeAll(connectorPlugIdentifierList);
+        connectorPlugIdentifierList.clear();
         connectorIdentifierList.removeAll(connectorIdentifierList);
         connectorIdentifierList.clear();
         spliceIdentifierList.removeAll(connectorIdentifierList);
