@@ -18,6 +18,7 @@ public class PageFactoryManager {
     private static AddNewComponentPage addNewComponentPage;
     private static HeaderPanel headerPanel;
     private static ProfilePage profilePage;
+    private static ConnectorEditorPage connectorEditorPage;
 
 
     public static SearchPartsDatabasePage getPartsDatabasePage(WebDriver driver){
@@ -61,6 +62,9 @@ public class PageFactoryManager {
 
     public static HeaderPanel getHeaderPanel(WebDriver driver){
         return headerPanel == null ? new HeaderPanel(driver) : headerPanel;
+    }
+    public static ConnectorEditorPage getConnectorEditorPage(WebDriver driver){
+        return connectorEditorPage == null ? new ConnectorEditorPage(driver) : connectorEditorPage;
     }
 
 }

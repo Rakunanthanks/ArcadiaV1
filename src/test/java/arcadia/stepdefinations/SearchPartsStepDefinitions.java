@@ -423,4 +423,9 @@ public class SearchPartsStepDefinitions {
         Assert.assertEquals(actualListOfLinkedTerminalsShown.size(),expectedTerminalsList.size());
 
     }
+
+    @And("User selects connector from searchparts window")
+    public void userSelectsConnectorFromSearchpartsWindow() throws InterruptedException {
+        new SearchPartsDatabasePage(context.driver).populateParts();
+    }
 }
