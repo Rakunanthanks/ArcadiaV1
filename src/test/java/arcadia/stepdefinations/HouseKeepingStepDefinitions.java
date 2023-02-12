@@ -18,6 +18,9 @@ public class HouseKeepingStepDefinitions {
             case "componentdb":
                 new cleanComponentDB(context.driver).initiateComponentDBHouseKeeping();
                 break;
+            case "harness":
+                new cleanComponentDB(context.driver).cleanHarness();
+                break;
         }
     }
 }
