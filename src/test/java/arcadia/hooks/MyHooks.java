@@ -80,7 +80,7 @@ public class MyHooks {
         dbName="";
         connectorID = "";
         terminalImagePath = "";
-        driver.close();
         driver.quit();
+        driver = null;
     }
 }
