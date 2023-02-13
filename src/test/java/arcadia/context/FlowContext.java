@@ -22,8 +22,6 @@ public class FlowContext {
     public static String testDescription = "";
     public static Boolean harnessComponentAlreadyCreated = false;
     public static String dbName="";
-
     public static String connectorID = "";
-
     public static String terminalImagePath = "";
 }

@@ -1,4 +1,4 @@
-@Regression
+
 Feature: Filter attached parts Splice
 
   Background: User is Logged In
@@ -6,7 +6,7 @@ Feature: Filter attached parts Splice
     And test data config loaded for test identifier test11
     And Navigated to selected componentDB
 
-  @FilterAttachedParts
+
   Scenario: Test verifies splice can be filtered in attached parts
     And User selected 'splice' from componentDB
     And 'splice' details are extracted successfully
@@ -17,7 +17,7 @@ Feature: Filter attached parts Splice
     And User opens attachedparts details window
     Then Verify user filters component 'splice' in attachedparts successfully
 
-  @FilterAttachedParts
+
   Scenario: Test verifies connectors can be filtered in attached parts
     And User selected 'connector' from componentDB
     And 'connector' details are extracted successfully
@@ -28,7 +28,6 @@ Feature: Filter attached parts Splice
     And User opens attachedparts details window
     Then Verify user filters component 'connector' in attachedparts successfully
 
-  @FilterAttachedParts
   Scenario: Test verifies seal can be filtered in attached parts
     And User selected 'seal' from componentDB
     And 'seal' details are extracted successfully
@@ -39,7 +38,6 @@ Feature: Filter attached parts Splice
     And User opens attachedparts details window
     Then Verify user filters component 'seal' in attachedparts successfully
 
-  @FilterAttachedParts
   Scenario: Test verifies terminals can be filtered in attached parts
     And User selected 'terminal' from componentDB
     And 'terminal' details are extracted successfully
@@ -50,7 +48,6 @@ Feature: Filter attached parts Splice
     And User opens attachedparts details window
     Then Verify user filters component 'terminal' in attachedparts successfully
 
-  @FilterAttachedParts
   Scenario: Test verifies junctionparts can be filtered in attached parts
     And User selected 'junctionpart' from componentDB
     And 'junctionpart' details are extracted successfully

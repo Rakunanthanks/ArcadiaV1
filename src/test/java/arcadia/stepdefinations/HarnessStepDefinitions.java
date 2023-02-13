@@ -38,20 +38,22 @@ public class HarnessStepDefinitions {
 
     @And("harness with name {string} is launched successfully")
     public void harness_with_name_is_launched_successfully(String connectorDescription) throws InterruptedException {
-        String harnessDescription = null;
-        if(connectorDescription.toLowerCase().contains("dynamic")){
-            harnessDescription = connectorDescription.concat(" "+ new StringHelper().generateRandomDigit());
-        }
-        if(!connectorDescription.toLowerCase().contains("dynamic")) {
-            harnessDescription = connectorDescription.concat(" "+System.getProperty("uniqueIdentifier"));
-        }
-        Boolean isHarnessAlreadyExists = new HarnessPage(context.driver).isHarnessAlreadyExists(harnessDescription);
-        if(isHarnessAlreadyExists){
-            openExistingHarness(harnessDescription);
-        }
-        if(!isHarnessAlreadyExists){
-            createNewHarnessInstance(harnessDescription);
-        }
+//        String harnessDescription = null;
+//        if(connectorDescription.toLowerCase().contains("dynamic")){
+//            harnessDescription = connectorDescription.concat(" "+ new StringHelper().generateRandomDigit());
+//        }
+//        if(!connectorDescription.toLowerCase().contains("dynamic")) {
+//            harnessDescription = connectorDescription.concat(" "+System.getProperty("uniqueIdentifier"));
+//        }
+//        Boolean isHarnessAlreadyExists = new HarnessPage(context.driver).isHarnessAlreadyExists(harnessDescription);
+//        if(isHarnessAlreadyExists){
+//            openExistingHarness(harnessDescription);
+//        }
+//        if(!isHarnessAlreadyExists){
+//            createNewHarnessInstance(harnessDescription);
+//        }
+        String harnessDescription = connectorDescription.concat(" "+ new StringHelper().generateRandomDigit());
+        createNewHarnessInstance(harnessDescription);
     }
 
     private void createNewHarnessInstance(String connectorDescription) throws InterruptedException {
