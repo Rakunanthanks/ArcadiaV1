@@ -20,6 +20,8 @@ public class PageFactoryManager {
     private static ProfilePage profilePage;
     private static ConnectorEditorPage connectorEditorPage;
     private static CreateSchematic createSchematic;
+    private static WireEditorPage wireEditorPage;
+
     private static SchematicsDrawingPage schematicsDrawingPagec;
 
 
@@ -67,6 +69,9 @@ public class PageFactoryManager {
     }
     public static ConnectorEditorPage getConnectorEditorPage(WebDriver driver){
         return connectorEditorPage == null ? new ConnectorEditorPage(driver) : connectorEditorPage;
+    }
+    public static WireEditorPage getWireEditorPage(WebDriver driver){
+        return wireEditorPage == null ? new WireEditorPage(driver) : wireEditorPage;
     }
 
     public static CreateSchematic getCreateSchematic(WebDriver driver) {

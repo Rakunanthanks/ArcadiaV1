@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="1" passed="0" failed="1" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2023-03-03T21:20:04 GMT" name="Surefire suite" finished-at="2023-03-03T21:21:10 GMT" duration-ms="66252">
+    <groups>
+      <group name="cucumber">
+        <method signature="AbstractTestNGCucumberTests.runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:arcadia.runners.MyTestNGRunnerTest@2e005c4b]" name="runScenario" class="io.cucumber.testng.AbstractTestNGCucumberTests"/>
+      </group> <!-- cucumber -->
+    </groups>
+    <test started-at="2023-03-03T21:20:04 GMT" name="Surefire test" finished-at="2023-03-03T21:21:10 GMT" duration-ms="66252">
+      <class name="arcadia.runners.MyTestNGRunnerTest">
+        <test-method is-config="true" signature="setUpClass(org.testng.ITestContext)[pri:0, instance:arcadia.runners.MyTestNGRunnerTest@2e005c4b]" started-at="2023-03-03T21:20:04 GMT" name="setUpClass" finished-at="2023-03-03T21:20:06 GMT" duration-ms="1938" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[org.testng.TestRunner@30b9728f]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUpClass -->
+        <test-method signature="runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:arcadia.runners.MyTestNGRunnerTest@2e005c4b]" started-at="2023-03-03T21:20:06 GMT" name="runScenario" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2023-03-03T21:21:08 GMT" duration-ms="61738" status="FAIL">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA["Test verifies in the wire editor by giving values to Multi Core."]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA["Optional[Wire Editor]"]]>
+              </value>
+            </param>
+          </params>
+          <exception class="org.openqa.selenium.TimeoutException">
+            <message>
+              <![CDATA[Expected condition failed: waiting for visibility of [[ChromeDriver: chrome on WINDOWS (d4bd146f50a4e0d8cde8c0ad96777845)] -> css selector: input[name="Worktask"]] (tried for 40 second(s) with 500 milliseconds interval)
+Build info: version: '4.0.0-rc-2', revision: '8d1e4aa5ae'
+System info: host: 'CULAPHP142X2586', ip: '192.168.1.85', os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.5'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 110.0.5481.178, chrome: {chromedriverVersion: 110.0.5481.77 (65ed616c6e8e..., userDataDir: C:\Users\RAKUNA~1\AppData\L...}, goog:chromeOptions: {debuggerAddress: localhost:57730}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), se:cdp: ws://localhost:57730/devtoo..., se:cdpVersion: 110.0.5481.178, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:virtualAuthenticators: true}
+Session ID: d4bd146f50a4e0d8cde8c0ad96777845]]>
+            </message>
+            <full-stacktrace>
+              <![CDATA[org.openqa.selenium.TimeoutException: Expected condition failed: waiting for visibility of [[ChromeDriver: chrome on WINDOWS (d4bd146f50a4e0d8cde8c0ad96777845)] -> css selector: input[name="Worktask"]] (tried for 40 second(s) with 500 milliseconds interval)
+Build info: version: '4.0.0-rc-2', revision: '8d1e4aa5ae'
+System info: host: 'CULAPHP142X2586', ip: '192.168.1.85', os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.5'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 110.0.5481.178, chrome: {chromedriverVersion: 110.0.5481.77 (65ed616c6e8e..., userDataDir: C:\Users\RAKUNA~1\AppData\L...}, goog:chromeOptions: {debuggerAddress: localhost:57730}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), se:cdp: ws://localhost:57730/devtoo..., se:cdpVersion: 110.0.5481.178, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:virtualAuthenticators: true}
+Session ID: d4bd146f50a4e0d8cde8c0ad96777845
+at org.openqa.selenium.support.ui.WebDriverWait.timeoutException(WebDriverWait.java:138)
+at org.openqa.selenium.support.ui.FluentWait.until(FluentWait.java:231)
+at arcadia.utils.SeleniumCustomCommand.waitForElementVisibility(SeleniumCustomCommand.java:38)
+at arcadia.pages.CreateHarness.submitHarnessData(CreateHarness.java:31)
+at arcadia.stepdefinations.HarnessStepDefinitions.createNewHarnessInstance(HarnessStepDefinitions.java:73)
+at arcadia.stepdefinations.HarnessStepDefinitions.harness_with_name_is_launched_successfully(HarnessStepDefinitions.java:57)
+at ✽.harness with name 'WireEditor' is launched successfully(file:///C:/Users/Rakunanthan%20K%20S/Downloads/cadonix.test/src/test/resources/features/WireEditor.feature:7)
+]]>
+            </full-stacktrace>
+          </exception> <!-- org.openqa.selenium.TimeoutException -->
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- runScenario -->
+        <test-method is-config="true" signature="tearDownClass()[pri:0, instance:arcadia.runners.MyTestNGRunnerTest@2e005c4b]" started-at="2023-03-03T21:21:08 GMT" name="tearDownClass" finished-at="2023-03-03T21:21:10 GMT" duration-ms="2497" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDownClass -->
+      </class> <!-- arcadia.runners.MyTestNGRunnerTest -->
+    </test> <!-- Surefire test -->
+  </suite> <!-- Surefire suite -->
+</testng-results>

@@ -59,11 +59,11 @@ public class HarnessStepDefinitions {
     }
 
     private void createNewHarnessInstance(String connectorDescription) throws InterruptedException {
-        String partNumber = new StringHelper().generateRandomDigit().toString();
+        String partNumber = "442";
         projectLanding.invokeCreateHarness();
         arcadia.mapperObjects.CreateHarness harnessData = new arcadia.mapperObjects.CreateHarness();
-        harnessData.setComponentDB(System.getProperty("componentDB"));
         harnessData.setProfile(System.getProperty("profileName"));
+        harnessData.setComponentDB(System.getProperty("componentDB"));
         harnessData.setPartNumber(partNumber);
         harnessData.setDescription(connectorDescription);
         harnessData.setRevision(new StringHelper().generateRandomDigit().toString());

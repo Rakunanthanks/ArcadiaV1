@@ -1239,7 +1239,7 @@ public class ComponentDBStepDefinitions {
         List<SealsComponentDB> dbData =new SealsComponentDBPage(context.driver).getSealAPIData(response);
         SealsComponentDB randomSealsData = new SealsComponentDBPage(context.driver).getRandomSealsComponent(dbData);
         List<SealsComponentDB> filteredDbData = new ArrayList<>();
-        switch (propertyName.toLowerCase()) {
+        switch (propertyName.toLowerCase() ) {
             case "partnumber":
                 ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomSealsData.getPartnumber()));
                 filteredDbData = dbData.stream().filter(x -> x.getPartnumber().equals(randomSealsData.getPartnumber())).collect(Collectors.toList());

@@ -173,7 +173,13 @@ public class SeleniumCustomCommand {
         actions.moveToElement(element).doubleClick().perform();
     }
 
-    public void moveRightOfElementAndContextClick(WebDriver driver , WebElement element, int offsetRight){
+    public void tabKey( ) throws AWTException {
+        Robot robot = new Robot();
+        robot.keyPress(KeyEvent.VK_TAB);
+        robot.keyRelease(KeyEvent.VK_TAB);
+        robot.delay(200);
+    }
+ public void moveRightOfElementAndContextClick(WebDriver driver , WebElement element, int offsetRight){
         Actions actions = new Actions(driver);
         actions.moveToElement(element).moveByOffset(offsetRight,0).contextClick().build().perform();
     }

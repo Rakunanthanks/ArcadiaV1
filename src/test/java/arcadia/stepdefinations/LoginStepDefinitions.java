@@ -11,12 +11,15 @@ import arcadia.utils.DrawingHelper;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import static arcadia.context.FlowContext.harnessComponentAlreadyCreated;
+import static arcadia.pages.BasePage.driver;
 import static arcadia.stepdefinations.HarnessStepDefinitions.getHarnessDescription;
 import java.awt.*;
 import java.io.IOException;
 import java.util.List;
 import io.cucumber.java.en.Then;
-import org.openqa.selenium.By;
+		import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
 public class LoginStepDefinitions {
@@ -28,6 +31,23 @@ public class LoginStepDefinitions {
     }
     @Given("I'm on Arcadia test environment")
     public void i_m_on_arcadia_test_environment() throws IOException, InterruptedException {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+
+        //get the browser & Browse to the Settings
+        String siteLink = "chrome://settings/clearBrowserData";
+        driver.get(siteLink);
+
+        //wait for setting window to load
+        try {
+            Thread.sleep(3000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        //get clear cache button
+        WebElement clearBtn = (WebElement) js.executeScript("return document.querySelector(\"body > settings-ui\").shadowRoot.querySelector(\"#main\").shadowRoot.querySelector(\"settings-basic-page\").shadowRoot.querySelector(\"#basicPage > settings-section:nth-child(9) > settings-privacy-page\").shadowRoot.querySelector(\"settings-clear-browsing-data-dialog\").shadowRoot.querySelector(\"#clearBrowsingDataConfirm\")");
+        //Click
+        clearBtn.click();
         loginPage.load();
         loginPage.Login();
     }
@@ -38,7 +58,7 @@ public class LoginStepDefinitions {
 
     @Given("Navigated to selected componentDB")
     public void navigated_to_selected_component_db() {
-        loginPage.load(EndPoint.COMPONENTDB.url.replace("databaseName",System.getProperty("componentDB")));
+     loginPage.load(EndPoint.COMPONENTDB.url.replace("databaseName",System.getProperty("componentDB")));
     }
 
     @And("Navigated to quickstart project")

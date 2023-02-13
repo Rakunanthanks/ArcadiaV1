@@ -1,0 +1,2 @@
+Wire ID,Type,Line Font,Signal Name,From Con,From Cav,From Con Group ID,From Con Desc,From Cav Display,From Func,To Con,To Cav,To Con Group ID,To Con Desc,To Cav Display,To Func,Material,Gauge,Primary Color,Secondary Color,Tertiary Color,Component DB,Wire Class,Part Number,Core ID,MC ID,Twist Pitch,Outer Dia,CSA,Ident Tag,Harness Tag,Variant,Options
+001,,Standard Wire,,X-001,1,,,,,X-001,1,,,,,FLRY,1.5,YE,RD,none,quickstart,Wire,WIRE_YE/RD_1.5_FLRY,,,,2.4,1.5,,442,,
