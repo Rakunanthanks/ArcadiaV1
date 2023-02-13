@@ -16,6 +16,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -106,6 +107,14 @@ public class HarnessStepDefinitions {
         List<ConnectorPlugIdentifier> connector_ids=new ConnectorPage(context.driver).getConnectorPlugELementIdsFromDrawingPage();
         String identifier=connector_ids.get(0).getConnectorId();
         new HarnessPage(context.driver).getCavityTableContextMenu(identifier);
+        new HarnessPage(context.driver).performOperation(operation,identifier);
+        Thread.sleep(5000);
+    }
+
+    @And("User try operation {string} for node")
+    public void userTryOperationOnNodeContextMenu(String operation) throws InterruptedException {
+        String identifier = FlowContext.nodeIdentifierList.get(0).getNodeElementId();
+        harnessPage.getNodeContextMenu(identifier);
         new HarnessPage(context.driver).performOperation(operation,identifier);
         Thread.sleep(5000);
     }
@@ -239,10 +248,13 @@ public class HarnessStepDefinitions {
 
 
     @And("{string} list is initialized")
-    public void connectorListIsInitialized(String compType) {
+    public void harnesscomponentListIsInitialized(String compType) throws InterruptedException {
         switch (compType.toLowerCase()){
             case "connector":
                 new ConnectorPage(context.driver).getConnectorPlugELementIdsFromDrawingPage();
+                break;
+            case "node":
+                new BundlePage(context.driver).getNodeElementFromDrawingPage();
                 break;
         }
     }
@@ -389,5 +401,48 @@ public class HarnessStepDefinitions {
     @Then("User verifies cavitytable is opened successfully")
     public void userVerifiesCavitytableIsOpenedSuccessfully() {
         new ConnectorPage(context.driver).verifyCavityTableDetailsIsOpened();
+    }
+
+    @And("user opens context menu for node {string}")
+    public void userOpensContextMenuForNode(String index) throws InterruptedException {
+        String identifier = FlowContext.nodeIdentifierList.get(Integer.parseInt(index)).getNodeElementId();
+        harnessPage.getNodeContextMenu(identifier);
+    }
+
+    @Then("user verifies connector can be added from context menu of node successfully")
+    public void userVerifiesConnectorCanBeAddedFromContextMenuOfNode() throws InterruptedException, AWTException {
+        int countOfConnectors = harnessPage.getCountOfConnectors();
+        try {
+            harnessPage.enterPartNumberForQuickAdd("FFH04142BK*T");
+            int expectedCount = countOfConnectors + 1;
+            harnessPage.verifyCountOfConnectorsDisplayed(expectedCount);
+        }
+        finally {
+            harnessPage.exitDrawingPage();
+            harnessPage.deleteHarness("connectorValidator");
+        }
+    }
+
+    @And("User selects component {string} on linkparts window")
+    public void userSelectsComponentOnLinkpartsWindow(String componentType) {
+        harnessPage.selectLinkPartComponent(componentType);
+    }
+
+    @Then("Verify {string} is added successfully on harness")
+    public void verifyComponentIsAddedSuccessfullyOnHarness(String componentType) {
+        switch (componentType.toLowerCase()){
+            case "connector":
+                int countOfConnectors = FlowContext.connectorPlugIdentifierList.size();
+                int expectedCount = countOfConnectors + 1;
+                harnessPage.verifyCountOfConnectorsDisplayed(expectedCount);
+                break;
+        }
+    }
+
+    @And("connector editor is opened")
+    public void connectorEditorIsOpened() throws InterruptedException {
+        harnessPage.selectHeader("Advanced");
+        harnessPage.openConnectorEditor();
+        new ConnectorEditorPage(context.driver).verifyConnectorEditorOpened();
     }
 }

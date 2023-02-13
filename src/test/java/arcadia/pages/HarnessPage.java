@@ -48,6 +48,14 @@ public class HarnessPage extends BasePage{
 
     @FindBy(xpath = "//*[name()=\"g\" and @class=\"hilight\"]//*[name()=\"path\" and @nonstroke = \"BLACK\"]") private WebElement wirePath;
 
+    @FindBy(css = "form#quick-add-parts input.quick-add-parts__input") private WebElement inputQuickAddPartNumber;
+
+    @FindBy(xpath = "//*[name()=\"rect\" and @etype=\"connector\"]") private List<WebElement> connectors ;
+
+    @FindBy(css = "#iconneditor>span") private WebElement buttonConnectorEditor;
+
+    @FindBy(css = "#cEditor table.htCore") private WebElement tableConnectorEditor;
+
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
     public HarnessPage(WebDriver driver) {
         super(driver);
@@ -80,6 +88,11 @@ public class HarnessPage extends BasePage{
         WebElement ele = driver.findElement(By.xpath("//*[name()='g' and @id='"+spliceId+"']//*[name()='rect' and @etype='splice']"));
         return ele;
     }
+    public WebElement getNodeElement(String nodeId) throws InterruptedException {
+        WebElement ele = driver.findElement(By.xpath("//*[name()='g' and @id='"+nodeId+"']"));
+        return ele;
+    }
+
 
     public List<WebElement> getElementWireFan(String connectorId) {
         List<WebElement> ele = driver.findElements(By.xpath("//*[name()='g' and @id='"+connectorId+"']//*[name()='g']//*[name()='g' and contains(@class,'wirefan')]"));
@@ -172,14 +185,24 @@ public class HarnessPage extends BasePage{
         Thread.sleep(2000);
     }
 
+    public void getNodeContextMenu(String id) throws InterruptedException {
+        customCommand.javaScriptClick(driver,drawSelectPointer);
+        WebElement ele = getNodeElement(id);
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        customCommand.rightClick(driver,ele);
+        Thread.sleep(2000);
+    }
+
     public void performOperation(String operation,String id) throws InterruptedException {
-       // ExtentCucumberAdapter.addTestStepLog(String.format("Performing %s operation on connector with connector id = %s", operation,id));
-        String xpathOfConnector="//*[name()='g' and @id='"+id+"']/*[name()='rect']";
-        List<WebElement> connectors;
+        ExtentCucumberAdapter.addTestStepLog(String.format("Performing %s operation on component with id = %s", operation,id));
         boolean flag=false;
         if(operations.size()==0)
         {
-            ExtentCucumberAdapter.addTestStepLog(String.format("Not able to get all the operations allowed on connector"));
+            ExtentCucumberAdapter.addTestStepLog(String.format("Not able to get all the operations allowed"));
         }
         for(WebElement ele:operations)
         {
@@ -188,10 +211,7 @@ public class HarnessPage extends BasePage{
             {
                 ele.click();
                 Thread.sleep(2000);
-                connectors=driver.findElements(By.xpath(xpathOfConnector));
-                if(connectors.size()==0)
-                {
-                flag=true;}
+                flag = true;
                 break;
             }
         }
@@ -199,7 +219,7 @@ public class HarnessPage extends BasePage{
         {
             System.out.println("Operation "+operation+" not found");
         }else{
-            System.out.println("Connector is "+operation+"ed");
+            System.out.println("Operation "+operation+" performed");
         }
 
     }
@@ -481,5 +501,28 @@ public class HarnessPage extends BasePage{
 
     public void verifyWirePathIsDisplayed() {
         Assert.assertTrue(driver.findElements(By.xpath("//*[name()=\"g\" and @class=\"hilight\"]//*[name()=\"path\" and @nonstroke = \"BLACK\"]")).size()!=0,"WirePath is not displayed");
+    }
+
+    public void enterPartNumberForQuickAdd(String partNumber) throws AWTException, InterruptedException {
+        customCommand.enterText(inputQuickAddPartNumber,partNumber);
+        customCommand.simulateKeyEnter();
+        Thread.sleep(4000);
+    }
+
+    public int getCountOfConnectors(){
+        return connectors.size();
+    }
+
+    public void verifyCountOfConnectorsDisplayed(int expectedCountOfConnectors){
+        Assert.assertEquals(getCountOfConnectors(),expectedCountOfConnectors);
+    }
+
+    public void selectLinkPartComponent(String componentType) {
+        driver.findElement(By.xpath("//div[@class=\"ui-dialog-buttonset\"]//button//span[text()=\""+componentType+"\"]")).click();
+    }
+
+    public void openConnectorEditor() throws InterruptedException {
+        customCommand.scrollIntoView(driver,buttonConnectorEditor);
+        customCommand.javaScriptClick(driver,buttonConnectorEditor);
     }
 }
