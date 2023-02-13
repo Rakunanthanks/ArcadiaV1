@@ -97,6 +97,8 @@ public class HeaderPanel extends BasePage {
 
     public void selectCopyComponentDB(String dbName) throws InterruptedException {
         customCommand.waitForElementVisibility(driver,selectComponentDB);
+        customCommand.waitForElementToBeClickable(driver,selectComponentDB);
+        customCommand.waitForElementToBeClickable(driver,btnConfirmCopy);
         customCommand.selectDropDownByValue(selectComponentDB,dbName);
     }
 
