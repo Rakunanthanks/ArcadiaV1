@@ -27,12 +27,15 @@ public class MyHooks {
         System.out.println("BEFORE: THREAD ID : " + Thread.currentThread().getId() + "," +
                 "SCENARIO NAME: " + scenario.getName());
         driver = DriverFactory.initializeDriver(System.getProperty("browser", "chrome"));
-      //  driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         context.driver = driver;
         nodeIdentifierList.removeAll(nodeIdentifierList);
         nodeIdentifierList.clear();
+        connectorPlugIdentifierList.removeAll(connectorPlugIdentifierList);
+        connectorPlugIdentifierList.clear();
         connectorIdentifierList.removeAll(connectorIdentifierList);
         connectorIdentifierList.clear();
+        spliceIdentifierList.removeAll(connectorIdentifierList);
+        spliceIdentifierList.clear();
         wirePropertiesList.removeAll(wirePropertiesList);
         wirePropertiesList.clear();
         bundleFormData.removeAll(bundleFormData);
@@ -40,8 +43,14 @@ public class MyHooks {
         defaultBundleDisplay.removeAll(defaultBundleDisplay);
         defaultBundleDisplay.clear();
         mainWindowHandle=null;
+        referencesPartNumber = "";
+        testDescription = "";
+        harnessComponentAlreadyCreated = false;
         defaultLineFont = null;
         globalSleeveTubeUpdate = false;
+        dbName="";
+        connectorID = "";
+        terminalImagePath = "";
     }
 
     @After
@@ -50,12 +59,17 @@ public class MyHooks {
             final byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
             scenario.attach(screenshot, "image/png", scenario.getName().toString());
         }
-        System.out.println("AFTER: THREAD ID : " + Thread.currentThread().getId() + "," +
-                "SCENARIO NAME: " + scenario.getName());
+//        System.out.println("AFTER: THREAD ID : " + Thread.currentThread().getId() + "," +
+//                "SCENARIO NAME: " + scenario.getName());
+        context.driver = driver;
         nodeIdentifierList.removeAll(nodeIdentifierList);
         nodeIdentifierList.clear();
+        connectorPlugIdentifierList.removeAll(connectorPlugIdentifierList);
+        connectorPlugIdentifierList.clear();
         connectorIdentifierList.removeAll(connectorIdentifierList);
         connectorIdentifierList.clear();
+        spliceIdentifierList.removeAll(connectorIdentifierList);
+        spliceIdentifierList.clear();
         wirePropertiesList.removeAll(wirePropertiesList);
         wirePropertiesList.clear();
         bundleFormData.removeAll(bundleFormData);
@@ -63,8 +77,15 @@ public class MyHooks {
         defaultBundleDisplay.removeAll(defaultBundleDisplay);
         defaultBundleDisplay.clear();
         mainWindowHandle=null;
-        globalSleeveTubeUpdate = false;
+        referencesPartNumber = "";
+        testDescription = "";
+        harnessComponentAlreadyCreated = false;
         defaultLineFont = null;
+        globalSleeveTubeUpdate = false;
+        dbName="";
+        connectorID = "";
+        terminalImagePath = "";
         driver.quit();
+        driver = null;
     }
 }

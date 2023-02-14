@@ -46,3 +46,15 @@ Feature: General Harness Validations
     And User deletes Harness 'connectorValidator' successfully
     When Navigated to GeneralMacros page
     And custom label macros tags are updated with 'initialvalues'
+
+#  @VerifyConnector @ConnectorEditor
+#  Scenario: Test verifies Connector can be added from connector editor ----TODO--This scenario is not complete yet
+#    And Navigated to quickstart project
+#    And harness with name 'connectorValidator' is launched successfully
+#    And based on drawing orchestrator components are created
+#    And user sets label 'connector cavity table' to "Show"
+#    And 'connector' list is initialized
+#    And connector editor is opened
+#    And user enters details to add connector
+#    And User exits the drawing page
+#    And User deletes Harness 'connectorValidator' successfully

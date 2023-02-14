@@ -144,3 +144,20 @@ Feature: Verify context menu
     And User try operation 'Add Duplicate Cavity' for cavitytable
     And 'connectorplug' component with index '0' is opened
     Then User verifies duplicate wire is added to cavity successfully
+
+  @VerifyConnector @VerifyNodeContextMenu
+  Scenario: Test verifies connector can be added from context menu of node
+    And 'node' list is initialized
+    And user opens context menu for node '0'
+    Then user verifies connector can be added from context menu of node successfully
+
+  @VerifyConnector @VerifyNodeContextMenu
+  Scenario: Test verifies connector can be added by selecting linkpart from context menu of node
+    And 'node' list is initialized
+    And User try operation 'Link Parts' for node
+    And User selects component 'Connector' on linkparts window
+    And User selects connector from searchparts window
+    And Submit connector
+    Then Verify 'Connector' is added successfully on harness
+    And User exits the drawing page
+    And User deletes Harness 'connectorValidator' successfully
