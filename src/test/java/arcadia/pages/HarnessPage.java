@@ -22,6 +22,18 @@ public class HarnessPage extends BasePage{
     @FindBy(id = "izoom_in") private WebElement zoomIn;
     @FindBy(id = "idrawcom") private WebElement select;
 
+    @FindBy(xpath="//input[@name='cavitytable.conbutton']") private WebElement addPartNumber;
+    @FindBy(xpath = "//table[@id='tblAttachPartNoList']/tbody/tr[1]/td[1]") private WebElement firstPartFromList;
+    @FindBy(xpath = "//input[@name='bom.name']") private WebElement SplicePartName;
+    @FindBy(xpath = "//select[@name='wiretable.conidto']") private List<WebElement> connectorTo;
+    @FindBy(xpath = "//table[@id='wiretable']//input[@class='getDetails']") private List<WebElement> addWirePartNumber;
+    @FindBy(xpath = "//table[@id='tblWirePartNoList']/tbody/tr/td[8]") private List<WebElement> outerDiameter;
+    @FindBy(xpath = "//div[@aria-describedby='idFetchnode_attachpart']//span[text()='Populate']") private WebElement populateButtonParts;
+    @FindBy(xpath = "//div[@aria-describedby='idFetchwiretable']//span[text()='Populate']") private WebElement populateButtonWire;
+    @FindBy(xpath = "//select[@name='wiretable.spliceside']") private List<WebElement> spliceSide;
+    @FindBy(xpath = "//table[@id='cavitytable']//input[@class='addRow']") WebElement addRowCavity;
+    @FindBy(xpath = "//span[text()='Update wire PN']") WebElement updateWirePN;
+
     @FindBy(id = "idrawmove") private WebElement move;
     @FindBy(id = "iaddframe") private WebElement frame;
     @FindBy(id = "iupdateroute") private WebElement wireRoute;
@@ -39,6 +51,7 @@ public class HarnessPage extends BasePage{
     @FindBy(xpath = "//div[@title='Draw Select']") private  WebElement drawSelectPointer;
 
     @FindBy(css = "div[title=\"Exit\"]") private WebElement buttonExitDrawing;
+    @FindBy(xpath="//select[@name='node.splicetechnology']") private WebElement spliceTechnologyDropdown;
 
     @FindBy(xpath = "//span[@class=\"ui-dialog-title\"][text()=\"Add Wire\"]") private WebElement popUpAddWire;
 
@@ -199,10 +212,14 @@ public class HarnessPage extends BasePage{
 
     public void performOperation(String operation,String id) throws InterruptedException {
         ExtentCucumberAdapter.addTestStepLog(String.format("Performing %s operation on component with id = %s", operation,id));
+//        ExtentCucumberAdapter.addTestStepLog(String.format("Performing %s operation on connector with connector id = %s", operation,id));
+        String xpathOfConnector="//*[name()='g' and @id='"+id+"']/*[name()='rect']";
+        List<WebElement> connectors;
         boolean flag=false;
         if(operations.size()==0)
         {
             ExtentCucumberAdapter.addTestStepLog(String.format("Not able to get all the operations allowed"));
+//            ExtentCucumberAdapter.addTestStepLog(String.format("Not able to get all the operations allowed on connector"));
         }
         for(WebElement ele:operations)
         {
@@ -289,6 +306,23 @@ public class HarnessPage extends BasePage{
         customCommand.doubleClick(driver,ele);
         Thread.sleep(2000);
     }
+
+    public void selectSpliceTechnology(String technology) throws InterruptedException {
+        customCommand.selectDropDownByValue(spliceTechnologyDropdown,technology);
+        customCommand.javaScriptClick(driver,buttonSubmitDetails);
+    }
+
+    public void validateSpliceTechnology(String technology) throws InterruptedException {
+      Thread.sleep(2000);
+        String tech = customCommand.getSelectedValueFromSelectDropDown(spliceTechnologyDropdown);
+        if (tech.equalsIgnoreCase(technology)) {
+//            ExtentCucumberAdapter.addTestStepLog(String.format("Expected technology is "+technology+", actual is "+tech));
+        }
+        else {
+//            ExtentCucumberAdapter.addTestStepLog(String.format("Expected technology is "+technology+", actual is "+tech));
+        }
+    }
+
 
     public void deleteHarness(String description){
         driver.findElement(By.xpath("//table[@id=\"tableHAR\"]/tbody//tr//td[contains(text(),\""+description+"\")]/following-sibling::td[last()]//a[@title=\"Delete Task\"]")).click();
@@ -501,6 +535,60 @@ public class HarnessPage extends BasePage{
 
     public void verifyWirePathIsDisplayed() {
         Assert.assertTrue(driver.findElements(By.xpath("//*[name()=\"g\" and @class=\"hilight\"]//*[name()=\"path\" and @nonstroke = \"BLACK\"]")).size()!=0,"WirePath is not displayed");
+    }
+
+    public void addPartNumberToSplice() throws InterruptedException {
+        customCommand.javaScriptClick(driver,addPartNumber);
+        customCommand.javaScriptClick(driver,firstPartFromList);
+        customCommand.javaScriptClick(driver,populateButtonParts);
+    }
+
+    public void addCavity() throws InterruptedException {
+        customCommand.javaScriptClick(driver,addRowCavity);
+        customCommand.javaScriptClick(driver,addRowCavity);
+
+    }
+
+    public void addWires() throws InterruptedException {
+        String spliceId = new ConnectorPage(driver).getSpliceElementIdsFromDrawingPage().get(Integer.parseInt(String.valueOf(0))).getSpliceId();
+        for (WebElement we:connectorTo)
+        {
+            customCommand.selectDropDownByValue(we,spliceId);
+        }
+        addWirePartNo();
+        selectSpliceSide();
+        customCommand.javaScriptClick(driver,updateWirePN);
+    }
+
+    public void addWirePartNo() throws InterruptedException {
+        for (WebElement we:addWirePartNumber)
+        {
+            customCommand.javaScriptClick(driver,we);
+            for (WebElement od:outerDiameter)
+            {
+                if(od.getText().contains("0.00"))
+                {continue;}
+                else{
+                    customCommand.javaScriptClick(driver,od);
+                    break;
+                }
+            }
+            customCommand.javaScriptClick(driver,populateButtonWire);
+        }
+    }
+
+    public void selectSpliceSide() throws InterruptedException {
+        customCommand.selectDropDownByValue(spliceSide.get(0),"a");
+        Thread.sleep(2000);
+        customCommand.selectDropDownByValue(spliceSide.get(1),"b");
+    }
+
+    public void clickSubmit() {
+        try {
+            customCommand.javaScriptClick(driver,buttonSubmitDetails);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void enterPartNumberForQuickAdd(String partNumber) throws AWTException, InterruptedException {

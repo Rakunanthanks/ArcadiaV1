@@ -7,6 +7,7 @@ import arcadia.mapperObjects.TestMapper;
 import arcadia.pages.BundlePage;
 import arcadia.pages.ComponentDB.Connectors.ConnectorsDBPage;
 import arcadia.pages.ComponentDB.Multicore.MulticoreComponentDBPage;
+import arcadia.pages.ComponentDB.Splices.SplicesComponentDBPage;
 import arcadia.pages.ComponentDB.Wires.WiresComponentDBPage;
 import arcadia.pages.HarnessPage;
 import arcadia.pages.PageFactoryManager;
@@ -74,7 +75,7 @@ public class SearchPartsStepDefinitions {
         List<ConnectorDB> filteredDbData = new ArrayList<>();
         searchPartsDatabasePage.selectSearchDB(System.getProperty("componentDB"));
         searchPartsDatabasePage.selectComponentType(component);
-        switch (filtertype.toLowerCase()){
+        switch (filtertype.toLowerCase()) {
             case "partnumber":
                 filteredDbData = dbData.stream().filter(x -> x.getPartNumber().equals(randomConnectorData.getPartNumber())).collect(Collectors.toList());
                 searchPartsDatabasePage.searchPartUsingPartNumber(randomConnectorData.getPartNumber());
@@ -113,6 +114,67 @@ public class SearchPartsStepDefinitions {
                 .collect(Collectors.toList());
         Assert.assertEquals(actualUniquePartList.size(),expectedPartNumberList.size());
     }
+
+
+    @Then("Verify user can filter splice using {string}")
+    public void userFiltersSpliceOnCreateBundle(String filtertype) throws InterruptedException, AWTException, IOException {
+        File file = new File("src/test/resources/componentDB/Splices/SpliceData.json");
+        List<SplicesComponentDB> dbData = null;
+        if (file.exists()) {
+            ObjectMapper mapper = new ObjectMapper();
+            dbData = mapper.readValue(new File("src/test/resources/componentDB/Splices/SpliceData.json"), new TypeReference<List<SplicesComponentDB>>() {
+            });
+        }
+        if (!file.exists()) {
+            dbData = new SplicesComponentDBPage(context.driver).getSplicesData();
+            ObjectMapper mapper = new ObjectMapper();
+            Files.createDirectories(Paths.get("src/test/resources/componentDB/Splices"));
+            mapper.writeValue(new File("src/test/resources/componentDB/Splices/SpliceData.json"), dbData);
+        }
+        SplicesComponentDB randomSpliceData = new SplicesComponentDBPage(context.driver).getRandomSpliceComponent(dbData);
+        List<SplicesComponentDB> filteredDbData = new ArrayList<>();
+        searchPartsDatabasePage.selectSearchDB(System.getProperty("componentDB"));
+        searchPartsDatabasePage.selectComponentType("splice");
+        switch (filtertype.toLowerCase()) {
+            case "partnumber":
+                filteredDbData = dbData.stream().filter(x -> x.getPartNumber().equals(randomSpliceData.getPartNumber())).collect(Collectors.toList());
+                searchPartsDatabasePage.searchPartUsingPartNumber(randomSpliceData.getPartNumber());
+                break;
+//            case "cavity":
+//                filteredDbData = dbData.stream().filter(x -> x.get().equals(randomSpliceData.getNumberOfCavities())).collect(Collectors.toList());
+//                searchPartsDatabasePage.searchPartUsingCavity(randomSpliceData.getNumberOfCavities());
+//                break;
+            case "family":
+                filteredDbData = dbData.stream().filter(x -> x.getFamily().equals(randomSpliceData.getFamily())).collect(Collectors.toList());
+                searchPartsDatabasePage.searchPartUsingFamily(randomSpliceData.getFamily());
+                break;
+            case "supplier":
+                filteredDbData = dbData.stream().filter(x -> x.getSupplier().equals(randomSpliceData.getSupplier())).collect(Collectors.toList());
+                searchPartsDatabasePage.searchPartUsingSupplier(randomSpliceData.getSupplier());
+                break;
+//            case "housinggender":
+//                filteredDbData = dbData.stream().filter(x -> x.getHousingGender().equals(randomSpliceData.getHousingGender())).collect(Collectors.toList());
+//                searchPartsDatabasePage.searchPartUsingHousingGender(randomSpliceData.getHousingGender());
+//                break;
+//            case "terminalgender":
+//                filteredDbData = dbData.stream().filter(x -> x.getTerminalGender().equals(randomSpliceData.getTerminalGender())).collect(Collectors.toList());
+//                searchPartsDatabasePage.searchPartUsingTerminalGender(randomSpliceData.getTerminalGender());
+//                break;
+        }
+        List<String> actualUniquePartList = searchPartsDatabasePage.getSearchPartsData();
+        List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
+        List<String> differenceFromExpectedPartNumberList = expectedPartNumberList.stream()
+                .filter(element -> !actualUniquePartList.contains(element))
+                .collect(Collectors.toList());
+        if(differenceFromExpectedPartNumberList.size()>0){
+            ExtentCucumberAdapter.addTestStepLog(String.format("Differences with expected %s", differenceFromExpectedPartNumberList.toString()));
+        }
+        List<String> differenceFromActualPartNumberList = actualUniquePartList.stream()
+                .filter(element -> !expectedPartNumberList.contains(element))
+                .collect(Collectors.toList());
+        Assert.assertEquals(actualUniquePartList.size(),expectedPartNumberList.size());
+    }
+
 
     @Then("Verify user can filter {string} using {string} with value {string}")
     public void verifyUserCanFilterConnectorUsingFilterAndValue(String component, String filtertype, String filterValue) throws IOException, InterruptedException, AWTException {
