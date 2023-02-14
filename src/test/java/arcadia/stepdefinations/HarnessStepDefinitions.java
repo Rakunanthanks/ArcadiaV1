@@ -378,6 +378,7 @@ public class HarnessStepDefinitions {
         harnessPage.selectSpliceTechnology(technology);
         String spliceId = new ConnectorPage(context.driver).getSpliceElementIdsFromDrawingPage().get(Integer.parseInt(String.valueOf(0))).getSpliceId();
         new HarnessPage(context.driver).getContextMenu(spliceId);
+        Thread.sleep(2000);
         new HarnessPage(context.driver).performOperation("Inspect",spliceId);
         new HarnessPage(context.driver).validateSpliceTechnology(technology);
     }
@@ -397,5 +398,26 @@ public class HarnessStepDefinitions {
     @Then("User verifies cavitytable is opened successfully")
     public void userVerifiesCavitytableIsOpenedSuccessfully() {
         new ConnectorPage(context.driver).verifyCavityTableDetailsIsOpened();
+    }
+
+    @And("add configurations to create splice image")
+    public void addConfigurationsToCreateSpliceImage() throws InterruptedException {
+        harnessPage.addPartNumberToSplice();
+        harnessPage.addCavity();
+        harnessPage.addWires();
+        harnessPage.clickSubmit();
+    }
+
+    @And("toggle splice image from context menu options")
+    public void toggleSpliceImageFromContextMenuOptions() throws InterruptedException {
+        String spliceId = new ConnectorPage(context.driver).getSpliceElementIdsFromDrawingPage().get(Integer.parseInt(String.valueOf(0))).getSpliceId();
+        new HarnessPage(context.driver).getContextMenu(spliceId);
+        Thread.sleep(2000);
+        new HarnessPage(context.driver).performOperation("Toggle Splice Image",spliceId);
+    }
+
+    @And("verify splice image is drawn on Harness page with above configuration")
+    public void verifySpliceImageIsDrawnOnHarnessPageWithAboveConfiguration() {
+
     }
 }
