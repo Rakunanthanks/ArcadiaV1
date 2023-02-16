@@ -7,16 +7,17 @@ import arcadia.mapperObjects.DrawingInstructor;
 import arcadia.pages.*;
 import arcadia.pages.ComponentDB.HeaderPanel;
 import arcadia.utils.DrawingHelper;
-import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
-import io.cucumber.java.bs.A;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import static arcadia.context.FlowContext.harnessComponentAlreadyCreated;
+import static arcadia.stepdefinations.HarnessStepDefinitions.getHarnessDescription;
 import java.awt.*;
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import io.cucumber.java.en.Then;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
 public class LoginStepDefinitions {
     private final LoginPage loginPage;
     private final TestContext context;
@@ -53,14 +54,25 @@ public class LoginStepDefinitions {
     public void navigateToSettings() throws InterruptedException {
         Thread.sleep(1000);
         loginPage.load(EndPoint.SETTINGS.url);
+        context.driver.switchTo( ).alert( ).accept();
         Thread.sleep(1000);
-        loginPage.load(EndPoint.AutomationCompanyProfile.url);
+        loginPage.load(EndPoint.AutomationCompanyProfile.url.replace("profileName",System.getProperty("profileName")));
         Thread.sleep(1000);
-        loginPage.load(EndPoint.BUNDLEDEFAULTDISPLAY.url);
+        loginPage.load(EndPoint.BUNDLEDEFAULTDISPLAY.url.replace("profileName",System.getProperty("profileName")));
         Thread.sleep(1000);
         new DefineBundleTolerance(context.driver).CaptureModifyBundleTollerance();
         Thread.sleep(1000);
 
+    }
+    @And("Navigating to created Project")
+    public  void navigating_ToCreatedProject() throws InterruptedException {
+        loginPage.load(EndPoint.PROJECT.url.replace("projectName","quickstart"));
+        Thread.sleep(2000);
+        WebElement harnessElement =  context.driver.findElement(By.xpath("//table[@id=\"tableHAR\"]/tbody//tr//td[text()=\"" + getHarnessDescription + "\"]"));
+        harnessElement.click();
+        Thread.sleep(2000);
+        WebElement ok = context.driver.findElement(By.xpath("//button[normalize-space()='OK']"));
+        ok.click();
     }
     @And( "Checking the Bundle Tolerance Value")
     public void Checking_the_Bundle_Tolerance_Value() throws InterruptedException {
