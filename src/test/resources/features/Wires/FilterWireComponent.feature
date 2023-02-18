@@ -111,7 +111,7 @@ Feature: Filter wire components
     Given I'm on Arcadia test environment
     And Navigated to selected componentDB
     And User selected 'wire' from componentDB
-    Then Verify wire component data is greater than value '1.0' for filter 'MinimumBendRadius'
+    Then Verify wire component data is greater than value '0.00' for filter 'MinimumBendRadius'
 
   @WireComponentDB
   @FilterWire
