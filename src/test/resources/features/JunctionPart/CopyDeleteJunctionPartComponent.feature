@@ -33,6 +33,8 @@ Feature: Copy and Delete junction part components
   @CloneJunctionPartComponent
   Scenario: Test verifies a junction part component can be copied
     Given I'm on Arcadia test environment
+    And User navigated to componentDB
+    And Created DB 'quickstartms'
     And Navigated to selected componentDB
     And User selected 'junctionpart' from componentDB
     And 'junctionpart' component with status 'IN REVIEW' is created successfully

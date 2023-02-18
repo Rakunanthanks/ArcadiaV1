@@ -33,6 +33,8 @@ Feature: Copy and Delete seal components
   @ClonesealComponent
   Scenario: Test verifies a seal component can be copied
     Given I'm on Arcadia test environment
+    And User navigated to componentDB
+    And Created DB 'quickstartms'
     And Navigated to selected componentDB
     And User selected 'seal' from componentDB
     And 'seal' component with status 'IN REVIEW' is created successfully
