@@ -341,7 +341,7 @@ public class ComponentDBStepDefinitions {
                 filteredDbData = dbData.stream()
                         .filter(x -> x.getOutsideDia() >= outsidedia)
                         .collect(Collectors.toList());
-                new CommonElements(context.driver).filterComponentBasedOnCSARange(">=" + greaterThanValue);
+                new CommonElements(context.driver).filterComponentBasedOnOutsideDiaRange(">= " + greaterThanValue);
                 break;
             case "minimumbendradius":
                 ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", greaterThanValue));
@@ -349,14 +349,14 @@ public class ComponentDBStepDefinitions {
                 filteredDbData = dbData.stream()
                         .filter(x -> x.getMinimumRadius() >= minimumbendradiusValue)
                         .collect(Collectors.toList());
-                new CommonElements(context.driver).filterComponentBasedOnCSARange(">=" + greaterThanValue);
+                new CommonElements(context.driver).filterComponentBasedOnMinimumBendRadiusRange(">= " + greaterThanValue);
                 break;
             case "maxcurrent":
                 Double maxCurrentValue = Double.valueOf(greaterThanValue);
                 filteredDbData = dbData.stream()
                         .filter(x -> x.getMaxcurrent() >= maxCurrentValue)
                         .collect(Collectors.toList());
-                new CommonElements(context.driver).filterComponentBasedOnCSARange(">=" + greaterThanValue);
+                new CommonElements(context.driver).filterComponentBasedOnMaxCurrentRange(">= " + greaterThanValue);
                 break;
             case "resistance":
                 ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", greaterThanValue));
@@ -364,7 +364,7 @@ public class ComponentDBStepDefinitions {
                 filteredDbData = dbData.stream()
                         .filter(x -> x.getResistance() >= resistanceValue)
                         .collect(Collectors.toList());
-                new CommonElements(context.driver).filterComponentBasedOnCSARange(">=" + greaterThanValue);
+                new CommonElements(context.driver).filterComponentBasedOnResistanceRange(">= " + greaterThanValue);
                 break;
         }
         List<String> actualUniquePartList = new MulticoreComponentDBPage(context.driver).getPartNumber();
@@ -413,7 +413,7 @@ public class ComponentDBStepDefinitions {
                 new CommonElements(context.driver).filterComponentBasedOnCSARange(filterValue);
                 break;
             case "outsidedia":
-                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", filterValue));
+//                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", filterValue));
                 String[] outDiaRange = filterValue.split("-");
                 Double initialDiaValue = Double.valueOf(outDiaRange[0]);
                 Double finalDiaValue = Double.valueOf(outDiaRange[1]);
@@ -1038,7 +1038,7 @@ public class ComponentDBStepDefinitions {
                 filteredDbData = dbData.stream()
                         .filter(x -> x.getNumberOfWires() >= numberOfWiresValue)
                         .collect(Collectors.toList());
-                new CommonElements(context.driver).filterComponentBasedOnNumberOfWiresRange(">=" + greaterThanValue);
+                new CommonElements(context.driver).filterComponentBasedOnNumberOfWiresRange(">= " + greaterThanValue);
                 break;
         }
         List<String> actualUniquePartList = new MulticoreComponentDBPage(context.driver).getPartNumber();
@@ -1341,7 +1341,7 @@ public class ComponentDBStepDefinitions {
                 filteredDbData = dbData.stream()
                         .filter(x -> x.getNumberOfCavities() >= numberOfCavitiesValue)
                         .collect(Collectors.toList());
-                new CommonElements(context.driver).filterComponentBasedOnNumberOfCavitiesRange(">=" + greaterThanValue);
+                new CommonElements(context.driver).filterComponentBasedOnNumberOfCavitiesRange(">= " + greaterThanValue);
                 break;
         }
         List<String> actualUniquePartList = new MulticoreComponentDBPage(context.driver).getPartNumber();
@@ -1770,7 +1770,7 @@ public class ComponentDBStepDefinitions {
                 filteredDbData = dbData.stream()
                         .filter(x -> x.getNumberOfCavities() >= numberOfCavitiesValue)
                         .collect(Collectors.toList());
-                new CommonElements(context.driver).filterComponentBasedOnNumberOfCavitiesRange(">=" + greaterThanValue);
+                new CommonElements(context.driver).filterComponentBasedOnNumberOfCavitiesRange(">= " + greaterThanValue);
                 break;
         }
         List<String> actualUniquePartList = new MulticoreComponentDBPage(context.driver).getPartNumber();
