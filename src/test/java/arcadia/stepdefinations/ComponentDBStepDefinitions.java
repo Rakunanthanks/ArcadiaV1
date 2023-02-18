@@ -9,6 +9,7 @@ import arcadia.domainobjects.Macros.WireTags;
 import arcadia.pages.ComponentDB.AddNewComponentPage;
 import arcadia.pages.ComponentDB.Applicators.ApplicatorsComponentDBPage;
 import arcadia.pages.ComponentDB.CommonElements;
+import arcadia.pages.ComponentDB.ComponentDBHomePage;
 import arcadia.pages.ComponentDB.Components.ComponentsDBPage;
 import arcadia.pages.ComponentDB.Connectors.ConnectorsDBPage;
 import arcadia.pages.ComponentDB.HeaderPanel;
@@ -1862,5 +1863,14 @@ public class ComponentDBStepDefinitions {
         new GeneralMacrosPage(context.driver).enterCustomLabelTags(labelValue);
         new GeneralMacrosPage(context.driver).clickSaveButton();
         new GeneralMacrosPage(context.driver).verifyAlertMacrosSuccessMessage("Macros updated successfully");
+    }
+
+    @And("Created DB {string}")
+    public void createdDB(String dbName) throws InterruptedException {
+        if (!new ComponentDBHomePage(context.driver).checkDBExists(dbName)){
+            new ComponentDBHomePage(context.driver).cloneComponentDB(System.getProperty("componentDB"),dbName);
+            new AddNewComponentPage(context.driver).verifyAlertMessage("Component Database Cloned Successfully");
+            new AddNewComponentPage(context.driver).closeAlertPopUp();
+        }
     }
 }
