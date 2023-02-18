@@ -33,6 +33,8 @@ Feature: Copy and Delete applicator components
   @CloneApplicatorComponent
   Scenario: Test verifies a applicator component can be copied
     Given I'm on Arcadia test environment
+    And User navigated to componentDB
+    And Created DB 'quickstartms'
     And Navigated to selected componentDB
     And User selected 'applicator' from componentDB
     And 'applicator' component with status 'IN REVIEW' is created successfully

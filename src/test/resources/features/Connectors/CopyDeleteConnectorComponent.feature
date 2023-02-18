@@ -33,6 +33,8 @@ Feature: Copy and Delete connector components
   @CloneConnectorComponent
   Scenario: Test verifies a connector component can be copied
     Given I'm on Arcadia test environment
+    And User navigated to componentDB
+    And Created DB 'quickstartms'
     And Navigated to selected componentDB
     And User selected 'connector' from componentDB
     And 'connector' component with status 'IN REVIEW' is created successfully

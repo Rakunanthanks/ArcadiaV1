@@ -33,6 +33,8 @@ Feature: Copy and Delete splice components
   @CloneSpliceComponent
   Scenario: Test verifies a splice component can be copied
     Given I'm on Arcadia test environment
+    And User navigated to componentDB
+    And Created DB 'quickstartms'
     And Navigated to selected componentDB
     And User selected 'splice' from componentDB
     And 'splice' component with status 'IN REVIEW' is created successfully

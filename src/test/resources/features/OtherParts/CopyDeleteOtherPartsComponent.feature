@@ -33,6 +33,8 @@ Feature: Copy and Delete other part components
   @CloneOtherPartComponent
   Scenario: Test verifies a other part component can be copied
     Given I'm on Arcadia test environment
+    And User navigated to componentDB
+    And Created DB 'quickstartms'
     And Navigated to selected componentDB
     And User selected 'otherpart' from componentDB
     And 'otherpart' component with status 'IN REVIEW' is created successfully

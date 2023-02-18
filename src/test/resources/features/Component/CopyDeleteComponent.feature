@@ -33,6 +33,8 @@ Feature: Copy and Delete components
   @CloneComponent
   Scenario: Test verifies a component can be copied
     Given I'm on Arcadia test environment
+    And User navigated to componentDB
+    And Created DB 'quickstartms'
     And Navigated to selected componentDB
     And User selected 'component' from componentDB
     And 'component' component with status 'IN REVIEW' is created successfully
