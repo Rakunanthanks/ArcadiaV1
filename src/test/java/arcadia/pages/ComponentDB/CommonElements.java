@@ -179,6 +179,8 @@ public class CommonElements extends BasePage {
     @FindBy(xpath = "//button[@data-bb-handler='confirm']")
             private WebElement confirmDeleteButton;
 
+    String tableComponentRows = "table[data-page-list=\"[25, 50, 75, 100, All\"]>tbody>tr";
+
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
 
     public void selectFirstComponent() {
@@ -278,13 +280,20 @@ public class CommonElements extends BasePage {
         }
     }
 
+    private void checkIfResultsReturnedForComponents() {
+        boolean isResultAvailable = driver.findElements(By.cssSelector(tableComponentRows)).size() >0 ;
+        if(isResultAvailable){
+            customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tableComponentRows)));
+        }
+    }
+
     public void filterComponentBasedOnPartNumber(String partNumber) throws InterruptedException {
         Thread.sleep(2000);
         customCommand.waitForElementVisibility(driver, paginationDropdown);
         customCommand.waitForElementToBeClickable(driver, searchFieldPartNumber);
         customCommand.simulateKeyEnterWithValue(searchFieldPartNumber, partNumber);
         Thread.sleep(3000);
-        customCommand.waitForElementVisibility(driver, checkboxfirstComponent);
+        checkIfResultsReturnedForComponents();
     }
 
     public void filterComponentBasedOnStatus(String status) throws InterruptedException {
@@ -292,7 +301,7 @@ public class CommonElements extends BasePage {
         customCommand.waitForElementVisibility(driver, paginationDropdown);
         customCommand.selectDropDownByValue(selectStatus, status);
         Thread.sleep(2000);
-        customCommand.waitForElementVisibility(driver, checkboxfirstComponent);
+        checkIfResultsReturnedForComponents();
     }
 
     public void filterComponentBasedOnDescription(String description) throws InterruptedException {
@@ -300,7 +309,7 @@ public class CommonElements extends BasePage {
         customCommand.waitForElementVisibility(driver, paginationDropdown);
         customCommand.simulateKeyEnterWithValue(searchFieldDescription, description);
         Thread.sleep(3000);
-        customCommand.waitForElementVisibility(driver, checkboxfirstComponent);
+        checkIfResultsReturnedForComponents();
     }
 
     public void filterComponentBasedOnFamily(String family) throws InterruptedException {
@@ -308,7 +317,7 @@ public class CommonElements extends BasePage {
         customCommand.waitForElementVisibility(driver, paginationDropdown);
         customCommand.simulateKeyEnterWithValue(searchFieldFamily, family);
         Thread.sleep(3000);
-        customCommand.waitForElementVisibility(driver, checkboxfirstComponent);
+        checkIfResultsReturnedForComponents();
     }
 
     public void filterComponentBasedOnUsage(String usage) throws InterruptedException {
@@ -316,7 +325,7 @@ public class CommonElements extends BasePage {
         customCommand.waitForElementVisibility(driver, paginationDropdown);
         customCommand.selectDropDownByValue(selectUsage, usage);
         Thread.sleep(2000);
-        customCommand.waitForElementVisibility(driver, checkboxfirstComponent);
+        checkIfResultsReturnedForComponents();
     }
 
     public void filterComponentBasedOnSupplier(String supplier) throws InterruptedException {
@@ -324,7 +333,7 @@ public class CommonElements extends BasePage {
         customCommand.waitForElementVisibility(driver, paginationDropdown);
         customCommand.simulateKeyEnterWithValue(searchFieldSupplier, supplier);
         Thread.sleep(2000);
-        customCommand.waitForElementVisibility(driver, checkboxfirstComponent);
+        checkIfResultsReturnedForComponents();
     }
 
     public void filterComponentBasedOnSupplierPN(String supplierPN) throws InterruptedException {
@@ -332,7 +341,7 @@ public class CommonElements extends BasePage {
         customCommand.waitForElementVisibility(driver, paginationDropdown);
         customCommand.simulateKeyEnterWithValue(searchFieldSupplierPN, supplierPN);
         Thread.sleep(2000);
-        customCommand.waitForElementVisibility(driver, checkboxfirstComponent);
+        checkIfResultsReturnedForComponents();
     }
 
     public void filterComponentBasedOnColour(String colour) throws InterruptedException {
@@ -340,7 +349,7 @@ public class CommonElements extends BasePage {
         customCommand.waitForElementVisibility(driver, paginationDropdown);
         customCommand.selectDropDownByValue(selectColour, colour);
         Thread.sleep(2000);
-        customCommand.waitForElementVisibility(driver, checkboxfirstComponent);
+        checkIfResultsReturnedForComponents();
     }
 
     public void filterComponentBasedOnCavity(String cavity) throws InterruptedException {
@@ -348,7 +357,7 @@ public class CommonElements extends BasePage {
         customCommand.waitForElementVisibility(driver, paginationDropdown);
         customCommand.simulateKeyEnterWithValue(searchFieldCavity, cavity);
         Thread.sleep(2000);
-        customCommand.waitForElementVisibility(driver, checkboxfirstComponent);
+        checkIfResultsReturnedForComponents();
     }
 
     public void filterComponentBasedOnInsulationOD(String insulationOD) throws InterruptedException {
@@ -356,7 +365,7 @@ public class CommonElements extends BasePage {
         customCommand.waitForElementVisibility(driver, paginationDropdown);
         customCommand.simulateKeyEnterWithValue(searchFieldInsulationOD, insulationOD);
         Thread.sleep(2000);
-        customCommand.waitForElementVisibility(driver, checkboxfirstComponent);
+        checkIfResultsReturnedForComponents();
     }
 
     public void filterComponentBasedOnAwgSize(String awgSize) throws InterruptedException {
@@ -364,7 +373,7 @@ public class CommonElements extends BasePage {
         customCommand.waitForElementVisibility(driver, paginationDropdown);
         customCommand.simulateKeyEnterWithValue(searchFieldAwgSize, awgSize);
         Thread.sleep(2000);
-        customCommand.waitForElementVisibility(driver, checkboxfirstComponent);
+        checkIfResultsReturnedForComponents();
     }
 
     public void filterComponentBasedOnGauge(String gauge) throws InterruptedException {
@@ -372,7 +381,7 @@ public class CommonElements extends BasePage {
         customCommand.waitForElementVisibility(driver, paginationDropdown);
         customCommand.simulateKeyEnterWithValue(searchFieldGauge, gauge);
         Thread.sleep(2000);
-        customCommand.waitForElementVisibility(driver, checkboxfirstComponent);
+        checkIfResultsReturnedForComponents();
     }
 
     public void filterComponentBasedOnCSARange(String csaRange) throws InterruptedException {
@@ -381,7 +390,7 @@ public class CommonElements extends BasePage {
         customCommand.scrollIntoView(driver, searchFieldCSA);
         customCommand.simulateKeyEnterWithValue(searchFieldCSA, csaRange);
         Thread.sleep(2000);
-        customCommand.waitForElementVisibility(driver, checkboxfirstComponent);
+        checkIfResultsReturnedForComponents();
     }
 
     public void filterComponentBasedOnOutsideDiaRange(String outsideDiaRange) throws InterruptedException {
@@ -389,7 +398,7 @@ public class CommonElements extends BasePage {
         customCommand.waitForElementVisibility(driver, paginationDropdown);
         customCommand.simulateKeyEnterWithValue(searchFieldOutsideDia, outsideDiaRange);
         Thread.sleep(2000);
-        customCommand.waitForElementVisibility(driver, checkboxfirstComponent);
+        checkIfResultsReturnedForComponents();
     }
 
     public void filterComponentBasedOnMaterial(String material) throws InterruptedException {
@@ -397,7 +406,7 @@ public class CommonElements extends BasePage {
         customCommand.waitForElementVisibility(driver, paginationDropdown);
         customCommand.simulateKeyEnterWithValue(searchFieldMaterial, material);
         Thread.sleep(2000);
-        customCommand.waitForElementVisibility(driver, checkboxfirstComponent);
+        checkIfResultsReturnedForComponents();
     }
 
     public void filterComponentBasedOnMinimumBendRadiusRange(String minimumBendRadiusRange) throws InterruptedException {
@@ -405,7 +414,7 @@ public class CommonElements extends BasePage {
         customCommand.waitForElementVisibility(driver, paginationDropdown);
         customCommand.simulateKeyEnterWithValue(searchFieldMinimumBendRadius, minimumBendRadiusRange);
         Thread.sleep(2000);
-        customCommand.waitForElementVisibility(driver, checkboxfirstComponent);
+        checkIfResultsReturnedForComponents();
     }
 
     public void filterComponentBasedOnMaxCurrentRange(String maxCurrentRange) throws InterruptedException {
@@ -413,7 +422,7 @@ public class CommonElements extends BasePage {
         customCommand.waitForElementVisibility(driver, paginationDropdown);
         customCommand.simulateKeyEnterWithValue(searchFieldMaxCurrent, maxCurrentRange);
         Thread.sleep(2000);
-        customCommand.waitForElementVisibility(driver, checkboxfirstComponent);
+        checkIfResultsReturnedForComponents();
     }
 
     public void filterComponentBasedOnResistanceRange(String resistanceRange) throws InterruptedException {
@@ -421,7 +430,7 @@ public class CommonElements extends BasePage {
         customCommand.waitForElementVisibility(driver, paginationDropdown);
         customCommand.simulateKeyEnterWithValue(searchFieldResistance, resistanceRange);
         Thread.sleep(2000);
-        customCommand.waitForElementVisibility(driver, checkboxfirstComponent);
+        checkIfResultsReturnedForComponents();
     }
 
     public void filterComponentBasedOnGender(String gender) throws InterruptedException {
@@ -429,7 +438,7 @@ public class CommonElements extends BasePage {
         customCommand.waitForElementVisibility(driver, paginationDropdown);
         customCommand.selectDropDownByValue(selectGender, gender.toLowerCase());
         Thread.sleep(2000);
-        customCommand.waitForElementVisibility(driver, checkboxfirstComponent);
+        checkIfResultsReturnedForComponents();
     }
 
     public void filterComponentBasedOnType(String type) throws InterruptedException {
@@ -437,7 +446,7 @@ public class CommonElements extends BasePage {
         customCommand.waitForElementVisibility(driver, paginationDropdown);
         customCommand.simulateKeyEnterWithValue(searchFieldType, type);
         Thread.sleep(2000);
-        customCommand.waitForElementVisibility(driver, checkboxfirstComponent);
+        checkIfResultsReturnedForComponents();
     }
 
     public void filterComponentBasedOnSealingType(String sealingType) throws InterruptedException {
@@ -445,7 +454,7 @@ public class CommonElements extends BasePage {
         customCommand.waitForElementVisibility(driver, paginationDropdown);
         customCommand.selectDropDownByValue(selectSealingType, sealingType.toLowerCase());
         Thread.sleep(2000);
-        customCommand.waitForElementVisibility(driver, checkboxfirstComponent);
+        checkIfResultsReturnedForComponents();
     }
 
     public void filterComponentBasedOnControlType(String controlType) throws InterruptedException {
@@ -453,7 +462,7 @@ public class CommonElements extends BasePage {
         customCommand.waitForElementVisibility(driver, paginationDropdown);
         customCommand.selectDropDownByValue(selectControlType, controlType.replace(" ", "_"));
         Thread.sleep(2000);
-        customCommand.waitForElementVisibility(driver, checkboxfirstComponent);
+        checkIfResultsReturnedForComponents();
     }
 
     public void filterComponentBasedOnCableType(String cableType) throws InterruptedException {
@@ -461,7 +470,7 @@ public class CommonElements extends BasePage {
         customCommand.waitForElementVisibility(driver, paginationDropdown);
         customCommand.selectDropDownByValue(selectCableType, cableType.toLowerCase());
         Thread.sleep(2000);
-        customCommand.waitForElementVisibility(driver, checkboxfirstComponent);
+        checkIfResultsReturnedForComponents();
     }
 
     public void filterComponentBasedOnNumberOfWiresRange(String wiresRange) throws InterruptedException {
@@ -470,7 +479,7 @@ public class CommonElements extends BasePage {
         customCommand.scrollIntoView(driver, searchFieldNumberOfWires);
         customCommand.simulateKeyEnterWithValue(searchFieldNumberOfWires, wiresRange);
         Thread.sleep(2000);
-        customCommand.waitForElementVisibility(driver, checkboxfirstComponent);
+        checkIfResultsReturnedForComponents();
     }
 
     public void filterComponentBasedOnApplicatorUsage(String applicatorusage) throws InterruptedException {
@@ -478,7 +487,7 @@ public class CommonElements extends BasePage {
         customCommand.waitForElementVisibility(driver, paginationDropdown);
         customCommand.selectDropDownByValue(selectApplicatorUsage, applicatorusage);
         Thread.sleep(2000);
-        customCommand.waitForElementVisibility(driver, checkboxfirstComponent);
+        checkIfResultsReturnedForComponents();
     }
 
     public void filterComponentBasedOnSealOrTerminal(String forsealorterminal) throws InterruptedException {
@@ -486,7 +495,7 @@ public class CommonElements extends BasePage {
         customCommand.waitForElementVisibility(driver, paginationDropdown);
         customCommand.selectDropDownByValue(selectSealOrTerminal, forsealorterminal);
         Thread.sleep(2000);
-        customCommand.waitForElementVisibility(driver, checkboxfirstComponent);
+        checkIfResultsReturnedForComponents();
     }
 
     public void filterComponentBasedOnInService(String inservice) throws InterruptedException {
@@ -494,7 +503,7 @@ public class CommonElements extends BasePage {
         customCommand.waitForElementVisibility(driver, paginationDropdown);
         customCommand.selectDropDownByValue(selectInService, inservice.toLowerCase());
         Thread.sleep(2000);
-        customCommand.waitForElementVisibility(driver, checkboxfirstComponent);
+        checkIfResultsReturnedForComponents();
     }
 
     public void filterComponentBasedOnApplicatorSite(String applicatorSite) throws InterruptedException {
@@ -503,7 +512,7 @@ public class CommonElements extends BasePage {
         customCommand.scrollIntoView(driver, searchFieldApplicatorSite);
         customCommand.simulateKeyEnterWithValue(searchFieldApplicatorSite, applicatorSite);
         Thread.sleep(2000);
-        customCommand.waitForElementVisibility(driver, checkboxfirstComponent);
+        checkIfResultsReturnedForComponents();
     }
 
     public void filterComponentBasedOnNumberOfCavitiesRange(String cavitiesRange) throws InterruptedException {
@@ -512,7 +521,7 @@ public class CommonElements extends BasePage {
         customCommand.scrollIntoView(driver, searchFieldNumberOfCavities);
         customCommand.simulateKeyEnterWithValue(searchFieldNumberOfCavities, cavitiesRange);
         Thread.sleep(2000);
-        customCommand.waitForElementVisibility(driver, checkboxfirstComponent);
+        checkIfResultsReturnedForComponents();
     }
 
     public void filterComponentBasedOnHousingGender(String housingGender) throws InterruptedException {
@@ -520,7 +529,7 @@ public class CommonElements extends BasePage {
         customCommand.waitForElementVisibility(driver, paginationDropdown);
         customCommand.selectDropDownByValue(selectHousingGender, housingGender.toLowerCase());
         Thread.sleep(2000);
-        customCommand.waitForElementVisibility(driver, checkboxfirstComponent);
+        checkIfResultsReturnedForComponents();
     }
 
     public void filterComponentBasedOnConnectorType(String connectorType) throws InterruptedException {
@@ -528,7 +537,7 @@ public class CommonElements extends BasePage {
         customCommand.waitForElementVisibility(driver, paginationDropdown);
         customCommand.selectDropDownByValue(selectConnectorType, connectorType.toLowerCase());
         Thread.sleep(2000);
-        customCommand.waitForElementVisibility(driver, checkboxfirstComponent);
+        checkIfResultsReturnedForComponents();
     }
 
     public void filterComponentBasedOnKeyway(String keyway) throws InterruptedException {
@@ -537,7 +546,7 @@ public class CommonElements extends BasePage {
         customCommand.scrollIntoView(driver, searchFieldKeyway);
         customCommand.simulateKeyEnterWithValue(searchFieldKeyway, keyway);
         Thread.sleep(2000);
-        customCommand.waitForElementVisibility(driver, checkboxfirstComponent);
+        checkIfResultsReturnedForComponents();
     }
 
     public void clickUpdateComponent() {
