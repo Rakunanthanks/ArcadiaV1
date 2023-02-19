@@ -387,7 +387,7 @@ public class SearchPartsStepDefinitions {
                     sealsdbData = mapper.readValue(new File("src/test/resources/componentDB/Seal/Seal.json"), new TypeReference<List<SealsComponentDB>>() {
                     });
                 }
-                expectedPartNumberList = sealsdbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
+                expectedPartNumberList = sealsdbData.stream().map(x -> x.getPartnumber()).collect(Collectors.toList());
                 break;
             case "terminal":
                 file = new File("src/test/resources/componentDB/Terminals/TerminalData.json");

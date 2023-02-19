@@ -5,6 +5,11 @@ import arcadia.domainobjects.SealsComponentDB;
 import arcadia.domainobjects.SealsComponentDB;
 import arcadia.pages.BasePage;
 import arcadia.utils.SeleniumCustomCommand;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -44,6 +49,16 @@ public class SealsComponentDBPage extends BasePage {
         Thread.sleep(3000);
         paginationAll.click();
         Thread.sleep(3000);
+    }
+
+    public List<SealsComponentDB> getSealAPIData(String jsonValue) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = objectMapper.readTree(jsonValue);
+        jsonValue=jsonNode.get("rows").toString();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
+        List<SealsComponentDB> dbData = objectMapper.readValue(jsonValue, new TypeReference<List<SealsComponentDB>>(){});
+        return dbData;
     }
 
     public List<SealsComponentDB> getSealData() throws InterruptedException {
