@@ -22,9 +22,12 @@ import arcadia.pages.ComponentDB.Terminals.TerminalsComponentDBPage;
 import arcadia.pages.ComponentDB.Wires.WiresComponentDBPage;
 import arcadia.pages.GeneralMacrosPage;
 import arcadia.utils.PropertyUtils;
+import arcadia.utils.RestAssuredUtility;
 import arcadia.utils.StringHelper;
 import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -504,7 +507,7 @@ public class ComponentDBStepDefinitions {
 
     @Then("User verified the component {string} is added successfully")
     public void userVerifiedTheComponentIsAddedSuccessfully(String componentName) throws InterruptedException {
-        ExtentCucumberAdapter.addTestStepLog(String.format("Component to be added is"+ componentName));
+       // ExtentCucumberAdapter.addTestStepLog(String.format("Component to be added is"+ componentName));
         switch (componentName.toLowerCase()) {
             case "wire":
                 List<WiresComponentDB> wiresdatalist = new WiresComponentDBPage(context.driver).getWiresData();
@@ -554,7 +557,7 @@ public class ComponentDBStepDefinitions {
             case "seal":
                 List<SealsComponentDB> sealsdatalist = new SealsComponentDBPage(context.driver).getSealData();
                 Assert.assertTrue(sealsdatalist.size() != 0);
-                Assert.assertEquals(FlowContext.referencesPartNumber, sealsdatalist.get(0).getPartNumber());
+                Assert.assertEquals(FlowContext.referencesPartNumber, sealsdatalist.get(0).getPartnumber());
                 break;
         }
     }
@@ -1363,25 +1366,37 @@ public class ComponentDBStepDefinitions {
         File f = new File("src/test/resources/componentDB/Seal/Seal.json");
         List<SealsComponentDB> dbData = null;
         if (f.exists()) {
-            System.out.println("Resuse JSON");
+            //deleting existing outdated file
+            f.delete();
+        /*    System.out.println("Resuse JSON");
             ObjectMapper mapper = new ObjectMapper();
             dbData = mapper.readValue(new File("src/test/resources/componentDB/Seal/Seal.json"), new TypeReference<List<SealsComponentDB>>() {
-            });
+            });*/
         }
         if (!f.exists()) {
+            System.out.println("Getting data from API");
+            RestAssuredUtility rs= new RestAssuredUtility();
+            String response=rs.getResponse("seal", context.driver);
+            dbData=new SealsComponentDBPage(context.driver).getSealAPIData(response);
+            ObjectMapper mapper = new ObjectMapper();
+            Files.createDirectories(Paths.get("src/test/resources/componentDB/Seal"));
+            mapper.writeValue(new File("src/test/resources/componentDB/Seal/Seal.json"), dbData);
+        }
+        //commenting the code to fetch data from UI
+        /*if (!f.exists()) {
             System.out.println("Scanning UI");
             dbData = new SealsComponentDBPage(context.driver).getSealData();
             ObjectMapper mapper = new ObjectMapper();
             Files.createDirectories(Paths.get("src/test/resources/componentDB/Seal"));
             mapper.writeValue(new File("src/test/resources/componentDB/Seal/Seal.json"), dbData);
-        }
+        }*/
         SealsComponentDB randomSealsData = new SealsComponentDBPage(context.driver).getRandomSealsComponent(dbData);
         List<SealsComponentDB> filteredDbData = new ArrayList<>();
         switch (propertyName.toLowerCase()) {
             case "partnumber":
-                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomSealsData.getPartNumber()));
-                filteredDbData = dbData.stream().filter(x -> x.getPartNumber().equals(randomSealsData.getPartNumber())).collect(Collectors.toList());
-                new CommonElements(context.driver).filterComponentBasedOnPartNumber(randomSealsData.getPartNumber());
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomSealsData.getPartnumber()));
+                filteredDbData = dbData.stream().filter(x -> x.getPartnumber().equals(randomSealsData.getPartnumber())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnPartNumber(randomSealsData.getPartnumber());
                 break;
             case "description":
                 ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomSealsData.getDescription()));
@@ -1409,9 +1424,9 @@ public class ComponentDBStepDefinitions {
                 new CommonElements(context.driver).filterComponentBasedOnSupplier(randomSealsData.getSupplier());
                 break;
             case "supplierpn":
-                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomSealsData.getSupplierPN()));
-                filteredDbData = dbData.stream().filter(x -> x.getSupplierPN().equals(randomSealsData.getSupplierPN())).collect(Collectors.toList());
-                new CommonElements(context.driver).filterComponentBasedOnSupplierPN(randomSealsData.getSupplierPN());
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomSealsData.getSupplierpn()));
+                filteredDbData = dbData.stream().filter(x -> x.getSupplierpn().equals(randomSealsData.getSupplierpn())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnSupplierPN(randomSealsData.getSupplierpn());
                 break;
             case "colour":
                 ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomSealsData.getColour()));
@@ -1419,18 +1434,18 @@ public class ComponentDBStepDefinitions {
                 new CommonElements(context.driver).filterComponentBasedOnColour(randomSealsData.getColour());
                 break;
             case "cavity":
-                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomSealsData.getCavity()));
-                filteredDbData = dbData.stream().filter(x -> x.getCavity().equals(randomSealsData.getCavity())).collect(Collectors.toList());
-                new CommonElements(context.driver).filterComponentBasedOnCavity(randomSealsData.getCavity());
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomSealsData.getCavityplug()));
+                filteredDbData = dbData.stream().filter(x -> x.getCavityplug().equals(randomSealsData.getCavityplug())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnCavity(randomSealsData.getCavityplug());
                 break;
             case "insulationod":
-                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomSealsData.getInsulationOD()));
-                filteredDbData = dbData.stream().filter(x -> x.getInsulationOD().equals(randomSealsData.getInsulationOD())).collect(Collectors.toList());
-                new CommonElements(context.driver).filterComponentBasedOnInsulationOD(randomSealsData.getInsulationOD());
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomSealsData.getInsulationod()));
+                filteredDbData = dbData.stream().filter(x -> x.getInsulationod().equals(randomSealsData.getInsulationod())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnInsulationOD(randomSealsData.getInsulationod());
                 break;
         }
         List<String> actualUniquePartList = new MulticoreComponentDBPage(context.driver).getPartNumber();
-        List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
+        List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartnumber()).collect(Collectors.toList());
         List<String> differenceFromExpectedPartNumberList = expectedPartNumberList.stream()
                 .filter(element -> !actualUniquePartList.contains(element))
                 .collect(Collectors.toList());
