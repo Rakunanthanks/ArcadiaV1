@@ -7,12 +7,14 @@ import arcadia.mapperObjects.TestMapper;
 import arcadia.pages.BundlePage;
 import arcadia.pages.ComponentDB.Connectors.ConnectorsDBPage;
 import arcadia.pages.ComponentDB.Multicore.MulticoreComponentDBPage;
+import arcadia.pages.ComponentDB.Seals.SealsComponentDBPage;
 import arcadia.pages.ComponentDB.Splices.SplicesComponentDBPage;
 import arcadia.pages.ComponentDB.Wires.WiresComponentDBPage;
 import arcadia.pages.HarnessPage;
 import arcadia.pages.PageFactoryManager;
 import arcadia.pages.SearchPartsDatabasePage;
 import arcadia.utils.ConversionUtil;
+import arcadia.utils.RestAssuredUtility;
 import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -380,13 +382,9 @@ public class SearchPartsStepDefinitions {
                 expectedPartNumberList = splicesdbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
                 break;
             case "seal":
-                file = new File("src/test/resources/componentDB/Seal/Seal.json");
-                List<SealsComponentDB> sealsdbData = null;
-                if (file.exists()) {
-                    ObjectMapper mapper = new ObjectMapper();
-                    sealsdbData = mapper.readValue(new File("src/test/resources/componentDB/Seal/Seal.json"), new TypeReference<List<SealsComponentDB>>() {
-                    });
-                }
+                RestAssuredUtility rs= new RestAssuredUtility();
+                String response=rs.getResponse("seal", context.driver);
+                List<SealsComponentDB> sealsdbData =new SealsComponentDBPage(context.driver).getSealAPIData(response);
                 expectedPartNumberList = sealsdbData.stream().map(x -> x.getPartnumber()).collect(Collectors.toList());
                 break;
             case "terminal":

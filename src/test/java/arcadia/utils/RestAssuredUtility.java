@@ -18,11 +18,14 @@ public class RestAssuredUtility {
     public String getResponse(String component,WebDriver driver)
     {
         String BASE_URL=ConfigLoader.getInstance().getBaseUrl() + System.getProperty("testInstance")+"/index.lp";
-    //    String BASE_URL="https://qa.cadonix.online/mercury1_21/index.lp";
-        String url="?app=componentsv2&database=quickstart&form="+component+"&ajax=true&hidden=true&command=ajaxgrid&company=CADONIX&order=asc&offset=0&limit=0";
+        String database = System.getProperty("componentDB");
+        String url="?app=componentsv2&database="+database+"&form="+component+"&ajax=true&hidden=true&command=ajaxgrid&company=CADONIX&order=asc&offset=0&limit=0";
         RestAssured.baseURI = BASE_URL;
         RequestSpecification request = RestAssured.given();
         String cookie=getCookie(driver);
+        request.header("authority","qa.cadonix.online");
+        request.header("accept","application/json");
+        request.header("content-type","application/json");
         request.header("cookie", "ArchonixAuth="+cookie+"");
         response = request.get(url);
         String jsonString = response.asString();

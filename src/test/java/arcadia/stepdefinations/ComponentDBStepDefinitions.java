@@ -507,7 +507,7 @@ public class ComponentDBStepDefinitions {
 
     @Then("User verified the component {string} is added successfully")
     public void userVerifiedTheComponentIsAddedSuccessfully(String componentName) throws InterruptedException {
-       // ExtentCucumberAdapter.addTestStepLog(String.format("Component to be added is"+ componentName));
+       ExtentCucumberAdapter.addTestStepLog(String.format("Component to be added is"+ componentName));
         switch (componentName.toLowerCase()) {
             case "wire":
                 List<WiresComponentDB> wiresdatalist = new WiresComponentDBPage(context.driver).getWiresData();
@@ -1363,33 +1363,10 @@ public class ComponentDBStepDefinitions {
 
     @Then("verify user can filter seals based on property {string}")
     public void verifyUserCanFilterSealsBasedOnPropertySupplierPN(String propertyName) throws IOException, InterruptedException {
-        File f = new File("src/test/resources/componentDB/Seal/Seal.json");
-        List<SealsComponentDB> dbData = null;
-        if (f.exists()) {
-            //deleting existing outdated file
-            f.delete();
-        /*    System.out.println("Resuse JSON");
-            ObjectMapper mapper = new ObjectMapper();
-            dbData = mapper.readValue(new File("src/test/resources/componentDB/Seal/Seal.json"), new TypeReference<List<SealsComponentDB>>() {
-            });*/
-        }
-        if (!f.exists()) {
-            System.out.println("Getting data from API");
-            RestAssuredUtility rs= new RestAssuredUtility();
-            String response=rs.getResponse("seal", context.driver);
-            dbData=new SealsComponentDBPage(context.driver).getSealAPIData(response);
-            ObjectMapper mapper = new ObjectMapper();
-            Files.createDirectories(Paths.get("src/test/resources/componentDB/Seal"));
-            mapper.writeValue(new File("src/test/resources/componentDB/Seal/Seal.json"), dbData);
-        }
-        //commenting the code to fetch data from UI
-        /*if (!f.exists()) {
-            System.out.println("Scanning UI");
-            dbData = new SealsComponentDBPage(context.driver).getSealData();
-            ObjectMapper mapper = new ObjectMapper();
-            Files.createDirectories(Paths.get("src/test/resources/componentDB/Seal"));
-            mapper.writeValue(new File("src/test/resources/componentDB/Seal/Seal.json"), dbData);
-        }*/
+        System.out.println("Getting data from API");
+        RestAssuredUtility rs= new RestAssuredUtility();
+        String response=rs.getResponse("seal", context.driver);
+        List<SealsComponentDB> dbData =new SealsComponentDBPage(context.driver).getSealAPIData(response);
         SealsComponentDB randomSealsData = new SealsComponentDBPage(context.driver).getRandomSealsComponent(dbData);
         List<SealsComponentDB> filteredDbData = new ArrayList<>();
         switch (propertyName.toLowerCase()) {
