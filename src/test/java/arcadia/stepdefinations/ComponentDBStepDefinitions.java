@@ -21,21 +21,15 @@ import arcadia.pages.ComponentDB.Splices.SplicesComponentDBPage;
 import arcadia.pages.ComponentDB.Terminals.TerminalsComponentDBPage;
 import arcadia.pages.ComponentDB.Wires.WiresComponentDBPage;
 import arcadia.pages.GeneralMacrosPage;
-import arcadia.utils.PropertyUtils;
 import arcadia.utils.RestAssuredUtility;
 import arcadia.utils.StringHelper;
 import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import org.apache.commons.io.FileUtils;
-import org.checkerframework.checker.units.qual.C;
-import org.openqa.selenium.By;
-import org.python.antlr.ast.Str;
 import org.testng.Assert;
 
 import java.awt.*;
@@ -217,84 +211,73 @@ public class ComponentDBStepDefinitions {
 
     @Then("verify user can apply filter based on property {string}")
     public void verify_user_can_apply_filter_based_on_property(String propertyName) throws InterruptedException, IOException {
-        File f = new File("src/test/resources/componentDB/Wire/WireData.json");
-        List<WiresComponentDB> dbData = null;
-        if (f.exists()) {
-            System.out.println("Resuse JSON");
-            ObjectMapper mapper = new ObjectMapper();
-            dbData = mapper.readValue(new File("src/test/resources/componentDB/Wire/WireData.json"), new TypeReference<List<WiresComponentDB>>() {
-            });
-        }
-        if (!f.exists()) {
-            System.out.println("Scanning UI");
-            dbData = new WiresComponentDBPage(context.driver).getWiresData();
-            ObjectMapper mapper = new ObjectMapper();
-            Files.createDirectories(Paths.get("src/test/resources/componentDB/Wire"));
-            mapper.writeValue(new File("src/test/resources/componentDB/Wire/WireData.json"), dbData);
-        }
-        WiresComponentDB randomData = new WiresComponentDBPage(context.driver).getRandomWireComponent(dbData);
+        System.out.println("Getting data from API");
+        RestAssuredUtility rs= new RestAssuredUtility();
+        String response=rs.getResponse("wire", context.driver);
+        List<WiresComponentDB> dbData =new WiresComponentDBPage(context.driver).getWireAPIData(response);
+        WiresComponentDB randomWireData = new WiresComponentDBPage(context.driver).getRandomWireComponent(dbData);
         List<WiresComponentDB> filteredDbData = new ArrayList<>();
         switch (propertyName.toLowerCase()) {
             case "status":
-                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomData.getStatus()));
-                filteredDbData = dbData.stream().filter(x -> x.getStatus().equals(randomData.getStatus())).collect(Collectors.toList());
-                new CommonElements(context.driver).filterComponentBasedOnStatus(randomData.getStatus());
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomWireData.getStatus()));
+                filteredDbData = dbData.stream().filter(x -> x.getStatus().equals(randomWireData.getStatus())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnStatus(randomWireData.getStatus());
                 break;
             case "partnumber":
-                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomData.getPartNumber()));
-                filteredDbData = dbData.stream().filter(x -> x.getPartNumber().equals(randomData.getPartNumber())).collect(Collectors.toList());
-                new CommonElements(context.driver).filterComponentBasedOnPartNumber(randomData.getPartNumber());
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomWireData.getPartnumber()));
+                filteredDbData = dbData.stream().filter(x -> x.getPartnumber().equals(randomWireData.getPartnumber())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnPartNumber(randomWireData.getPartnumber());
                 break;
             case "description":
-                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomData.getDescription()));
-                filteredDbData = dbData.stream().filter(x -> x.getDescription().equals(randomData.getDescription())).collect(Collectors.toList());
-                new CommonElements(context.driver).filterComponentBasedOnDescription(randomData.getDescription());
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomWireData.getDescription()));
+                filteredDbData = dbData.stream().filter(x -> x.getDescription().equals(randomWireData.getDescription())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnDescription(randomWireData.getDescription());
                 break;
             case "family":
-                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomData.getFamily()));
-                filteredDbData = dbData.stream().filter(x -> x.getFamily().equals(randomData.getFamily())).collect(Collectors.toList());
-                new CommonElements(context.driver).filterComponentBasedOnFamily(randomData.getFamily());
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomWireData.getFamily()));
+                filteredDbData = dbData.stream().filter(x -> x.getFamily().equals(randomWireData.getFamily())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnFamily(randomWireData.getFamily());
                 break;
             case "usage":
-                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomData.getUsage()));
-                filteredDbData = dbData.stream().filter(x -> x.getUsage().equals(randomData.getUsage())).collect(Collectors.toList());
-                new CommonElements(context.driver).filterComponentBasedOnUsage(randomData.getUsage());
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomWireData.getUsage()));
+                filteredDbData = dbData.stream().filter(x -> x.getUsage().equals(randomWireData.getUsage())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnUsage(randomWireData.getUsage());
                 break;
             case "supplier":
-                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomData.getSupplier()));
-                filteredDbData = dbData.stream().filter(x -> x.getSupplier().equals(randomData.getSupplier())).collect(Collectors.toList());
-                new CommonElements(context.driver).filterComponentBasedOnSupplier(randomData.getSupplier());
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomWireData.getSupplier()));
+                filteredDbData = dbData.stream().filter(x -> x.getSupplier().equals(randomWireData.getSupplier())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnSupplier(randomWireData.getSupplier());
                 break;
             case "supplierpn":
-                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomData.getSupplierPN()));
-                filteredDbData = dbData.stream().filter(x -> x.getSupplierPN().equals(randomData.getSupplierPN())).collect(Collectors.toList());
-                new CommonElements(context.driver).filterComponentBasedOnSupplierPN(randomData.getSupplierPN());
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomWireData.getSupplierpn()));
+                filteredDbData = dbData.stream().filter(x -> x.getSupplierpn().equals(randomWireData.getSupplierpn())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnSupplierPN(randomWireData.getSupplierpn());
                 break;
             case "colour":
-                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomData.getColour()));
-                filteredDbData = dbData.stream().filter(x -> x.getColour().equals(randomData.getColour())).collect(Collectors.toList());
-                new CommonElements(context.driver).filterComponentBasedOnColour(randomData.getColour());
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomWireData.getColour()));
+                filteredDbData = dbData.stream().filter(x -> x.getColour().equals(randomWireData.getColour())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnColour(randomWireData.getColour());
                 break;
             case "awgsize":
-                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomData.getAwgSize()));
-                filteredDbData = dbData.stream().filter(x -> x.getAwgSize().equals(randomData.getAwgSize())).collect(Collectors.toList());
-                new CommonElements(context.driver).filterComponentBasedOnAwgSize(randomData.getAwgSize());
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomWireData.getAwgsize()));
+                filteredDbData = dbData.stream().filter(x -> x.getAwgsize().equals(randomWireData.getAwgsize())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnAwgSize(randomWireData.getAwgsize());
                 break;
             case "gauge":
-                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomData.getGauge()));
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomWireData.getGauge()));
                 filteredDbData = dbData.stream()
-                        .filter(x -> x.getGauge().equals(randomData.getGauge()))
+                        .filter(x -> x.getGauge().equals(randomWireData.getGauge()))
                         .collect(Collectors.toList());
-                new CommonElements(context.driver).filterComponentBasedOnGauge(randomData.getGauge());
+                new CommonElements(context.driver).filterComponentBasedOnGauge(randomWireData.getGauge());
                 break;
             case "material":
-                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomData.getMaterial()));
-                filteredDbData = dbData.stream().filter(x -> x.getMaterial().equals(randomData.getMaterial())).collect(Collectors.toList());
-                new CommonElements(context.driver).filterComponentBasedOnMaterial(randomData.getMaterial());
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomWireData.getWirematerial()));
+                filteredDbData = dbData.stream().filter(x -> x.getWirematerial().equals(randomWireData.getWirematerial())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnMaterial(randomWireData.getWirematerial());
                 break;
         }
         List<String> actualUniquePartList = new MulticoreComponentDBPage(context.driver).getPartNumber();
-        List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
+        List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartnumber()).collect(Collectors.toList());
         List<String> differenceFromExpectedPartNumberList = expectedPartNumberList.stream()
                 .filter(element -> !actualUniquePartList.contains(element))
                 .collect(Collectors.toList());
@@ -312,26 +295,18 @@ public class ComponentDBStepDefinitions {
 
     @Then("Verify wire component data is greater than value {string} for filter {string}")
     public void verify_component_data_is_greater_than_value_for_filter(String greaterThanValue, String filterName) throws IOException, InterruptedException {
-        File f = new File("src/test/resources/componentDB/Wire/WireData.json");
-        List<WiresComponentDB> dbData = null;
-        if (f.exists()) {
-            ObjectMapper mapper = new ObjectMapper();
-            dbData = mapper.readValue(new File("src/test/resources/componentDB/Wire/WireData.json"), new TypeReference<List<WiresComponentDB>>() {
-            });
-        }
-        if (!f.exists()) {
-            dbData = new WiresComponentDBPage(context.driver).getWiresData();
-            ObjectMapper mapper = new ObjectMapper();
-            Files.createDirectories(Paths.get("src/test/resources/componentDB/Wire"));
-            mapper.writeValue(new File("src/test/resources/componentDB/Wire/WireData.json"), dbData);
-        }
+        System.out.println("Getting data from API");
+        RestAssuredUtility rs= new RestAssuredUtility();
+        String response=rs.getResponse("wire", context.driver);
+        List<WiresComponentDB> dbData =new WiresComponentDBPage(context.driver).getWireAPIData(response);
+        WiresComponentDB randomWireData = new WiresComponentDBPage(context.driver).getRandomWireComponent(dbData);
         List<WiresComponentDB> filteredDbData = new ArrayList<>();
         switch (filterName.toLowerCase()) {
             case "wirecsa":
                 ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", greaterThanValue));
                 Double csaValue = Double.valueOf(greaterThanValue);
                 filteredDbData = dbData.stream()
-                        .filter(x -> x.getWireCSA() >= csaValue)
+                        .filter(x -> x.getWirecsa() >= csaValue)
                         .collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnCSARange(">=" + greaterThanValue);
                 break;
@@ -339,7 +314,7 @@ public class ComponentDBStepDefinitions {
                 ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", greaterThanValue));
                 Double outsidedia = Double.valueOf(greaterThanValue);
                 filteredDbData = dbData.stream()
-                        .filter(x -> x.getOutsideDia() >= outsidedia)
+                        .filter(x -> x.getOutsidedia() >= outsidedia)
                         .collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnOutsideDiaRange(">= " + greaterThanValue);
                 break;
@@ -347,7 +322,7 @@ public class ComponentDBStepDefinitions {
                 ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", greaterThanValue));
                 Double minimumbendradiusValue = Double.valueOf(greaterThanValue);
                 filteredDbData = dbData.stream()
-                        .filter(x -> x.getMinimumRadius() >= minimumbendradiusValue)
+                        .filter(x -> x.getMinimumbendradius() >= minimumbendradiusValue)
                         .collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnMinimumBendRadiusRange(">= " + greaterThanValue);
                 break;
@@ -368,7 +343,7 @@ public class ComponentDBStepDefinitions {
                 break;
         }
         List<String> actualUniquePartList = new MulticoreComponentDBPage(context.driver).getPartNumber();
-        List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
+        List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartnumber()).collect(Collectors.toList());
         List<String> differenceFromExpectedPartNumberList = expectedPartNumberList.stream()
                 .filter(element -> !actualUniquePartList.contains(element))
                 .collect(Collectors.toList());
@@ -386,19 +361,11 @@ public class ComponentDBStepDefinitions {
 
     @Then("Verify wire component data on the basis of filter {string} with value {string}")
     public void verify_wire_component_data_on_the_basis_of_filter(String filterName, String filterValue) throws InterruptedException, IOException {
-        File f = new File("src/test/resources/componentDB/Wire/WireData.json");
-        List<WiresComponentDB> dbData = null;
-        if (f.exists()) {
-            ObjectMapper mapper = new ObjectMapper();
-            dbData = mapper.readValue(new File("src/test/resources/componentDB/Wire/WireData.json"), new TypeReference<List<WiresComponentDB>>() {
-            });
-        }
-        if (!f.exists()) {
-            dbData = new WiresComponentDBPage(context.driver).getWiresData();
-            ObjectMapper mapper = new ObjectMapper();
-            Files.createDirectories(Paths.get("src/test/resources/componentDB/Wire"));
-            mapper.writeValue(new File("src/test/resources/componentDB/Wire/WireData.json"), dbData);
-        }
+        System.out.println("Getting data from API");
+        RestAssuredUtility rs= new RestAssuredUtility();
+        String response=rs.getResponse("wire", context.driver);
+        List<WiresComponentDB> dbData =new WiresComponentDBPage(context.driver).getWireAPIData(response);
+        WiresComponentDB randomWireData = new WiresComponentDBPage(context.driver).getRandomWireComponent(dbData);
         List<WiresComponentDB> filteredDbData = new ArrayList<>();
         switch (filterName.toLowerCase()) {
             case "wirecsa":
@@ -407,8 +374,8 @@ public class ComponentDBStepDefinitions {
                 Double initialCSAValue = Double.valueOf(csaRange[0]);
                 Double finalCSAValue = Double.valueOf(csaRange[1]);
                 filteredDbData = dbData.stream()
-                        .filter(x -> x.getWireCSA() >= initialCSAValue)
-                        .filter(x -> x.getWireCSA() <= finalCSAValue)
+                        .filter(x -> x.getWirecsa() >= initialCSAValue)
+                        .filter(x -> x.getWirecsa() <= finalCSAValue)
                         .collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnCSARange(filterValue);
                 break;
@@ -418,8 +385,8 @@ public class ComponentDBStepDefinitions {
                 Double initialDiaValue = Double.valueOf(outDiaRange[0]);
                 Double finalDiaValue = Double.valueOf(outDiaRange[1]);
                 filteredDbData = dbData.stream()
-                        .filter(x -> x.getOutsideDia() >= initialDiaValue)
-                        .filter(x -> x.getOutsideDia() <= finalDiaValue)
+                        .filter(x -> x.getOutsidedia() >= initialDiaValue)
+                        .filter(x -> x.getOutsidedia() <= finalDiaValue)
                         .collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnOutsideDiaRange(filterValue);
                 break;
@@ -429,8 +396,8 @@ public class ComponentDBStepDefinitions {
                 Double initialRadiusValue = Double.valueOf(bendRadiusRange[0]);
                 Double finalRadiusValue = Double.valueOf(bendRadiusRange[1]);
                 filteredDbData = dbData.stream()
-                        .filter(x -> x.getMinimumRadius() >= initialRadiusValue)
-                        .filter(x -> x.getMinimumRadius() <= finalRadiusValue)
+                        .filter(x -> x.getMinimumbendradius() >= initialRadiusValue)
+                        .filter(x -> x.getMinimumbendradius() <= finalRadiusValue)
                         .collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnMinimumBendRadiusRange(filterValue);
                 break;
@@ -458,7 +425,7 @@ public class ComponentDBStepDefinitions {
                 break;
         }
         List<String> actualUniquePartList = new MulticoreComponentDBPage(context.driver).getPartNumber();
-        List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
+        List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartnumber()).collect(Collectors.toList());
         List<String> differenceFromExpectedPartNumberList = expectedPartNumberList.stream()
                 .filter(element -> !actualUniquePartList.contains(element))
                 .collect(Collectors.toList());
@@ -512,12 +479,12 @@ public class ComponentDBStepDefinitions {
             case "wire":
                 List<WiresComponentDB> wiresdatalist = new WiresComponentDBPage(context.driver).getWiresData();
                 Assert.assertTrue(wiresdatalist.size() != 0);
-                Assert.assertEquals(FlowContext.referencesPartNumber, wiresdatalist.get(0).getPartNumber());
+                Assert.assertEquals(FlowContext.referencesPartNumber, wiresdatalist.get(0).getPartnumber());
                 break;
             case "terminal":
                 List<TerminalsComponentDB> terminalsdatalist = new TerminalsComponentDBPage(context.driver).getTerminalsData();
                 Assert.assertTrue(terminalsdatalist.size() != 0);
-                Assert.assertEquals(FlowContext.referencesPartNumber, terminalsdatalist.get(0).getPartNumber());
+                Assert.assertEquals(FlowContext.referencesPartNumber, terminalsdatalist.get(0).getPartnumber());
                 break;
             case "splice":
                 List<SplicesComponentDB> splicesdatalist = new SplicesComponentDBPage(context.driver).getSplicesData();
@@ -591,18 +558,10 @@ public class ComponentDBStepDefinitions {
 
     @Then("verify user can filter terminal based on property {string}")
     public void verifyUserCanFilterTerminalComponentBasedOnProperty(String propertyName) throws InterruptedException, IOException {
-        File f = new File("src/test/resources/componentDB/Terminals/TerminalData.json");
-        List<TerminalsComponentDB> dbData = null;
-        if (f.exists()) {
-            ObjectMapper mapper = new ObjectMapper();
-            dbData = mapper.readValue(new File("src/test/resources/componentDB/Terminals/TerminalData.json"), new TypeReference<List<TerminalsComponentDB>>() {});
-        }
-        if (!f.exists()) {
-            dbData = new TerminalsComponentDBPage(context.driver).getTerminalsData();
-            ObjectMapper mapper = new ObjectMapper();
-            Files.createDirectories(Paths.get("src/test/resources/componentDB/Terminals"));
-            mapper.writeValue(new File("src/test/resources/componentDB/Terminals/TerminalData.json"), dbData);
-        }
+        System.out.println("Getting data from API");
+        RestAssuredUtility rs= new RestAssuredUtility();
+        String response=rs.getResponse("terminal", context.driver);
+        List<TerminalsComponentDB> dbData =new TerminalsComponentDBPage(context.driver).getTerminalAPIData(response);
         TerminalsComponentDB randomTerminalData = new TerminalsComponentDBPage(context.driver).getRandomTerminalComponent(dbData);
         List<TerminalsComponentDB> filteredDbData = new ArrayList<>();
         switch (propertyName.toLowerCase()) {
@@ -612,9 +571,9 @@ public class ComponentDBStepDefinitions {
                 new CommonElements(context.driver).filterComponentBasedOnStatus(randomTerminalData.getStatus());
                 break;
             case "partnumber":
-                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomTerminalData.getPartNumber()));
-                filteredDbData = dbData.stream().filter(x -> x.getPartNumber().equals(randomTerminalData.getPartNumber())).collect(Collectors.toList());
-                new CommonElements(context.driver).filterComponentBasedOnPartNumber(randomTerminalData.getPartNumber());
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomTerminalData.getPartnumber()));
+                filteredDbData = dbData.stream().filter(x -> x.getPartnumber().equals(randomTerminalData.getPartnumber())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnPartNumber(randomTerminalData.getPartnumber());
                 break;
             case "description":
                 ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomTerminalData.getDescription()));
@@ -637,9 +596,9 @@ public class ComponentDBStepDefinitions {
                 new CommonElements(context.driver).filterComponentBasedOnSupplier(randomTerminalData.getSupplier());
                 break;
             case "supplierpn":
-                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomTerminalData.getSupplierPN()));
-                filteredDbData = dbData.stream().filter(x -> x.getSupplierPN().equals(randomTerminalData.getSupplierPN())).collect(Collectors.toList());
-                new CommonElements(context.driver).filterComponentBasedOnSupplierPN(randomTerminalData.getSupplierPN());
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomTerminalData.getSupplierpn()));
+                filteredDbData = dbData.stream().filter(x -> x.getSupplierpn().equals(randomTerminalData.getSupplierpn())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnSupplierPN(randomTerminalData.getSupplierpn());
                 break;
             case "colour":
                 ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomTerminalData.getColour()));
@@ -652,11 +611,11 @@ public class ComponentDBStepDefinitions {
                 new CommonElements(context.driver).filterComponentBasedOnGender(randomTerminalData.getGender());
                 break;
             case "type":
-                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomTerminalData.getType()));
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomTerminalData.getTerminaltype()));
                 filteredDbData = dbData.stream()
-                        .filter(x -> x.getType().equals(randomTerminalData.getType()))
+                        .filter(x -> x.getTerminaltype().equals(randomTerminalData.getTerminaltype()))
                         .collect(Collectors.toList());
-                new CommonElements(context.driver).filterComponentBasedOnType(randomTerminalData.getType());
+                new CommonElements(context.driver).filterComponentBasedOnType(randomTerminalData.getTerminaltype());
                 break;
             case "material":
                 ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomTerminalData.getMaterial()));
@@ -664,13 +623,13 @@ public class ComponentDBStepDefinitions {
                 new CommonElements(context.driver).filterComponentBasedOnMaterial(randomTerminalData.getMaterial());
                 break;
             case "csa":
-                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomTerminalData.getCsa()));
-                filteredDbData = dbData.stream().filter(x -> x.getCsa().equals(randomTerminalData.getCsa())).collect(Collectors.toList());
-                new CommonElements(context.driver).filterComponentBasedOnCSARange(randomTerminalData.getCsa());
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomTerminalData.getWirecsa()));
+                filteredDbData = dbData.stream().filter(x -> x.getWirecsa().equals(randomTerminalData.getWirecsa())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnCSARange(randomTerminalData.getWirecsa());
                 break;
         }
         List<String> actualUniquePartList = new MulticoreComponentDBPage(context.driver).getPartNumber();
-        List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
+        List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartnumber()).collect(Collectors.toList());
         List<String> differenceFromExpectedPartNumberList = expectedPartNumberList.stream()
                 .filter(element -> !actualUniquePartList.contains(element))
                 .collect(Collectors.toList());
@@ -1503,15 +1462,6 @@ public class ComponentDBStepDefinitions {
                     mapper.writeValue(new File("src/test/resources/componentDB/Connector/ConnectorData.json"), dbData);
                 }
                 break;
-            case "wire":
-                file = new File("src/test/resources/componentDB/Wire/WireData.json");
-                if (!file.exists()) {
-                    List<WiresComponentDB> dbData = new WiresComponentDBPage(context.driver).getWiresData();
-                    ObjectMapper mapper = new ObjectMapper();
-                    Files.createDirectories(Paths.get("src/test/resources/componentDB/Wire"));
-                    mapper.writeValue(new File("src/test/resources/componentDB/Wire/WireData.json"), dbData);
-                }
-                break;
             case "multicore":
                 file = new File("src/test/resources/componentDB/Multicore/MulticoreData.json");
                 if (!file.exists()) {
@@ -1528,24 +1478,6 @@ public class ComponentDBStepDefinitions {
                     ObjectMapper mapper = new ObjectMapper();
                     Files.createDirectories(Paths.get("src/test/resources/componentDB/Splices"));
                     mapper.writeValue(new File("src/test/resources/componentDB/Splices/SpliceData.json"), dbData);
-                }
-                break;
-            case "seal":
-                file = new File("src/test/resources/componentDB/Seal/Seal.json");
-                if (!file.exists()) {
-                    List<SealsComponentDB> dbData = new SealsComponentDBPage(context.driver).getSealData();
-                    ObjectMapper mapper = new ObjectMapper();
-                    Files.createDirectories(Paths.get("src/test/resources/componentDB/Seal"));
-                    mapper.writeValue(new File("src/test/resources/componentDB/Seal/Seal.json"), dbData);
-                }
-                break;
-            case "terminal":
-                file = new File("src/test/resources/componentDB/Terminals/TerminalData.json");
-                if (!file.exists()) {
-                    List<TerminalsComponentDB> dbData = new TerminalsComponentDBPage(context.driver).getTerminalsData();
-                    ObjectMapper mapper = new ObjectMapper();
-                    Files.createDirectories(Paths.get("src/test/resources/componentDB/Terminals"));
-                    mapper.writeValue(new File("src/test/resources/componentDB/Terminals/TerminalData.json"), dbData);
                 }
                 break;
             case "junctionpart":

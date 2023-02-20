@@ -1,20 +1,20 @@
 package arcadia.domainobjects;
 
 public class WiresComponentDB {
-    private String partNumber;
+    private String partnumber;
     private String description;
     private String family;
     private String status;
     private String usage;
     private String supplier;
-    private String supplierPN;
+    private String supplierpn;
     private String colour;
-    private String awgSize;
+    private String awgsize;
     private String gauge;
-    private Double wireCSA;
-    private Double outsideDia;
-    private String material;
-    private Double minimumRadius;
+    private Double wirecsa;
+    private Double outsidedia;
+    private String wirematerial;
+    private Double minimumbendradius;
     private Double maxcurrent;
 
     private Double resistance;
@@ -24,30 +24,30 @@ public class WiresComponentDB {
     }
 
     public WiresComponentDB(String partNumber, String description, String family, String status, String usage, String supplier, String supplierPN, String colour, String awgSize, String gauge, Double wireCSA, Double outsideDia, String material, Double minimumRadius, Double maxcurrent, Double resistance) {
-        this.partNumber = partNumber;
+        this.partnumber = partNumber;
         this.description = description;
         this.family = family;
         this.status = status;
         this.usage = usage;
         this.supplier = supplier;
-        this.supplierPN = supplierPN;
+        this.supplierpn = supplierPN;
         this.colour = colour;
-        this.awgSize = awgSize;
+        this.awgsize = awgSize;
         this.gauge = gauge;
-        this.wireCSA = wireCSA;
-        this.outsideDia = outsideDia;
-        this.material = material;
-        this.minimumRadius = minimumRadius;
+        this.wirecsa = wireCSA;
+        this.outsidedia = outsideDia;
+        this.wirematerial = material;
+        this.minimumbendradius = minimumRadius;
         this.maxcurrent = maxcurrent;
         this.resistance = resistance;
     }
 
-    public String getPartNumber() {
-        return partNumber;
+    public String getPartnumber() {
+        return partnumber;
     }
 
-    public void setPartNumber(String partNumber) {
-        this.partNumber = partNumber;
+    public void setPartnumber(String partNumber) {
+        this.partnumber = partNumber;
     }
 
     public String getDescription() {
@@ -90,12 +90,12 @@ public class WiresComponentDB {
         this.supplier = supplier;
     }
 
-    public String getSupplierPN() {
-        return supplierPN;
+    public String getSupplierpn() {
+        return supplierpn;
     }
 
-    public void setSupplierPN(String supplierPN) {
-        this.supplierPN = supplierPN;
+    public void setSupplierpn(String supplierPN) {
+        this.supplierpn = supplierPN;
     }
 
     public String getColour() {
@@ -106,12 +106,12 @@ public class WiresComponentDB {
         this.colour = colour;
     }
 
-    public String getAwgSize() {
-        return awgSize;
+    public String getAwgsize() {
+        return awgsize;
     }
 
-    public void setAwgSize(String awgSize) {
-        this.awgSize = awgSize;
+    public void setAwgsize(String awgSize) {
+        this.awgsize = awgSize;
     }
 
     public String getGauge() {
@@ -122,36 +122,36 @@ public class WiresComponentDB {
         this.gauge = gauge;
     }
 
-    public Double getWireCSA() {
-        return wireCSA;
+    public Double getWirecsa() {
+        return wirecsa;
     }
 
-    public void setWireCSA(Double wireCSA) {
-        this.wireCSA = wireCSA;
+    public void setWirecsa(Double wireCSA) {
+        this.wirecsa = wireCSA;
     }
 
-    public Double getOutsideDia() {
-        return outsideDia;
+    public Double getOutsidedia() {
+        return outsidedia;
     }
 
-    public void setOutsideDia(Double outsideDia) {
-        this.outsideDia = outsideDia;
+    public void setOutsidedia(Double outsideDia) {
+        this.outsidedia = outsideDia;
     }
 
-    public String getMaterial() {
-        return material;
+    public String getWirematerial() {
+        return wirematerial;
     }
 
-    public void setMaterial(String material) {
-        this.material = material;
+    public void setWirematerial(String material) {
+        this.wirematerial = material;
     }
 
-    public Double getMinimumRadius() {
-        return minimumRadius;
+    public Double getMinimumbendradius() {
+        return minimumbendradius;
     }
 
-    public void setMinimumRadius(Double minimumRadius) {
-        this.minimumRadius = minimumRadius;
+    public void setMinimumbendradius(Double minimumRadius) {
+        this.minimumbendradius = minimumRadius;
     }
 
     public Double getMaxcurrent() {

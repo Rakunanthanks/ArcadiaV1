@@ -14,6 +14,7 @@ import arcadia.pages.HarnessPage;
 import arcadia.pages.PageFactoryManager;
 import arcadia.pages.SearchPartsDatabasePage;
 import arcadia.utils.ConversionUtil;
+import arcadia.utils.RestAssuredUtility;
 import arcadia.utils.StringHelper;
 import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -21,7 +22,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
-import org.apache.commons.compress.utils.Lists;
 import org.testng.Assert;
 
 import java.awt.*;
@@ -169,25 +169,23 @@ public class ConnectorCopyStepDefinitions {
     }
     @Then("Verify updateWirePN functionality in wiretable successfully")
     public void verifyUserUpdatesWIrePNInWiretableSuccessfully() throws IOException, InterruptedException {
-        File file = new File("src/test/resources/componentDB/Wire/WireData.json");
         String materialValue;
         String gaugeValue;
-        List<WiresComponentDB> dbData = null;
-        if (file.exists()) {
-            ObjectMapper mapper = new ObjectMapper();
-            dbData = mapper.readValue(new File("src/test/resources/componentDB/Wire/WireData.json"), new TypeReference<List<WiresComponentDB>>() {
-            });
-        }
+        System.out.println("Getting data from API");
+        RestAssuredUtility rs= new RestAssuredUtility();
+        String response=rs.getResponse("wire", context.driver);
+        List<WiresComponentDB> dbData =new WiresComponentDBPage(context.driver).getWireAPIData(response);
+        WiresComponentDB randomWireData = new WiresComponentDBPage(context.driver).getRandomWireComponent(dbData);
         List<WiresComponentDB> filteredDbData = new ArrayList<>();
-        filteredDbData = dbData.stream().filter(x -> x.getMaterial()!=("")).collect(Collectors.toList());
-        materialValue = filteredDbData.get(0).getMaterial();
+        filteredDbData = dbData.stream().filter(x -> x.getWirematerial()!=("")).collect(Collectors.toList());
+        materialValue = filteredDbData.get(0).getWirematerial();
         gaugeValue = filteredDbData.get(0).getGauge();
-        filteredDbData = filteredDbData.stream().filter(x->x.getMaterial().equals(materialValue)).filter(x->x.getGauge().equals(gaugeValue)).collect(Collectors.toList());
+        filteredDbData = filteredDbData.stream().filter(x->x.getWirematerial().equals(materialValue)).filter(x->x.getGauge().equals(gaugeValue)).collect(Collectors.toList());
         connectorPage.enterMaterialInWireTable(materialValue);
         connectorPage.enterGaugeInWireTable(gaugeValue);
         connectorPage.clickUpdateWirePN();
         String wirePN = connectorPage.getValueOfWirePN();
-        Assert.assertTrue(filteredDbData.stream().filter(x->x.getPartNumber().equals(wirePN)).collect(Collectors.toList()).size()!=0);
+        Assert.assertTrue(filteredDbData.stream().filter(x->x.getPartnumber().equals(wirePN)).collect(Collectors.toList()).size()!=0);
     }
 
     @And("User opens attachedparts details window")

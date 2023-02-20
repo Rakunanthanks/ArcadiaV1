@@ -17,9 +17,6 @@ Feature: General Harness Connector Validations
 
   @VerifyConnector
   Scenario: Test verifies allterminalpn shown in cavity table searchdetails on connector matches componentdb
-    And Navigated to selected componentDB
-    And User selected 'terminal' from componentDB
-    And 'Terminal' details are extracted successfully
     And Navigated to quickstart project
     And harness with name 'connectorValidator' is launched successfully
     And based on drawing orchestrator components are created
