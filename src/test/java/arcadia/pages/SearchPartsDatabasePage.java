@@ -11,6 +11,7 @@ import org.testng.Assert;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class SearchPartsDatabasePage extends BasePage{
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
@@ -173,21 +174,36 @@ public class SearchPartsDatabasePage extends BasePage{
     public List<String> getSearchPartsData() throws InterruptedException {
         List<String> searchPartsData = new ArrayList<>();
         List<WebElement> tablePartsElement;
-        while (true){
+        List<String> partLookUp = new ArrayList<>();
+        Boolean captureElement = true;
+        while (captureElement){
             tablePartsElement = driver.findElements(By.cssSelector(tablePartsRows));
             if (tablePartsElement.size()==0){
-                break;
+                captureElement = false;
             }
-            int i = 0;
-            for( WebElement element : tablePartsElement){
-                i++;
-                List<WebElement> tdElements = element.findElements(By.cssSelector("td"));
-                String partNumber = tdElements.get(0).getText();
-                searchPartsData.add(partNumber);
+            if(captureElement){
+                for( WebElement element : tablePartsElement){
+                    List<WebElement> tdElements = element.findElements(By.cssSelector("td"));
+                    String partNumber = tdElements.get(0).getText();
+                    if(partLookUp.contains(partNumber)){
+                        System.out.println("no need to capture");
+                        captureElement = false;
+                        break;
+                    }else{
+                        System.out.println("adding part number");
+                        searchPartsData.add(partNumber);
+                        partLookUp.add(partNumber);
+                    }
+                }
+                if(captureElement){
+                    customCommand.waitForElementToBeClickable(driver,buttonNext);
+                    buttonNext.click();
+                    System.out.println("clicked next");
+                    Thread.sleep(2000);
+                }
+
             }
-            customCommand.waitForElementToBeClickable(driver,buttonNext);
-            buttonNext.click();
-            Thread.sleep(2000);
+
         }
         return searchPartsData;
     }
@@ -195,30 +211,38 @@ public class SearchPartsDatabasePage extends BasePage{
     public List<String> getSearchWiresData() throws InterruptedException {
         List<String> searchWiresData = new ArrayList<>();
         List<WebElement> tableWiresElement;
-        while (true){
+        List<String> partLookUp = new ArrayList<>();
+        Boolean captureElement = true;
+        while (captureElement){
             tableWiresElement = driver.findElements(By.cssSelector(tableWiresRows));
             if (tableWiresElement.size()==0){
-                break;
+                captureElement = false;
             }
-            int i = 0;
-            for( WebElement element : tableWiresElement){
-                i++;
-                List<WebElement> tdElements = element.findElements(By.cssSelector("td"));
-                String partNumber = tdElements.get(0).getText();
-                searchWiresData.add(partNumber);
-            }
-            try {
-                customCommand.waitForElementToBeClickable(driver,buttonNextWiresTable);
-                buttonNextWiresTable.click();
-                Thread.sleep(2000);
-            }
-            catch (Exception e){
-                System.out.println("Reached end of records");
-                break;
+            if(captureElement){
+                for( WebElement element : tableWiresElement){
+                    List<WebElement> tdElements = element.findElements(By.cssSelector("td"));
+                    String partNumber = tdElements.get(0).getText();
+                    if(partLookUp.contains(partNumber)){
+                        System.out.println("no need to capture");
+                        captureElement = false;
+                        break;
+                    }else {
+                        System.out.println("adding part number");
+                        searchWiresData.add(partNumber);
+                        partLookUp.add(partNumber);
+                    }
+                }
+
+                if(captureElement){
+                    customCommand.waitForElementToBeClickable(driver,buttonNextWiresTable);
+                    buttonNextWiresTable.click();
+                    Thread.sleep(2000);
+                }
             }
         }
         return searchWiresData;
     }
+
     public void closeSearchPartsWindow() throws InterruptedException {
         buttonCloseSearchParts.click();
         Thread.sleep(2000);
@@ -296,26 +320,34 @@ public class SearchPartsDatabasePage extends BasePage{
     public List<String> getAttachedWiresData() throws InterruptedException {
         List<String> attachedPartsData = new ArrayList<>();
         List<WebElement> tableAttachedPartsElement;
-        while (true){
+        List<String> partLookUp = new ArrayList<>();
+        Boolean captureElement = true;
+        while (captureElement){
             tableAttachedPartsElement = driver.findElements(By.cssSelector(tableAttachedPartsRows));
             if (tableAttachedPartsElement.size()==0){
-                break;
+                captureElement = false;
             }
-            int i = 0;
-            for( WebElement element : tableAttachedPartsElement){
-                i++;
-                List<WebElement> tdElements = element.findElements(By.cssSelector("td"));
-                String partNumber = tdElements.get(0).getText();
-                attachedPartsData.add(partNumber);
-            }
-            try {
-                customCommand.waitForElementToBeClickable(driver,buttonNextAttachPartsTable);
-                buttonNextAttachPartsTable.click();
-                Thread.sleep(2000);
-            }
-            catch (Exception e){
-                System.out.println("Reached end of records");
-                break;
+            if(captureElement){
+                for( WebElement element : tableAttachedPartsElement){
+                    List<WebElement> tdElements = element.findElements(By.cssSelector("td"));
+                    String partNumber = tdElements.get(0).getText();
+                    if(partLookUp.contains(partNumber)){
+                        System.out.println("no need to capture");
+                        captureElement = false;
+                        break;
+                    }else{
+                        System.out.println("adding part number");
+                        attachedPartsData.add(partNumber);
+                        partLookUp.add(partNumber);
+                    }
+                }
+                if(captureElement){
+                    customCommand.waitForElementToBeClickable(driver,buttonNextAttachPartsTable);
+                    buttonNextAttachPartsTable.click();
+                    System.out.println("clicked next");
+                    Thread.sleep(2000);
+                }
+
             }
         }
         return attachedPartsData;
