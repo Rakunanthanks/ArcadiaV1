@@ -355,14 +355,11 @@ public class SearchPartsStepDefinitions {
         searchPartsDatabasePage.selectAttachPartComponentType(componentType);
         switch (componentType.toLowerCase()){
             case "connector":
-                file = new File("src/test/resources/componentDB/Connector/ConnectorData.json");
-                List<ConnectorDB> connectordbData = null;
-                if (file.exists()) {
-                    ObjectMapper mapper = new ObjectMapper();
-                    connectordbData = mapper.readValue(new File("src/test/resources/componentDB/Connector/ConnectorData.json"), new TypeReference<List<ConnectorDB>>() {
-                    });
-                }
-                expectedPartNumberList = connectordbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
+                System.out.println("Getting data from API");
+                rs= new RestAssuredUtility();
+                response=rs.getComponentDbResponse("connector", context.driver);
+                List<ConnectorDB> connectorDbData =new ConnectorsDBPage(context.driver).getConnectorsAPIData(response);
+                expectedPartNumberList = connectorDbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
                 break;
             case "splice":
                 file = new File("src/test/resources/componentDB/Splices/SpliceData.json");

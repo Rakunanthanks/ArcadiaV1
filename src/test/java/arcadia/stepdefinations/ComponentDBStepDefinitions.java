@@ -1434,20 +1434,8 @@ public class ComponentDBStepDefinitions {
         File file;
         switch (componentName.toLowerCase()) {
             case "connector":
-                file = new File("src/test/resources/componentDB/Connector/ConnectorData.json");
-                if (!file.exists()) {
-                    List<ConnectorDB> dbData = new ConnectorsDBPage(context.driver).getConnectorsData();
-                    ObjectMapper mapper = new ObjectMapper();
-                    Files.createDirectories(Paths.get("src/test/resources/componentDB/Connector"));
-                    mapper.writeValue(new File("src/test/resources/componentDB/Connector/ConnectorData.json"), dbData);
-                }
                 break;
             case "multicore":
-                // lets delete this entire method after full refactor
-//                System.out.println("Getting data from API");
-//                RestAssuredUtility rs= new RestAssuredUtility();
-//                String response=rs.getComponentDbResponse("multicore", context.driver);
-//                List<MulticoreComponentDB> dbData =new MulticoreComponentDBPage(context.driver).getMultiCoreAPIData(response);
                 break;
             case "splice":
                 file = new File("src/test/resources/componentDB/Splices/SpliceData.json");
@@ -1491,19 +1479,10 @@ public class ComponentDBStepDefinitions {
 
     @Then("verify user can filter connector based on property {string}")
     public void verifyUserCanFilterConnectorBasedOnProperty(String propertyName) throws IOException, InterruptedException {
-        File f = new File("src/test/resources/componentDB/Connector/ConnectorData.json");
-        List<ConnectorDB> dbData = null;
-        if (f.exists()) {
-            ObjectMapper mapper = new ObjectMapper();
-            dbData = mapper.readValue(new File("src/test/resources/componentDB/Connector/ConnectorData.json"), new TypeReference<List<ConnectorDB>>() {
-            });
-        }
-        if (!f.exists()) {
-            dbData = new ConnectorsDBPage(context.driver).getConnectorsData();
-            ObjectMapper mapper = new ObjectMapper();
-            Files.createDirectories(Paths.get("src/test/resources/componentDB/Connector"));
-            mapper.writeValue(new File("src/test/resources/componentDB/Connector/ConnectorData.json"), dbData);
-        }
+        System.out.println("Getting data from API");
+        RestAssuredUtility rs= new RestAssuredUtility();
+        String response=rs.getComponentDbResponse("connector", context.driver);
+        List<ConnectorDB> dbData =new ConnectorsDBPage(context.driver).getConnectorsAPIData(response);
         ConnectorDB randomConnectorData = new ConnectorsDBPage(context.driver).getRandomConnectorComponent(dbData);
         List<ConnectorDB> filteredDbData = new ArrayList<>();
         switch (propertyName.toLowerCase()) {

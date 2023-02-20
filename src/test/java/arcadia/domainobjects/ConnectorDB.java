@@ -2,44 +2,44 @@ package arcadia.domainobjects;
 
 public class ConnectorDB {
 
-    private String partNumber;
+    private String partnumber;
     private String description;
     private String family;
     private String status;
     private String usage;
     private String supplier;
-    private String supplierPN;
+    private String supplierpn;
     private String colour;
     private String housingGender;
-    private String terminalGender;
-    private String connectorType;
-    private Integer numberOfCavities;
+    private String gender;
+    private String ttype;
+    private Integer noofcavity;
     private String keyway;
     public ConnectorDB() {
     }
 
     public ConnectorDB(String partNumber, String description, String family, String status, String usage, String supplier, String supplierPN, String colour, String housingGender, String terminalGender, String connectorType, Integer numberOfCavities, String keyway) {
-        this.partNumber = partNumber;
+        this.partnumber = partNumber;
         this.description = description;
         this.family = family;
         this.status = status;
         this.usage = usage;
         this.supplier = supplier;
-        this.supplierPN = supplierPN;
+        this.supplierpn = supplierPN;
         this.colour = colour;
         this.housingGender = housingGender;
-        this.terminalGender = terminalGender;
-        this.connectorType = connectorType;
-        this.numberOfCavities = numberOfCavities;
+        this.gender = terminalGender;
+        this.ttype = connectorType;
+        this.noofcavity = numberOfCavities;
         this.keyway = keyway;
     }
 
     public String getPartNumber() {
-        return partNumber;
+        return partnumber;
     }
 
     public void setPartNumber(String partNumber) {
-        this.partNumber = partNumber;
+        this.partnumber = partNumber;
     }
 
     public String getDescription() {
@@ -83,11 +83,11 @@ public class ConnectorDB {
     }
 
     public String getSupplierPN() {
-        return supplierPN;
+        return supplierpn;
     }
 
     public void setSupplierPN(String supplierPN) {
-        this.supplierPN = supplierPN;
+        this.supplierpn = supplierPN;
     }
 
     public String getColour() {
@@ -107,27 +107,27 @@ public class ConnectorDB {
     }
 
     public String getTerminalGender() {
-        return terminalGender;
+        return gender;
     }
 
     public void setTerminalGender(String terminalGender) {
-        this.terminalGender = terminalGender;
+        this.gender = terminalGender;
     }
 
     public String getConnectorType() {
-        return connectorType;
+        return ttype;
     }
 
     public void setConnectorType(String connectorType) {
-        this.connectorType = connectorType;
+        this.ttype = connectorType;
     }
 
     public Integer getNumberOfCavities() {
-        return numberOfCavities;
+        return noofcavity;
     }
 
     public void setNumberOfCavities(Integer numberOfCavities) {
-        this.numberOfCavities = numberOfCavities;
+        this.noofcavity = numberOfCavities;
     }
 
     public String getKeyway() {
