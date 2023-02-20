@@ -68,7 +68,7 @@ public class ComponentDBStepDefinitions {
         componentDetails.setDescription(String.format("testdescription-%04d", new StringHelper().generateRandomDigit()));
         componentDetails.setStatus(componentStatus);
         addComponentForm.setComponentDetails(componentDetails);
-//        ExtentCucumberAdapter.addTestStepLog(String.format("Component Name is "+ componentName+", Component Status is "+componentStatus));
+        ExtentCucumberAdapter.addTestStepLog(String.format("Component Name is "+ componentName+", Component Status is "+componentStatus));
 
         //Adding additional references details
         csvQuery = "Select * from AdditionalReferencesDetails where componentName='" + componentName.toLowerCase() + "'";
@@ -1056,21 +1056,10 @@ public class ComponentDBStepDefinitions {
 
     @Then("verify user can filter applicator based on property {string}")
     public void verifyUserCanFilterApplicatorBasedOnProperty(String propertyName) throws IOException, InterruptedException {
-        File f = new File("src/test/resources/componentDB/Applicators/ApplicatorData.json");
-        List<ApplicatorsComponentDB> dbData = null;
-        if (f.exists()) {
-            System.out.println("Resuse JSON");
-            ObjectMapper mapper = new ObjectMapper();
-            dbData = mapper.readValue(new File("src/test/resources/componentDB/Applicators/ApplicatorData.json"), new TypeReference<List<ApplicatorsComponentDB>>() {
-            });
-        }
-        if (!f.exists()) {
-            System.out.println("Scanning UI");
-            dbData = new ApplicatorsComponentDBPage(context.driver).getApplicatorsData();
-            ObjectMapper mapper = new ObjectMapper();
-            Files.createDirectories(Paths.get("src/test/resources/componentDB/Applicators"));
-            mapper.writeValue(new File("src/test/resources/componentDB/Applicators/ApplicatorData.json"), dbData);
-        }
+        System.out.println("Getting data from API");
+        RestAssuredUtility rs= new RestAssuredUtility();
+        String response=rs.getComponentDbResponse("applicator", context.driver);
+        List<ApplicatorsComponentDB> dbData =new ApplicatorsComponentDBPage(context.driver).getApplicatorAPIData(response);
         ApplicatorsComponentDB randomApplicatorData = new ApplicatorsComponentDBPage(context.driver).getRandomApplicatorComponent(dbData);
         List<ApplicatorsComponentDB> filteredDbData = new ArrayList<>();
         switch (propertyName.toLowerCase()) {

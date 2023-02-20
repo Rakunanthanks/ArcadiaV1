@@ -2,41 +2,41 @@ package arcadia.domainobjects;
 
 public class ApplicatorsComponentDB {
 
-    private String partNumber;
+    private String partnumber;
     private String description;
     private String family;
     private String status;
     private String usage;
     private String supplier;
-    private String supplierPN;
+    private String supplierpn;
     private String colour;
-    private String applicatorUsage;
-    private String forSealOrTerminal;
-    private String inService;
-    private String applicatorSite;
+    private String applicatorusage;
+    private String forsealorterminal;
+    private String applicatorinservice;
+    private String applicatorsite;
     public ApplicatorsComponentDB() {
     }
     public ApplicatorsComponentDB(String partNumber, String description, String family, String status, String usage, String supplier, String supplierPN, String colour, String applicatorUsage, String forSealOrTerminal, String inService, String applicatorSite) {
-        this.partNumber = partNumber;
+        this.partnumber = partNumber;
         this.description = description;
         this.family = family;
         this.status = status;
         this.usage = usage;
         this.supplier = supplier;
-        this.supplierPN = supplierPN;
+        this.supplierpn = supplierPN;
         this.colour = colour;
-        this.applicatorUsage = applicatorUsage;
-        this.forSealOrTerminal = forSealOrTerminal;
-        this.inService = inService;
-        this.applicatorSite = applicatorSite;
+        this.applicatorusage = applicatorUsage;
+        this.forsealorterminal = forSealOrTerminal;
+        this.applicatorinservice = inService;
+        this.applicatorsite = applicatorSite;
     }
 
     public String getPartNumber() {
-        return partNumber;
+        return partnumber;
     }
 
     public void setPartNumber(String partNumber) {
-        this.partNumber = partNumber;
+        this.partnumber = partNumber;
     }
 
     public String getDescription() {
@@ -80,11 +80,11 @@ public class ApplicatorsComponentDB {
     }
 
     public String getSupplierPN() {
-        return supplierPN;
+        return supplierpn;
     }
 
     public void setSupplierPN(String supplierPN) {
-        this.supplierPN = supplierPN;
+        this.supplierpn = supplierPN;
     }
 
     public String getColour() {
@@ -96,34 +96,34 @@ public class ApplicatorsComponentDB {
     }
 
     public String getApplicatorUsage() {
-        return applicatorUsage;
+        return applicatorusage;
     }
 
     public void setApplicatorUsage(String applicatorUsage) {
-        this.applicatorUsage = applicatorUsage;
+        this.applicatorusage = applicatorUsage;
     }
 
     public String getForSealOrTerminal() {
-        return forSealOrTerminal;
+        return forsealorterminal;
     }
 
     public void setForSealOrTerminal(String forSealOrTerminal) {
-        this.forSealOrTerminal = forSealOrTerminal;
+        this.forsealorterminal = forSealOrTerminal;
     }
 
     public String getInService() {
-        return inService;
+        return applicatorinservice;
     }
 
     public void setInService(String inService) {
-        this.inService = inService;
+        this.applicatorinservice = inService;
     }
 
     public String getApplicatorSite() {
-        return applicatorSite;
+        return applicatorsite;
     }
 
     public void setApplicatorSite(String applicatorSite) {
-        this.applicatorSite = applicatorSite;
+        this.applicatorsite = applicatorSite;
     }
 }
