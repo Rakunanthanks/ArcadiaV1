@@ -1,9 +1,15 @@
 package arcadia.pages.ComponentDB.Wires;
 
+import arcadia.domainobjects.SealsComponentDB;
 import arcadia.domainobjects.WiresComponentDB;
 import arcadia.pages.BasePage;
 import arcadia.pages.ComponentDB.CommonElements;
 import arcadia.utils.SeleniumCustomCommand;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -22,6 +28,17 @@ public class WiresComponentDBPage extends BasePage {
     @FindBy(css = "#grid >.bootstrap-table >.fixed-table-container >.fixed-table-pagination >.pull-left.pagination-detail >.page-list >.btn-group.dropup >.dropdown-menu>li:last-child >a") private WebElement paginationAll;
     String tableWireRows = "#tblwire > tbody > tr";
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
+
+    public List<WiresComponentDB> getWireAPIData(String jsonValue) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = objectMapper.readTree(jsonValue);
+        jsonValue=jsonNode.get("rows").toString();
+
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
+        List<WiresComponentDB> dbData = objectMapper.readValue(jsonValue, new TypeReference<List<WiresComponentDB>>(){});
+        return dbData;
+    }
 
     public List<WiresComponentDB> getWiresData() throws InterruptedException {
         new CommonElements(driver).getFullPagination();

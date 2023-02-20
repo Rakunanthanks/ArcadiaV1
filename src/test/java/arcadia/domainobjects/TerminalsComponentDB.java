@@ -1,52 +1,52 @@
 package arcadia.domainobjects;
 
 public class TerminalsComponentDB {
-    private String partNumber;
+    private String partnumber;
     private String description;
     private String family;
     private String status;
     private String usage;
     private String supplier;
-    private String supplierPN;
+    private String supplierpn;
     private String colour;
     private String gender;
-    private String type;
+    private String terminaltype;
     private String finish;
     private String material;
-    private Double stripLength;
-    private Double threadDia;
-    private String insOD;
-    private String csa;
+    private Double striplength;
+    private Double threaddia;
+    private String wireinsod;
+    private String wirecsa;
 
     public TerminalsComponentDB(){
 
     }
 
     public TerminalsComponentDB(String partNumber, String description, String family, String status, String usage, String supplier, String supplierPN, String colour, String gender, String type, String finish, String material, Double stripLength, Double threadDia, String insOD, String csa) {
-        this.partNumber = partNumber;
+        this.partnumber = partNumber;
         this.description = description;
         this.family = family;
         this.status = status;
         this.usage = usage;
         this.supplier = supplier;
-        this.supplierPN = supplierPN;
+        this.supplierpn = supplierPN;
         this.colour = colour;
         this.gender = gender;
-        this.type = type;
+        this.terminaltype = type;
         this.finish = finish;
         this.material = material;
-        this.stripLength = stripLength;
-        this.threadDia = threadDia;
-        this.insOD = insOD;
-        this.csa = csa;
+        this.striplength = stripLength;
+        this.threaddia = threadDia;
+        this.wireinsod = insOD;
+        this.wirecsa = csa;
     }
 
-    public String getPartNumber() {
-        return partNumber;
+    public String getPartnumber() {
+        return partnumber;
     }
 
     public void setPartNumber(String partNumber) {
-        this.partNumber = partNumber;
+        this.partnumber = partNumber;
     }
 
     public String getDescription() {
@@ -89,12 +89,12 @@ public class TerminalsComponentDB {
         this.supplier = supplier;
     }
 
-    public String getSupplierPN() {
-        return supplierPN;
+    public String getSupplierpn() {
+        return supplierpn;
     }
 
-    public void setSupplierPN(String supplierPN) {
-        this.supplierPN = supplierPN;
+    public void setSupplierpn(String supplierPN) {
+        this.supplierpn = supplierPN;
     }
 
     public String getColour() {
@@ -113,12 +113,12 @@ public class TerminalsComponentDB {
         this.gender = gender;
     }
 
-    public String getType() {
-        return type;
+    public String getTerminaltype() {
+        return terminaltype;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setTerminaltype(String type) {
+        this.terminaltype = type;
     }
 
     public String getFinish() {
@@ -137,35 +137,35 @@ public class TerminalsComponentDB {
         this.material = material;
     }
 
-    public Double getStripLength() {
-        return stripLength;
+    public Double getStriplength() {
+        return striplength;
     }
 
-    public void setStripLength(Double stripLength) {
-        this.stripLength = stripLength;
+    public void setStriplength(Double stripLength) {
+        this.striplength = stripLength;
     }
 
-    public Double getThreadDia() {
-        return threadDia;
+    public Double getThreaddia() {
+        return threaddia;
     }
 
-    public void setThreadDia(Double threadDia) {
-        this.threadDia = threadDia;
+    public void setThreaddia(Double threadDia) {
+        this.threaddia = threadDia;
     }
 
-    public String getInsOD() {
-        return insOD;
+    public String getWireinsod() {
+        return wireinsod;
     }
 
-    public void setInsOD(String insOD) {
-        this.insOD = insOD;
+    public void setWireinsod(String insOD) {
+        this.wireinsod = insOD;
     }
 
-    public String getCsa() {
-        return csa;
+    public String getWirecsa() {
+        return wirecsa;
     }
 
-    public void setCsa(String csa) {
-        this.csa = csa;
+    public void setWirecsa(String csa) {
+        this.wirecsa = csa;
     }
 }

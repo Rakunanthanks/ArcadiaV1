@@ -9,6 +9,7 @@ import arcadia.pages.ComponentDB.Connectors.ConnectorsDBPage;
 import arcadia.pages.ComponentDB.Multicore.MulticoreComponentDBPage;
 import arcadia.pages.ComponentDB.Seals.SealsComponentDBPage;
 import arcadia.pages.ComponentDB.Splices.SplicesComponentDBPage;
+import arcadia.pages.ComponentDB.Terminals.TerminalsComponentDBPage;
 import arcadia.pages.ComponentDB.Wires.WiresComponentDBPage;
 import arcadia.pages.HarnessPage;
 import arcadia.pages.PageFactoryManager;
@@ -21,7 +22,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
-import org.python.antlr.ast.Str;
 import org.testng.Assert;
 
 import java.awt.*;
@@ -231,45 +231,42 @@ public class SearchPartsStepDefinitions {
 
     @Then("Verify user filters wire using {string} successfully")
     public void verifyUserFiltersWire(String filterName) throws IOException, InterruptedException, AWTException {
-        File file = new File("src/test/resources/componentDB/Wire/WireData.json");
-        List<WiresComponentDB> dbData = null;
-        if (file.exists()) {
-            ObjectMapper mapper = new ObjectMapper();
-            dbData = mapper.readValue(new File("src/test/resources/componentDB/Wire/WireData.json"), new TypeReference<List<WiresComponentDB>>() {
-            });
-        }
-        WiresComponentDB randomWiresData = new WiresComponentDBPage(context.driver).getRandomWireComponent(dbData);
+        System.out.println("Getting data from API");
+        RestAssuredUtility rs= new RestAssuredUtility();
+        String response=rs.getResponse("wire", context.driver);
+        List<WiresComponentDB> dbData =new WiresComponentDBPage(context.driver).getWireAPIData(response);
+        WiresComponentDB randomWireData = new WiresComponentDBPage(context.driver).getRandomWireComponent(dbData.stream().filter(x->x.getWirematerial()!="").collect(Collectors.toList()));
         List<WiresComponentDB> filteredDbData = new ArrayList<>();
         searchPartsDatabasePage.selectWireType("wire");
         switch (filterName.toLowerCase()) {
             case "partnumber":
-                filteredDbData = dbData.stream().filter(x -> x.getPartNumber().equals(randomWiresData.getPartNumber())).collect(Collectors.toList());
-                searchPartsDatabasePage.searchWireMulticoreUsingPartNumber(randomWiresData.getPartNumber());
+                filteredDbData = dbData.stream().filter(x -> x.getPartnumber().equals(randomWireData.getPartnumber())).collect(Collectors.toList());
+                searchPartsDatabasePage.searchWireMulticoreUsingPartNumber(randomWireData.getPartnumber());
                 break;
             case "material":
-                filteredDbData = dbData.stream().filter(x -> x.getMaterial().equals(randomWiresData.getMaterial())).collect(Collectors.toList());
-                searchPartsDatabasePage.searchWireMulticoreUsingMaterial(randomWiresData.getMaterial());
+                filteredDbData = dbData.stream().filter(x -> x.getWirematerial().equals(randomWireData.getWirematerial())).collect(Collectors.toList());
+                searchPartsDatabasePage.searchWireMulticoreUsingMaterial(randomWireData.getWirematerial());
                 break;
             case "gauge":
-                filteredDbData = dbData.stream().filter(x -> x.getGauge().equals(randomWiresData.getGauge())).collect(Collectors.toList());
-                searchPartsDatabasePage.searchWireMulticoreUsingGauge(randomWiresData.getGauge());
+                filteredDbData = dbData.stream().filter(x -> x.getGauge().equals(randomWireData.getGauge())).collect(Collectors.toList());
+                searchPartsDatabasePage.searchWireMulticoreUsingGauge(randomWireData.getGauge());
                 break;
             case "csa":
-                filteredDbData = dbData.stream().filter(x -> x.getWireCSA().equals(randomWiresData.getWireCSA())).collect(Collectors.toList());
-                searchPartsDatabasePage.searchWireMulticoreUsingCSA(String.valueOf(randomWiresData.getWireCSA()));
+                filteredDbData = dbData.stream().filter(x -> x.getWirecsa().equals(randomWireData.getWirecsa())).collect(Collectors.toList());
+                searchPartsDatabasePage.searchWireMulticoreUsingCSA(String.valueOf(randomWireData.getWirecsa()));
                 break;
             case "outerdia":
-                filteredDbData = dbData.stream().filter(x -> x.getOutsideDia().equals(randomWiresData.getOutsideDia())).collect(Collectors.toList());
-                searchPartsDatabasePage.searchWireMulticoreUsingOuterDia(String.valueOf(randomWiresData.getOutsideDia()));
+                filteredDbData = dbData.stream().filter(x -> x.getOutsidedia().equals(randomWireData.getOutsidedia())).collect(Collectors.toList());
+                searchPartsDatabasePage.searchWireMulticoreUsingOuterDia(String.valueOf(randomWireData.getOutsidedia()));
                 break;
             case "primarycolour":
-                filteredDbData = dbData.stream().filter(x -> x.getColour().split("-")[0].equals(randomWiresData.getColour().split("-")[0])).collect(Collectors.toList());
-                searchPartsDatabasePage.searchWireMulticoreUsingPrimaryColour(randomWiresData.getColour().split("-")[0]);
+                filteredDbData = dbData.stream().filter(x -> x.getColour().split("-")[0].equals(randomWireData.getColour().split("-")[0])).collect(Collectors.toList());
+                searchPartsDatabasePage.searchWireMulticoreUsingPrimaryColour(randomWireData.getColour().split("-")[0]);
                 break;
 
         }
         List<String> actualUniquePartList = searchPartsDatabasePage.getSearchWiresData();
-        List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
+        List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartnumber()).collect(Collectors.toList());
         List<String> differenceFromExpectedPartNumberList = expectedPartNumberList.stream()
                 .filter(element -> !actualUniquePartList.contains(element))
                 .collect(Collectors.toList());
@@ -326,20 +323,17 @@ public class SearchPartsStepDefinitions {
 
     @Then("Verify user filters wire using {string} and {string} successfully")
     public void verifyUserFiltersWireUsingMultipleFilters(String filter1, String filter2) throws IOException, InterruptedException, AWTException {
-        File file = new File("src/test/resources/componentDB/Wire/WireData.json");
-        List<WiresComponentDB> dbData = null;
-        if (file.exists()) {
-            ObjectMapper mapper = new ObjectMapper();
-            dbData = mapper.readValue(new File("src/test/resources/componentDB/Wire/WireData.json"), new TypeReference<List<WiresComponentDB>>() {
-            });
-        }
-        WiresComponentDB randomWiresData = new WiresComponentDBPage(context.driver).getRandomWireComponent(dbData);
+        System.out.println("Getting data from API");
+        RestAssuredUtility rs= new RestAssuredUtility();
+        String response=rs.getResponse("wire", context.driver);
+        List<WiresComponentDB> dbData =new WiresComponentDBPage(context.driver).getWireAPIData(response);
+        WiresComponentDB randomWireData = new WiresComponentDBPage(context.driver).getRandomWireComponent(dbData);
         List<WiresComponentDB> filteredDbData = new ArrayList<>();
         searchPartsDatabasePage.selectWireType("wire");
-        filteredDbData = dbData.stream().filter(x -> x.getPartNumber().equals(randomWiresData.getPartNumber())).collect(Collectors.toList());
-        searchPartsDatabasePage.searchWireUsingPartNumberAndMaterial(randomWiresData.getPartNumber(), randomWiresData.getMaterial());
+        filteredDbData = dbData.stream().filter(x -> x.getPartnumber().equals(randomWireData.getPartnumber())).collect(Collectors.toList());
+        searchPartsDatabasePage.searchWireUsingPartNumberAndMaterial(randomWireData.getPartnumber(), randomWireData.getWirematerial());
         List<String> actualUniquePartList = searchPartsDatabasePage.getSearchWiresData();
-        List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
+        List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartnumber()).collect(Collectors.toList());
         List<String> differenceFromExpectedPartNumberList = expectedPartNumberList.stream()
                 .filter(element -> !actualUniquePartList.contains(element))
                 .collect(Collectors.toList());
@@ -358,6 +352,8 @@ public class SearchPartsStepDefinitions {
     @Then("Verify user filters component {string} in attachedparts successfully")
     public void verifyUserFiltersComponenttypeInAttachedpartsSuccessfully(String componentType) throws IOException, InterruptedException {
         File file;
+        RestAssuredUtility rs;
+        String response;
         List<String> expectedPartNumberList = new ArrayList<>();
         searchPartsDatabasePage.selectAttachPartComponentType(componentType);
         switch (componentType.toLowerCase()){
@@ -382,20 +378,18 @@ public class SearchPartsStepDefinitions {
                 expectedPartNumberList = splicesdbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
                 break;
             case "seal":
-                RestAssuredUtility rs= new RestAssuredUtility();
-                String response=rs.getResponse("seal", context.driver);
+                System.out.println("Getting data from API");
+                rs= new RestAssuredUtility();
+                response=rs.getResponse("seal", context.driver);
                 List<SealsComponentDB> sealsdbData =new SealsComponentDBPage(context.driver).getSealAPIData(response);
                 expectedPartNumberList = sealsdbData.stream().map(x -> x.getPartnumber()).collect(Collectors.toList());
                 break;
             case "terminal":
-                file = new File("src/test/resources/componentDB/Terminals/TerminalData.json");
-                List<TerminalsComponentDB> terminalsdbData = null;
-                if (file.exists()) {
-                    ObjectMapper mapper = new ObjectMapper();
-                    terminalsdbData = mapper.readValue(new File("src/test/resources/componentDB/Terminals/TerminalData.json"), new TypeReference<List<TerminalsComponentDB>>() {
-                    });
-                }
-                expectedPartNumberList = terminalsdbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
+                System.out.println("Getting data from API");
+                rs= new RestAssuredUtility();
+                response=rs.getResponse("terminal", context.driver);
+                List<TerminalsComponentDB> terminalsdbData =new TerminalsComponentDBPage(context.driver).getTerminalAPIData(response);
+                expectedPartNumberList = terminalsdbData.stream().map(x -> x.getPartnumber()).collect(Collectors.toList());
                 break;
             case "junctionpart":
                 file = new File("src/test/resources/componentDB/JunctionParts/JunctionPartsData.json");
@@ -455,14 +449,11 @@ public class SearchPartsStepDefinitions {
                 break;
             case "all":
                 searchPartsDatabasePage.resetFiltersCavityDetails();
-                File file = new File("src/test/resources/componentDB/Terminals/TerminalData.json");
-                List<TerminalsComponentDB> terminalsdbData = null;
-                if (file.exists()) {
-                    ObjectMapper mapper = new ObjectMapper();
-                    terminalsdbData = mapper.readValue(new File("src/test/resources/componentDB/Terminals/TerminalData.json"), new TypeReference<List<TerminalsComponentDB>>() {
-                    });
-                }
-                expectedTerminalsList = terminalsdbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
+                System.out.println("Getting data from API");
+                RestAssuredUtility rs= new RestAssuredUtility();
+                String response=rs.getResponse("terminal", context.driver);
+                List<TerminalsComponentDB> terminalsdbData =new TerminalsComponentDBPage(context.driver).getTerminalAPIData(response);
+                expectedTerminalsList = terminalsdbData.stream().map(x -> x.getPartnumber()).collect(Collectors.toList());
                 break;
         }
 

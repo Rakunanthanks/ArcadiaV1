@@ -29,8 +29,6 @@ Feature: Filter attached parts Splice
     Then Verify user filters component 'connector' in attachedparts successfully
 
   Scenario: Test verifies seal can be filtered in attached parts
-    And User selected 'seal' from componentDB
-    And 'seal' details are extracted successfully
     And Navigated to quickstart project
     And harness with name 'spliceValidator' is launched successfully
     And based on drawing orchestrator components are created
@@ -39,8 +37,6 @@ Feature: Filter attached parts Splice
     Then Verify user filters component 'seal' in attachedparts successfully
 
   Scenario: Test verifies terminals can be filtered in attached parts
-    And User selected 'terminal' from componentDB
-    And 'terminal' details are extracted successfully
     And Navigated to quickstart project
     And harness with name 'spliceValidator' is launched successfully
     And based on drawing orchestrator components are created

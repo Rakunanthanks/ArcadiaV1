@@ -5,7 +5,6 @@ Feature: Filter wires harness
     And test data config loaded for test identifier test10
     And Navigated to selected componentDB
     And User selected 'wire' from componentDB
-    And 'wire' details are extracted successfully
 
   @FilterWiresHarness
   Scenario: Test verifies a wire can be filtered using partnumber while creating connectors
