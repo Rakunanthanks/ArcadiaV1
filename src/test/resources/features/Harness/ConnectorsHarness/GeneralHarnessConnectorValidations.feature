@@ -1,5 +1,5 @@
 @Regression
-Feature: General Harness Validations
+Feature: General Harness Connector Validations
   Background: User is Logged In
     Given I'm on Arcadia test environment
     And test data config loaded for test identifier test10

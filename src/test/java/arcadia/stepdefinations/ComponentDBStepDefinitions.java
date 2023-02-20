@@ -80,7 +80,7 @@ public class ComponentDBStepDefinitions {
         csvQuery = "Select * from AdditionalReferencesDetails where componentName='" + componentName.toLowerCase() + "'";
         additionalReferences1 = new ComponentDataJDBC().getAdditionalReferenceDetails(csvDirectoryPath, csvQuery);
         additionalReferencesList = new ArrayList<>();
-        String referencesPartNumber = String.valueOf(new StringHelper().generateRandomDigit());
+        String referencesPartNumber = new StringHelper().generateRandomUUID();
         FlowContext.referencesPartNumber = referencesPartNumber;
         additionalReferences1.setReferencesPartNumber(referencesPartNumber);
         additionalReferencesList.add(additionalReferences1);
@@ -119,7 +119,7 @@ public class ComponentDBStepDefinitions {
         csvQuery = "Select * from AdditionalReferencesDetails where componentName='" + componentName.toLowerCase() + "'";
         additionalReferences1 = new ComponentDataJDBC().getAdditionalReferenceDetails(csvDirectoryPath, csvQuery);
         additionalReferencesList = new ArrayList<>();
-        String referencesPartNumber = String.valueOf(new StringHelper().generateRandomDigit());
+        String referencesPartNumber = new StringHelper().generateRandomUUID();
         FlowContext.referencesPartNumber = referencesPartNumber;
         additionalReferences1.setReferencesPartNumber(referencesPartNumber);
         additionalReferencesList.add(additionalReferences1);
@@ -142,7 +142,7 @@ public class ComponentDBStepDefinitions {
         AddComponentForm addComponentForm = null;
         addComponentForm = new AddComponentForm();
         if (!String.valueOf(partNumber).isEmpty()) {
-            partNumber = String.valueOf(new StringHelper().generateRandomDigit());
+            partNumber = new StringHelper().generateRandomUUID();
         }
         List<AdditionalReferences> additionalReferencesList = new ArrayList<>();
         FlowContext.referencesPartNumber = partNumber;
@@ -203,7 +203,7 @@ public class ComponentDBStepDefinitions {
         String[] arrayOfRefrenceType = additionalRefernceType.split(",");
         for (String refType : arrayOfRefrenceType) {
             AdditionalReferences additionalReferences = new ComponentDataJDBC().getAdditionalReferenceDetails(csvDirectoryPath, csvQuery);
-            String referencesPartNumber = String.valueOf(new StringHelper().generateRandomDigit());
+            String referencesPartNumber = new StringHelper().generateRandomUUID();
             FlowContext.referencesPartNumber = referencesPartNumber;
             additionalReferences.setReferencesPartNumber(referencesPartNumber);
             additionalReferences.setReferencesType(refType);
@@ -497,7 +497,7 @@ public class ComponentDBStepDefinitions {
     @Then("User Adds Similar Component")
     public void addSimilarComponent() throws InterruptedException {
         new HeaderPanel(context.driver).clickAddSimilarComponent();
-        String newPartNumber = String.valueOf(new StringHelper().generateRandomDigit());
+        String newPartNumber = new StringHelper().generateRandomUUID();
         FlowContext.referencesPartNumber = newPartNumber;
         new CommonElements(context.driver).enterNewPartNumber(newPartNumber);
         new CommonElements(context.driver).clickAddSimilarOnPopup();
