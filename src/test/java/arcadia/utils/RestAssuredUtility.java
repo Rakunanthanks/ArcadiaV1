@@ -15,7 +15,7 @@ import org.openqa.selenium.WebDriver;
 public class RestAssuredUtility {
 
     private static Response response;
-    public String getResponse(String component,WebDriver driver)
+    public String getComponentDbResponse(String component, WebDriver driver)
     {
         String BASE_URL=ConfigLoader.getInstance().getBaseUrl() + System.getProperty("testInstance")+"/index.lp";
         String database = System.getProperty("componentDB");

@@ -173,7 +173,7 @@ public class ConnectorCopyStepDefinitions {
         String gaugeValue;
         System.out.println("Getting data from API");
         RestAssuredUtility rs= new RestAssuredUtility();
-        String response=rs.getResponse("wire", context.driver);
+        String response=rs.getComponentDbResponse("wire", context.driver);
         List<WiresComponentDB> dbData =new WiresComponentDBPage(context.driver).getWireAPIData(response);
         WiresComponentDB randomWireData = new WiresComponentDBPage(context.driver).getRandomWireComponent(dbData);
         List<WiresComponentDB> filteredDbData = new ArrayList<>();

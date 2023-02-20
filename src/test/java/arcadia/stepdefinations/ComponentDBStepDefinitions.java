@@ -213,7 +213,7 @@ public class ComponentDBStepDefinitions {
     public void verify_user_can_apply_filter_based_on_property(String propertyName) throws InterruptedException, IOException {
         System.out.println("Getting data from API");
         RestAssuredUtility rs= new RestAssuredUtility();
-        String response=rs.getResponse("wire", context.driver);
+        String response=rs.getComponentDbResponse("wire", context.driver);
         List<WiresComponentDB> dbData =new WiresComponentDBPage(context.driver).getWireAPIData(response);
         WiresComponentDB randomWireData = new WiresComponentDBPage(context.driver).getRandomWireComponent(dbData);
         List<WiresComponentDB> filteredDbData = new ArrayList<>();
@@ -297,7 +297,7 @@ public class ComponentDBStepDefinitions {
     public void verify_component_data_is_greater_than_value_for_filter(String greaterThanValue, String filterName) throws IOException, InterruptedException {
         System.out.println("Getting data from API");
         RestAssuredUtility rs= new RestAssuredUtility();
-        String response=rs.getResponse("wire", context.driver);
+        String response=rs.getComponentDbResponse("wire", context.driver);
         List<WiresComponentDB> dbData =new WiresComponentDBPage(context.driver).getWireAPIData(response);
         WiresComponentDB randomWireData = new WiresComponentDBPage(context.driver).getRandomWireComponent(dbData);
         List<WiresComponentDB> filteredDbData = new ArrayList<>();
@@ -363,7 +363,7 @@ public class ComponentDBStepDefinitions {
     public void verify_wire_component_data_on_the_basis_of_filter(String filterName, String filterValue) throws InterruptedException, IOException {
         System.out.println("Getting data from API");
         RestAssuredUtility rs= new RestAssuredUtility();
-        String response=rs.getResponse("wire", context.driver);
+        String response=rs.getComponentDbResponse("wire", context.driver);
         List<WiresComponentDB> dbData =new WiresComponentDBPage(context.driver).getWireAPIData(response);
         WiresComponentDB randomWireData = new WiresComponentDBPage(context.driver).getRandomWireComponent(dbData);
         List<WiresComponentDB> filteredDbData = new ArrayList<>();
@@ -560,7 +560,7 @@ public class ComponentDBStepDefinitions {
     public void verifyUserCanFilterTerminalComponentBasedOnProperty(String propertyName) throws InterruptedException, IOException {
         System.out.println("Getting data from API");
         RestAssuredUtility rs= new RestAssuredUtility();
-        String response=rs.getResponse("terminal", context.driver);
+        String response=rs.getComponentDbResponse("terminal", context.driver);
         List<TerminalsComponentDB> dbData =new TerminalsComponentDBPage(context.driver).getTerminalAPIData(response);
         TerminalsComponentDB randomTerminalData = new TerminalsComponentDBPage(context.driver).getRandomTerminalComponent(dbData);
         List<TerminalsComponentDB> filteredDbData = new ArrayList<>();
@@ -1324,7 +1324,7 @@ public class ComponentDBStepDefinitions {
     public void verifyUserCanFilterSealsBasedOnPropertySupplierPN(String propertyName) throws IOException, InterruptedException {
         System.out.println("Getting data from API");
         RestAssuredUtility rs= new RestAssuredUtility();
-        String response=rs.getResponse("seal", context.driver);
+        String response=rs.getComponentDbResponse("seal", context.driver);
         List<SealsComponentDB> dbData =new SealsComponentDBPage(context.driver).getSealAPIData(response);
         SealsComponentDB randomSealsData = new SealsComponentDBPage(context.driver).getRandomSealsComponent(dbData);
         List<SealsComponentDB> filteredDbData = new ArrayList<>();

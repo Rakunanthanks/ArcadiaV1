@@ -233,7 +233,7 @@ public class SearchPartsStepDefinitions {
     public void verifyUserFiltersWire(String filterName) throws IOException, InterruptedException, AWTException {
         System.out.println("Getting data from API");
         RestAssuredUtility rs= new RestAssuredUtility();
-        String response=rs.getResponse("wire", context.driver);
+        String response=rs.getComponentDbResponse("wire", context.driver);
         List<WiresComponentDB> dbData =new WiresComponentDBPage(context.driver).getWireAPIData(response);
         WiresComponentDB randomWireData = new WiresComponentDBPage(context.driver).getRandomWireComponent(dbData.stream().filter(x->x.getWirematerial()!="").collect(Collectors.toList()));
         List<WiresComponentDB> filteredDbData = new ArrayList<>();
@@ -325,7 +325,7 @@ public class SearchPartsStepDefinitions {
     public void verifyUserFiltersWireUsingMultipleFilters(String filter1, String filter2) throws IOException, InterruptedException, AWTException {
         System.out.println("Getting data from API");
         RestAssuredUtility rs= new RestAssuredUtility();
-        String response=rs.getResponse("wire", context.driver);
+        String response=rs.getComponentDbResponse("wire", context.driver);
         List<WiresComponentDB> dbData =new WiresComponentDBPage(context.driver).getWireAPIData(response);
         WiresComponentDB randomWireData = new WiresComponentDBPage(context.driver).getRandomWireComponent(dbData);
         List<WiresComponentDB> filteredDbData = new ArrayList<>();
@@ -380,14 +380,14 @@ public class SearchPartsStepDefinitions {
             case "seal":
                 System.out.println("Getting data from API");
                 rs= new RestAssuredUtility();
-                response=rs.getResponse("seal", context.driver);
+                response=rs.getComponentDbResponse("seal", context.driver);
                 List<SealsComponentDB> sealsdbData =new SealsComponentDBPage(context.driver).getSealAPIData(response);
                 expectedPartNumberList = sealsdbData.stream().map(x -> x.getPartnumber()).collect(Collectors.toList());
                 break;
             case "terminal":
                 System.out.println("Getting data from API");
                 rs= new RestAssuredUtility();
-                response=rs.getResponse("terminal", context.driver);
+                response=rs.getComponentDbResponse("terminal", context.driver);
                 List<TerminalsComponentDB> terminalsdbData =new TerminalsComponentDBPage(context.driver).getTerminalAPIData(response);
                 expectedPartNumberList = terminalsdbData.stream().map(x -> x.getPartnumber()).collect(Collectors.toList());
                 break;
@@ -451,7 +451,7 @@ public class SearchPartsStepDefinitions {
                 searchPartsDatabasePage.resetFiltersCavityDetails();
                 System.out.println("Getting data from API");
                 RestAssuredUtility rs= new RestAssuredUtility();
-                String response=rs.getResponse("terminal", context.driver);
+                String response=rs.getComponentDbResponse("terminal", context.driver);
                 List<TerminalsComponentDB> terminalsdbData =new TerminalsComponentDBPage(context.driver).getTerminalAPIData(response);
                 expectedTerminalsList = terminalsdbData.stream().map(x -> x.getPartnumber()).collect(Collectors.toList());
                 break;
