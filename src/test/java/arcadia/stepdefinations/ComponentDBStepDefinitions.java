@@ -100,7 +100,7 @@ public class ComponentDBStepDefinitions {
         String csvQuery = "";
         String csvDirectoryPath = "src/test/resources/componentDB/TestData";
         new HeaderPanel(context.driver).openAddNewComponentPage();
-//        ExtentCucumberAdapter.addTestStepLog(String.format("Component Name is "+ componentName+" bill type is "+componentBomBillType));
+        ExtentCucumberAdapter.addTestStepLog(String.format("Component Name is "+ componentName+" bill type is "+componentBomBillType));
 
         //Adding component details
         csvQuery = "Select * from ComponentDetails where componentName='" + componentName.toLowerCase() + "'";
@@ -896,19 +896,10 @@ public class ComponentDBStepDefinitions {
 
     @Then("verify user can filter multicore based on property {string}")
     public void verifyUserCanFilterMulticoreBasedOnProperty(String propertyName) throws IOException, InterruptedException {
-        File f = new File("src/test/resources/componentDB/Multicore/MulticoreData.json");
-        List<MulticoreComponentDB> dbData = null;
-        if (f.exists()) {
-            ObjectMapper mapper = new ObjectMapper();
-            dbData = mapper.readValue(new File("src/test/resources/componentDB/Multicore/MulticoreData.json"), new TypeReference<List<MulticoreComponentDB>>() {
-            });
-        }
-        if (!f.exists()) {
-            dbData = new MulticoreComponentDBPage(context.driver).getMulticoreData();
-            ObjectMapper mapper = new ObjectMapper();
-            Files.createDirectories(Paths.get("src/test/resources/componentDB/Multicore"));
-            mapper.writeValue(new File("src/test/resources/componentDB/Multicore/MulticoreData.json"), dbData);
-        }
+        System.out.println("Getting data from API");
+        RestAssuredUtility rs= new RestAssuredUtility();
+        String response=rs.getComponentDbResponse("multicore", context.driver);
+        List<MulticoreComponentDB> dbData =new MulticoreComponentDBPage(context.driver).getMultiCoreAPIData(response);
         MulticoreComponentDB randomMulticoreData = new MulticoreComponentDBPage(context.driver).getRandomMulticoreComponent(dbData);
         List<MulticoreComponentDB> filteredDbData = new ArrayList<>();
         switch (propertyName.toLowerCase()) {
@@ -1463,13 +1454,11 @@ public class ComponentDBStepDefinitions {
                 }
                 break;
             case "multicore":
-                file = new File("src/test/resources/componentDB/Multicore/MulticoreData.json");
-                if (!file.exists()) {
-                    List<MulticoreComponentDB> dbData = new MulticoreComponentDBPage(context.driver).getMulticoreData();
-                    ObjectMapper mapper = new ObjectMapper();
-                    Files.createDirectories(Paths.get("src/test/resources/componentDB/Multicore"));
-                    mapper.writeValue(new File("src/test/resources/componentDB/Multicore/MulticoreData.json"), dbData);
-                }
+                // lets delete this entire method after full refactor
+//                System.out.println("Getting data from API");
+//                RestAssuredUtility rs= new RestAssuredUtility();
+//                String response=rs.getComponentDbResponse("multicore", context.driver);
+//                List<MulticoreComponentDB> dbData =new MulticoreComponentDBPage(context.driver).getMultiCoreAPIData(response);
                 break;
             case "splice":
                 file = new File("src/test/resources/componentDB/Splices/SpliceData.json");

@@ -284,13 +284,10 @@ public class SearchPartsStepDefinitions {
 
     @Then("Verify user filters multicore using {string} successfully")
     public void verifyUserFiltersMulticore(String filterName) throws IOException, InterruptedException, AWTException {
-        File file = new File("src/test/resources/componentDB/Multicore/MulticoreData.json");
-        List<MulticoreComponentDB> dbData = null;
-        if (file.exists()) {
-            ObjectMapper mapper = new ObjectMapper();
-            dbData = mapper.readValue(new File("src/test/resources/componentDB/Multicore/MulticoreData.json"), new TypeReference<List<MulticoreComponentDB>>() {
-            });
-        }
+        System.out.println("Getting data from API");
+        RestAssuredUtility rs= new RestAssuredUtility();
+        String response=rs.getComponentDbResponse("multicore", context.driver);
+        List<MulticoreComponentDB> dbData =new MulticoreComponentDBPage(context.driver).getMultiCoreAPIData(response);
         MulticoreComponentDB randomMulticoreData = new MulticoreComponentDBPage(context.driver).getRandomMulticoreComponent(dbData);
         List<MulticoreComponentDB> filteredDbData = new ArrayList<>();
         searchPartsDatabasePage.selectWireType("multicore");

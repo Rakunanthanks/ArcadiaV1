@@ -1,38 +1,38 @@
 package arcadia.domainobjects;
 
 public class MulticoreComponentDB {
-    private String partNumber;
+    private String partnumber;
     private String description;
     private String family;
     private String status;
     private String usage;
     private String supplier;
-    private String supplierPN;
+    private String supplierpn;
     private String colour;
     private String cabletype;
-    private Integer numberOfWires;
+    private Integer noofwires;
     public MulticoreComponentDB() {
     }
 
     public MulticoreComponentDB(String partNumber, String description, String family, String status, String usage, String supplier, String supplierPN, String colour, String cabletype, Integer numberOfWires) {
-        this.partNumber = partNumber;
+        this.partnumber = partNumber;
         this.description = description;
         this.family = family;
         this.status = status;
         this.usage = usage;
         this.supplier = supplier;
-        this.supplierPN = supplierPN;
+        this.supplierpn = supplierPN;
         this.colour = colour;
         this.cabletype = cabletype;
-        this.numberOfWires = numberOfWires;
+        this.noofwires = numberOfWires;
     }
 
     public String getPartNumber() {
-        return partNumber;
+        return partnumber;
     }
 
     public void setPartNumber(String partNumber) {
-        this.partNumber = partNumber;
+        this.partnumber = partNumber;
     }
 
     public String getDescription() {
@@ -76,11 +76,11 @@ public class MulticoreComponentDB {
     }
 
     public String getSupplierPN() {
-        return supplierPN;
+        return supplierpn;
     }
 
     public void setSupplierPN(String supplierPN) {
-        this.supplierPN = supplierPN;
+        this.supplierpn = supplierPN;
     }
 
     public String getColour() {
@@ -100,10 +100,10 @@ public class MulticoreComponentDB {
     }
 
     public Integer getNumberOfWires() {
-        return numberOfWires;
+        return noofwires;
     }
 
     public void setNumberOfWires(Integer numberOfWires) {
-        this.numberOfWires = numberOfWires;
+        this.noofwires = numberOfWires;
     }
 }
