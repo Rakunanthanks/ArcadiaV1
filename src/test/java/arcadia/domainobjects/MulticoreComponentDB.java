@@ -27,11 +27,11 @@ public class MulticoreComponentDB {
         this.noofwires = numberOfWires;
     }
 
-    public String getPartNumber() {
+    public String getPartnumber() {
         return partnumber;
     }
 
-    public void setPartNumber(String partNumber) {
+    public void setPartnumber(String partNumber) {
         this.partnumber = partNumber;
     }
 
@@ -75,11 +75,11 @@ public class MulticoreComponentDB {
         this.supplier = supplier;
     }
 
-    public String getSupplierPN() {
+    public String getSupplierpn() {
         return supplierpn;
     }
 
-    public void setSupplierPN(String supplierPN) {
+    public void setSupplierpn(String supplierPN) {
         this.supplierpn = supplierPN;
     }
 
@@ -99,11 +99,11 @@ public class MulticoreComponentDB {
         this.cabletype = cabletype;
     }
 
-    public Integer getNumberOfWires() {
+    public Integer getNoofwires() {
         return noofwires;
     }
 
-    public void setNumberOfWires(Integer numberOfWires) {
+    public void setNoofwires(Integer numberOfWires) {
         this.noofwires = numberOfWires;
     }
 }

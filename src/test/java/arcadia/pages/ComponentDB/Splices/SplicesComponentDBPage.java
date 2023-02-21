@@ -1,9 +1,15 @@
 package arcadia.pages.ComponentDB.Splices;
 
 import arcadia.domainobjects.SplicesComponentDB;
+import arcadia.domainobjects.WiresComponentDB;
 import arcadia.pages.BasePage;
 import arcadia.pages.ComponentDB.CommonElements;
 import arcadia.utils.SeleniumCustomCommand;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -21,6 +27,16 @@ public class SplicesComponentDBPage extends BasePage {
 
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
 
+    public List<SplicesComponentDB> getSpliceAPIData(String jsonValue) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = objectMapper.readTree(jsonValue);
+        jsonValue=jsonNode.get("rows").toString();
+
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
+        List<SplicesComponentDB> dbData = objectMapper.readValue(jsonValue, new TypeReference<List<SplicesComponentDB>>(){});
+        return dbData;
+    }
     public List<SplicesComponentDB> getSplicesData() throws InterruptedException {
         new CommonElements(driver).getFullPagination();
         List<SplicesComponentDB> componentDbData = new ArrayList<>();

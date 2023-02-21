@@ -34,11 +34,11 @@ public class ConnectorDB {
         this.keyway = keyway;
     }
 
-    public String getPartNumber() {
+    public String getPartnumber() {
         return partnumber;
     }
 
-    public void setPartNumber(String partNumber) {
+    public void setPartnumber(String partNumber) {
         this.partnumber = partNumber;
     }
 
@@ -82,11 +82,11 @@ public class ConnectorDB {
         this.supplier = supplier;
     }
 
-    public String getSupplierPN() {
+    public String getSupplierpn() {
         return supplierpn;
     }
 
-    public void setSupplierPN(String supplierPN) {
+    public void setSupplierpn(String supplierPN) {
         this.supplierpn = supplierPN;
     }
 
@@ -98,35 +98,35 @@ public class ConnectorDB {
         this.colour = colour;
     }
 
-    public String getHousingGender() {
+    public String getHousinggender() {
         return housingGender;
     }
 
-    public void setHousingGender(String housingGender) {
+    public void setHousinggender(String housingGender) {
         this.housingGender = housingGender;
     }
 
-    public String getTerminalGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setTerminalGender(String terminalGender) {
+    public void setGender(String terminalGender) {
         this.gender = terminalGender;
     }
 
-    public String getConnectorType() {
+    public String getTtype() {
         return ttype;
     }
 
-    public void setConnectorType(String connectorType) {
+    public void setTtype(String connectorType) {
         this.ttype = connectorType;
     }
 
-    public Integer getNumberOfCavities() {
+    public Integer getNoofcavity() {
         return noofcavity;
     }
 
-    public void setNumberOfCavities(Integer numberOfCavities) {
+    public void setNoofcavity(Integer numberOfCavities) {
         this.noofcavity = numberOfCavities;
     }
 

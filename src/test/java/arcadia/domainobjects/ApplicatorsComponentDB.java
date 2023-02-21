@@ -31,11 +31,11 @@ public class ApplicatorsComponentDB {
         this.applicatorsite = applicatorSite;
     }
 
-    public String getPartNumber() {
+    public String getPartnumber() {
         return partnumber;
     }
 
-    public void setPartNumber(String partNumber) {
+    public void setPartnumber(String partNumber) {
         this.partnumber = partNumber;
     }
 
@@ -79,11 +79,11 @@ public class ApplicatorsComponentDB {
         this.supplier = supplier;
     }
 
-    public String getSupplierPN() {
+    public String getSupplierpn() {
         return supplierpn;
     }
 
-    public void setSupplierPN(String supplierPN) {
+    public void setSupplierpn(String supplierPN) {
         this.supplierpn = supplierPN;
     }
 
@@ -95,35 +95,35 @@ public class ApplicatorsComponentDB {
         this.colour = colour;
     }
 
-    public String getApplicatorUsage() {
+    public String getApplicatorusage() {
         return applicatorusage;
     }
 
-    public void setApplicatorUsage(String applicatorUsage) {
+    public void setApplicatorusage(String applicatorUsage) {
         this.applicatorusage = applicatorUsage;
     }
 
-    public String getForSealOrTerminal() {
+    public String getForsealorterminal() {
         return forsealorterminal;
     }
 
-    public void setForSealOrTerminal(String forSealOrTerminal) {
+    public void setForsealorterminal(String forSealOrTerminal) {
         this.forsealorterminal = forSealOrTerminal;
     }
 
-    public String getInService() {
+    public String getApplicatorinservice() {
         return applicatorinservice;
     }
 
-    public void setInService(String inService) {
+    public void setApplicatorinservice(String inService) {
         this.applicatorinservice = inService;
     }
 
-    public String getApplicatorSite() {
+    public String getApplicatorsite() {
         return applicatorsite;
     }
 
-    public void setApplicatorSite(String applicatorSite) {
+    public void setApplicatorsite(String applicatorSite) {
         this.applicatorsite = applicatorSite;
     }
 }

@@ -5,7 +5,6 @@ Feature: Filter harness parts
     And test data config loaded for test identifier test8
     And Navigated to selected componentDB
     And User selected 'connector' from componentDB
-    And 'Connector' details are extracted successfully
 
   @FilterConnectorHarness
   Scenario: Test verifies a connector can be filtered using partnumber while creating bundles

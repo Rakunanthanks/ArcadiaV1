@@ -8,8 +8,6 @@ Feature: Filter attached parts Splice
 
 
   Scenario: Test verifies splice can be filtered in attached parts
-    And User selected 'splice' from componentDB
-    And 'splice' details are extracted successfully
     And Navigated to quickstart project
     And harness with name 'spliceValidator' is launched successfully
     And based on drawing orchestrator components are created
@@ -19,8 +17,6 @@ Feature: Filter attached parts Splice
 
 
   Scenario: Test verifies connectors can be filtered in attached parts
-    And User selected 'connector' from componentDB
-    And 'connector' details are extracted successfully
     And Navigated to quickstart project
     And harness with name 'spliceValidator' is launched successfully
     And based on drawing orchestrator components are created
@@ -45,8 +41,6 @@ Feature: Filter attached parts Splice
     Then Verify user filters component 'terminal' in attachedparts successfully
 
   Scenario: Test verifies junctionparts can be filtered in attached parts
-    And User selected 'junctionpart' from componentDB
-    And 'junctionpart' details are extracted successfully
     And Navigated to quickstart project
     And harness with name 'spliceValidator' is launched successfully
     And based on drawing orchestrator components are created
@@ -56,8 +50,6 @@ Feature: Filter attached parts Splice
 
   @FilterAttachedParts
   Scenario: Test verifies components can be filtered in attached parts
-    And User selected 'component' from componentDB
-    And 'component' details are extracted successfully
     And Navigated to quickstart project
     And harness with name 'spliceValidator' is launched successfully
     And based on drawing orchestrator components are created
@@ -67,8 +59,6 @@ Feature: Filter attached parts Splice
 
   @FilterAttachedParts
   Scenario: Test verifies otherparts can be filtered in attached parts
-    And User selected 'otherpart' from componentDB
-    And 'otherpart' details are extracted successfully
     And Navigated to quickstart project
     And harness with name 'spliceValidator' is launched successfully
     And based on drawing orchestrator components are created

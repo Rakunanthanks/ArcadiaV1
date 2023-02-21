@@ -5,7 +5,6 @@ Feature: Filter multicore harness
     And test data config loaded for test identifier test10
     And Navigated to selected componentDB
     And User selected 'multicore' from componentDB
-    And 'Multicore' details are extracted successfully
 
   @FilterMulticoreHarness
   Scenario: Test verifies a multicore can be filtered using partnumber while creating connectors

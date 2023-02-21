@@ -1,15 +1,15 @@
 package arcadia.domainobjects;
 
 public class SplicesComponentDB {
-    private String partNumber;
+    private String partnumber;
     private String description;
     private String family;
     private String status;
     private String usage;
     private String supplier;
-    private String supplierPN;
+    private String supplierpn;
     private String colour;
-    private String sealingType;
+    private String splicesealingtype;
     private String material;
 
     public SplicesComponentDB() {
@@ -17,24 +17,24 @@ public class SplicesComponentDB {
     }
 
     public SplicesComponentDB(String partNumber, String description, String family, String status, String usage, String supplier, String supplierPN, String colour, String sealingType, String material) {
-        this.partNumber = partNumber;
+        this.partnumber = partNumber;
         this.description = description;
         this.family = family;
         this.status = status;
         this.usage = usage;
         this.supplier = supplier;
-        this.supplierPN = supplierPN;
+        this.supplierpn = supplierPN;
         this.colour = colour;
-        this.sealingType = sealingType;
+        this.splicesealingtype = sealingType;
         this.material = material;
     }
 
-    public String getPartNumber() {
-        return partNumber;
+    public String getPartnumber() {
+        return partnumber;
     }
 
-    public void setPartNumber(String partNumber) {
-        this.partNumber = partNumber;
+    public void setPartnumber(String partNumber) {
+        this.partnumber = partNumber;
     }
 
     public String getDescription() {
@@ -77,12 +77,12 @@ public class SplicesComponentDB {
         this.supplier = supplier;
     }
 
-    public String getSupplierPN() {
-        return supplierPN;
+    public String getSupplierpn() {
+        return supplierpn;
     }
 
-    public void setSupplierPN(String supplierPN) {
-        this.supplierPN = supplierPN;
+    public void setSupplierpn(String supplierPN) {
+        this.supplierpn = supplierPN;
     }
 
     public String getColour() {
@@ -93,12 +93,12 @@ public class SplicesComponentDB {
         this.colour = colour;
     }
 
-    public String getSealingType() {
-        return sealingType;
+    public String getSplicesealingtype() {
+        return splicesealingtype;
     }
 
-    public void setSealingType(String sealingType) {
-        this.sealingType = sealingType;
+    public void setSplicesealingtype(String sealingType) {
+        this.splicesealingtype = sealingType;
     }
 
     public String getMaterial() {
