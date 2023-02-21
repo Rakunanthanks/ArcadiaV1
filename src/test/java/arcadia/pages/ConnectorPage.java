@@ -89,6 +89,8 @@ public class ConnectorPage extends BasePage {
 
     @FindBy(css = "input[name=\"cavitytablelayout.wrap\"]") private WebElement inputTableWrapFrom;
 
+    @FindBy(xpath = "//input[@id='commandline']") private  WebElement commandLine;
+
     String getDetailsCavityTable = "div#ui-accordion-accordion-panel-4 input[title=\"Get Details\"]";
     String cavityTableLayoutShowOptions = "select[name=\"cavitytablelayout.showoptions\"]";
 
@@ -235,6 +237,12 @@ public class ConnectorPage extends BasePage {
                 }
             }
         return  FlowContext.connectorPlugIdentifierList;
+    }
+
+    public void addSpliceWithCommand(String command) throws InterruptedException {
+        customCommand.simulateKeyEnterWithValue(commandLine,command);
+        Thread.sleep(2000);
+        customCommand.javaScriptClick(driver,submitConnector);
     }
 
     public List<SpliceIdentifier> getSpliceElementIdsFromDrawingPage() {

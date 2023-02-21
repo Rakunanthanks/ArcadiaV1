@@ -58,6 +58,9 @@ public class DrawingHelper {
                 case "updatesleeve":
                     updateSleeveOrchestrator(instructions,driver);
                     break;
+                case "splice":
+                    spliceOrchestrator(instructions,driver);
+                    break;
             }
 
         }
@@ -90,6 +93,14 @@ public class DrawingHelper {
             new FramePage(driver).chooseFrame(frameSize);
         }
     }
+
+    private void spliceOrchestrator(DrawingInstructor instructions, WebDriver driver) throws InterruptedException {
+        if(instructions.getCommand().toLowerCase().contains("splice") ){
+            System.out.println("Insert Splice");
+            new ConnectorPage(driver).addSpliceWithCommand(instructions.getCommand());
+        }
+    }
+
     private void updateSleeveOrchestrator(DrawingInstructor instructions, WebDriver driver) throws InterruptedException {
         if(instructions.getCommand().equalsIgnoreCase("Global Update") ){
             System.out.println("Global Update");
