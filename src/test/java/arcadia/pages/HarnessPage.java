@@ -11,6 +11,7 @@ import org.testng.Assert;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -28,6 +29,8 @@ public class HarnessPage extends BasePage{
     @FindBy(xpath = "//select[@name='wiretable.conidto']") private List<WebElement> connectorTo;
     @FindBy(xpath = "//table[@id='wiretable']//input[@class='getDetails']") private List<WebElement> addWirePartNumber;
     @FindBy(xpath = "//table[@id='tblWirePartNoList']/tbody/tr/td[8]") private List<WebElement> outerDiameter;
+    @FindBy(xpath = "//table[@id='tblWirePartNoList']/tbody/tr/td[1]") private List<WebElement> wirePartNo;
+
     @FindBy(xpath = "//div[@aria-describedby='idFetchnode_attachpart']//span[text()='Populate']") private WebElement populateButtonParts;
     @FindBy(xpath = "//div[@aria-describedby='idFetchwiretable']//span[text()='Populate']") private WebElement populateButtonWire;
     @FindBy(xpath = "//select[@name='wiretable.spliceside']") private List<WebElement> spliceSide;
@@ -211,15 +214,13 @@ public class HarnessPage extends BasePage{
     }
 
     public void performOperation(String operation,String id) throws InterruptedException {
-        ExtentCucumberAdapter.addTestStepLog(String.format("Performing %s operation on component with id = %s", operation,id));
-//        ExtentCucumberAdapter.addTestStepLog(String.format("Performing %s operation on connector with connector id = %s", operation,id));
+    //    ExtentCucumberAdapter.addTestStepLog(String.format("Performing %s operation on component with id = %s", operation,id));
         String xpathOfConnector="//*[name()='g' and @id='"+id+"']/*[name()='rect']";
         List<WebElement> connectors;
         boolean flag=false;
         if(operations.size()==0)
         {
-            ExtentCucumberAdapter.addTestStepLog(String.format("Not able to get all the operations allowed"));
-//            ExtentCucumberAdapter.addTestStepLog(String.format("Not able to get all the operations allowed on connector"));
+         //   ExtentCucumberAdapter.addTestStepLog(String.format("Not able to get all the operations allowed"));
         }
         for(WebElement ele:operations)
         {
@@ -316,10 +317,11 @@ public class HarnessPage extends BasePage{
       Thread.sleep(2000);
         String tech = customCommand.getSelectedValueFromSelectDropDown(spliceTechnologyDropdown);
         if (tech.equalsIgnoreCase(technology)) {
-//            ExtentCucumberAdapter.addTestStepLog(String.format("Expected technology is "+technology+", actual is "+tech));
+           ExtentCucumberAdapter.addTestStepLog(String.format("Expected technology is "+technology+", actual is "+tech));
         }
         else {
-//            ExtentCucumberAdapter.addTestStepLog(String.format("Expected technology is "+technology+", actual is "+tech));
+            ExtentCucumberAdapter.addTestStepLog(String.format("Expected technology is "+technology+", actual is "+tech));
+            Assert.fail();
         }
     }
 
@@ -538,8 +540,10 @@ public class HarnessPage extends BasePage{
     }
 
     public void addPartNumberToSplice() throws InterruptedException {
+        customCommand.longWaitForElementToBeClickable(driver,addPartNumber);
         customCommand.javaScriptClick(driver,addPartNumber);
         customCommand.javaScriptClick(driver,firstPartFromList);
+        Thread.sleep(1000);
         customCommand.javaScriptClick(driver,populateButtonParts);
     }
 
@@ -557,28 +561,27 @@ public class HarnessPage extends BasePage{
         }
         addWirePartNo();
         selectSpliceSide();
-        customCommand.javaScriptClick(driver,updateWirePN);
+      //  customCommand.javaScriptClick(driver,updateWirePN);
     }
 
+    public void checkSpliceSideAgain() throws InterruptedException {
+        selectSpliceSide();
+        clickSubmit();
+    }
     public void addWirePartNo() throws InterruptedException {
         for (WebElement we:addWirePartNumber)
         {
             customCommand.javaScriptClick(driver,we);
-            for (WebElement od:outerDiameter)
-            {
-                if(od.getText().contains("0.00"))
-                {continue;}
-                else{
-                    customCommand.javaScriptClick(driver,od);
-                    break;
-                }
-            }
+            String pn=captureWirePartNumberWithDiameter();
+            WebElement pnumber=driver.findElement(By.xpath("//table[@id='wirefilter']//input[@name='nPartNumber']"));
+            customCommand.simulateKeyEnterWithValue(pnumber,pn);
+            Thread.sleep(1000);
             customCommand.javaScriptClick(driver,populateButtonWire);
         }
     }
 
     public void selectSpliceSide() throws InterruptedException {
-        customCommand.selectDropDownByValue(spliceSide.get(0),"a");
+        customCommand.selectDropDownByValue(spliceSide.get(0),"b");
         Thread.sleep(2000);
         customCommand.selectDropDownByValue(spliceSide.get(1),"b");
     }
@@ -586,6 +589,7 @@ public class HarnessPage extends BasePage{
     public void clickSubmit() {
         try {
             customCommand.javaScriptClick(driver,buttonSubmitDetails);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -613,4 +617,42 @@ public class HarnessPage extends BasePage{
         customCommand.scrollIntoView(driver,buttonConnectorEditor);
         customCommand.javaScriptClick(driver,buttonConnectorEditor);
     }
+
+    public String captureWirePartNumberWithDiameter() throws InterruptedException {
+        WebElement ele=driver.findElement(By.xpath("//div[@id='idFetchwiretable']//input[@class='next']"));
+        String dis=ele.getAttribute("disabled");
+        List<WebElement> rows=driver.findElements(By.xpath("//table[@id='tblWirePartNoList']/tbody/tr"));
+        boolean flag=false;
+        String pn="";
+       do{
+        for(WebElement web:rows)
+        {
+            if(web.findElement(By.xpath("td[8]")).getText().contains("0.00"))
+            {continue;}
+            else{
+                pn=web.findElement(By.xpath("td[1]")).getText();
+                flag=true;
+                break;
+            }
+        }
+        if(flag)
+        {
+            break;
+        }
+       }while(!(dis.contains("true")));
+       return pn;
+    }
+
+    public void checkForImage(String spliceId)
+    {
+        WebElement ele=driver.findElement(By.xpath("(//*[name()='g' and contains(@transform,'translate')])[1]"));
+        if(ele.isDisplayed()){
+            System.out.println("Image is displayed");
+            ExtentCucumberAdapter.addTestStepLog("Splice Image is displayed");
+        }else{
+            ExtentCucumberAdapter.addTestStepLog("Splice Image is not displayed");
+            Assert.fail();
+        }
+    }
+
 }

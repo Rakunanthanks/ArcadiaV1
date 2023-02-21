@@ -12,7 +12,8 @@ Feature: Create splice harness
     And harness with name 'spliceValidator' is launched successfully
     And based on drawing orchestrator components are created
     And 'splice' component with index '0' is opened
-    And 'splice' can be filtered with technology 'Mechanical'
     And add configurations to create splice image
+    And 'splice' component with index '0' is opened
+    And check again for splice sides are added
     And toggle splice image from context menu options
     And verify splice image is drawn on Harness page with above configuration

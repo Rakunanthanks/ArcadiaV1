@@ -126,7 +126,7 @@ public class HarnessStepDefinitions {
 
     @And("{string} component with index {string} is opened")
     public void connectorPlugIsOpened(String componentt,String index) throws InterruptedException {
-//        Thread.sleep(3000);
+        Thread.sleep(3000);
         new HarnessPage(context.driver).clickOnSelect();
         switch (componentt.toLowerCase()){
             case "connectorplug":
@@ -135,6 +135,7 @@ public class HarnessStepDefinitions {
                 break;
             case "splice":
                 String spliceId = new ConnectorPage(context.driver).getSpliceElementIdsFromDrawingPage().get(Integer.parseInt(index)).getSpliceId();
+                System.out.println(spliceId);
                 harnessPage.clickSplice(spliceId);
                 break;
         }
@@ -475,6 +476,12 @@ public class HarnessStepDefinitions {
 
     @And("verify splice image is drawn on Harness page with above configuration")
     public void verifySpliceImageIsDrawnOnHarnessPageWithAboveConfiguration() {
+        String spliceId = new ConnectorPage(context.driver).getSpliceElementIdsFromDrawingPage().get(Integer.parseInt(String.valueOf(0))).getSpliceId();
+            new HarnessPage(context.driver).checkForImage(spliceId);
+    }
 
+    @And("check again for splice sides are added")
+    public void checkAgainForSpliceSidesAreAdded() throws InterruptedException {
+        new HarnessPage(context.driver).checkSpliceSideAgain();
     }
 }
