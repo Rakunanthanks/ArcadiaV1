@@ -1,13 +1,13 @@
 package arcadia.domainobjects;
 
 public class OtherPartsComponentDB {
-    private String partNumber;
+    private String partnumber;
     private String description;
     private String family;
     private String status;
     private String usage;
     private String supplier;
-    private String supplierPN;
+    private String supplierpn;
     private String colour;
 
     public OtherPartsComponentDB() {
@@ -15,22 +15,22 @@ public class OtherPartsComponentDB {
     }
 
     public OtherPartsComponentDB(String partNumber, String description, String family, String status, String usage, String supplier, String supplierPN, String colour) {
-        this.partNumber = partNumber;
+        this.partnumber = partNumber;
         this.description = description;
         this.family = family;
         this.status = status;
         this.usage = usage;
         this.supplier = supplier;
-        this.supplierPN = supplierPN;
+        this.supplierpn = supplierPN;
         this.colour = colour;
     }
 
-    public String getPartNumber() {
-        return partNumber;
+    public String getPartnumber() {
+        return partnumber;
     }
 
-    public void setPartNumber(String partNumber) {
-        this.partNumber = partNumber;
+    public void setPartnumber(String partNumber) {
+        this.partnumber = partNumber;
     }
 
     public String getDescription() {
@@ -73,12 +73,12 @@ public class OtherPartsComponentDB {
         this.supplier = supplier;
     }
 
-    public String getSupplierPN() {
-        return supplierPN;
+    public String getSupplierpn() {
+        return supplierpn;
     }
 
-    public void setSupplierPN(String supplierPN) {
-        this.supplierPN = supplierPN;
+    public void setSupplierpn(String supplierPN) {
+        this.supplierpn = supplierPN;
     }
 
     public String getColour() {

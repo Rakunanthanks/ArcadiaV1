@@ -5,8 +5,11 @@ import arcadia.domainobjects.*;
 import arcadia.mapperObjects.SearchParts;
 import arcadia.mapperObjects.TestMapper;
 import arcadia.pages.BundlePage;
+import arcadia.pages.ComponentDB.Components.ComponentsDBPage;
 import arcadia.pages.ComponentDB.Connectors.ConnectorsDBPage;
+import arcadia.pages.ComponentDB.JunctionParts.JunctionPartsComponentDBPage;
 import arcadia.pages.ComponentDB.Multicore.MulticoreComponentDBPage;
+import arcadia.pages.ComponentDB.OtherParts.OtherPartsComponentDBPage;
 import arcadia.pages.ComponentDB.Seals.SealsComponentDBPage;
 import arcadia.pages.ComponentDB.Splices.SplicesComponentDBPage;
 import arcadia.pages.ComponentDB.Terminals.TerminalsComponentDBPage;
@@ -17,8 +20,6 @@ import arcadia.pages.SearchPartsDatabasePage;
 import arcadia.utils.ConversionUtil;
 import arcadia.utils.RestAssuredUtility;
 import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -27,8 +28,6 @@ import org.testng.Assert;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -60,31 +59,22 @@ public class SearchPartsStepDefinitions {
 
     @Then("Verify user can filter {string} using {string}")
     public void userFiltersConnectorOnCreateBundle(String component, String filtertype) throws InterruptedException, AWTException, IOException {
-        File file = new File("src/test/resources/componentDB/Connector/ConnectorData.json");
-        List<ConnectorDB> dbData = null;
-        if (file.exists()) {
-            ObjectMapper mapper = new ObjectMapper();
-            dbData = mapper.readValue(new File("src/test/resources/componentDB/Connector/ConnectorData.json"), new TypeReference<List<ConnectorDB>>() {
-            });
-        }
-        if (!file.exists()) {
-            dbData = new ConnectorsDBPage(context.driver).getConnectorsData();
-            ObjectMapper mapper = new ObjectMapper();
-            Files.createDirectories(Paths.get("src/test/resources/componentDB/Connector"));
-            mapper.writeValue(new File("src/test/resources/componentDB/Connector/ConnectorData.json"), dbData);
-        }
+        System.out.println("Getting data from API");
+        RestAssuredUtility rs= new RestAssuredUtility();
+        String response=rs.getComponentDbResponse("connector", context.driver);
+        List<ConnectorDB> dbData =new ConnectorsDBPage(context.driver).getConnectorsAPIData(response);
         ConnectorDB randomConnectorData = new ConnectorsDBPage(context.driver).getRandomConnectorComponent(dbData);
         List<ConnectorDB> filteredDbData = new ArrayList<>();
         searchPartsDatabasePage.selectSearchDB(System.getProperty("componentDB"));
         searchPartsDatabasePage.selectComponentType(component);
         switch (filtertype.toLowerCase()) {
             case "partnumber":
-                filteredDbData = dbData.stream().filter(x -> x.getPartNumber().equals(randomConnectorData.getPartNumber())).collect(Collectors.toList());
-                searchPartsDatabasePage.searchPartUsingPartNumber(randomConnectorData.getPartNumber());
+                filteredDbData = dbData.stream().filter(x -> x.getPartnumber().equals(randomConnectorData.getPartnumber())).collect(Collectors.toList());
+                searchPartsDatabasePage.searchPartUsingPartNumber(randomConnectorData.getPartnumber());
                 break;
             case "cavity":
-                filteredDbData = dbData.stream().filter(x -> x.getNumberOfCavities().equals(randomConnectorData.getNumberOfCavities())).collect(Collectors.toList());
-                searchPartsDatabasePage.searchPartUsingCavity(randomConnectorData.getNumberOfCavities());
+                filteredDbData = dbData.stream().filter(x -> x.getNoofcavity().equals(randomConnectorData.getNoofcavity())).collect(Collectors.toList());
+                searchPartsDatabasePage.searchPartUsingCavity(randomConnectorData.getNoofcavity());
                 break;
             case "family":
                 filteredDbData = dbData.stream().filter(x -> x.getFamily().equals(randomConnectorData.getFamily())).collect(Collectors.toList());
@@ -95,16 +85,16 @@ public class SearchPartsStepDefinitions {
                 searchPartsDatabasePage.searchPartUsingSupplier(randomConnectorData.getSupplier());
                 break;
             case "housinggender":
-                filteredDbData = dbData.stream().filter(x -> x.getHousingGender().equals(randomConnectorData.getHousingGender())).collect(Collectors.toList());
-                searchPartsDatabasePage.searchPartUsingHousingGender(randomConnectorData.getHousingGender());
+                filteredDbData = dbData.stream().filter(x -> x.getHousinggender().equals(randomConnectorData.getHousinggender())).collect(Collectors.toList());
+                searchPartsDatabasePage.searchPartUsingHousingGender(randomConnectorData.getHousinggender());
                 break;
             case "terminalgender":
-                filteredDbData = dbData.stream().filter(x -> x.getTerminalGender().equals(randomConnectorData.getTerminalGender())).collect(Collectors.toList());
-                searchPartsDatabasePage.searchPartUsingTerminalGender(randomConnectorData.getTerminalGender());
+                filteredDbData = dbData.stream().filter(x -> x.getGender().equals(randomConnectorData.getGender())).collect(Collectors.toList());
+                searchPartsDatabasePage.searchPartUsingTerminalGender(randomConnectorData.getGender());
                 break;
         }
         List<String> actualUniquePartList = searchPartsDatabasePage.getSearchPartsData();
-        List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
+        List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartnumber()).collect(Collectors.toList());
         List<String> differenceFromExpectedPartNumberList = expectedPartNumberList.stream()
                 .filter(element -> !actualUniquePartList.contains(element))
                 .collect(Collectors.toList());
@@ -120,27 +110,18 @@ public class SearchPartsStepDefinitions {
 
     @Then("Verify user can filter splice using {string}")
     public void userFiltersSpliceOnCreateBundle(String filtertype) throws InterruptedException, AWTException, IOException {
-        File file = new File("src/test/resources/componentDB/Splices/SpliceData.json");
-        List<SplicesComponentDB> dbData = null;
-        if (file.exists()) {
-            ObjectMapper mapper = new ObjectMapper();
-            dbData = mapper.readValue(new File("src/test/resources/componentDB/Splices/SpliceData.json"), new TypeReference<List<SplicesComponentDB>>() {
-            });
-        }
-        if (!file.exists()) {
-            dbData = new SplicesComponentDBPage(context.driver).getSplicesData();
-            ObjectMapper mapper = new ObjectMapper();
-            Files.createDirectories(Paths.get("src/test/resources/componentDB/Splices"));
-            mapper.writeValue(new File("src/test/resources/componentDB/Splices/SpliceData.json"), dbData);
-        }
+        System.out.println("Getting data from API");
+        RestAssuredUtility rs= new RestAssuredUtility();
+        String response=rs.getComponentDbResponse("splice", context.driver);
+        List<SplicesComponentDB> dbData =new SplicesComponentDBPage(context.driver).getSpliceAPIData(response);
         SplicesComponentDB randomSpliceData = new SplicesComponentDBPage(context.driver).getRandomSpliceComponent(dbData);
         List<SplicesComponentDB> filteredDbData = new ArrayList<>();
         searchPartsDatabasePage.selectSearchDB(System.getProperty("componentDB"));
         searchPartsDatabasePage.selectComponentType("splice");
         switch (filtertype.toLowerCase()) {
             case "partnumber":
-                filteredDbData = dbData.stream().filter(x -> x.getPartNumber().equals(randomSpliceData.getPartNumber())).collect(Collectors.toList());
-                searchPartsDatabasePage.searchPartUsingPartNumber(randomSpliceData.getPartNumber());
+                filteredDbData = dbData.stream().filter(x -> x.getPartnumber().equals(randomSpliceData.getPartnumber())).collect(Collectors.toList());
+                searchPartsDatabasePage.searchPartUsingPartNumber(randomSpliceData.getPartnumber());
                 break;
 //            case "cavity":
 //                filteredDbData = dbData.stream().filter(x -> x.get().equals(randomSpliceData.getNumberOfCavities())).collect(Collectors.toList());
@@ -164,7 +145,7 @@ public class SearchPartsStepDefinitions {
 //                break;
         }
         List<String> actualUniquePartList = searchPartsDatabasePage.getSearchPartsData();
-        List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
+        List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartnumber()).collect(Collectors.toList());
         List<String> differenceFromExpectedPartNumberList = expectedPartNumberList.stream()
                 .filter(element -> !actualUniquePartList.contains(element))
                 .collect(Collectors.toList());
@@ -180,26 +161,24 @@ public class SearchPartsStepDefinitions {
 
     @Then("Verify user can filter {string} using {string} with value {string}")
     public void verifyUserCanFilterConnectorUsingFilterAndValue(String component, String filtertype, String filterValue) throws IOException, InterruptedException, AWTException {
-        File f = new File("src/test/resources/componentDB/Connector/ConnectorData.json");
-        List<ConnectorDB> dbData = null;
-        System.out.println("Resuse JSON");
-        ObjectMapper mapper = new ObjectMapper();
-        dbData = mapper.readValue(new File("src/test/resources/componentDB/Connector/ConnectorData.json"), new TypeReference<List<ConnectorDB>>() {
-        });
+        System.out.println("Getting data from API");
+        RestAssuredUtility rs= new RestAssuredUtility();
+        String response=rs.getComponentDbResponse("connector", context.driver);
+        List<ConnectorDB> dbData =new ConnectorsDBPage(context.driver).getConnectorsAPIData(response);
         List<ConnectorDB> filteredDbData = new ArrayList<>();
         searchPartsDatabasePage.selectSearchDB(System.getProperty("componentDB"));
         searchPartsDatabasePage.selectComponentType(component);
         switch (filtertype.toLowerCase()){
             case "housinggender":
-                filteredDbData = dbData.stream().filter(x -> x.getHousingGender().equals(filterValue)).collect(Collectors.toList());
+                filteredDbData = dbData.stream().filter(x -> x.getHousinggender().equals(filterValue)).collect(Collectors.toList());
                 searchPartsDatabasePage.searchPartUsingHousingGender(filterValue);
                 break;
             case "terminalgender":
-                filteredDbData = dbData.stream().filter(x -> x.getTerminalGender().equals(filterValue)).collect(Collectors.toList());
+                filteredDbData = dbData.stream().filter(x -> x.getGender().equals(filterValue)).collect(Collectors.toList());
                 searchPartsDatabasePage.searchPartUsingTerminalGender(filterValue);
                 break;
             case "type":
-                filteredDbData = dbData.stream().filter(x -> x.getConnectorType().equals(filterValue)).collect(Collectors.toList());
+                filteredDbData = dbData.stream().filter(x -> x.getTtype().equals(filterValue)).collect(Collectors.toList());
                 searchPartsDatabasePage.searchPartUsingType(filterValue);
                 break;
             case "colour":
@@ -208,7 +187,7 @@ public class SearchPartsStepDefinitions {
                 break;
         }
         List<String> actualUniquePartList = searchPartsDatabasePage.getSearchPartsData();
-        List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
+        List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartnumber()).collect(Collectors.toList());
         List<String> differenceFromExpectedPartNumberList = expectedPartNumberList.stream()
                 .filter(element -> !actualUniquePartList.contains(element))
                 .collect(Collectors.toList());
@@ -293,8 +272,8 @@ public class SearchPartsStepDefinitions {
         searchPartsDatabasePage.selectWireType("multicore");
         switch (filterName.toLowerCase()) {
             case "partnumber":
-                filteredDbData = dbData.stream().filter(x -> x.getPartNumber().equals(randomMulticoreData.getPartNumber())).collect(Collectors.toList());
-                searchPartsDatabasePage.searchWireMulticoreUsingPartNumber(randomMulticoreData.getPartNumber());
+                filteredDbData = dbData.stream().filter(x -> x.getPartnumber().equals(randomMulticoreData.getPartnumber())).collect(Collectors.toList());
+                searchPartsDatabasePage.searchWireMulticoreUsingPartNumber(randomMulticoreData.getPartnumber());
                 break;
             case "primarycolour":
                 filteredDbData = dbData.stream().filter(x -> x.getColour().equals(randomMulticoreData.getColour())).collect(Collectors.toList());
@@ -302,7 +281,7 @@ public class SearchPartsStepDefinitions {
                 break;
         }
         List<String> actualUniquePartList = searchPartsDatabasePage.getSearchWiresData();
-        List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
+        List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartnumber()).collect(Collectors.toList());
         List<String> differenceFromExpectedPartNumberList = expectedPartNumberList.stream()
                 .filter(element -> !actualUniquePartList.contains(element))
                 .collect(Collectors.toList());
@@ -359,17 +338,14 @@ public class SearchPartsStepDefinitions {
                 rs= new RestAssuredUtility();
                 response=rs.getComponentDbResponse("connector", context.driver);
                 List<ConnectorDB> connectorDbData =new ConnectorsDBPage(context.driver).getConnectorsAPIData(response);
-                expectedPartNumberList = connectorDbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
+                expectedPartNumberList = connectorDbData.stream().map(x -> x.getPartnumber()).collect(Collectors.toList());
                 break;
             case "splice":
-                file = new File("src/test/resources/componentDB/Splices/SpliceData.json");
-                List<SplicesComponentDB> splicesdbData = null;
-                if (file.exists()) {
-                    ObjectMapper mapper = new ObjectMapper();
-                    splicesdbData = mapper.readValue(new File("src/test/resources/componentDB/Splices/SpliceData.json"), new TypeReference<List<SplicesComponentDB>>() {
-                    });
-                }
-                expectedPartNumberList = splicesdbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
+                System.out.println("Getting data from API");
+                rs= new RestAssuredUtility();
+                response=rs.getComponentDbResponse("splice", context.driver);
+                List<SplicesComponentDB> splicesdbData =new SplicesComponentDBPage(context.driver).getSpliceAPIData(response);
+                expectedPartNumberList = splicesdbData.stream().map(x -> x.getPartnumber()).collect(Collectors.toList());
                 break;
             case "seal":
                 System.out.println("Getting data from API");
@@ -386,34 +362,25 @@ public class SearchPartsStepDefinitions {
                 expectedPartNumberList = terminalsdbData.stream().map(x -> x.getPartnumber()).collect(Collectors.toList());
                 break;
             case "junctionpart":
-                file = new File("src/test/resources/componentDB/JunctionParts/JunctionPartsData.json");
-                List<JunctionPartComponentDB> junctionpartsdbData = null;
-                if (file.exists()) {
-                    ObjectMapper mapper = new ObjectMapper();
-                    junctionpartsdbData = mapper.readValue(new File("src/test/resources/componentDB/JunctionParts/JunctionPartsData.json"), new TypeReference<List<JunctionPartComponentDB>>() {
-                    });
-                }
-                expectedPartNumberList = junctionpartsdbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
+                System.out.println("Getting data from API");
+                rs= new RestAssuredUtility();
+                response=rs.getComponentDbResponse("junctionpart", context.driver);
+                List<JunctionPartComponentDB> junctionpartsdbData =new JunctionPartsComponentDBPage(context.driver).getJunctionPartsAPIData(response);
+                expectedPartNumberList = junctionpartsdbData.stream().map(x -> x.getPartnumber()).collect(Collectors.toList());
                 break;
             case "component":
-                file = new File("src/test/resources/componentDB/Component/ComponentData.json");
-                List<ComponentsDB> componentsdbData = null;
-                if (file.exists()) {
-                    ObjectMapper mapper = new ObjectMapper();
-                    componentsdbData = mapper.readValue(new File("src/test/resources/componentDB/Component/ComponentData.json"), new TypeReference<List<ComponentsDB>>() {
-                    });
-                }
-                expectedPartNumberList = componentsdbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
+                System.out.println("Getting data from API");
+                rs= new RestAssuredUtility();
+                response=rs.getComponentDbResponse("component", context.driver);
+                List<ComponentsDB> componentsdbData =new ComponentsDBPage(context.driver).getComponentAPIData(response);
+                expectedPartNumberList = componentsdbData.stream().map(x -> x.getPartnumber()).collect(Collectors.toList());
                 break;
             case "otherpart":
-                file = new File("src/test/resources/componentDB/OtherParts/OtherPartsData.json");
-                List<OtherPartsComponentDB> otherpartsdbData = null;
-                if (file.exists()) {
-                    ObjectMapper mapper = new ObjectMapper();
-                    otherpartsdbData = mapper.readValue(new File("src/test/resources/componentDB/OtherParts/OtherPartsData.json"), new TypeReference<List<OtherPartsComponentDB>>() {
-                    });
-                }
-                expectedPartNumberList = otherpartsdbData.stream().map(x -> x.getPartNumber()).collect(Collectors.toList());
+                System.out.println("Getting data from API");
+                rs= new RestAssuredUtility();
+                response=rs.getComponentDbResponse("otherpart", context.driver);
+                List<OtherPartsComponentDB> otherpartsdbData =new OtherPartsComponentDBPage(context.driver).getOtherPartAPIData(response);
+                expectedPartNumberList = otherpartsdbData.stream().map(x -> x.getPartnumber()).collect(Collectors.toList());
                 break;
         }
         List<String> actualUniquePartList = searchPartsDatabasePage.getAttachedWiresData();

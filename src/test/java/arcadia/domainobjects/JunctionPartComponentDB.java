@@ -1,41 +1,41 @@
 package arcadia.domainobjects;
 
 public class JunctionPartComponentDB {
-    private String partNumber;
+    private String partnumber;
     private String description;
     private String family;
     private String status;
     private String usage;
     private String supplier;
-    private String supplierPN;
+    private String supplierpn;
     private String colour;
-    private String controltype;
+    private String type;
     private String material;
-    private String wallthickness;
+    private String rec_wall_thickness;
     public JunctionPartComponentDB() {
 
     }
 
-    public JunctionPartComponentDB(String partNumber, String description, String family, String status, String usage, String supplier, String supplierPN, String colour, String controltype, String material, String wallthickness) {
-        this.partNumber = partNumber;
+    public JunctionPartComponentDB(String partnumber, String description, String family, String status, String usage, String supplier, String supplierpn, String colour, String type, String material, String rec_wall_thickness) {
+        this.partnumber = partnumber;
         this.description = description;
         this.family = family;
         this.status = status;
         this.usage = usage;
         this.supplier = supplier;
-        this.supplierPN = supplierPN;
+        this.supplierpn = supplierpn;
         this.colour = colour;
-        this.controltype = controltype;
+        this.type = type;
         this.material = material;
-        this.wallthickness = wallthickness;
+        this.rec_wall_thickness = rec_wall_thickness;
     }
 
-    public String getPartNumber() {
-        return partNumber;
+    public String getPartnumber() {
+        return partnumber;
     }
 
-    public void setPartNumber(String partNumber) {
-        this.partNumber = partNumber;
+    public void setPartnumber(String partnumber) {
+        this.partnumber = partnumber;
     }
 
     public String getDescription() {
@@ -78,12 +78,12 @@ public class JunctionPartComponentDB {
         this.supplier = supplier;
     }
 
-    public String getSupplierPN() {
-        return supplierPN;
+    public String getSupplierpn() {
+        return supplierpn;
     }
 
-    public void setSupplierPN(String supplierPN) {
-        this.supplierPN = supplierPN;
+    public void setSupplierpn(String supplierpn) {
+        this.supplierpn = supplierpn;
     }
 
     public String getColour() {
@@ -94,12 +94,12 @@ public class JunctionPartComponentDB {
         this.colour = colour;
     }
 
-    public String getControltype() {
-        return controltype;
+    public String getType() {
+        return type;
     }
 
-    public void setControltype(String controltype) {
-        this.controltype = controltype;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getMaterial() {
@@ -110,11 +110,11 @@ public class JunctionPartComponentDB {
         this.material = material;
     }
 
-    public String getWallthickness() {
-        return wallthickness;
+    public String getRec_wall_thickness() {
+        return rec_wall_thickness;
     }
 
-    public void setWallthickness(String wallthickness) {
-        this.wallthickness = wallthickness;
+    public void setRec_wall_thickness(String rec_wall_thickness) {
+        this.rec_wall_thickness = rec_wall_thickness;
     }
 }

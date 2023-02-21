@@ -2,34 +2,34 @@ package arcadia.domainobjects;
 
 public class ComponentsDB {
 
-    private String partNumber;
+    private String partnumber;
     private String description;
     private String family;
     private String status;
     private String usage;
     private String supplier;
-    private String supplierPN;
-    private Integer numberOfCavities;
+    private String supplierpn;
+    private Integer noofcavity;
     public ComponentsDB() {
     }
 
     public ComponentsDB(String partNumber, String description, String family, String status, String usage, String supplier, String supplierPN, Integer numberOfCavities) {
-        this.partNumber = partNumber;
+        this.partnumber = partNumber;
         this.description = description;
         this.family = family;
         this.status = status;
         this.usage = usage;
         this.supplier = supplier;
-        this.supplierPN = supplierPN;
-        this.numberOfCavities = numberOfCavities;
+        this.supplierpn = supplierPN;
+        this.noofcavity = numberOfCavities;
     }
 
-    public String getPartNumber() {
-        return partNumber;
+    public String getPartnumber() {
+        return partnumber;
     }
 
-    public void setPartNumber(String partNumber) {
-        this.partNumber = partNumber;
+    public void setPartnumber(String partnumber) {
+        this.partnumber = partnumber;
     }
 
     public String getDescription() {
@@ -72,19 +72,19 @@ public class ComponentsDB {
         this.supplier = supplier;
     }
 
-    public String getSupplierPN() {
-        return supplierPN;
+    public String getSupplierpn() {
+        return supplierpn;
     }
 
-    public void setSupplierPN(String supplierPN) {
-        this.supplierPN = supplierPN;
+    public void setSupplierpn(String supplierpn) {
+        this.supplierpn = supplierpn;
     }
 
-    public Integer getNumberOfCavities() {
-        return numberOfCavities;
+    public Integer getNoofcavity() {
+        return noofcavity;
     }
 
-    public void setNumberOfCavities(Integer numberOfCavities) {
-        this.numberOfCavities = numberOfCavities;
+    public void setNoofcavity(Integer noofcavity) {
+        this.noofcavity = noofcavity;
     }
 }
