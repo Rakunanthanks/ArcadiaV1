@@ -1,6 +1,5 @@
 package arcadia.pages;
 
-import arcadia.context.FlowContext;
 import arcadia.utils.SeleniumCustomCommand;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -11,7 +10,6 @@ import org.testng.Assert;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class SearchPartsDatabasePage extends BasePage{
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
@@ -234,9 +232,16 @@ public class SearchPartsDatabasePage extends BasePage{
                 }
 
                 if(captureElement){
-                    customCommand.waitForElementToBeClickable(driver,buttonNextWiresTable);
-                    buttonNextWiresTable.click();
-                    Thread.sleep(2000);
+                    try {
+                        customCommand.waitForElementToBeClickable(driver,buttonNextWiresTable);
+                        buttonNextCavityDetailsTable.click();
+                        Thread.sleep(2000);
+                    }
+                    catch (Exception e){
+                        System.out.println("Reached end of records");
+                        captureElement = false;
+                        break;
+                    }
                 }
             }
         }
@@ -317,7 +322,7 @@ public class SearchPartsDatabasePage extends BasePage{
         Thread.sleep(2000);
     }
 
-    public List<String> getAttachedWiresData() throws InterruptedException {
+    public List<String> getAttachedPartsData() throws InterruptedException {
         List<String> attachedPartsData = new ArrayList<>();
         List<WebElement> tableAttachedPartsElement;
         List<String> partLookUp = new ArrayList<>();
@@ -342,11 +347,18 @@ public class SearchPartsDatabasePage extends BasePage{
                     }
                 }
                 if(captureElement){
-                    customCommand.waitForElementToBeClickable(driver,buttonNextAttachPartsTable);
-                    buttonNextAttachPartsTable.click();
-                    System.out.println("clicked next");
-                    Thread.sleep(2000);
+                    try {
+                        customCommand.waitForElementToBeClickable(driver,buttonNextCavityDetailsTable);
+                        buttonNextCavityDetailsTable.click();
+                        Thread.sleep(2000);
+                    }
+                    catch (Exception e){
+                        System.out.println("Reached end of records");
+                        captureElement = false;
+                        break;
+                    }
                 }
+
 
             }
         }

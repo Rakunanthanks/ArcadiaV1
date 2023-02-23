@@ -472,7 +472,7 @@ public class ComponentDBStepDefinitions {
 
     @Then("User verified the component {string} is added successfully")
     public void userVerifiedTheComponentIsAddedSuccessfully(String componentName) throws InterruptedException {
-       ExtentCucumberAdapter.addTestStepLog(String.format("Component to be added is"+ componentName));
+       ExtentCucumberAdapter.addTestStepLog(String.format("Component to be added is "+ componentName));
         switch (componentName.toLowerCase()) {
             case "wire":
                 List<WiresComponentDB> wiresdatalist = new WiresComponentDBPage(context.driver).getWiresData();
@@ -1425,9 +1425,9 @@ public class ComponentDBStepDefinitions {
                 new CommonElements(context.driver).filterComponentBasedOnColour(randomConnectorData.getColour());
                 break;
             case "housinggender":
-                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomConnectorData.getHousinggender()));
-                filteredDbData = dbData.stream().filter(x -> x.getHousinggender().equals(randomConnectorData.getHousinggender())).collect(Collectors.toList());
-                new CommonElements(context.driver).filterComponentBasedOnHousingGender(randomConnectorData.getHousinggender());
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomConnectorData.getHousingGender()));
+                filteredDbData = dbData.stream().filter(x -> x.getHousingGender().equals(randomConnectorData.getHousingGender())).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnHousingGender(randomConnectorData.getHousingGender());
                 break;
             case "terminalgender":
                 ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomConnectorData.getGender()));

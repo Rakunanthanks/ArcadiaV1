@@ -64,6 +64,7 @@ public class SealsComponentDBPage extends BasePage {
     public List<SealsComponentDB> getSealData() throws InterruptedException {
         getFullPagination();
         List<SealsComponentDB> componentDbData = new ArrayList<>();
+        customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tableSealRows)));
         List<WebElement> componentDbElement = driver.findElements(By.cssSelector(tableSealRows));
         int i = 0;
         for( WebElement element : componentDbElement){
