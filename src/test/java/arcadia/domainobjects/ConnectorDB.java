@@ -98,11 +98,11 @@ public class ConnectorDB {
         this.colour = colour;
     }
 
-    public String getHousinggender() {
+    public String getHousingGender() {
         return housingGender;
     }
 
-    public void setHousinggender(String housingGender) {
+    public void setHousingGender(String housingGender) {
         this.housingGender = housingGender;
     }
 

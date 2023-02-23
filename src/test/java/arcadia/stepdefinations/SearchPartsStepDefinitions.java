@@ -85,8 +85,8 @@ public class SearchPartsStepDefinitions {
                 searchPartsDatabasePage.searchPartUsingSupplier(randomConnectorData.getSupplier());
                 break;
             case "housinggender":
-                filteredDbData = dbData.stream().filter(x -> x.getHousinggender().equals(randomConnectorData.getHousinggender())).collect(Collectors.toList());
-                searchPartsDatabasePage.searchPartUsingHousingGender(randomConnectorData.getHousinggender());
+                filteredDbData = dbData.stream().filter(x -> x.getHousingGender().equals(randomConnectorData.getHousingGender())).collect(Collectors.toList());
+                searchPartsDatabasePage.searchPartUsingHousingGender(randomConnectorData.getHousingGender());
                 break;
             case "terminalgender":
                 filteredDbData = dbData.stream().filter(x -> x.getGender().equals(randomConnectorData.getGender())).collect(Collectors.toList());
@@ -170,7 +170,7 @@ public class SearchPartsStepDefinitions {
         searchPartsDatabasePage.selectComponentType(component);
         switch (filtertype.toLowerCase()){
             case "housinggender":
-                filteredDbData = dbData.stream().filter(x -> x.getHousinggender().equals(filterValue)).collect(Collectors.toList());
+                filteredDbData = dbData.stream().filter(x -> x.getHousingGender().equals(filterValue)).collect(Collectors.toList());
                 searchPartsDatabasePage.searchPartUsingHousingGender(filterValue);
                 break;
             case "terminalgender":
@@ -383,7 +383,7 @@ public class SearchPartsStepDefinitions {
                 expectedPartNumberList = otherpartsdbData.stream().map(x -> x.getPartnumber()).collect(Collectors.toList());
                 break;
         }
-        List<String> actualUniquePartList = searchPartsDatabasePage.getAttachedWiresData();
+        List<String> actualUniquePartList = searchPartsDatabasePage.getAttachedPartsData();
 
         List<String> differenceFromExpectedPartNumberList = expectedPartNumberList.stream()
                 .filter(element -> !actualUniquePartList.contains(element))
@@ -403,6 +403,7 @@ public class SearchPartsStepDefinitions {
 
     @Then("Verify {string} terminals are shown in cavity table searchdetails")
     public void verifyLinkedTerminalsAreShownInCavityTableSearchdetails(String terminalsType) throws InterruptedException, IOException {
+        List<String> actualListOfLinkedTerminalsShown = searchPartsDatabasePage.getCavityDetailsData();
         List<String> expectedTerminalsList = new ArrayList<>();
         switch (terminalsType.toLowerCase()){
             case "linked":
@@ -417,8 +418,6 @@ public class SearchPartsStepDefinitions {
                 expectedTerminalsList = terminalsdbData.stream().map(x -> x.getPartnumber()).collect(Collectors.toList());
                 break;
         }
-
-        List<String> actualListOfLinkedTerminalsShown = searchPartsDatabasePage.getCavityDetailsData();
         List<String> differenceFromExpectedPartNumberList = expectedTerminalsList.stream()
                 .filter(element -> !actualListOfLinkedTerminalsShown.contains(element))
                 .collect(Collectors.toList());

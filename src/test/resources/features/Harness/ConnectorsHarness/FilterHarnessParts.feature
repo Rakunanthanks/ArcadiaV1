@@ -97,6 +97,7 @@ Feature: Filter harness parts
 
   @FilterConnectorHarness
   Scenario: Test verifies a connector can be filtered with Type value Sealed while creating bundles
+    And Navigated to quickstart project
     And harness with name 'dynamic connectorFilter' is launched successfully
     And based on drawing orchestrator components are created
     Then Verify user can filter 'connector' using 'Type' with value 'SEALED'
