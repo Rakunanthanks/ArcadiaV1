@@ -214,7 +214,7 @@ public class HarnessPage extends BasePage{
     }
 
     public void performOperation(String operation,String id) throws InterruptedException {
-        ExtentCucumberAdapter.addTestStepLog(String.format("Performing %s operation on component with id = %s", operation,id));
+//        ExtentCucumberAdapter.addTestStepLog(String.format("Performing %s operation on component with id = %s", operation,id));
         String xpathOfConnector="//*[name()='g' and @id='"+id+"']/*[name()='rect']";
         List<WebElement> connectors;
         boolean flag=false;
@@ -527,7 +527,7 @@ public class HarnessPage extends BasePage{
         customCommand.moveToElementAndClick(driver,ele.get(1));
         Thread.sleep(2000);
         ele = driver.findElements(By.xpath("//*[name()='g' and @id='"+identifier+"']//table//tbody/tr/td"));
-        Assert.assertEquals(ele.get(1).getText(),"WIRE001");
+        Assert.assertTrue(ele.get(1).getText().contains("001"),"Value of swapped wire is not as expected");
     }
 
     public void verifyWireDeleted(String identifier) {

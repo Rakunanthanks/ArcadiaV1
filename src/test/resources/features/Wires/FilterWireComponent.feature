@@ -144,7 +144,7 @@ Feature: Filter wire components
     Given I'm on Arcadia test environment
     And Navigated to selected componentDB
     And User selected 'wire' from componentDB
-    Then Verify wire component data on the basis of filter 'Material' with value 'TPE-S'
+    Then Verify wire component data on the basis of filter 'Material' with value 'FLRY'
 
   @WireComponentDB
   @FilterWire

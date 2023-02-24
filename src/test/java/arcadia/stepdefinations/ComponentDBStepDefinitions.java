@@ -270,11 +270,6 @@ public class ComponentDBStepDefinitions {
                         .collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnGauge(randomWireData.getGauge());
                 break;
-            case "material":
-                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomWireData.getWirematerial()));
-                filteredDbData = dbData.stream().filter(x -> x.getWirematerial().equals(randomWireData.getWirematerial())).collect(Collectors.toList());
-                new CommonElements(context.driver).filterComponentBasedOnMaterial(randomWireData.getWirematerial());
-                break;
         }
         List<String> actualUniquePartList = new MulticoreComponentDBPage(context.driver).getPartNumber();
         List<String> expectedPartNumberList = filteredDbData.stream().map(x -> x.getPartnumber()).collect(Collectors.toList());
@@ -307,7 +302,7 @@ public class ComponentDBStepDefinitions {
                 filteredDbData = dbData.stream()
                         .filter(x -> x.getWirecsa() >= csaValue)
                         .collect(Collectors.toList());
-                new CommonElements(context.driver).filterComponentBasedOnCSARange(">=" + greaterThanValue);
+                new CommonElements(context.driver).filterComponentBasedOnCSARange(">= " + greaterThanValue);
                 break;
             case "outsidedia":
                 ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", greaterThanValue));
@@ -420,6 +415,11 @@ public class ComponentDBStepDefinitions {
                         .filter(x -> x.getResistance() <= finalResistanceValue)
                         .collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnResistanceRange(filterValue);
+                break;
+            case "material":
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", filterValue));
+                filteredDbData = dbData.stream().filter(x -> x.getWirematerial().equals(filterValue)).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnMaterial(filterValue);
                 break;
         }
         List<String> actualUniquePartList = new MulticoreComponentDBPage(context.driver).getPartNumber();
