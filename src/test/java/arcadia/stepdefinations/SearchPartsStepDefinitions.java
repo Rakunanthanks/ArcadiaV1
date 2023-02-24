@@ -403,6 +403,9 @@ public class SearchPartsStepDefinitions {
 
     @Then("Verify {string} terminals are shown in cavity table searchdetails")
     public void verifyLinkedTerminalsAreShownInCavityTableSearchdetails(String terminalsType) throws InterruptedException, IOException {
+        if (terminalsType.toLowerCase().equals("all")){
+            searchPartsDatabasePage.resetFiltersCavityDetails();
+        }
         List<String> actualListOfLinkedTerminalsShown = searchPartsDatabasePage.getCavityDetailsData();
         List<String> expectedTerminalsList = new ArrayList<>();
         switch (terminalsType.toLowerCase()){
@@ -410,7 +413,6 @@ public class SearchPartsStepDefinitions {
                 expectedTerminalsList = Arrays.asList("0-0444334-2","0-0281381-2","0-0444335-2");
                 break;
             case "all":
-                searchPartsDatabasePage.resetFiltersCavityDetails();
                 System.out.println("Getting data from API");
                 RestAssuredUtility rs= new RestAssuredUtility();
                 String response=rs.getComponentDbResponse("terminal", context.driver);

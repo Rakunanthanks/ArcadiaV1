@@ -17,6 +17,8 @@ public class SearchPartsDatabasePage extends BasePage{
     @FindBy(css = "input[name=\"nCavities\"]") private WebElement numberOfCavities;
     @FindBy(css = "select[name=\"library\"]") private WebElement partsComponentDB;
     @FindBy(css = "select[name=\"concompntType\"]") private WebElement componentType;
+
+    @FindBy(css = "table#termfilters select[name=\"compntType\"]") private WebElement selectSearchCavityDetailsCompType;
     @FindBy(css = "input[name=\"conPartNumber\"]") private WebElement pnDescription;
     @FindBy(css = "input[name=\"nFamily\"]") private WebElement family;
     @FindBy(css = "select[name=\"nGroupname\"]") private WebElement partType;
@@ -375,6 +377,7 @@ public class SearchPartsDatabasePage extends BasePage{
     }
 
     public void verifyGetCavityTableDetailsWindowIsOpen(){
+        customCommand.waitForElementToBeClickable(driver,inputPNCavityFilterDetails);
         customCommand.waitForElementVisibility(driver,tableCavityDetailsSearch);
         Assert.assertTrue(tableCavityDetailsSearch.isDisplayed());
     }
@@ -411,6 +414,7 @@ public class SearchPartsDatabasePage extends BasePage{
         customCommand.scrollIntoView(driver,buttonResetCavityFilterDetails);
         buttonResetCavityFilterDetails.click();
         Thread.sleep(2000);
+        customCommand.scrollIntoView(driver,selectSearchCavityDetailsCompType);
     }
 
     public void addImageTerminalToCavity(String terminalWithImagePartNumber) throws AWTException, InterruptedException {

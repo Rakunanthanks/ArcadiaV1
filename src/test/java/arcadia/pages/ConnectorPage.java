@@ -428,8 +428,10 @@ public class ConnectorPage extends BasePage {
         Assert.assertEquals(listOfactualTerminalPn.size(),listOfexpectedLinkedTerminalsPNFromComponentDB.size());
     }
 
-    public void clickGetCavityTableDetails(){
-        driver.findElements(By.cssSelector(getDetailsCavityTable)).get(0).click();
+    public void clickGetCavityTableDetails() throws InterruptedException {
+        Thread.sleep(2000);
+        customCommand.waitForElementToBeClickable(driver,driver.findElements(By.cssSelector(getDetailsCavityTable)).get(0));
+        customCommand.javaScriptClick(driver,driver.findElements(By.cssSelector(getDetailsCavityTable)).get(0));
     }
 
     public void verifySealsPNCavityTable(List<String> listOfexpectedLinkedSealsPNFromComponentDB) throws InterruptedException {
