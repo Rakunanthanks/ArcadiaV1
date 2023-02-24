@@ -53,15 +53,17 @@ public class DefineBundleTolerance extends BasePage {
     public static String lowerToleranceTwo_1;
     public static String upperToleranceTwo_1;
 
-    public void turningvisibilityon(){
+    public void turningvisibilityon() throws InterruptedException {
         WebElement advanced = driver.findElement(By.xpath("//span[@class='ribbon-title'][normalize-space()='Advanced']"));
+        customCommand.waitForElementVisibility(driver,advanced);
         advanced.click();
         WebElement visibility = driver.findElement(By.xpath("(//div[@id='iglabeledit'])[1]"));
         visibility.click();
-        WebElement bundletoleranceon =driver.findElement(By.cssSelector("input[value='true'][name='bundle_Tolerances']"));
-        bundletoleranceon.click();
-        WebElement submit = driver.findElement(By.cssSelector("button[title='Submit'] span"));
-        submit.click();
+        WebElement bundletoleranceon =driver.findElement(By.xpath("//input[@value='true' and @name='bundle_Tolerances']"));
+        customCommand.javaScriptClick(driver,bundletoleranceon);
+//        bundletoleranceon.click();
+        WebElement submit = driver.findElement(By.xpath("//button[@title='Submit']"));
+        customCommand.javaScriptClick(driver,submit);
     }
     public static void CaptureBundleTollerance() {
         driver.manage().timeouts().implicitlyWait(600, TimeUnit.SECONDS);
