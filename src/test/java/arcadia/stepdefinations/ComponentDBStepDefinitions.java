@@ -255,7 +255,7 @@ public class ComponentDBStepDefinitions {
                 break;
             case "colour":
                 ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomWireData.getColour()));
-                filteredDbData = dbData.stream().filter(x -> x.getColour().equals(randomWireData.getColour())).collect(Collectors.toList());
+                filteredDbData = dbData.stream().filter(x -> x.getColour().contains(randomWireData.getColour())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnColour(randomWireData.getColour());
                 break;
             case "awgsize":

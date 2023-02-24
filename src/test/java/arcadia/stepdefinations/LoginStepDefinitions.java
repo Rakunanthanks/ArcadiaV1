@@ -45,8 +45,7 @@ public class LoginStepDefinitions {
     }
 
     @And("Turning Visibility on for Bundle Tolerance")
-    public void turning_visibility_on()
-    {
+    public void turning_visibility_on() throws InterruptedException {
         new DefineBundleTolerance(context.driver).turningvisibilityon();
     }
 
