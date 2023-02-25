@@ -1226,7 +1226,7 @@ public class ComponentDBStepDefinitions {
     }
 
     @Then("verify user can filter seals based on property {string}")
-    public void verifyUserCanFilterSealsBasedOnPropertySupplierPN(String propertyName) throws IOException, InterruptedException {
+    public void verifyUserCanFilterSealsBasedOnProperty(String propertyName) throws IOException, InterruptedException {
         System.out.println("Getting data from API");
         RestAssuredUtility rs= new RestAssuredUtility();
         String response=rs.getComponentDbResponse("seal", context.driver);
@@ -1274,7 +1274,7 @@ public class ComponentDBStepDefinitions {
                 filteredDbData = dbData.stream().filter(x -> x.getColour().equals(randomSealsData.getColour())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnColour(randomSealsData.getColour());
                 break;
-            case "cavity":
+            case "cavityplug":
                 ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomSealsData.getCavityplug()));
                 filteredDbData = dbData.stream().filter(x -> x.getCavityplug().equals(randomSealsData.getCavityplug())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnCavity(randomSealsData.getCavityplug());

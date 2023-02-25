@@ -497,6 +497,11 @@ public class ConnectorPage extends BasePage {
         }
     }
 
+    public int getNumberOfOptionsInCavityLayout(){
+        List<WebElement> listOfShowOptions = driver.findElements(By.cssSelector(cavityTableLayoutShowOptions));
+        return listOfShowOptions.size();
+    }
+
     public void openTableProperties() throws InterruptedException {
         customCommand.waitForElementVisibility(driver,tableProperties);
         customCommand.scrollIntoView(driver,tableProperties);
