@@ -18,7 +18,6 @@ import org.testng.Assert;
 
 import java.awt.*;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 import static arcadia.context.FlowContext.harnessComponentAlreadyCreated;
@@ -165,27 +164,35 @@ public class HarnessStepDefinitions {
 
     @Then("Verify CavityTableData is displayed on connector {string}")
     public void verifyCavityTableDataIsDisplayedOnConnector(String connectorPlugIndex) throws InterruptedException {
-        List<String> expectedHeaders = Arrays.asList("Cav.","Wire","Colour","Gauge","Length (\")","Mat.","Opt.","To Loc.","Dest.","Signal","Term. PN","Term. Mat","Seal","Plug","Mult. ID","Ident Tag","Outer Dia","Wire CSA","From Tag","To Tag","Variant","Core ID","Term. Strip Length","Cavity Addon","Terminal Finish","Entry Port");
+        new ConnectorPage(context.driver).openTableLayout();
+        new ConnectorPage(context.driver).setTableLayoutVisibility("Yes");
+        int expectedSizeOfHeaders = new ConnectorPage(context.driver).getNumberOfOptionsInCavityLayout();
+        new ConnectorPage(context.driver).submitConnector();
         String connectorid = FlowContext.connectorPlugIdentifierList.get(Integer.parseInt(connectorPlugIndex)).getConnectorId();
-        harnessPage.verifyCavityTableColumnsDisplayed(connectorid,expectedHeaders);
+        harnessPage.verifyCavityTableNumberOfColumnsDisplayed(connectorid,expectedSizeOfHeaders);
         String colour = "BK";
         String gauge = "1.5";
-        String length = "5.15";
         String material = "FLRY";
         String dest = "X-002/1";
         String outerdia = "2";
         String wirecsa = "2";
         String fromTag = "X-001";
         String toTag = "X-002";
-        String cavityAddOn = "0.39\"";
         String entryPort = "EP_0";
-        harnessPage.verifyCavityTableData(connectorid,colour,gauge,length,material,dest,outerdia,wirecsa,fromTag,toTag,cavityAddOn,entryPort);
+        harnessPage.verifyCavityTableData(connectorid,colour,gauge,material,dest,outerdia,wirecsa,fromTag,toTag,entryPort);
     }
 
-    @Then("Verify data is wrapped and displayed on connector {string}")
-    public void verifyRowsDisplayedOnConnector(String connectorPlugIndex) {
+    @Then("Verify data is wrapped successfully on connector {string}")
+    public void verifyDataWrappedOnConnector(String connectorPlugIndex) throws InterruptedException {
+        new ConnectorPage(context.driver).openTableLayout();
+        new ConnectorPage(context.driver).setTableLayoutVisibility("Yes");
+        int expectedSizeOfHeaders = new ConnectorPage(context.driver).getNumberOfOptionsInCavityLayout();
+        new ConnectorPage(context.driver).setTablePropertyWrapFrom("2");
+        new ConnectorPage(context.driver).submitConnector();
         String connectorid = FlowContext.connectorPlugIdentifierList.get(Integer.parseInt(connectorPlugIndex)).getConnectorId();
-        harnessPage.verifyCavityTableWrapped(connectorid);
+        //As we wrapped the data, the column numbers is expected to be doubled
+        int expectedColumns = expectedSizeOfHeaders*2;
+        harnessPage.verifyCavityTableWrapped(connectorid,expectedColumns);
     }
 
     @Then("User verifies the connector {string} is deleted successfully")

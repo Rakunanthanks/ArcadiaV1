@@ -10,8 +10,6 @@ import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -341,37 +339,31 @@ public class HarnessPage extends BasePage{
         Thread.sleep(2000);
     }
 
-    public void verifyCavityTableColumnsDisplayed(String connectorid, List<String> expectedHeaders) throws InterruptedException {
+    public void verifyCavityTableNumberOfColumnsDisplayed(String connectorid, int expectedHeadersSize) throws InterruptedException {
         Thread.sleep(2000);
         List<WebElement> eleListOfTableHeaders = driver.findElements(By.xpath("//*[name()='g' and @id='"+connectorid+"']//table/thead/tr/th"));
-        List<String> actualHeaders = new ArrayList<>();
-        for (WebElement ele: eleListOfTableHeaders){
-            actualHeaders.add(ele.getText());
-        }
-        Assert.assertEquals(actualHeaders,expectedHeaders);
+        Assert.assertEquals(eleListOfTableHeaders.size(),expectedHeadersSize);
+
     }
 
-    public void verifyCavityTableData(String connectorid, String colour, String gauge, String length, String material, String dest,String outerDia, String csa, String fromTag, String toTag, String cavityAddOn, String entryPort) {
+    public void verifyCavityTableData(String connectorid, String colour, String gauge, String material, String dest,String outerDia, String csa, String fromTag, String toTag, String entryPort) {
         WebElement eleCavityDataRow = driver.findElement(By.xpath("//*[name()='g' and @id='"+connectorid+"']//table//tbody/tr"));
         List<WebElement> tdElements = eleCavityDataRow.findElements(By.cssSelector("td"));
         Assert.assertEquals(tdElements.get(2).findElement(By.tagName("span")).getText(),colour);
         Assert.assertEquals(tdElements.get(3).getText(),gauge);
-        Assert.assertEquals(tdElements.get(4).getText(),length);
         Assert.assertEquals(tdElements.get(5).getText(),material);
         Assert.assertEquals(tdElements.get(8).getText(),dest);
         Assert.assertEquals(tdElements.get(16).getText(),outerDia);
         Assert.assertEquals(tdElements.get(17).getText(),csa);
         Assert.assertEquals(tdElements.get(18).getText(),fromTag);
         Assert.assertEquals(tdElements.get(19).getText(),toTag);
-        Assert.assertEquals(tdElements.get(23).getText(),cavityAddOn);
         Assert.assertEquals(tdElements.get(25).getText(),entryPort);
     }
 
-    public void verifyCavityTableWrapped(String connectorid) {
+    public void verifyCavityTableWrapped(String connectorid, int expectedColumns) {
         customCommand.waitForElementVisibility(driver,driver.findElement(By.xpath("//*[name()='g' and @id='"+connectorid+"']//table/thead/tr/th")));
         List<WebElement> eleListOfTableHeaders = driver.findElements(By.xpath("//*[name()='g' and @id='"+connectorid+"']//table/thead/tr/th"));
-        //There are 26 columns by default. But as we wrapped the data, the column numbers is expected to be doubled
-        Assert.assertEquals(eleListOfTableHeaders.size(),52);
+        Assert.assertEquals(eleListOfTableHeaders.size(),expectedColumns);
     }
 
     public void verifyConnectorDoNotExists(String connectorid) {

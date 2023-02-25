@@ -99,13 +99,8 @@ Feature: Verify Harness Components
   Scenario: Test verifies cavity table details of connector on drawing page
     And wire is added to cavity
     And wire table data is updated
-    And user sets visibility of connector table layout to "Yes"
-    And Submit connector
     Then Verify CavityTableData is displayed on connector '0'
 
   @VerifyConnector
   Scenario: Test verifies cavity table wrap property of connector on drawing page
-    And user sets visibility of connector table layout to "Yes"
-    And User sets value of cavitytablewrap to '2'
-    And Submit connector
-    Then Verify data is wrapped and displayed on connector '0'
+    Then Verify data is wrapped successfully on connector '0'

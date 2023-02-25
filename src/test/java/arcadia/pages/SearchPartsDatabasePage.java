@@ -70,6 +70,8 @@ public class SearchPartsDatabasePage extends BasePage{
 
     @FindBy(css = "div#idFetchcavitytable input.next") private WebElement buttonNextCavityDetailsTable;
 
+    @FindBy(css = "div#idFetchnode_attachpart input.next[type=\"button\"]") private WebElement buttonNextFilterAttachedPartsTable;
+
     @FindBy(css = "table#tblcavityPartNoList") private WebElement tableCavityDetailsSearch;
 
     @FindBy(css = "div#idFetchcavitytable input#btnClearFilterDetails") private WebElement buttonResetCavityFilterDetails;
@@ -236,7 +238,7 @@ public class SearchPartsDatabasePage extends BasePage{
                 if(captureElement){
                     try {
                         customCommand.waitForElementToBeClickable(driver,buttonNextWiresTable);
-                        buttonNextCavityDetailsTable.click();
+                        buttonNextWiresTable.click();
                         Thread.sleep(2000);
                     }
                     catch (Exception e){
@@ -312,9 +314,10 @@ public class SearchPartsDatabasePage extends BasePage{
         Thread.sleep(4000);
     }
 
-    public void verifyGetAttachedPartsDetailsWindowIsOpen(){
+    public void verifyGetAttachedPartsDetailsWindowIsOpen() throws InterruptedException {
         customCommand.waitForElementVisibility(driver,tableGetAttachedPartsDetails);
         Assert.assertTrue(tableGetAttachedPartsDetails.isDisplayed());
+        Thread.sleep(2000);
     }
 
     public void selectAttachPartComponentType(String componentType) throws InterruptedException {
@@ -350,8 +353,8 @@ public class SearchPartsDatabasePage extends BasePage{
                 }
                 if(captureElement){
                     try {
-                        customCommand.waitForElementToBeClickable(driver,buttonNextCavityDetailsTable);
-                        buttonNextCavityDetailsTable.click();
+                        customCommand.waitForElementToBeClickable(driver,buttonNextFilterAttachedPartsTable);
+                        buttonNextFilterAttachedPartsTable.click();
                         Thread.sleep(2000);
                     }
                     catch (Exception e){
