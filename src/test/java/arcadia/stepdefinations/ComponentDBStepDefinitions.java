@@ -245,12 +245,12 @@ public class ComponentDBStepDefinitions {
                 break;
             case "supplier":
                 ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomWireData.getSupplier()));
-                filteredDbData = dbData.stream().filter(x -> x.getSupplier().equals(randomWireData.getSupplier())).collect(Collectors.toList());
+                filteredDbData = dbData.stream().filter(x -> x.getSupplier().contains(randomWireData.getSupplier())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnSupplier(randomWireData.getSupplier());
                 break;
             case "supplierpn":
                 ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomWireData.getSupplierpn()));
-                filteredDbData = dbData.stream().filter(x -> x.getSupplierpn().equals(randomWireData.getSupplierpn())).collect(Collectors.toList());
+                filteredDbData = dbData.stream().filter(x -> x.getSupplierpn().contains(randomWireData.getSupplierpn())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnSupplierPN(randomWireData.getSupplierpn());
                 break;
             case "colour":
@@ -260,7 +260,7 @@ public class ComponentDBStepDefinitions {
                 break;
             case "awgsize":
                 ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomWireData.getAwgsize()));
-                filteredDbData = dbData.stream().filter(x -> x.getAwgsize().equals(randomWireData.getAwgsize())).collect(Collectors.toList());
+                filteredDbData = dbData.stream().filter(x -> x.getAwgsize().contains(randomWireData.getAwgsize())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnAwgSize(randomWireData.getAwgsize());
                 break;
             case "gauge":
@@ -795,6 +795,7 @@ public class ComponentDBStepDefinitions {
         List<JunctionPartComponentDB> dbData =new JunctionPartsComponentDBPage(context.driver).getJunctionPartsAPIData(response);
         JunctionPartComponentDB randomJunctionPartData = new JunctionPartsComponentDBPage(context.driver).getRandomJunctionPartComponent(dbData);
         List<JunctionPartComponentDB> filteredDbData = new ArrayList<>();
+        new CommonElements(context.driver).checkIfPropertyIsChecked(propertyName);
         switch (propertyName.toLowerCase()) {
             case "partnumber":
                 ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomJunctionPartData.getPartnumber()));
@@ -1595,7 +1596,9 @@ public class ComponentDBStepDefinitions {
     public void userDeleteAllOldFilesFromTheDefaultDownloadFolder() throws IOException {
        String path=System.getProperty("user.dir") + File.separator + "externalFiles" + File.separator + "downloadFiles";
         File file = new File(path);
-        FileUtils.cleanDirectory(file);
+        if(file.exists()){
+            FileUtils.cleanDirectory(file);
+        }
     }
 
     @And("custom label macros tags are updated with {string}")

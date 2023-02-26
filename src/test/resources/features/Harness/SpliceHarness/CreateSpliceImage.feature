@@ -17,3 +17,5 @@ Feature: Create splice harness
     And check again for splice sides are added
     And toggle splice image from context menu options
     And verify splice image is drawn on Harness page with above configuration
+    And User exits the drawing page
+    And User deletes Harness 'spliceValidator' successfully
