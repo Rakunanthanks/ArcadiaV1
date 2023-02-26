@@ -223,11 +223,11 @@ public class SearchPartsStepDefinitions {
                 searchPartsDatabasePage.searchWireMulticoreUsingPartNumber(randomWireData.getPartnumber());
                 break;
             case "material":
-                filteredDbData = dbData.stream().filter(x -> x.getWirematerial().equals(randomWireData.getWirematerial())).collect(Collectors.toList());
+                filteredDbData = dbData.stream().filter(x -> x.getWirematerial().contains(randomWireData.getWirematerial())).collect(Collectors.toList());
                 searchPartsDatabasePage.searchWireMulticoreUsingMaterial(randomWireData.getWirematerial());
                 break;
             case "gauge":
-                filteredDbData = dbData.stream().filter(x -> x.getGauge().equals(randomWireData.getGauge())).collect(Collectors.toList());
+                filteredDbData = dbData.stream().filter(x -> x.getGauge().contains(randomWireData.getGauge())).collect(Collectors.toList());
                 searchPartsDatabasePage.searchWireMulticoreUsingGauge(randomWireData.getGauge());
                 break;
             case "csa":
