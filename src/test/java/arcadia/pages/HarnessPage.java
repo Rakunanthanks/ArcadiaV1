@@ -10,6 +10,7 @@ import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 
 import java.awt.*;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -25,7 +26,8 @@ public class HarnessPage extends BasePage{
     @FindBy(xpath = "//table[@id='tblAttachPartNoList']/tbody/tr[1]/td[1]") private WebElement firstPartFromList;
     @FindBy(xpath = "//input[@name='bom.name']") private WebElement SplicePartName;
     @FindBy(xpath = "//select[@name='wiretable.conidto']") private List<WebElement> connectorTo;
-    @FindBy(xpath = "//table[@id='wiretable']//input[@class='getDetails']") private List<WebElement> addWirePartNumber;
+    @FindBy(xpath = "//input[@name='wiretable.partnumber']") private List<WebElement> addWirePartNumber;
+    @FindBy(xpath = "//input[@name='wiretable.get']") private  List<WebElement> addWirePartNumberButton;
     @FindBy(xpath = "//table[@id='tblWirePartNoList']/tbody/tr/td[8]") private List<WebElement> outerDiameter;
     @FindBy(xpath = "//table[@id='tblWirePartNoList']/tbody/tr/td[1]") private List<WebElement> wirePartNo;
 
@@ -70,6 +72,7 @@ public class HarnessPage extends BasePage{
 
     @FindBy(css = "#cEditor table.htCore") private WebElement tableConnectorEditor;
 
+    @FindBy(xpath = "//table[@id='tblWirePartNoList']/tbody/tr") private WebElement rows;
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
     public HarnessPage(WebDriver driver) {
         super(driver);
@@ -212,7 +215,7 @@ public class HarnessPage extends BasePage{
     }
 
     public void performOperation(String operation,String id) throws InterruptedException {
-        ExtentCucumberAdapter.addTestStepLog(String.format("Performing %s operation on component with id = %s", operation,id));
+//        ExtentCucumberAdapter.addTestStepLog(String.format("Performing %s operation on component with id = %s", operation,id));
         String xpathOfConnector="//*[name()='g' and @id='"+id+"']/*[name()='rect']";
         List<WebElement> connectors;
         boolean flag=false;
@@ -561,10 +564,15 @@ public class HarnessPage extends BasePage{
         clickSubmit();
     }
     public void addWirePartNo() throws InterruptedException {
-        for (WebElement we:addWirePartNumber)
+        boolean pnCheck=false;
+        String pn="";
+        for (WebElement we:addWirePartNumberButton)
         {
             customCommand.javaScriptClick(driver,we);
-            String pn=captureWirePartNumberWithDiameter();
+            if(!pnCheck){
+                pn=new HarnessPage(driver).captureWirePartNumberWithDiameter();
+                pnCheck=true;
+            }
             WebElement pnumber=driver.findElement(By.xpath("//table[@id='wirefilter']//input[@name='nPartNumber']"));
             customCommand.simulateKeyEnterWithValue(pnumber,pn);
             Thread.sleep(1000);
@@ -612,26 +620,31 @@ public class HarnessPage extends BasePage{
 
     public String captureWirePartNumberWithDiameter() throws InterruptedException {
         WebElement ele=driver.findElement(By.xpath("//div[@id='idFetchwiretable']//input[@class='next']"));
-        String dis=ele.getAttribute("disabled");
-        List<WebElement> rows=driver.findElements(By.xpath("//table[@id='tblWirePartNoList']/tbody/tr"));
-        boolean flag=false;
+        String dis="";
         String pn="";
-       do{
+        boolean flag=false;
+      while (true)
+      {
+        List<WebElement> rows=driver.findElements(By.xpath("//table[@id='tblWirePartNoList']/tbody/tr"));
         for(WebElement web:rows)
         {
-            if(web.findElement(By.xpath("td[8]")).getText().contains("0.00"))
-            {continue;}
-            else{
+            web.findElement(By.xpath("td[8]"));
+            if(!(web.findElement(By.xpath("td[8]")).getText().contains("0.00")))
+            {
                 pn=web.findElement(By.xpath("td[1]")).getText();
                 flag=true;
-                break;
             }
         }
-        if(flag)
-        {
-            break;
-        }
-       }while(!(dis.contains("true")));
+        if(flag){break;}
+        else{
+          dis=ele.getAttribute("disabled");
+          if((dis==null))
+          {
+              customCommand.javaScriptClick(driver,ele);
+          }
+            else{break;}
+      }
+      }
        return pn;
     }
 
