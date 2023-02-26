@@ -1595,7 +1595,9 @@ public class ComponentDBStepDefinitions {
     public void userDeleteAllOldFilesFromTheDefaultDownloadFolder() throws IOException {
        String path=System.getProperty("user.dir") + File.separator + "externalFiles" + File.separator + "downloadFiles";
         File file = new File(path);
-        FileUtils.cleanDirectory(file);
+        if(file.exists()){
+            FileUtils.cleanDirectory(file);
+        }
     }
 
     @And("custom label macros tags are updated with {string}")
