@@ -179,6 +179,9 @@ public class CommonElements extends BasePage {
     @FindBy(xpath = "//button[@data-bb-handler='confirm']")
             private WebElement confirmDeleteButton;
 
+    @FindBy(xpath="//div[@title='Columns']//span[@class='caret']")
+            private WebElement checkColumns;
+
     String tableComponentRows = "table[data-page-list=\"[25, 50, 75, 100, All\"]>tbody>tr";
 
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
@@ -318,6 +321,16 @@ public class CommonElements extends BasePage {
         customCommand.simulateKeyEnterWithValue(searchFieldFamily, family);
         Thread.sleep(3000);
         checkIfResultsReturnedForComponents();
+    }
+
+    public void checkIfPropertyIsChecked(String property) throws InterruptedException {
+        customCommand.javaScriptClick(driver,checkColumns);
+        property=property.toLowerCase();
+        WebElement elem=driver.findElement(By.xpath("//div[@title='Columns']//input[@type='checkbox' and @data-field='"+property+"']"));
+        if((elem.getAttribute("checked")==null))
+        {
+            customCommand.javaScriptClick(driver,elem);
+        }
     }
 
     public void filterComponentBasedOnUsage(String usage) throws InterruptedException {

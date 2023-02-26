@@ -795,6 +795,7 @@ public class ComponentDBStepDefinitions {
         List<JunctionPartComponentDB> dbData =new JunctionPartsComponentDBPage(context.driver).getJunctionPartsAPIData(response);
         JunctionPartComponentDB randomJunctionPartData = new JunctionPartsComponentDBPage(context.driver).getRandomJunctionPartComponent(dbData);
         List<JunctionPartComponentDB> filteredDbData = new ArrayList<>();
+        new CommonElements(context.driver).checkIfPropertyIsChecked(propertyName);
         switch (propertyName.toLowerCase()) {
             case "partnumber":
                 ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomJunctionPartData.getPartnumber()));
