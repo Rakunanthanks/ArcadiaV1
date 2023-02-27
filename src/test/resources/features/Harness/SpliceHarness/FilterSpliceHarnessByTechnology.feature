@@ -1,4 +1,4 @@
-@FilterAttachedParts
+@Regression
 Feature: Filter splice harness by technology
 
   Background: User is Logged In
