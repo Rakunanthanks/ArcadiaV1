@@ -27,6 +27,7 @@ public class HarnessStepDefinitions {
     private final HarnessPage harnessPage;
     private final ProjectLanding projectLanding;
     private final TestContext context;
+    public static String getHarnessDescription;
     ConversionUtil conversionUtil = new ConversionUtil();
     public HarnessStepDefinitions(TestContext context){
         this.context = context;
@@ -53,6 +54,7 @@ public class HarnessStepDefinitions {
 //        }
         String harnessDescription = connectorDescription.concat(" "+ new StringHelper().generateRandomDigit());
         createNewHarnessInstance(harnessDescription);
+        getHarnessDescription = harnessDescription;
     }
 
     private void createNewHarnessInstance(String connectorDescription) throws InterruptedException {

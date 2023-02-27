@@ -1,13 +1,14 @@
 package arcadia.stepdefinations;
 
 
+
 import io.cucumber.java.en.Then;
 import arcadia.pages.DefineBundleTolerance;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 
+import static arcadia.pages.BasePage.driver;
 
 
 public class BundleToleranceStepDefinition {
@@ -40,6 +41,8 @@ public class BundleToleranceStepDefinition {
     public static void Check_outside_focus_changes_lower_tolerance_and_Upper_tolerance() {
         Assert.assertEquals(DefineBundleTolerance.bundlelowertolerance,"-10.00mm");
         Assert.assertEquals(DefineBundleTolerance.bundleuppertolerance,"10.00mm");
+        WebElement cancel =  driver.findElement(By.xpath("//button[contains(text(),'Cancel')]"));
+        cancel.click();
         System.out.println("Scenario 2 Tested");
     }
     @Then("Check Bundle Tolerance Value By Inspecting Bundle")
@@ -47,6 +50,8 @@ public class BundleToleranceStepDefinition {
     {
         Assert.assertEquals(DefineBundleTolerance.bundlelowertolerance1,"-5mm");
         Assert.assertEquals(DefineBundleTolerance.bundleuppertolerance1,"5mm");
+        WebElement cancel =  driver.findElement(By.xpath("//button[contains(text(),'Cancel')]"));
+        cancel.click();
         System.out.println("Scenario 3 Tested");
     }
     @Then("Check the component label value")
@@ -55,6 +60,7 @@ public class BundleToleranceStepDefinition {
         Assert.assertEquals(DefineBundleTolerance.complabelvalue, "100.00 (+/-5)");
         System.out.println("Scenario 4 Tested");
     }
+
 
 
 }
