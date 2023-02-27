@@ -39,6 +39,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -254,9 +255,11 @@ public class ComponentDBStepDefinitions {
                 new CommonElements(context.driver).filterComponentBasedOnSupplierPN(randomWireData.getSupplierpn());
                 break;
             case "colour":
-                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomWireData.getColour()));
-                filteredDbData = dbData.stream().filter(x -> x.getColour().contains(randomWireData.getColour())).collect(Collectors.toList());
-                new CommonElements(context.driver).filterComponentBasedOnColour(randomWireData.getColour());
+                String[] color= (randomWireData.getColour().split("-"));
+                String searchBy=color[0];
+                ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", searchBy));
+                filteredDbData = dbData.stream().filter(x -> x.getColour().contains(searchBy)).collect(Collectors.toList());
+                new CommonElements(context.driver).filterComponentBasedOnColour(searchBy);
                 break;
             case "awgsize":
                 ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomWireData.getAwgsize()));
