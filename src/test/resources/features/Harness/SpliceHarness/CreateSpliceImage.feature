@@ -1,4 +1,4 @@
-@CreateSpliceHarness
+@Regression
 Feature: Create splice harness
 
   Background: User is Logged In

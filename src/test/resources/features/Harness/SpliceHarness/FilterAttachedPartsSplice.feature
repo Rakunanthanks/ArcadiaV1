@@ -1,4 +1,4 @@
-
+@Regression
 Feature: Filter attached parts Splice
 
   Background: User is Logged In
