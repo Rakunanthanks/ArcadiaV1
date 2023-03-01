@@ -257,6 +257,17 @@ public class ConnectorPage extends BasePage {
         return  FlowContext.spliceIdentifierList;
     }
 
+    public List<String> getBundleElementIdsFromDrawingPage() {
+        String bundleId;
+        List<WebElement> bundleElements = driver.findElements(By.cssSelector("#layer_55 >g>g[class$=\"bundleGroup\"]"));
+       List<String> bundleIds=new ArrayList<>();
+        for( WebElement element : bundleElements){
+                bundleId = element.getAttribute("id");
+               bundleIds.add(bundleId);
+        }
+        return  bundleIds;
+    }
+
     public void enterConnectorDescription(String description){
         customCommand.waitForElementVisibility(driver,connectorDescription);
         connectorDescription.clear();
