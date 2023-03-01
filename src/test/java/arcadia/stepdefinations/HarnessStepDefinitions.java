@@ -493,4 +493,12 @@ public class HarnessStepDefinitions {
     public void checkAgainForSpliceSidesAreAdded() throws InterruptedException {
         new HarnessPage(context.driver).checkSpliceSideAgain();
     }
+
+    @And("user delete the created bundle from context menu")
+    public void userDeleteTheCreatedBundleFromContextMenu() throws InterruptedException {
+        List<String> bundleId = new ConnectorPage(context.driver).getBundleElementIdsFromDrawingPage();
+        new HarnessPage(context.driver).getContextMenu(bundleId.get(0));
+        Thread.sleep(2000);
+        new HarnessPage(context.driver).performOperation("Delete",bundleId.get(0));
+    }
 }
