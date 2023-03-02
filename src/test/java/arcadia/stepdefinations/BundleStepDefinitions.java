@@ -7,6 +7,7 @@ import arcadia.pages.*;
 import arcadia.utils.ConversionUtil;
 import arcadia.utils.FormulaCalculator;
 import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import one.util.streamex.StreamEx;
@@ -309,4 +310,20 @@ public class BundleStepDefinitions {
         softAssert.assertAll();
     }
 
+    @And("user delete the created bundle from context menu")
+    public void userDeleteTheCreatedBundleFromContextMenu() throws InterruptedException {
+        List<BundleIdentifier> bundleId = new ConnectorPage(context.driver).getBundleElementIdsFromDrawingPage();
+        new HarnessPage(context.driver).getBundleContextMenu(bundleId.get(0).getBundleId());
+        Thread.sleep(2000);
+        new HarnessPage(context.driver).performOperation("Delete",bundleId.get(0).getBundleId());
+    }
+
+    @Then("user verifies setLength functionality from context menu")
+    public void userVerifiesSetLengthFunctionalityFromContextMenu() throws InterruptedException, AWTException {
+        List<BundleIdentifier> bundleId = new ConnectorPage(context.driver).getBundleElementIdsFromDrawingPage();
+        new HarnessPage(context.driver).getBundleContextMenu(bundleId.get(0).getBundleId());
+        Thread.sleep(2000);
+        new BundlePage(context.driver).enterValueForBundleSetLength("150");
+        new BundlePage(context.driver).verifyBundleLength("150");
+    }
 }
