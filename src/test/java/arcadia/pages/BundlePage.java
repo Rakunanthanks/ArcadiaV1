@@ -5,19 +5,16 @@ import arcadia.domainobjects.BundleForm;
 import arcadia.domainobjects.HarnessBundleDisplay;
 import arcadia.domainobjects.InsulationParts;
 import arcadia.domainobjects.NodeIdentifier;
-import arcadia.utils.FormulaCalculator;
 import arcadia.utils.SeleniumCustomCommand;
-import io.cucumber.java.eo.Do;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
+import org.testng.Assert;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -32,6 +29,8 @@ public class BundlePage extends BasePage {
     @FindBy(css = "button[name=\"coverings.getdimension\"] > span") private WebElement getSleeveTube;
     @FindBy(css = "input[rel=\"reference\"]") private WebElement partReference;
     @FindBy(id = "bundlesize") private WebElement bundleSize;
+
+    @FindBy(css = "input[name=\"setvalue\"]") private WebElement inputSetLength;
 
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
     HarnessPage harnessPage = new HarnessPage(driver);
@@ -223,5 +222,17 @@ public class BundlePage extends BasePage {
         FlowContext.nodeIdentifierList = nodeIdentifierList;
     return  nodeIdentifierList;
 
+    }
+
+    public void enterValueForBundleSetLength(String bundleLength) throws AWTException, InterruptedException {
+        inputSetLength.click();
+        customCommand.enterText(inputSetLength,bundleLength);
+        customCommand.simulateKeyEnter();
+        Thread.sleep(3000);
+    }
+
+    public void verifyBundleLength(String expectedLength) {
+        WebElement ele = driver.findElement(By.cssSelector("#layer_85>g[class=\"DG5 bundleGroup\"]>g>text"));
+        Assert.assertTrue(ele.getText().contains(expectedLength));
     }
 }
