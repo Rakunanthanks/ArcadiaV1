@@ -216,20 +216,18 @@ public class HarnessPage extends BasePage{
 
     public void getBundleContextMenu(String id) throws InterruptedException {
         customCommand.javaScriptClick(driver,drawSelectPointer);
-        WebElement ele=driver.findElement(By.xpath("//*[name()='g' and @id='"+id+"']/*[name()='path']"));
+        WebElement ele = driver.findElement(By.cssSelector("#layer_80 >g[class$=\"bundleGroup\"] g#"+id));
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        customCommand.rightClick(driver,ele);
+        customCommand.moveRightOfElementAndContextClick(driver,ele);
         Thread.sleep(2000);
     }
 
     public void performOperation(String operation,String id) throws InterruptedException {
 //        ExtentCucumberAdapter.addTestStepLog(String.format("Performing %s operation on component with id = %s", operation,id));
-        String xpathOfConnector="//*[name()='g' and @id='"+id+"']/*[name()='rect']";
-        List<WebElement> connectors;
         boolean flag=false;
         if(operations.size()==0)
         {

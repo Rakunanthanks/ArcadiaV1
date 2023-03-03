@@ -312,16 +312,17 @@ public class BundleStepDefinitions {
 
     @And("user delete the created bundle from context menu")
     public void userDeleteTheCreatedBundleFromContextMenu() throws InterruptedException {
-        List<BundleIdentifier> bundleId = new ConnectorPage(context.driver).getBundleElementIdsFromDrawingPage();
-        new HarnessPage(context.driver).getBundleContextMenu(bundleId.get(0).getBundleId());
+        List<BundleIdentifier> bundleIdentifierList = new ConnectorPage(context.driver).getBundleElementIdsFromDrawingPage();
+        List<NodeIdentifier> nodeIdentifierList = bundlePage.getNodeElementFromDrawingPage();
+        new HarnessPage(context.driver).getBundleContextMenu(nodeIdentifierList.get(0).getNodeElementId());
         Thread.sleep(2000);
-        new HarnessPage(context.driver).performOperation("Delete",bundleId.get(0).getBundleId());
+        new HarnessPage(context.driver).performOperation("Delete",bundleIdentifierList.get(0).getBundleId());
     }
 
     @Then("user verifies setLength functionality from context menu")
     public void userVerifiesSetLengthFunctionalityFromContextMenu() throws InterruptedException, AWTException {
-        List<BundleIdentifier> bundleId = new ConnectorPage(context.driver).getBundleElementIdsFromDrawingPage();
-        new HarnessPage(context.driver).getBundleContextMenu(bundleId.get(0).getBundleId());
+        List<NodeIdentifier> nodeIdentifierList = bundlePage.getNodeElementFromDrawingPage();
+        new HarnessPage(context.driver).getBundleContextMenu(nodeIdentifierList.get(0).getNodeElementId());
         Thread.sleep(2000);
         new BundlePage(context.driver).enterValueForBundleSetLength("150");
         new BundlePage(context.driver).verifyBundleLength("150");
