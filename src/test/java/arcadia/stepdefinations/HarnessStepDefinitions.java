@@ -2,6 +2,7 @@ package arcadia.stepdefinations;
 
 import arcadia.context.FlowContext;
 import arcadia.context.TestContext;
+import arcadia.domainobjects.BundleIdentifier;
 import arcadia.domainobjects.ConnectorPlugIdentifier;
 import arcadia.domainobjects.Harness;
 import arcadia.pages.*;
@@ -269,6 +270,8 @@ public class HarnessStepDefinitions {
             case "node":
                 new BundlePage(context.driver).getNodeElementFromDrawingPage();
                 break;
+            case "bundle":
+                new ConnectorPage(context.driver).getBundleElementIdsFromDrawingPage();
         }
     }
 
