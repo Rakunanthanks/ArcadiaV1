@@ -178,9 +178,9 @@ public class HarnessPage extends BasePage{
         Thread.sleep(2000);
     }
 
-    public void getContextMenu(String id) throws InterruptedException {
+    public void getContextMenu(String id,WebElement ele) throws InterruptedException {
         customCommand.javaScriptClick(driver,drawSelectPointer);
-        WebElement ele=driver.findElement(By.xpath("//*[name()='g' and @id='"+id+"']/*[name()='rect']"));
+//        WebElement ele=driver.findElement(By.xpath("//*[name()='g' and @id='"+id+"']/*[name()='rect']"));
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
@@ -228,8 +228,8 @@ public class HarnessPage extends BasePage{
 
     public void performOperation(String operation,String id) throws InterruptedException {
 //        ExtentCucumberAdapter.addTestStepLog(String.format("Performing %s operation on component with id = %s", operation,id));
-        String xpathOfConnector="//*[name()='g' and @id='"+id+"']/*[name()='rect']";
-        List<WebElement> connectors;
+//        String xpathOfConnector="//*[name()='g' and @id='"+id+"']/*[name()='rect']";
+//        List<WebElement> connectors;
         boolean flag=false;
         if(operations.size()==0)
         {
@@ -475,7 +475,8 @@ public class HarnessPage extends BasePage{
         System.out.println("x coordinate after movement is :" + xCoordianteAfterMovement);
         clickOnSelect();
         Thread.sleep(2000);
-        getContextMenu(identifier);
+        WebElement ele2=driver.findElement(By.xpath("//*[name()='g' and @id='"+identifier+"']/*[name()='rect']"));
+        getContextMenu(identifier,ele2);
         performOperation("Auto Arrange",identifier);
         Thread.sleep(5000);
         eleMoved = driver.findElement(By.xpath("//*[name()='g' and @id='"+identifier+"']//table"));
@@ -506,7 +507,8 @@ public class HarnessPage extends BasePage{
         System.out.println("Y coordinate after movement is :" + eleAfterMove.getLocation().getY());
         clickOnSelect();
         Thread.sleep(2000);
-        getContextMenu(connectorId);
+        WebElement ele1=driver.findElement(By.xpath("//*[name()='g' and @id='"+connectorId+"']/*[name()='rect']"));
+        getContextMenu(connectorId,ele1);
         performOperation("Reset Labels",connectorId);
         Thread.sleep(5000);
         WebElement eleMoved = new ConnectorPage(driver).getElementConnectorDescription(connectorId,testDescription);
