@@ -10,9 +10,15 @@ Feature: Bundle harness Context Menu
     And 'bundle' list is initialized
 
   @VerifyBundleHarness @VerifyBundleContextMenu
-  Scenario: Test verifies Bundle Harness can be deleted
-    And user delete the created bundle from context menu
+  Scenario: Test verifies Bundle Harness can be inspected
+    And User try operation 'inspect' for bundle
+    Then User verifies the bundle details window is opened successfully
 
   @VerifyBundleHarness @VerifyBundleContextMenu
-  Scenario: Test verifies SetLength functionality on Bundle Harness
+  Scenario: Test verifies Bundle Harness can be deleted
+    And User try operation 'delete' for bundle
+    Then User verifies the bundle '0' is deleted successfully
+
+  @VerifyBundleHarness @VerifyBundleContextMenu
+  Scenario: Test verifies SetLength input functionality on Bundle Harness
     Then user verifies setLength functionality from context menu

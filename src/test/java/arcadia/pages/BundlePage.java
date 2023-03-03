@@ -31,6 +31,7 @@ public class BundlePage extends BasePage {
     @FindBy(id = "bundlesize") private WebElement bundleSize;
 
     @FindBy(css = "input[name=\"setvalue\"]") private WebElement inputSetLength;
+    @FindBy(css = "input[name=\"bom.name\"]") private WebElement inputBundlePartName;
 
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
     HarnessPage harnessPage = new HarnessPage(driver);
@@ -46,6 +47,11 @@ public class BundlePage extends BasePage {
         customCommand.waitForElementVisibility(driver,element);
         List<WebElement> bundleWebElement = driver.findElements(By.cssSelector("g[class$=\"bundleGroup\"] > g >g"));
         return bundleWebElement;
+    }
+
+    public List<WebElement> getBundleElementById(String bundleId){
+        List<WebElement> ele = driver.findElements(By.xpath("//*[name()='g' and @class='bundleGroup' and @id='"+bundleId+"']"));
+        return ele;
     }
     private String getWireBundleDiameter(){
         return wireBundleDiameter.getText().replace("mm","").trim();
@@ -234,5 +240,15 @@ public class BundlePage extends BasePage {
     public void verifyBundleLength(String expectedLength) {
         WebElement ele = driver.findElement(By.cssSelector("#layer_85>g[class=\"DG5 bundleGroup\"]>g>text"));
         Assert.assertTrue(ele.getText().contains(expectedLength));
+    }
+
+    public void verifyBundleDoNotExists(String bundleid) {
+        Assert.assertTrue(getBundleElementById(bundleid).size()==0, "Bundle exists on the drawing page");
+    }
+
+    public void verifyBundleDetailsWindowOpened() {
+        Assert.assertTrue(driver.findElement(By.xpath("//form[@id=\"DynamicForm\"]//h1[text()=\"Bundle\"]")).isDisplayed(),"Bundle details form is not displayed");
+        Assert.assertTrue(inputBundlePartName.isDisplayed(),"Inputfield to enter bunder part name is not displayed");
+
     }
 }
