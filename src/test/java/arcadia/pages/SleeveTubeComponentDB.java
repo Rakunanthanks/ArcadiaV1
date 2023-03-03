@@ -3,8 +3,14 @@ package arcadia.pages;
 import arcadia.constants.EndPoint;
 import arcadia.context.FlowContext;
 import arcadia.domainobjects.ComponentDB;
+import arcadia.domainobjects.SplicesComponentDB;
 import arcadia.utils.ConfigLoader;
 import arcadia.utils.SeleniumCustomCommand;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -105,24 +111,35 @@ public class SleeveTubeComponentDB extends BasePage {
         return componentDbData;
     }
 
+    public List<ComponentDB> getSleeveTubeAPIData(String jsonValue) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = objectMapper.readTree(jsonValue);
+        jsonValue=jsonNode.get("rows").toString();
+
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
+        List<ComponentDB> dbData = objectMapper.readValue(jsonValue, new TypeReference<List<ComponentDB>>(){});
+        return dbData;
+    }
+
     public List<ComponentDB> getFilterByDefaultLineFont(List<ComponentDB> componentDBList , String filterValue){
         return componentDBList.stream()
-                .filter(e -> e.getDefaultLineFont().startsWith(filterValue)).collect(toList());
+                .filter(e -> e.getDefaultlinefont().startsWith(filterValue)).collect(toList());
     }
 
     public List<ComponentDB> getFilterByInternalDiameterGreaterThanEqualTo(List<ComponentDB> componentDBList , Integer filterValue){
         return componentDBList.stream()
-                .filter(e -> e.getInternalDiameter()>=filterValue).collect(toList());
+                .filter(e -> e.getInternaldia()>=filterValue).collect(toList());
     }
 
     public ComponentDB sortByIntDiaFindFirst(List<ComponentDB> componentDBList){
-        ComponentDB comparisonData = componentDBList.stream().sorted(Comparator.comparingDouble(ComponentDB::getInternalDiameter)).findFirst().get();
+        ComponentDB comparisonData = componentDBList.stream().sorted(Comparator.comparingDouble(ComponentDB::getInternaldia)).findFirst().get();
         return comparisonData;
 
     }
 
     public ComponentDB sortByExtDiaFindFirst(List<ComponentDB> componentDBList){
-        ComponentDB comparisonData = componentDBList.stream().sorted(Comparator.comparingDouble(ComponentDB::getExternalDiameter)).findFirst().get();
+        ComponentDB comparisonData = componentDBList.stream().sorted(Comparator.comparingDouble(ComponentDB::getExternaldia)).findFirst().get();
         return comparisonData;
 
     }
