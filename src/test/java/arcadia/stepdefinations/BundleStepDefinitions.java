@@ -22,6 +22,7 @@ import org.testng.asserts.SoftAssert;
 import java.awt.*;
 import java.io.IOException;
 import java.util.List;
+
 import static java.util.stream.Collectors.toList;
 
 import static arcadia.context.FlowContext.defaultLineFont;
@@ -361,20 +362,32 @@ public class BundleStepDefinitions {
         softAssert.assertAll();
     }
 
-    @And("user delete the created bundle from context menu")
-    public void userDeleteTheCreatedBundleFromContextMenu() throws InterruptedException {
-        List<BundleIdentifier> bundleId = new ConnectorPage(context.driver).getBundleElementIdsFromDrawingPage();
-        new HarnessPage(context.driver).getBundleContextMenu(bundleId.get(0).getBundleId());
-        Thread.sleep(2000);
-        new HarnessPage(context.driver).performOperation("Delete",bundleId.get(0).getBundleId());
-    }
-
     @Then("user verifies setLength functionality from context menu")
     public void userVerifiesSetLengthFunctionalityFromContextMenu() throws InterruptedException, AWTException {
-        List<BundleIdentifier> bundleId = new ConnectorPage(context.driver).getBundleElementIdsFromDrawingPage();
-        new HarnessPage(context.driver).getBundleContextMenu(bundleId.get(0).getBundleId());
+        List<NodeIdentifier> nodeIdentifierList = bundlePage.getNodeElementFromDrawingPage();
+        new HarnessPage(context.driver).getBundleContextMenu(nodeIdentifierList.get(0).getNodeElementId());
         Thread.sleep(2000);
         new BundlePage(context.driver).enterValueForBundleSetLength("150");
         new BundlePage(context.driver).verifyBundleLength("150");
+    }
+
+    @And("User try operation {string} for bundle")
+    public void userTryOperationDeleteForBundle(String operation) throws InterruptedException {
+        List<BundleIdentifier> bundleIdentifierList = new ConnectorPage(context.driver).getBundleElementIdsFromDrawingPage();
+        List<NodeIdentifier> nodeIdentifierList = bundlePage.getNodeElementFromDrawingPage();
+        new HarnessPage(context.driver).getBundleContextMenu(nodeIdentifierList.get(0).getNodeElementId());
+        Thread.sleep(2000);
+        new HarnessPage(context.driver).performOperation(operation,bundleIdentifierList.get(0).getBundleId());
+    }
+
+    @Then("User verifies the bundle {string} is deleted successfully")
+    public void userVerifiesTheBundleIsDeletedSuccessfully(String bundleIndex) {
+        String bundleid = FlowContext.bundleIdentifierList.get(Integer.parseInt(bundleIndex)).getBundleId();
+        bundlePage.verifyBundleDoNotExists(bundleid);
+    }
+
+    @Then("User verifies the bundle details window is opened successfully")
+    public void userVerifiesTheBundleDetailsWindowIsOpenedSuccessfully() {
+        bundlePage.verifyBundleDetailsWindowOpened();
     }
 }

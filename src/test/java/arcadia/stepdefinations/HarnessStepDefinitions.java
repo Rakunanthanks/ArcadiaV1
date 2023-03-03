@@ -504,13 +504,4 @@ public class HarnessStepDefinitions {
     public void checkAgainForSpliceSidesAreAdded() throws InterruptedException {
         new HarnessPage(context.driver).checkSpliceSideAgain();
     }
-
-    @And("user delete the created bundle from context menu")
-    public void userDeleteTheCreatedBundleFromContextMenu() throws InterruptedException {
-        List<String> bundleId = new ConnectorPage(context.driver).getBundleElementIdsFromDrawingPage();
-        WebElement ele=context.driver.findElement(By.xpath("//*[name()='g' and @id='layer_55']//*[name()='g' and @class='bundleGroup']"));
-        new HarnessPage(context.driver).getContextMenu(bundleId.get(0),ele);
-        Thread.sleep(2000);
-        new HarnessPage(context.driver).performOperation("Delete",bundleId.get(0));
-    }
 }
