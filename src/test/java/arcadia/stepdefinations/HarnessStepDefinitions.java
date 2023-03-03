@@ -99,7 +99,8 @@ public class HarnessStepDefinitions {
     public void userTryOperationDeleteForConnectorWithIdCCAEdDeEBcf(String operation) throws InterruptedException {
         List<ConnectorPlugIdentifier> connector_ids=new ConnectorPage(context.driver).getConnectorPlugELementIdsFromDrawingPage();
         String identifier=connector_ids.get(0).getConnectorId();
-        new HarnessPage(context.driver).getContextMenu(identifier);
+        WebElement ele=context.driver.findElement(By.xpath("//*[name()='g' and @id='"+identifier+"']/*[name()='rect']"));
+        new HarnessPage(context.driver).getContextMenu(identifier,ele);
         new HarnessPage(context.driver).performOperation(operation,identifier);
         Thread.sleep(10000);
     }
@@ -235,6 +236,8 @@ public class HarnessStepDefinitions {
     @Then("User verifies the {string} image is toggled successfully")
     public void userVerifiesTheImageIsToggledSuccessfully(String imageType) throws InterruptedException {
         String identifier=FlowContext.connectorPlugIdentifierList.get(0).getConnectorId();
+        WebElement ele=context.driver.findElement(By.xpath("//*[name()='g' and @id='"+identifier+"']/*[name()='rect']"));
+
         switch (imageType.toLowerCase()){
             case "connector":
                 harnessPage.verifyConnectorImageNotVisible(FlowContext.connectorPlugIdentifierList.get(0).getConnectorId());
@@ -242,13 +245,13 @@ public class HarnessStepDefinitions {
             case "terminal":
                 String terminalImagePath = FlowContext.terminalImagePath;
                 if (harnessPage.TerminalImageVisible(terminalImagePath)){
-                    new HarnessPage(context.driver).getContextMenu(identifier);
+                    new HarnessPage(context.driver).getContextMenu(identifier,ele);
                     new HarnessPage(context.driver).performOperation("Toggle Terminal Image",identifier);
                     Thread.sleep(5000);
                     Assert.assertFalse(harnessPage.TerminalImageVisible(terminalImagePath),"Terminal image is visible");
                 }
                 else {
-                    new HarnessPage(context.driver).getContextMenu(identifier);
+                    new HarnessPage(context.driver).getContextMenu(identifier,ele);
                     new HarnessPage(context.driver).performOperation("Toggle Terminal Image",identifier);
                     Thread.sleep(10000);
                     Assert.assertTrue(harnessPage.TerminalImageVisible(terminalImagePath),"Terminal image is not visible");
@@ -287,14 +290,15 @@ public class HarnessStepDefinitions {
     public void userVerifiesTheWireFanIsShownHiddenSuccessfully() throws InterruptedException {
         harnessPage.clickFooterWireFan();
         String identifier=FlowContext.connectorPlugIdentifierList.get(0).getConnectorId();
+        WebElement ele=context.driver.findElement(By.xpath("//*[name()='g' and @id='"+identifier+"']/*[name()='rect']"));
         if (harnessPage.WireFanVisible(identifier)){
-            new HarnessPage(context.driver).getContextMenu(identifier);
+            new HarnessPage(context.driver).getContextMenu(identifier,ele);
             new HarnessPage(context.driver).performOperation("Hide Wire Fan",identifier);
             Thread.sleep(6000);
             Assert.assertFalse(harnessPage.WireFanVisible(identifier),"WireFan is visible even after trying to hide");
         }
         else {
-            new HarnessPage(context.driver).getContextMenu(identifier);
+            new HarnessPage(context.driver).getContextMenu(identifier,ele);
             new HarnessPage(context.driver).performOperation("Show Wire Fan",identifier);
             Thread.sleep(6000);
             Assert.assertTrue(harnessPage.WireFanVisible(identifier),"WireFan is not visible");
@@ -304,14 +308,15 @@ public class HarnessStepDefinitions {
     @Then("User verifies the UnusedCavities are ShownHidden successfully")
     public void userVerifiesTheUnusedCavitiesAreShownHiddenSuccessfully() throws InterruptedException {
         String identifier=FlowContext.connectorPlugIdentifierList.get(0).getConnectorId();
+        WebElement ele=context.driver.findElement(By.xpath("//*[name()='g' and @id='"+identifier+"']/*[name()='rect']"));
         if (harnessPage.getCavityRowCount(identifier)==4){
-            new HarnessPage(context.driver).getContextMenu(identifier);
+            new HarnessPage(context.driver).getContextMenu(identifier,ele);
             new HarnessPage(context.driver).performOperation("Hide Unused Cavities",identifier);
             Thread.sleep(6000);
             Assert.assertEquals(harnessPage.getCavityRowCount(identifier),1);
         }
         else {
-            new HarnessPage(context.driver).getContextMenu(identifier);
+            new HarnessPage(context.driver).getContextMenu(identifier,ele);
             new HarnessPage(context.driver).performOperation("Show Unused Cavities",identifier);
             Thread.sleep(6000);
             Assert.assertEquals(harnessPage.getCavityRowCount(identifier),4);
@@ -322,14 +327,15 @@ public class HarnessStepDefinitions {
     @Then("User verifies the UnusedCavities with EntryPort are ShownHidden successfully")
     public void userVerifiesTheUnusedCavitiesWithEntryPortAreShownHiddenSuccessfully() throws InterruptedException {
         String identifier=FlowContext.connectorPlugIdentifierList.get(0).getConnectorId();
+        WebElement ele=context.driver.findElement(By.xpath("//*[name()='g' and @id='"+identifier+"']/*[name()='rect']"));
         Assert.assertEquals(harnessPage.getCavityRowCount(identifier),4);
         try {
-            new HarnessPage(context.driver).getContextMenu(identifier);
+            new HarnessPage(context.driver).getContextMenu(identifier,ele);
             new HarnessPage(context.driver).performOperation("Hide Unused Cavities",identifier);
             Thread.sleep(6000);
         }
         catch (Exception e){
-            new HarnessPage(context.driver).getContextMenu(identifier);
+            new HarnessPage(context.driver).getContextMenu(identifier,ele);
             new HarnessPage(context.driver).performOperation("Show Unused Cavities",identifier);
             Thread.sleep(6000);
         }
@@ -404,7 +410,8 @@ public class HarnessStepDefinitions {
     public void spliceCanBeFilteredWithTechnologyUltrasonic(String component,String technology) throws InterruptedException {
         harnessPage.selectSpliceTechnology(technology);
         String spliceId = new ConnectorPage(context.driver).getSpliceElementIdsFromDrawingPage().get(Integer.parseInt(String.valueOf(0))).getSpliceId();
-        new HarnessPage(context.driver).getContextMenu(spliceId);
+        WebElement ele=context.driver.findElement(By.xpath("//*[name()='g' and @id='"+spliceId+"']/*[name()='rect']"));
+        new HarnessPage(context.driver).getContextMenu(spliceId,ele);
         Thread.sleep(2000);
         new HarnessPage(context.driver).performOperation("Inspect",spliceId);
         new HarnessPage(context.driver).validateSpliceTechnology(technology);
@@ -481,7 +488,8 @@ public class HarnessStepDefinitions {
     @And("toggle splice image from context menu options")
     public void toggleSpliceImageFromContextMenuOptions() throws InterruptedException {
         String spliceId = new ConnectorPage(context.driver).getSpliceElementIdsFromDrawingPage().get(Integer.parseInt(String.valueOf(0))).getSpliceId();
-        new HarnessPage(context.driver).getContextMenu(spliceId);
+        WebElement ele=context.driver.findElement(By.xpath("//*[name()='g' and @id='"+spliceId+"']/*[name()='rect']"));
+        new HarnessPage(context.driver).getContextMenu(spliceId,ele);
         Thread.sleep(2000);
         new HarnessPage(context.driver).performOperation("Toggle Splice Image",spliceId);
     }
