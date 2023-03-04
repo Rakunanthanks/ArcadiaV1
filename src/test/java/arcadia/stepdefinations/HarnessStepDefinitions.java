@@ -141,6 +141,10 @@ public class HarnessStepDefinitions {
                 System.out.println(spliceId);
                 harnessPage.clickSplice(spliceId);
                 break;
+            case "bundle":
+                String bundleid = new ConnectorPage(context.driver).getBundleElementIdsFromDrawingPage().get(Integer.parseInt(index)).getBundleId();
+                new BundlePage(context.driver).openBundle(bundleid);
+                break;
         }
 
     }

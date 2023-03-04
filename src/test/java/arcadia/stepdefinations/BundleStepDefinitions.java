@@ -4,7 +4,6 @@ import arcadia.context.FlowContext;
 import arcadia.context.TestContext;
 import arcadia.domainobjects.*;
 import arcadia.pages.*;
-import arcadia.pages.ComponentDB.Splices.SplicesComponentDBPage;
 import arcadia.utils.ConversionUtil;
 import arcadia.utils.FormulaCalculator;
 import arcadia.utils.RestAssuredUtility;
@@ -368,7 +367,7 @@ public class BundleStepDefinitions {
         new HarnessPage(context.driver).getBundleContextMenu(nodeIdentifierList.get(0).getNodeElementId());
         Thread.sleep(2000);
         new BundlePage(context.driver).enterValueForBundleSetLength("150");
-        new BundlePage(context.driver).verifyBundleLength("150");
+        new BundlePage(context.driver).verifyBundleLength(FlowContext.bundleDefaultNtsText+ "150");
     }
 
     @And("User try operation {string} for bundle")
@@ -389,5 +388,28 @@ public class BundleStepDefinitions {
     @Then("User verifies the bundle details window is opened successfully")
     public void userVerifiesTheBundleDetailsWindowIsOpenedSuccessfully() {
         bundlePage.verifyBundleDetailsWindowOpened();
+    }
+
+    @Then("user verifies addCovering functionality from context menu")
+    public void userVerifiesAddCoveringFunctionalityFromContextMenu() throws InterruptedException {
+        bundlePage.verifySearchCoveringWindowOpened();
+        bundlePage.enterPieceId("1");
+        String partNumber = bundlePage.addCoveringAndGetPartNumber();
+        System.out.println("PartNumber of selected covering is : "+ partNumber);
+        bundlePage.verifyCoveringPartNumberDisplayedOnBundle(partNumber);
+        String bundleid = new ConnectorPage(context.driver).getBundleElementIdsFromDrawingPage().get(0).getBundleId();
+        bundlePage.openBundle(bundleid);
+        bundlePage.verifyBundleDetailsWindowOpened();
+        bundlePage.verifyCoveringPartNumber(partNumber);
+    }
+
+    @Then("user verifies Addon can be configured to bundle successfully")
+    public void userVerifiesAddonCanBeConfiguredToBundleSuccessfully() throws InterruptedException {
+        String addOnValue = "-10";
+        bundlePage.enterAndSubmitAddOn(addOnValue);
+        String bundleid = new ConnectorPage(context.driver).getBundleElementIdsFromDrawingPage().get(0).getBundleId();
+        bundlePage.openBundle(bundleid);
+        bundlePage.verifyBundleDetailsWindowOpened();
+        bundlePage.verifyAddOnInCovering(addOnValue);
     }
 }

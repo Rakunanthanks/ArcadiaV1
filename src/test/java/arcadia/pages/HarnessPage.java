@@ -222,7 +222,7 @@ public class HarnessPage extends BasePage{
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        customCommand.moveRightOfElementAndContextClick(driver,ele);
+        customCommand.moveRightOfElementAndContextClick(driver,ele,10);
         Thread.sleep(2000);
     }
 

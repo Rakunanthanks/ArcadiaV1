@@ -32,6 +32,16 @@ public class BundlePage extends BasePage {
 
     @FindBy(css = "input[name=\"setvalue\"]") private WebElement inputSetLength;
     @FindBy(css = "input[name=\"bom.name\"]") private WebElement inputBundlePartName;
+    @FindBy(css = "div#coveringSearchContainer") private WebElement windowSearchCovering;
+    @FindBy(css = "input#previewPieceID") private WebElement inputPreviewPieceId;
+    @FindBy(xpath = "//div[@title='Draw Select']") private  WebElement drawSelectPointer;
+    @FindBy(css = "select[name='coverings.covering']") private WebElement selectCoveringInsulationPartNumbers;
+    @FindBy(css = "input[name='coverings.partnumber']") private WebElement inputCoveringPartNumber;
+    @FindBy(css = "input[name='coverings.sAddon']") private WebElement inputCoveringSAddOn;
+    @FindBy(css = "input#addonlength") private WebElement inputAddOnLength;
+    @FindBy(xpath = "//input[@id=\"addonlength\"]/..//following-sibling::div//span[text()=\"OK\"]") private WebElement buttonSubmitAddOnLength;
+
+    String tableSearchCoveringRows = "table#tblSleeveTubePartNoList>tbody>tr";
 
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
     HarnessPage harnessPage = new HarnessPage(driver);
@@ -230,6 +240,15 @@ public class BundlePage extends BasePage {
 
     }
 
+    public void openBundle(String bundleId) throws InterruptedException {
+        Thread.sleep(2000);
+        customCommand.javaScriptClick(driver,drawSelectPointer);
+        WebElement ele = getBundleElementById(bundleId).get(0);
+        customCommand.waitForElementVisibility(driver,ele);
+        customCommand.doubleClick(driver,ele);
+        Thread.sleep(2000);
+    }
+
     public void enterValueForBundleSetLength(String bundleLength) throws AWTException, InterruptedException {
         inputSetLength.click();
         customCommand.enterText(inputSetLength,bundleLength);
@@ -247,8 +266,49 @@ public class BundlePage extends BasePage {
     }
 
     public void verifyBundleDetailsWindowOpened() {
+        customCommand.waitForElementVisibility(driver,inputBundlePartName);
         Assert.assertTrue(driver.findElement(By.xpath("//form[@id=\"DynamicForm\"]//h1[text()=\"Bundle\"]")).isDisplayed(),"Bundle details form is not displayed");
         Assert.assertTrue(inputBundlePartName.isDisplayed(),"Inputfield to enter bunder part name is not displayed");
 
+    }
+
+    public void verifySearchCoveringWindowOpened() {
+        Assert.assertTrue(windowSearchCovering.isDisplayed(),"Window to search covering is not displayed");
+    }
+
+    public void enterPieceId(String pieceId) {
+        customCommand.clearAndEnterText(inputPreviewPieceId,pieceId);
+    }
+
+    public String addCoveringAndGetPartNumber() throws InterruptedException {
+        List<WebElement> searchCoveringRows = driver.findElements(By.cssSelector(tableSearchCoveringRows));
+        Assert.assertNotEquals(searchCoveringRows.size(),0,"No rows are present in search covering table");
+        String partNumberOfFirstRow = searchCoveringRows.get(0).findElement(By.cssSelector("td")).getText();
+        customCommand.doubleClick(driver,searchCoveringRows.get(0));
+        Thread.sleep(4000);
+        return partNumberOfFirstRow;
+    }
+
+    public void verifyCoveringPartNumber(String partNumber) throws InterruptedException {
+        customCommand.scrollIntoView(driver,selectCoveringInsulationPartNumbers);
+        customCommand.scrollIntoView(driver,inputCoveringPartNumber);
+        Assert.assertEquals(inputCoveringPartNumber.getAttribute("value"),partNumber);
+    }
+
+    public void verifyCoveringPartNumberDisplayedOnBundle(String partNumber) {
+        Assert.assertTrue(driver.findElements(By.cssSelector("a[data-partnumber='"+partNumber+"']")).size()==1,"PartNumber for the covering is not displayed on bundle");
+    }
+
+    public void enterAndSubmitAddOn(String addOnLength) throws InterruptedException {
+        customCommand.waitForElementVisibility(driver,inputAddOnLength);
+        customCommand.clearAndEnterText(inputAddOnLength,addOnLength);
+        buttonSubmitAddOnLength.click();
+        Thread.sleep(3000);
+    }
+
+    public void verifyAddOnInCovering(String addOnValue) throws InterruptedException {
+        customCommand.scrollIntoView(driver,selectCoveringInsulationPartNumbers);
+        customCommand.scrollIntoView(driver,inputCoveringSAddOn);
+        Assert.assertEquals(inputCoveringSAddOn.getAttribute("value").replace("\"",""),addOnValue);
     }
 }
