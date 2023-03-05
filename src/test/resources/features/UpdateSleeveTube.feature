@@ -1,17 +1,17 @@
 @Regression
 Feature: Update sleeve tube
 
-#  @UpdateSleeveTube
-#  Scenario: Sleeve tube parameter is displayed correctly when type "Conduit slit" is choosen -Global
-#    Given I'm on Arcadia test environment
-#    And test data config loaded for test identifier test2
-#    And Navigated to quickstart project
-#    And harness is created successfully
-#    And based on drawing orchestrator components are created
-#    Then Check bundle diameter for 'X-001' and bundleform 'Bundle1'
-#    Then Check bundle diameter for 'X-003' and bundleform 'Bundle2'
-#    Then Check covering value is as per componentDB
-#
+  @UpdateSleeveTube
+  Scenario: Sleeve tube parameter is displayed correctly when type "Conduit slit" is choosen -Global
+    Given I'm on Arcadia test environment
+    And test data config loaded for test identifier test2
+    And Navigated to quickstart project
+    And harness is created successfully
+    And based on drawing orchestrator components are created
+    Then Check bundle diameter for 'X-001' and bundleform 'Bundle1'
+    Then Check bundle diameter for 'X-003' and bundleform 'Bundle2'
+    Then Check covering value is as per componentDB
+
 #  @UpdateSleeveTube
 #  Scenario: Test verifies bundle parameter and part number for covering type - "Conduit Slit"
 #    Given I'm on Arcadia test environment

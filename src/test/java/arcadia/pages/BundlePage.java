@@ -128,7 +128,9 @@ public class BundlePage extends BasePage {
     public void getBundlePage(String xCoordinates , String yCoordinates) throws InterruptedException, AWTException {
         Thread.sleep(2000);
         new HarnessPage(driver).clickOnSelect();
-        customCommand.movePointerAndDoubleClick(Integer.parseInt(xCoordinates),Integer.parseInt(yCoordinates));
+        String id=FlowContext.nodeIdentifierList.get(0).getNodeElementId();
+        new HarnessPage(driver).getBundleContextMenu(id);
+        new HarnessPage(driver).performOperation("Inspect",id);
     }
     public List<NodeIdentifier> getNodeElementFromDrawingPage() throws InterruptedException {
         List<String> nodElementList = new ArrayList<>();
