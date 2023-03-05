@@ -2,7 +2,6 @@ package arcadia.stepdefinations;
 
 import arcadia.context.FlowContext;
 import arcadia.context.TestContext;
-import arcadia.domainobjects.BundleIdentifier;
 import arcadia.domainobjects.ConnectorPlugIdentifier;
 import arcadia.domainobjects.Harness;
 import arcadia.pages.*;
@@ -128,10 +127,10 @@ public class HarnessStepDefinitions {
     }
 
     @And("{string} component with index {string} is opened")
-    public void connectorPlugIsOpened(String componentt,String index) throws InterruptedException {
+    public void harnessComponentIsOpened(String component, String index) throws InterruptedException {
         Thread.sleep(3000);
         new HarnessPage(context.driver).clickOnSelect();
-        switch (componentt.toLowerCase()){
+        switch (component.toLowerCase()){
             case "connectorplug":
                 String connectorid = new ConnectorPage(context.driver).getConnectorPlugELementIdsFromDrawingPage().get(Integer.parseInt(index)).getConnectorId();
                 harnessPage.clickConnectorPlug(connectorid);

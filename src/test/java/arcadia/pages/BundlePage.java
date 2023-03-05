@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 
@@ -38,9 +39,11 @@ public class BundlePage extends BasePage {
     @FindBy(css = "select[name='coverings.covering']") private WebElement selectCoveringInsulationPartNumbers;
     @FindBy(css = "input[name='coverings.partnumber']") private WebElement inputCoveringPartNumber;
     @FindBy(css = "input[name='coverings.sAddon']") private WebElement inputCoveringSAddOn;
+    @FindBy(css = "input[name='coverings.pieceid']") private WebElement inputCoveringPieceId;
     @FindBy(css = "input#addonlength") private WebElement inputAddOnLength;
     @FindBy(xpath = "//input[@id=\"addonlength\"]/..//following-sibling::div//span[text()=\"OK\"]") private WebElement buttonSubmitAddOnLength;
 
+    @FindBy(css = "form#DynamicForm button[title=\"Cancel\"]") private WebElement buttonCancelBundleDetailsForm;
     String tableSearchCoveringRows = "table#tblSleeveTubePartNoList>tbody>tr";
 
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
@@ -59,8 +62,10 @@ public class BundlePage extends BasePage {
         return bundleWebElement;
     }
 
-    public List<WebElement> getBundleElementById(String bundleId){
-        List<WebElement> ele = driver.findElements(By.xpath("//*[name()='g' and @class='bundleGroup' and @id='"+bundleId+"']"));
+    public List<WebElement> getBundleElementById(String bundleId) throws InterruptedException {
+        Thread.sleep(3000);
+        List<WebElement> ele = driver.findElements(By.xpath("//*[name()='g' and @id='"+bundleId+"']"));
+        Thread.sleep(5000);
         return ele;
     }
     private String getWireBundleDiameter(){
@@ -243,6 +248,7 @@ public class BundlePage extends BasePage {
     public void openBundle(String bundleId) throws InterruptedException {
         Thread.sleep(2000);
         customCommand.javaScriptClick(driver,drawSelectPointer);
+        Thread.sleep(2000);
         WebElement ele = getBundleElementById(bundleId).get(0);
         customCommand.waitForElementVisibility(driver,ele);
         customCommand.doubleClick(driver,ele);
@@ -257,11 +263,11 @@ public class BundlePage extends BasePage {
     }
 
     public void verifyBundleLength(String expectedLength) {
-        WebElement ele = driver.findElement(By.cssSelector("#layer_85>g[class=\"DG5 bundleGroup\"]>g>text"));
-        Assert.assertTrue(ele.getText().contains(expectedLength));
+        List<WebElement> ele = driver.findElements(By.xpath("//*[name()='g' and @id='layer_85']//*[name()='g' and @class='DG5 bundleGroup']/*[name()='g']/*[name()='text' and contains(text(),'"+expectedLength+"')]"));
+        Assert.assertTrue(ele.size()==1,"Expected bundle length is not displayed");
     }
 
-    public void verifyBundleDoNotExists(String bundleid) {
+    public void verifyBundleDoNotExists(String bundleid) throws InterruptedException {
         Assert.assertTrue(getBundleElementById(bundleid).size()==0, "Bundle exists on the drawing page");
     }
 
@@ -295,7 +301,8 @@ public class BundlePage extends BasePage {
         Assert.assertEquals(inputCoveringPartNumber.getAttribute("value"),partNumber);
     }
 
-    public void verifyCoveringPartNumberDisplayedOnBundle(String partNumber) {
+    public void verifyCoveringPartNumberDisplayedOnBundle(String partNumber) throws InterruptedException {
+        Thread.sleep(3000);
         Assert.assertTrue(driver.findElements(By.cssSelector("a[data-partnumber='"+partNumber+"']")).size()==1,"PartNumber for the covering is not displayed on bundle");
     }
 
@@ -309,6 +316,59 @@ public class BundlePage extends BasePage {
     public void verifyAddOnInCovering(String addOnValue) throws InterruptedException {
         customCommand.scrollIntoView(driver,selectCoveringInsulationPartNumbers);
         customCommand.scrollIntoView(driver,inputCoveringSAddOn);
-        Assert.assertEquals(inputCoveringSAddOn.getAttribute("value").replace("\"",""),addOnValue);
+        Assert.assertEquals(inputCoveringSAddOn.getAttribute("value").replace("\"","").replace("mm",""),addOnValue,"Value of AddOn displayed in covering is not as expected");
+    }
+
+    public void verifyCoveringPieceId(String pieceId) throws InterruptedException {
+        customCommand.scrollIntoView(driver,selectCoveringInsulationPartNumbers);
+        customCommand.scrollIntoView(driver,inputCoveringPieceId);
+        Assert.assertEquals(inputCoveringPieceId.getAttribute("value"),pieceId);
+    }
+
+    public void verifyBundleCanBeBended(String nodeId) throws InterruptedException {
+        WebElement nodeElement;
+        customCommand.waitForElementToBeClickable(driver,driver.findElement(By.xpath("//*[name()='g' and @id='layer_80']//*[name()='g' and contains(@class,'bundleGroup')]//*[name()='g' and @id='"+nodeId+"']")));
+        nodeElement = driver.findElement(By.xpath("//*[name()='g' and @id='layer_80']//*[name()='g' and contains(@class,'bundleGroup')]//*[name()='g' and @id='"+nodeId+"']"));
+        int xNodeCoordinateBeforeBundleBended = nodeElement.getLocation().getX();
+        System.out.println("X Coordinate before bundle bend is : " + xNodeCoordinateBeforeBundleBended);
+        int yNodeCoordinateBeforeBundleBended = nodeElement.getLocation().getY();
+        System.out.println("Y Coordinate before bundle bend is : " + yNodeCoordinateBeforeBundleBended);
+        Actions actions = new Actions(driver);
+        actions.moveToElement(nodeElement).click().perform();
+        Thread.sleep(2000);
+//        actions.moveByOffset(xNodeCoordinateBeforeBundleBended+150,yNodeCoordinateBeforeBundleBended+200).click().perform();
+        actions.moveByOffset(167,223).click().perform();
+        Thread.sleep(2000);
+        nodeElement = driver.findElement(By.xpath("//*[name()='g' and @id='layer_80']//*[name()='g' and contains(@class,'bundleGroup')]//*[name()='g' and @id='"+nodeId+"']"));
+        int xNodeCoordinateAfterBundleBended = nodeElement.getLocation().getX();
+        System.out.println("X Coordinate after bundle bend is : " + xNodeCoordinateAfterBundleBended);
+        int yNodeCoordinateAfterBundleBended = nodeElement.getLocation().getY();
+        System.out.println("Y Coordinate after bundle bend is : " + yNodeCoordinateAfterBundleBended);
+        Assert.assertNotEquals(xNodeCoordinateAfterBundleBended,xNodeCoordinateBeforeBundleBended,"X-Coordinate of node is still same even after the bundle has been bended");
+        Assert.assertNotEquals(yNodeCoordinateAfterBundleBended,yNodeCoordinateBeforeBundleBended,"Y-Coordinate of node is still same even after the bundle has been bended");
+    }
+
+    public void verifyBundleCanBeRotated(String nodeId) throws InterruptedException {
+        WebElement nodeElement;
+        customCommand.waitForElementToBeClickable(driver,driver.findElement(By.xpath("//*[name()='g' and @id='layer_80']//*[name()='g' and contains(@class,'bundleGroup')]//*[name()='g' and @id='"+nodeId+"']")));
+        nodeElement = driver.findElement(By.xpath("//*[name()='g' and @id='layer_80']//*[name()='g' and contains(@class,'bundleGroup')]//*[name()='g' and @id='"+nodeId+"']"));
+        int xNodeCoordinateBeforeBundleRotated = nodeElement.getLocation().getX();
+        System.out.println("X Coordinate before bundle rotated is : " + xNodeCoordinateBeforeBundleRotated);
+        int yNodeCoordinateBeforeBundleRotated = nodeElement.getLocation().getY();
+        System.out.println("Y Coordinate before bundle rotated is : " + yNodeCoordinateBeforeBundleRotated);
+        Actions actions = new Actions(driver);
+        actions.moveByOffset(167,223).click().perform();
+        Thread.sleep(2000);
+        nodeElement = driver.findElement(By.xpath("//*[name()='g' and @id='layer_80']//*[name()='g' and contains(@class,'bundleGroup')]//*[name()='g' and @id='"+nodeId+"']"));
+        int xNodeCoordinateAfterBundleRotated = nodeElement.getLocation().getX();
+        System.out.println("X Coordinate after bundle rotated is : " + xNodeCoordinateAfterBundleRotated);
+        int yNodeCoordinateAfterBundleRotated = nodeElement.getLocation().getY();
+        System.out.println("Y Coordinate after bundle rotated is : " + yNodeCoordinateAfterBundleRotated);
+        Assert.assertNotEquals(xNodeCoordinateAfterBundleRotated,xNodeCoordinateBeforeBundleRotated,"X-Coordinate of node is still same even after the bundle has been rotated");
+        Assert.assertNotEquals(yNodeCoordinateAfterBundleRotated,yNodeCoordinateBeforeBundleRotated,"Y-Coordinate of node is still same even after the bundle has been rotated");
+    }
+
+    public void closeBundleDetailsWindow() throws InterruptedException {
+        customCommand.javaScriptClick(driver,buttonCancelBundleDetailsForm);
     }
 }
