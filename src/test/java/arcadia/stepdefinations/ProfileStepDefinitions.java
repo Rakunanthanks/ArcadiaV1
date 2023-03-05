@@ -1,11 +1,10 @@
 package arcadia.stepdefinations;
 
+import arcadia.context.FlowContext;
 import arcadia.context.TestContext;
-import arcadia.domainobjects.SealsComponentDB;
-import arcadia.pages.ComponentDB.Seals.SealsComponentDBPage;
+import arcadia.pages.ComponentDB.CommonElements;
 import arcadia.pages.PageFactoryManager;
 import arcadia.pages.ProfilePage;
-import arcadia.utils.PropertyUtils;
 import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -71,5 +70,14 @@ public class ProfileStepDefinitions {
 
         }
 
+    }
+
+    @And("harness bundle default display settings are updated")
+    public void harnessBundleDefaultDisplaySettingsAreUpdated() throws InterruptedException {
+        profilePage.verifyBundleDefaultDisplayPageOpened();
+        String defaultNTSText="Test";
+        FlowContext.bundleDefaultNtsText = defaultNTSText;
+        profilePage.updateBundleDisplayOptions("GREEN","1",defaultNTSText,"100","200","300","500","750");
+        new CommonElements(context.driver).verifyAlertSuccessMessage("Properties updated successfully! Please select the tasks to update the settings");
     }
 }
