@@ -141,4 +141,9 @@ public class LoginStepDefinitions {
     public void navigatedToGeneralMacrosPage() {
         loginPage.load(EndPoint.GENERALMACROS.url);
     }
+
+    @And("Navigated to Harness Bundle Default Display Settings page")
+    public void navigatedToBundleDefaultDisplaySettingsPage() {
+        loginPage.load(EndPoint.BUNDLEDEFAULTDISPLAY.url.replace("profileName",System.getProperty("profileName")));
+    }
 }

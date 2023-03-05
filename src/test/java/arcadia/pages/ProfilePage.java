@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,25 +17,35 @@ import java.util.List;
  */
 public class ProfilePage extends BasePage
 {
-    SeleniumCustomCommand sel=null;
+    SeleniumCustomCommand customCommand =null;
     public ProfilePage(WebDriver driver) {
         super(driver);
-        sel=new SeleniumCustomCommand();
+        customCommand =new SeleniumCustomCommand();
     }
     @FindBy(xpath = "(//span[text()='General']/parent::a)[1]/i[1]") private WebElement GeneralMenuSelection;
     @FindBy(xpath = "//a[contains(@href,'Component Prefix Editor')]") private WebElement ComponentPrefixEditor;
     @FindBy(xpath = "//input[@name='prefix']") private WebElement editPrefixText;
     @FindBy(xpath = "//button[@type='submit']") private WebElement saveButton;
+    @FindBy(id = "idglobaloptions") private WebElement labelBundleGlobalOptions;
+    @FindBy(css = "select[name='NTS Colour']") private WebElement selectNtsColour;
+    @FindBy(css = "select[name='NTS Show Actual Length']") private WebElement selectShowActualLength;
+    @FindBy(css = "input[name='NTS Text']") private WebElement inputNtsText;
+    @FindBy(css = "input[name='bundle_DefaultLength1_value']") private WebElement inputBundleDefaultLength1;
+    @FindBy(css = "input[name='bundle_DefaultLength2_value']") private WebElement inputBundleDefaultLength2;
+    @FindBy(css = "input[name='bundle_DefaultLength3_value']") private WebElement inputBundleDefaultLength3;
+    @FindBy(css = "input[name='bundle_DefaultLength4_value']") private WebElement inputBundleDefaultLength4;
+    @FindBy(css = "input[name='bundle_DefaultLength5_value']") private WebElement inputBundleDefaultLength5;
+    @FindBy(css = "div#idselectform button[value='Save']") private WebElement buttonSaveBundleDisplaySettings;
 
 
     String tableRows = "//table[@id='myTable']//tr";
 
     public void clickMenuFromLeftPanel() throws InterruptedException {
         Thread.sleep(2000);
-        sel.javaScriptClick(driver,GeneralMenuSelection);
-        sel.mouseHover(driver,GeneralMenuSelection);
+        customCommand.javaScriptClick(driver,GeneralMenuSelection);
+        customCommand.mouseHover(driver,GeneralMenuSelection);
         Thread.sleep(2000);
-        sel.javaScriptClick(driver,ComponentPrefixEditor);
+        customCommand.javaScriptClick(driver,ComponentPrefixEditor);
     }
 
 
@@ -57,7 +68,7 @@ public class ProfilePage extends BasePage
     public void clickEditButtonForIdentifier(String Identifier) throws InterruptedException {
        Thread.sleep(2000);
         WebElement element=driver.findElement(By.xpath("//table[@id='myTable']//td[text()='"+Identifier+"']/following-sibling::td//i[contains(@class,'edit')]"));
-        sel.javaScriptClick(driver,element);
+        customCommand.javaScriptClick(driver,element);
 
     }
 
@@ -83,4 +94,20 @@ public class ProfilePage extends BasePage
         return element.isDisplayed();
     }
 
+    public void verifyBundleDefaultDisplayPageOpened() {
+        Assert.assertTrue(labelBundleGlobalOptions.isDisplayed());
+        Assert.assertTrue(selectNtsColour.isDisplayed());
+    }
+
+    public void updateBundleDisplayOptions(String colour, String showActualLength, String ntsText, String defaultLength1, String defaultLength2, String defaultLength3, String defaultLength4, String defaultLength5) throws InterruptedException {
+        customCommand.selectDropDownByValue(selectNtsColour,colour);
+        customCommand.selectDropDownByValue(selectShowActualLength,showActualLength);
+        customCommand.clearAndEnterText(inputNtsText,ntsText);
+        customCommand.clearAndEnterText(inputBundleDefaultLength1,defaultLength1);
+        customCommand.clearAndEnterText(inputBundleDefaultLength2,defaultLength2);
+        customCommand.clearAndEnterText(inputBundleDefaultLength3,defaultLength3);
+        customCommand.clearAndEnterText(inputBundleDefaultLength4,defaultLength4);
+        customCommand.clearAndEnterText(inputBundleDefaultLength5,defaultLength5);
+        buttonSaveBundleDisplaySettings.click();
+    }
 }
