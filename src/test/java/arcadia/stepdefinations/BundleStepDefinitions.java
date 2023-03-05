@@ -12,6 +12,7 @@ import io.cucumber.java.en.And;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import one.util.streamex.StreamEx;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -20,6 +21,7 @@ import org.testng.asserts.SoftAssert;
 
 import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -380,7 +382,7 @@ public class BundleStepDefinitions {
     }
 
     @Then("User verifies the bundle {string} is deleted successfully")
-    public void userVerifiesTheBundleIsDeletedSuccessfully(String bundleIndex) {
+    public void userVerifiesTheBundleIsDeletedSuccessfully(String bundleIndex) throws InterruptedException {
         String bundleid = FlowContext.bundleIdentifierList.get(Integer.parseInt(bundleIndex)).getBundleId();
         bundlePage.verifyBundleDoNotExists(bundleid);
     }
@@ -393,23 +395,44 @@ public class BundleStepDefinitions {
     @Then("user verifies addCovering functionality from context menu")
     public void userVerifiesAddCoveringFunctionalityFromContextMenu() throws InterruptedException {
         bundlePage.verifySearchCoveringWindowOpened();
-        bundlePage.enterPieceId("1");
+        String pieceId = "1";
+        bundlePage.enterPieceId(pieceId);
         String partNumber = bundlePage.addCoveringAndGetPartNumber();
         System.out.println("PartNumber of selected covering is : "+ partNumber);
         bundlePage.verifyCoveringPartNumberDisplayedOnBundle(partNumber);
-        String bundleid = new ConnectorPage(context.driver).getBundleElementIdsFromDrawingPage().get(0).getBundleId();
+        String bundleid = FlowContext.bundleIdentifierList.get(0).getBundleId();
         bundlePage.openBundle(bundleid);
         bundlePage.verifyBundleDetailsWindowOpened();
         bundlePage.verifyCoveringPartNumber(partNumber);
+        bundlePage.verifyCoveringPieceId(pieceId);
     }
 
     @Then("user verifies Addon can be configured to bundle successfully")
     public void userVerifiesAddonCanBeConfiguredToBundleSuccessfully() throws InterruptedException {
         String addOnValue = "-10";
         bundlePage.enterAndSubmitAddOn(addOnValue);
-        String bundleid = new ConnectorPage(context.driver).getBundleElementIdsFromDrawingPage().get(0).getBundleId();
+        String bundleid = FlowContext.bundleIdentifierList.get(0).getBundleId();
         bundlePage.openBundle(bundleid);
         bundlePage.verifyBundleDetailsWindowOpened();
         bundlePage.verifyAddOnInCovering(addOnValue);
+    }
+
+    @Then("user verifies bundle is bended successfully")
+    public void userVerifiesBundleIsBendedSuccessfully() throws InterruptedException {
+        List<NodeIdentifier> nodeIdentifierList = bundlePage.getNodeElementFromDrawingPage();
+        String nodeId = nodeIdentifierList.get(0).getNodeElementId();
+        bundlePage.verifyBundleCanBeBended(nodeId);
+    }
+
+    @Then("user verifies bundle is rotated successfully")
+    public void userVerifiesBundleIsRotatedSuccessfully() throws InterruptedException {
+        List<NodeIdentifier> nodeIdentifierList = bundlePage.getNodeElementFromDrawingPage();
+        String nodeId = nodeIdentifierList.get(1).getNodeElementId();
+        bundlePage.verifyBundleCanBeRotated(nodeId);
+    }
+
+    @When("user closes bundle details window")
+    public void userClosesBundleDetailsWindow() throws InterruptedException {
+        bundlePage.closeBundleDetailsWindow();
     }
 }

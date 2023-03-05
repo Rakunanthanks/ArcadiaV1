@@ -13,6 +13,11 @@ Feature: Bundle harness Context Menu
     And 'bundle' list is initialized
 
   @VerifyBundleHarness @VerifyBundleContextMenu
+  Scenario: Test verifies AddCovering contextmenu functionality on Bundle Harness
+    When User try operation 'Add covering' for bundle
+    Then user verifies addCovering functionality from context menu
+
+  @VerifyBundleHarness @VerifyBundleContextMenu
   Scenario: Test verifies Bundle Harness can be inspected
     And User try operation 'inspect' for bundle
     Then User verifies the bundle details window is opened successfully
@@ -27,11 +32,16 @@ Feature: Bundle harness Context Menu
     Then user verifies setLength functionality from context menu
 
   @VerifyBundleHarness @VerifyBundleContextMenu
-  Scenario: Test verifies AddCovering contextmenu functionality on Bundle Harness
-    And User try operation 'Add covering' for bundle
-    Then user verifies addCovering functionality from context menu
-
-  @VerifyBundleHarness @VerifyBundleContextMenu
   Scenario: Test verifies SetAddOn contextmenu functionality on Bundle Harness
     When User try operation 'Set Addon' for bundle
     Then user verifies Addon can be configured to bundle successfully
+
+  @VerifyBundleHarness @VerifyBundleContextMenu
+  Scenario: Test verifies BendBundle contextmenu functionality on Bundle Harness
+    When User try operation 'Bend Bundle' for bundle
+    Then user verifies bundle is bended successfully
+
+  @VerifyBundleHarness @VerifyBundleContextMenu
+  Scenario: Test verifies RotateBundle contextmenu functionality on Bundle Harness
+    When User try operation 'Rotate Bundle' for bundle
+    Then user verifies bundle is rotated successfully
