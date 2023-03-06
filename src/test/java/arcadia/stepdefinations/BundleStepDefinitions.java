@@ -393,26 +393,24 @@ public class BundleStepDefinitions {
     }
 
     @Then("user verifies addCovering functionality from context menu")
-    public void userVerifiesAddCoveringFunctionalityFromContextMenu() throws InterruptedException {
+    public void userVerifiesAddCoveringFunctionalityFromContextMenu() throws InterruptedException, AWTException {
         bundlePage.verifySearchCoveringWindowOpened();
         String pieceId = "1";
         bundlePage.enterPieceId(pieceId);
         String partNumber = bundlePage.addCoveringAndGetPartNumber();
         System.out.println("PartNumber of selected covering is : "+ partNumber);
         bundlePage.verifyCoveringPartNumberDisplayedOnBundle(partNumber);
-        String bundleid = FlowContext.bundleIdentifierList.get(0).getBundleId();
-        bundlePage.openBundle(bundleid);
+        bundlePage.getBundlePage("","");
         bundlePage.verifyBundleDetailsWindowOpened();
         bundlePage.verifyCoveringPartNumber(partNumber);
         bundlePage.verifyCoveringPieceId(pieceId);
     }
 
     @Then("user verifies Addon can be configured to bundle successfully")
-    public void userVerifiesAddonCanBeConfiguredToBundleSuccessfully() throws InterruptedException {
+    public void userVerifiesAddonCanBeConfiguredToBundleSuccessfully() throws InterruptedException, AWTException {
         String addOnValue = "-10";
         bundlePage.enterAndSubmitAddOn(addOnValue);
-        String bundleid = FlowContext.bundleIdentifierList.get(0).getBundleId();
-        bundlePage.openBundle(bundleid);
+        bundlePage.getBundlePage("","");
         bundlePage.verifyBundleDetailsWindowOpened();
         bundlePage.verifyAddOnInCovering(addOnValue);
     }
@@ -434,5 +432,40 @@ public class BundleStepDefinitions {
     @When("user closes bundle details window")
     public void userClosesBundleDetailsWindow() throws InterruptedException {
         bundlePage.closeBundleDetailsWindow();
+    }
+
+    @Then("user verifies bundle content functionality works as expected")
+    public void userVerifiesBundleContentFunctionalityWorksAsExpected() throws InterruptedException, AWTException {
+        //Set length content
+        List<NodeIdentifier> nodeIdentifierList = new ArrayList<>();
+        nodeIdentifierList  = bundlePage.getNodeElementFromDrawingPage();
+        String nodeId;
+        nodeId = nodeIdentifierList.get(0).getNodeElementId();
+        new HarnessPage(context.driver).getBundleContextMenu(nodeId);
+        String bundleLength = "150";
+        new BundlePage(context.driver).enterValueForBundleSetLength(bundleLength);
+        new BundlePage(context.driver).verifyBundleLength(FlowContext.bundleDefaultNtsText+ "150");
+        //Set covering content
+        nodeIdentifierList  = bundlePage.getNodeElementFromDrawingPage();
+        nodeId = nodeIdentifierList.get(0).getNodeElementId();
+        new HarnessPage(context.driver).getBundleContextMenu(nodeId);
+        List<BundleIdentifier> bundleIdentifierList = new ConnectorPage(context.driver).getBundleElementIdsFromDrawingPage();
+        String bundleId = bundleIdentifierList.get(0).getBundleId();
+        new HarnessPage(context.driver).performOperation("Add covering",bundleId);
+        bundlePage.verifySearchCoveringWindowOpened();
+        String pieceId = "1";
+        bundlePage.enterPieceId(pieceId);
+        String coveringPartNumber = bundlePage.addCoveringAndGetPartNumber();
+        System.out.println("PartNumber of selected covering is : "+ coveringPartNumber);
+        bundlePage.verifyCoveringPartNumberDisplayedOnBundle(coveringPartNumber);
+        bundlePage.getBundlePage("","");
+        bundlePage.verifyBundleDetailsWindowOpened();
+        String bundleName = bundlePage.getBundlePartName();
+        bundlePage.closeBundleDetailsWindow();
+
+        //Verify bundle content
+        new HarnessPage(context.driver).getBundleContextMenu(nodeId);
+        new HarnessPage(context.driver).performOperation("Content",bundleId);
+        bundlePage.verifyBundleContent(bundleName,bundleLength,coveringPartNumber,pieceId);
     }
 }

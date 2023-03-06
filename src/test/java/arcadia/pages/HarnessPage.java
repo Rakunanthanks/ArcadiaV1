@@ -217,7 +217,6 @@ public class HarnessPage extends BasePage{
     public void getBundleContextMenu(String id) throws InterruptedException {
         customCommand.javaScriptClick(driver,drawSelectPointer);
         Thread.sleep(2000);
-//        WebElement ele = driver.findElement(By.cssSelector("#layer_80 >g[class$=\"bundleGroup\"] g#"+id));
         WebElement ele = driver.findElement(By.xpath("//*[name()='g' and @id='layer_80']//*[name()='g' and contains(@class,'bundleGroup')]//*[name()='g' and @id='"+id+"']"));
         try {
             Thread.sleep(2000);
