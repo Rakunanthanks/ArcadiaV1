@@ -45,3 +45,7 @@ Feature: Bundle harness Context Menu
   Scenario: Test verifies RotateBundle contextmenu functionality on Bundle Harness
     When User try operation 'Rotate Bundle' for bundle
     Then user verifies bundle is rotated successfully
+
+  @VerifyBundleHarness @VerifyBundleContextMenu
+  Scenario: Test verifies Content contextmenu functionality on Bundle Harness
+    Then user verifies bundle content functionality works as expected

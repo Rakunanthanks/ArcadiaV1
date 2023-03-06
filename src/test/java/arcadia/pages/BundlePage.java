@@ -247,16 +247,6 @@ public class BundlePage extends BasePage {
 
     }
 
-    public void openBundle(String bundleId) throws InterruptedException {
-        Thread.sleep(2000);
-        customCommand.javaScriptClick(driver,drawSelectPointer);
-        Thread.sleep(2000);
-        WebElement ele = getBundleElementById(bundleId).get(0);
-        customCommand.waitForElementVisibility(driver,ele);
-        customCommand.doubleClick(driver,ele);
-        Thread.sleep(2000);
-    }
-
     public void enterValueForBundleSetLength(String bundleLength) throws AWTException, InterruptedException {
         inputSetLength.click();
         customCommand.enterText(inputSetLength,bundleLength);
@@ -372,5 +362,20 @@ public class BundlePage extends BasePage {
 
     public void closeBundleDetailsWindow() throws InterruptedException {
         customCommand.javaScriptClick(driver,buttonCancelBundleDetailsForm);
+    }
+
+    public String getBundlePartName() {
+        String bundlePartName = inputBundlePartName.getAttribute("value");
+        return bundlePartName;
+    }
+
+    public void verifyBundleContent(String bundleName, String bundleLength, String coveringPartNumber, String pieceId) {
+        Assert.assertTrue(driver.findElement(By.xpath("//div[@id='rightPaneContent']/h1[text()='BUNDLE SIZE & CONTENTS']")).isDisplayed(),"Content pane is not opened");
+        Assert.assertTrue(driver.findElement(By.xpath("//div[@id='rightPaneContent']//b[text()='"+bundleName+"']")).isDisplayed(),"Bundle name displayed is not as expected");
+        WebElement eleBundleLength = driver.findElement(By.xpath("//th/strong[text()='Bundle Len.']/..//following-sibling::th/strong"));
+        Assert.assertEquals(eleBundleLength.getText().replace("mm",""),bundleLength,"Bundle length displayed on content is not as expected");
+        Assert.assertTrue(driver.findElement(By.xpath("//strong[contains(text(),'COVERINGS')]//following-sibling::table//td[text()='"+coveringPartNumber+"']")).isDisplayed(),"CoveringPartNumber displayed on content is not as expected");
+        Assert.assertTrue(driver.findElement(By.xpath("//strong[contains(text(),'COVERINGS')]//following-sibling::table//td[text()='"+pieceId+"']")).isDisplayed(),"PieceId displayed on content is not as expected");
+
     }
 }
