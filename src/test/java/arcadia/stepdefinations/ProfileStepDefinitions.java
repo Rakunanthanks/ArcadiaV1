@@ -76,8 +76,10 @@ public class ProfileStepDefinitions {
     public void harnessBundleDefaultDisplaySettingsAreUpdated() throws InterruptedException {
         profilePage.verifyBundleDefaultDisplayPageOpened();
         String defaultNTSText="Test";
+        String defaultNTSColour = "GREEN";
         FlowContext.bundleDefaultNtsText = defaultNTSText;
-        profilePage.updateBundleDisplayOptions("GREEN","1",defaultNTSText,"100","200","300","500","750");
+        FlowContext.bundleDefaultNtsColour = defaultNTSColour;
+        profilePage.updateBundleDisplayOptions(defaultNTSColour,"1",defaultNTSText,"100","200","300","500","750");
         new CommonElements(context.driver).verifyAlertSuccessMessage("Properties updated successfully! Please select the tasks to update the settings");
     }
 }
