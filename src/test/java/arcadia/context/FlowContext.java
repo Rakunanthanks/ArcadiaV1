@@ -26,4 +26,5 @@ public class FlowContext {
     public static String connectorID = "";
     public static String terminalImagePath = "";
     public static String bundleDefaultNtsText = "";
+    public static String bundleDefaultNtsColour = "";
 }

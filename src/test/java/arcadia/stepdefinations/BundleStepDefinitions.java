@@ -468,4 +468,21 @@ public class BundleStepDefinitions {
         new HarnessPage(context.driver).performOperation("Content",bundleId);
         bundlePage.verifyBundleContent(bundleName,bundleLength,coveringPartNumber,pieceId);
     }
+
+    @And("user verifies colour of bundle length matches profile")
+    public void userVerifiesColourOfBundleLengthMatchesProfile() {
+        String defaultColourFromProfile = FlowContext.bundleDefaultNtsColour;
+        String defaultNTSText = FlowContext.bundleDefaultNtsText;
+        bundlePage.verifyColourOfBundleLength(defaultColourFromProfile,defaultNTSText);
+    }
+
+    @Then("user verifies setLength functionality from bundle details")
+    public void userVerifiesSetLengthFunctionalityFromBundleDetails() throws InterruptedException, AWTException {
+        bundlePage.getBundlePage("","");
+        String bundleLength = "150";
+        String expectedBundleLength = FlowContext.bundleDefaultNtsText + bundleLength;
+        bundlePage.enterBundleLengthOnBundleDetails(bundleLength);
+        bundlePage.submitBundleDetails();
+        new BundlePage(context.driver).verifyBundleLength(expectedBundleLength);
+    }
 }

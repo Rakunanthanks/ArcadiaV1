@@ -44,6 +44,8 @@ public class BundlePage extends BasePage {
     @FindBy(xpath = "//input[@id=\"addonlength\"]/..//following-sibling::div//span[text()=\"OK\"]") private WebElement buttonSubmitAddOnLength;
 
     @FindBy(css = "form#DynamicForm button[title=\"Cancel\"]") private WebElement buttonCancelBundleDetailsForm;
+    @FindBy(css = "form#DynamicForm button[title=\"Submit\"]") private WebElement buttonSubmitBundleDetailsForm;
+    @FindBy(css = "input[name='bundle.length']") private WebElement inputBundleLength;
     String tableSearchCoveringRows = "table#tblSleeveTubePartNoList>tbody>tr";
 
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
@@ -377,5 +379,25 @@ public class BundlePage extends BasePage {
         Assert.assertTrue(driver.findElement(By.xpath("//strong[contains(text(),'COVERINGS')]//following-sibling::table//td[text()='"+coveringPartNumber+"']")).isDisplayed(),"CoveringPartNumber displayed on content is not as expected");
         Assert.assertTrue(driver.findElement(By.xpath("//strong[contains(text(),'COVERINGS')]//following-sibling::table//td[text()='"+pieceId+"']")).isDisplayed(),"PieceId displayed on content is not as expected");
 
+    }
+
+    public void verifyColourOfBundleLength(String defaultColourFromProfile,String defaultNTSText) {
+        String colourHashCode="";
+        switch (defaultColourFromProfile.toLowerCase()){
+            case "green":
+                colourHashCode = "#00FF00";
+                break;
+        }
+        String actualColourCode = driver.findElement(By.xpath("//*[name()='g' and @id='layer_85']//*[name()='g' and @class='DG5 bundleGroup']/*[name()='g']/*[name()='text' and contains(text(),'"+defaultNTSText+"')]")).getAttribute("fill");
+        Assert.assertEquals(actualColourCode,colourHashCode);
+    }
+
+    public void enterBundleLengthOnBundleDetails(String bundleLength) {
+        customCommand.clearAndEnterText(inputBundleLength,bundleLength);
+    }
+
+    public void submitBundleDetails() throws InterruptedException {
+        customCommand.javaScriptClick(driver,buttonSubmitBundleDetailsForm);
+        Thread.sleep(2000);
     }
 }
