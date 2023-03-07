@@ -14,7 +14,7 @@
 ,Connector,Connector,Add Connector,,4,FCI_FIN LOCK_4-WAY_RECEP HSG,4,,,,,,,,,,,,,,
 ,Connector,Connector,Open Connector,,,,,,,,,X-002,,,,,,,,,
 ,Connector,Connector,Add Wire,,0,NA,0,0,NA,NA,,X-002,X-001,1-WIRE_BK_1.5_FLRY~2-WIRE_BK_1.5_FLRY~3-WIRE_BK_1.5_FLRY,1-1~2-2~3-3,,,,,,
-,Connector,Connector,Add Wire,submit connector,0,NA,0,0,NA,NA,,X-002,X-003,4-WIRE_BK_1.5_FLRY,04-Jan,,,,,,
+,Connector,Connector,Add Wire,submit connector,0,NA,0,0,NA,NA,,X-002,X-003,4-WIRE_BK_1.5_FLRY,4-1,,,,,,
 ,Harness,Harness,Click on WireRoute,,,,,,,,,,,,,,,,,,
 ,WireRoute,WireRoute,Invoke WireRoute,yes,,,,,,,,,,,,,,,,,
 ,Harness,Harness,Click on SleeveTube,,,,,,,,,,,,,,,,,,

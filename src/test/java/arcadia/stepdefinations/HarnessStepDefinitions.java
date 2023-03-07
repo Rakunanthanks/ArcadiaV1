@@ -12,6 +12,7 @@ import arcadia.utils.StringHelper;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.cucumber.java.hu.Ha;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
@@ -503,6 +504,13 @@ public class HarnessStepDefinitions {
     public void checkAgainForSpliceSidesAreAdded() throws InterruptedException {
         new HarnessPage(context.driver).checkSpliceSideAgain();
     }
+
+    @And("User set the bundle radius from drawing page")
+    public void userSetTheBundleRadiusFromDrawingPage() throws InterruptedException {
+       String id= new HarnessPage(context.driver).bendRadiusFromDrawingPage();
+       new HarnessPage(context.driver).validateBendRadius(id);
+    }
+
 
 //    @And("user delete the created bundle from context menu")
 //    public void userDeleteTheCreatedBundleFromContextMenu() throws InterruptedException {
