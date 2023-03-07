@@ -10,7 +10,6 @@ import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 
 import java.awt.*;
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -71,7 +70,10 @@ public class HarnessPage extends BasePage{
     @FindBy(css = "#iconneditor>span") private WebElement buttonConnectorEditor;
 
     @FindBy(css = "#cEditor table.htCore") private WebElement tableConnectorEditor;
+    @FindBy(xpath="//*[name()='g' and @id='layer_drawNodes']/*[name()='g'][6]") private WebElement bendRadius;
 
+    @FindBy(xpath = "//div[@title='Inspect Object']") private WebElement inspectButton;
+    @FindBy(xpath = "//p[text()='Actual Radius:']/parent::div") private WebElement getRadius;
     @FindBy(xpath = "//table[@id='tblWirePartNoList']/tbody/tr") private WebElement rows;
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
     public HarnessPage(WebDriver driver) {
@@ -671,6 +673,32 @@ public class HarnessPage extends BasePage{
             ExtentCucumberAdapter.addTestStepLog("Splice Image is not displayed");
             Assert.fail();
         }
+    }
+
+    public String bendRadiusFromDrawingPage() throws InterruptedException {
+        String id=bendRadius.getAttribute("id");
+        String nodeId=id.substring(2);
+        String radiusCommand="setradius "+nodeId+" 15 userVal";
+        fillCommandLine(radiusCommand);
+        clickOnCommandLineOK();
+        waitBetweenHarnessActions();
+        return id;
+    }
+
+    public void validateBendRadius(String id) throws InterruptedException {
+        WebElement element=driver.findElement(By.xpath("//*[name()='g' and @id='"+id+"']"));
+        customCommand.javaScriptClick(driver,inspectButton);
+        customCommand.moveToElementAndClick(driver,element);
+        Thread.sleep(3000);
+        String radius=getRadius.getText();
+        if(radius.contains("15mm"))
+        {
+                    ExtentCucumberAdapter.addTestStepLog(String.format("Bundle radius is set to 15"));
+        }
+        else{
+            Assert.fail("Radius is not set for Bundle");
+        }
+
     }
 
 }

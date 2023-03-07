@@ -1,0 +1,3 @@
+﻿Draw,Context,SubContext,Command,Comments,NodeNumber,ConnectorPartDescription,CavityNumber,AddCavity,WireParts,FrameSize,BundleCommand,ConnectFrom,ConnectTo,WiringDetails,Cavity,coordinates,covering,multipleCoveringType
+,Harness,Harness,Click on Bundle,,,,,,,,,,,,,,,
+,Bundle,Bundle,Draw bundle,,,,,,,,"freebundle 0 46.16mm,40.13mm 102.23mm,40.13mm 102.23mm,66.95mm",,,,,,,
