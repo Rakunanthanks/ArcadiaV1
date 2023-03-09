@@ -26,7 +26,7 @@ public class DriverFactory {
                 prefs.put("download.default_directory", System.getProperty("user.dir") + File.separator + "externalFiles" + File.separator + "downloadFiles");
                 ChromeOptions options = new ChromeOptions();
                 options.setExperimentalOption("prefs", prefs);
-
+                options.addArguments("--remote-allow-origins=*");
                 WebDriverManager.chromedriver().setup();
                 driver = new ChromeDriver(options);
                 driver.manage().window().maximize();
