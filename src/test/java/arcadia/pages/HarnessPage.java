@@ -302,6 +302,30 @@ public class HarnessPage extends BasePage{
                     driver.findElement(By.cssSelector("input#splicecavityhide")).click();
                 }
                 break;
+            case "bundle name":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input.bundleshow[name='bundle_Name']")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input.bundlehide[name='bundle_Name']")).click();
+                }
+                break;
+            case "bundle length":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input.bundleshow[name='bundle_Length']")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input.bundlehide[name='bundle_Length']")).click();
+                }
+                break;
+            case "bundle pieceid":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input.bundleshow[name='bundle_PieceID']")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input.bundlehide[name='bundle_PieceID']")).click();
+                }
+                break;
         }
         customCommand.javaScriptClick(driver,buttonSubmitDetails);
         Thread.sleep(2000);

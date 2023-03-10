@@ -400,4 +400,31 @@ public class BundlePage extends BasePage {
         customCommand.javaScriptClick(driver,buttonSubmitBundleDetailsForm);
         Thread.sleep(2000);
     }
+
+    public void verifyBundleNameDisplayStatus(String bundleName, Boolean isDisplayed) {
+        List<WebElement> listOfElements = driver.findElements(By.xpath("//*[name()='g' and @id='layer_85']//*[name()='g']//*[name()='text' and text()='"+bundleName+"']"));
+        if(isDisplayed){
+            Assert.assertTrue(listOfElements.size()==1,"Bundle name is not displayed on the bundle harness");
+        }
+        else {
+            Assert.assertTrue(listOfElements.size()==0,"Bundle name is displayed on the bundle harness");
+
+        }
+    }
+
+    public void verifyBundleLengthNotDisplayed(String expectedLength) {
+        List<WebElement> ele = driver.findElements(By.xpath("//*[name()='g' and @id='layer_85']//*[name()='g' and @class='DG5 bundleGroup']/*[name()='g']/*[name()='text' and contains(text(),'"+expectedLength+"')]"));
+        Assert.assertTrue(ele.size()==0,"Bundle length is still displayed");
+    }
+
+    public void verifyPieceIdDisplayStatusOnBundleHarness(String pieceId, boolean isDisplayed) {
+        List<WebElement> listOfElements = driver.findElements(By.xpath("//*[name()='g' and @id='layer_85']//*[name()='g']//*[name()='text']//*[name()='tspan' and contains(text(),'"+pieceId+"')]"));
+        if(isDisplayed){
+            Assert.assertTrue(listOfElements.size()==1,"PieceId is not displayed on the bundle harness");
+        }
+        else {
+            Assert.assertTrue(listOfElements.size()==0,"PieceId is displayed on the bundle harness");
+
+        }
+    }
 }

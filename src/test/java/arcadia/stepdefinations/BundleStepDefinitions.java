@@ -485,4 +485,53 @@ public class BundleStepDefinitions {
         bundlePage.submitBundleDetails();
         new BundlePage(context.driver).verifyBundleLength(expectedBundleLength);
     }
+
+    @Then("user verifies {string} can be hidden from bundle harness successfully")
+    public void userVerifiesBundlePropertyCanBeHiddenFromBundleHarnessSuccessfully(String bundleProperty) throws InterruptedException, AWTException {
+        List<NodeIdentifier> nodeIdentifierList = new ArrayList<>();
+        String nodeId;
+        switch (bundleProperty.toLowerCase()){
+            case "bundlename":
+                bundlePage.getBundlePage("","");
+                bundlePage.verifyBundleDetailsWindowOpened();
+                String bundleName = bundlePage.getBundlePartName();
+                bundlePage.closeBundleDetailsWindow();
+                bundlePage.verifyBundleNameDisplayStatus(bundleName, true);
+                harnessPage.selectHeader("Advanced");
+                harnessPage.clickVisibility();
+                harnessPage.showHideComponentLabel("bundle name","hide");
+                bundlePage.verifyBundleNameDisplayStatus(bundleName, false);
+                break;
+            case "bundlelength":
+                bundlePage.getBundlePage("","");
+                String bundleLength = "150";
+                String expectedBundleLength = FlowContext.bundleDefaultNtsText + bundleLength;
+                bundlePage.enterBundleLengthOnBundleDetails(bundleLength);
+                bundlePage.submitBundleDetails();
+                new BundlePage(context.driver).verifyBundleLength(expectedBundleLength);
+                harnessPage.selectHeader("Advanced");
+                harnessPage.clickVisibility();
+                harnessPage.showHideComponentLabel("bundle length","hide");
+                new BundlePage(context.driver).verifyBundleLengthNotDisplayed(expectedBundleLength);
+                break;
+            case "pieceid":
+                nodeIdentifierList  = bundlePage.getNodeElementFromDrawingPage();
+                nodeId = nodeIdentifierList.get(0).getNodeElementId();
+                new HarnessPage(context.driver).getBundleContextMenu(nodeId);
+                List<BundleIdentifier> bundleIdentifierList = new ConnectorPage(context.driver).getBundleElementIdsFromDrawingPage();
+                String bundleId = bundleIdentifierList.get(0).getBundleId();
+                new HarnessPage(context.driver).performOperation("Add covering",bundleId);
+                bundlePage.verifySearchCoveringWindowOpened();
+                String pieceId = "1234321";
+                bundlePage.enterPieceId(pieceId);
+                String coveringPartNumber = bundlePage.addCoveringAndGetPartNumber();
+                bundlePage.verifyPieceIdDisplayStatusOnBundleHarness(pieceId, true);
+                harnessPage.selectHeader("Advanced");
+                harnessPage.clickVisibility();
+                harnessPage.showHideComponentLabel("bundle pieceid","hide");
+                bundlePage.verifyPieceIdDisplayStatusOnBundleHarness(pieceId, false);
+                break;
+        }
+
+    }
 }
