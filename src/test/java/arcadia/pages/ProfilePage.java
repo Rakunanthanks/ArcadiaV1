@@ -36,6 +36,7 @@ public class ProfilePage extends BasePage
     @FindBy(css = "input[name='bundle_DefaultLength4_value']") private WebElement inputBundleDefaultLength4;
     @FindBy(css = "input[name='bundle_DefaultLength5_value']") private WebElement inputBundleDefaultLength5;
     @FindBy(css = "div#idselectform button[value='Save']") private WebElement buttonSaveBundleDisplaySettings;
+    @FindBy(css = "input[name='bundle_bendradius_value']") private WebElement defaultBendRadiusInput;
 
 
     String tableRows = "//table[@id='myTable']//tr";
@@ -108,6 +109,10 @@ public class ProfilePage extends BasePage
         customCommand.clearAndEnterText(inputBundleDefaultLength3,defaultLength3);
         customCommand.clearAndEnterText(inputBundleDefaultLength4,defaultLength4);
         customCommand.clearAndEnterText(inputBundleDefaultLength5,defaultLength5);
+        buttonSaveBundleDisplaySettings.click();
+    }
+    public void updateBundleBendRadius(String defaultBendRadius) throws InterruptedException {
+        customCommand.clearAndEnterText(defaultBendRadiusInput,defaultBendRadius);
         buttonSaveBundleDisplaySettings.click();
     }
 }

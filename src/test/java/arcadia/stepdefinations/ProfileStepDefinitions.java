@@ -82,4 +82,13 @@ public class ProfileStepDefinitions {
         profilePage.updateBundleDisplayOptions(defaultNTSColour,"1",defaultNTSText,"100","200","300","500","750");
         new CommonElements(context.driver).verifyAlertSuccessMessage("Properties updated successfully! Please select the tasks to update the settings");
     }
+
+    @And("harness bundle default bend radius settings are updated")
+    public void harnessBundleDefaultBendRadiusSettingsAreUpdated() throws InterruptedException {
+        String defaultBendRadius="15mm";
+        FlowContext.defaultBendRadius=defaultBendRadius;
+        profilePage.updateBundleBendRadius(defaultBendRadius);
+        new CommonElements(context.driver).verifyAlertSuccessMessage("Properties updated successfully! Please select the tasks to update the settings");
+
+    }
 }

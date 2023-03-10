@@ -27,4 +27,5 @@ public class FlowContext {
     public static String terminalImagePath = "";
     public static String bundleDefaultNtsText = "";
     public static String bundleDefaultNtsColour = "";
+    public static String defaultBendRadius="";
 }

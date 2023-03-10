@@ -511,6 +511,21 @@ public class HarnessStepDefinitions {
        new HarnessPage(context.driver).validateBendRadius(id);
     }
 
+    @And("User set the bundle radius from inspect bundle page")
+    public void userSetTheBundleRadiusFromInspectBundlePage() throws InterruptedException {
+        String id= new HarnessPage(context.driver).bendRadiusFromDrawingPage();
+        new HarnessPage(context.driver).enterBundleRadius();
+        new HarnessPage(context.driver).validateBendRadius(id);
+
+
+    }
+
+    @And("user validate the default bend radius of the bundle")
+    public void userValidateTheDefaultBendRadiusOfTheBundle() throws InterruptedException {
+        String id= new HarnessPage(context.driver).getBundleRadiusId();
+        new HarnessPage(context.driver).validateBendRadius(id);
+    }
+
 
 //    @And("user delete the created bundle from context menu")
 //    public void userDeleteTheCreatedBundleFromContextMenu() throws InterruptedException {
