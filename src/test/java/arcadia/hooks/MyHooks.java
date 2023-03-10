@@ -42,6 +42,8 @@ public class MyHooks {
         bundleFormData.clear();
         defaultBundleDisplay.removeAll(defaultBundleDisplay);
         defaultBundleDisplay.clear();
+        bundleIdentifierList.removeAll(bundleIdentifierList);
+        bundleIdentifierList.clear();
         mainWindowHandle=null;
         referencesPartNumber = "";
         testDescription = "";
@@ -51,6 +53,8 @@ public class MyHooks {
         dbName="";
         connectorID = "";
         terminalImagePath = "";
+        bundleDefaultNtsText = "";
+        bundleDefaultNtsColour = "";
     }
 
     @After
@@ -76,6 +80,8 @@ public class MyHooks {
         bundleFormData.clear();
         defaultBundleDisplay.removeAll(defaultBundleDisplay);
         defaultBundleDisplay.clear();
+        bundleIdentifierList.removeAll(bundleIdentifierList);
+        bundleIdentifierList.clear();
         mainWindowHandle=null;
         referencesPartNumber = "";
         testDescription = "";
@@ -85,6 +91,8 @@ public class MyHooks {
         dbName="";
         connectorID = "";
         terminalImagePath = "";
+        bundleDefaultNtsText = "";
+        bundleDefaultNtsColour = "";
         driver.quit();
         driver = null;
     }
