@@ -75,6 +75,8 @@ public class HarnessPage extends BasePage{
     @FindBy(xpath = "//div[@title='Inspect Object']") private WebElement inspectButton;
     @FindBy(xpath = "//p[text()='Actual Radius:']/parent::div") private WebElement getRadius;
     @FindBy(xpath = "//table[@id='tblWirePartNoList']/tbody/tr") private WebElement rows;
+    @FindBy(xpath = "//input[@name='bundle.allBendsRadius']") private WebElement radiusInput;
+    @FindBy(xpath = "//input[@name='bundle.override']") private WebElement radiusOverride;
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
     public HarnessPage(WebDriver driver) {
         super(driver);
@@ -685,6 +687,11 @@ public class HarnessPage extends BasePage{
         return id;
     }
 
+    public String getBundleRadiusId() throws InterruptedException {
+        String id=bendRadius.getAttribute("id");
+        return id;
+    }
+
     public void validateBendRadius(String id) throws InterruptedException {
         WebElement element=driver.findElement(By.xpath("//*[name()='g' and @id='"+id+"']"));
         customCommand.javaScriptClick(driver,inspectButton);
@@ -693,12 +700,18 @@ public class HarnessPage extends BasePage{
         String radius=getRadius.getText();
         if(radius.contains("15mm"))
         {
-                    ExtentCucumberAdapter.addTestStepLog(String.format("Bundle radius is set to 15"));
+                    ExtentCucumberAdapter.addTestStepLog(String.format("Bundle radius is set to 15mm"));
         }
         else{
             Assert.fail("Radius is not set for Bundle");
         }
 
+    }
+
+    public void enterBundleRadius() throws InterruptedException {
+        customCommand.clearAndEnterText(radiusInput,"15mm");
+        customCommand.javaScriptClick(driver,radiusOverride);
+        customCommand.javaScriptClick(driver,buttonSubmitDetails);
     }
 
 }
