@@ -55,6 +55,7 @@ public class MyHooks {
         terminalImagePath = "";
         bundleDefaultNtsText = "";
         bundleDefaultNtsColour = "";
+        bundleFontSize = "";
     }
 
     @After
@@ -93,6 +94,7 @@ public class MyHooks {
         terminalImagePath = "";
         bundleDefaultNtsText = "";
         bundleDefaultNtsColour = "";
+        bundleFontSize = "";
         driver.quit();
         driver = null;
     }

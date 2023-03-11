@@ -32,3 +32,11 @@ Feature: Bundle harness general validations
   @VerifyBundleHarness
   Scenario: Test verifies pieceid can be hidden from Bundle Harness
     Then user verifies "PieceId" can be hidden from bundle harness successfully
+
+  @VerifyBundleHarness
+  Scenario: Test verifies CoveringPN can be hidden from Bundle Harness
+    Then user verifies "CoveringPN" can be hidden from bundle harness successfully
+
+  @VerifyBundleHarness
+  Scenario: Test verifies CoveringPartDescription can be hidden from Bundle Harness
+    Then user verifies "CoveringPartDescription" can be hidden from bundle harness successfully
