@@ -146,4 +146,8 @@ public class LoginStepDefinitions {
     public void navigatedToBundleDefaultDisplaySettingsPage() {
         loginPage.load(EndPoint.BUNDLEDEFAULTDISPLAY.url.replace("profileName",System.getProperty("profileName")));
     }
+    @And("Navigated to Harness Bundle Default Font Settings page")
+    public void navigatedToBundleDefaultFontSettingsPage() {
+        loginPage.load(EndPoint.BUNDLEFONTDISPLAY.url.replace("profileName",System.getProperty("profileName")));
+    }
 }
