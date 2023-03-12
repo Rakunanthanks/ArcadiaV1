@@ -224,6 +224,7 @@ public class AddNewComponentPage extends BasePage {
                 Assert.assertEquals(tdTotalCopiedOtherParts.getText(), "1");
                 break;
             case "junctionpart":
+                Assert.assertTrue(driver.findElements(By.xpath("//td[text()=\"No. of Junction Part\"]/following-sibling::td")).size()!=0,"Number of copied junction parts are not displayed in copy components table");
                 Assert.assertEquals(tdTotalCopiedJunctionParts.getText(), "1");
                 break;
             case "multicore":

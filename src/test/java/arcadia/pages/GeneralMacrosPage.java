@@ -69,7 +69,7 @@ public class GeneralMacrosPage extends BasePage {
     }
 
     public void verifyAlertMacrosSuccessMessage(String message) {
-        customCommand.waitForElementVisibility(driver, alertMacrosSuccessMessage);
+        Assert.assertTrue(alertMacrosSuccessMessage.isDisplayed(), "Macros success message is not displayed");
         Assert.assertEquals( alertMacrosSuccessMessage.getText(),message);
     }
 }
