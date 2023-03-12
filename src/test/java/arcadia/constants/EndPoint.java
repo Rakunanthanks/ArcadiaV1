@@ -10,6 +10,7 @@ public enum EndPoint {
     SETTINGS("/index.lp?menu=settings"),
     COMPONENTDB("/index.lp?app=componentsv2&database=databaseName"),
     AutomationCompanyProfile("/index.lp?app=generaledit&profilecode=profileName"),
+    FontSettingsURL("/index.lp?section=Font%20Harness&appoption=3&app=generaledit&mainsection=Harness&profilecode=profileName"),
     BUNDLEDEFAULTDISPLAY("/index.lp?app=generaledit&appoption=3&section=Bundle%20Default%20Display&mainsection=Harness&profilecode=profileName"),
     BUNDLEFONTDISPLAY("/index.lp?app=generaledit&appoption=3&section=Font%20Harness&mainsection=Harness&profilecode=profileName");
     public final String url;

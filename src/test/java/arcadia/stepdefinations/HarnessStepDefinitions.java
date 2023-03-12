@@ -528,6 +528,13 @@ public class HarnessStepDefinitions {
         new HarnessPage(context.driver).validateBendRadius(id);
     }
 
+    @And("verify that font size and colors are updated")
+    public void verifyThatFontSizeAndColorsAreUpdated() throws InterruptedException {
+        String id= new HarnessPage(context.driver).getBundleNodeId();
+        new HarnessPage(context.driver).inspectNode(id);
+        new HarnessPage(context.driver).validateTextAndColorOfBundle();
+    }
+
 
 //    @And("user delete the created bundle from context menu")
 //    public void userDeleteTheCreatedBundleFromContextMenu() throws InterruptedException {
