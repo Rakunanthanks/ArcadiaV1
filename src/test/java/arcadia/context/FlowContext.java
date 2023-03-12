@@ -28,4 +28,5 @@ public class FlowContext {
     public static String bundleDefaultNtsText = "";
     public static String bundleDefaultNtsColour = "";
     public static String defaultBendRadius="";
+    public static String bundleFontSize ="";
 }

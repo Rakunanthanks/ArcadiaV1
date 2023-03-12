@@ -81,6 +81,9 @@ public class HarnessPage extends BasePage{
     @FindBy(xpath = "//input[@name='bundle.override']") private WebElement radiusOverride;
     @FindBy(xpath = "//div[@id='rightBarContents']//input[@type='color']") private List<WebElement> color;
     @FindBy(xpath = "//div[@id='rightBarContents']//input[@class='posnumeric']") private List<WebElement> textSize;
+
+    @FindBy(css = "div#iupdatefonts>span") private WebElement buttonFonts;
+    @FindBy(css = "input[name='Nodechildelesize']") private WebElement inputNodeChildSize;
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
     public HarnessPage(WebDriver driver) {
         super(driver);
@@ -330,6 +333,22 @@ public class HarnessPage extends BasePage{
                 }
                 else {
                     driver.findElement(By.cssSelector("input.bundlehide[name='bundle_PieceID']")).click();
+                }
+                break;
+            case "bundle covering pn":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input.bundleshow[name='bundle_Coverings']")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input.bundlehide[name='bundle_Coverings']")).click();
+                }
+                break;
+            case "bundle covering partdescription":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input.bundleshow[name='bundle_CoveringsPartDescription']")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input.bundlehide[name='bundle_CoveringsPartDescription']")).click();
                 }
                 break;
         }
@@ -745,7 +764,18 @@ public class HarnessPage extends BasePage{
         customCommand.javaScriptClick(driver,radiusOverride);
         customCommand.javaScriptClick(driver,buttonSubmitDetails);
     }
+    public void verifyUpdateFontsWindowOpened() {
+        customCommand.waitForElementVisibility(driver,inputNodeChildSize);
+        Assert.assertTrue(driver.findElement(By.xpath("//form[@id=\"DynamicForm\"]//h1[text()=\"Update Fonts\"]")).isDisplayed(),"Update fonts form is not displayed");
 
+    }
+
+    public void openFonts() {
+        customCommand.waitForElementVisibility(driver,buttonFonts);
+        customCommand.waitForElementToBeClickable(driver,buttonFonts);
+        buttonFonts.click();
+        verifyUpdateFontsWindowOpened();
+    }
     public void inspectNode(String id) throws InterruptedException {
         WebElement element=driver.findElement(By.xpath("//*[name()='g' and @id='"+id+"']"));
         customCommand.javaScriptClick(driver,inspectButton);

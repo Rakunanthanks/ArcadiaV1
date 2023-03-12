@@ -40,12 +40,18 @@ public class BundlePage extends BasePage {
     @FindBy(css = "input[name='coverings.partnumber']") private WebElement inputCoveringPartNumber;
     @FindBy(css = "input[name='coverings.sAddon']") private WebElement inputCoveringSAddOn;
     @FindBy(css = "input[name='coverings.pieceid']") private WebElement inputCoveringPieceId;
+    @FindBy(css = "input[name='coverings.partdescription']") private WebElement inputCoveringDescription;
     @FindBy(css = "input#addonlength") private WebElement inputAddOnLength;
     @FindBy(xpath = "//input[@id=\"addonlength\"]/..//following-sibling::div//span[text()=\"OK\"]") private WebElement buttonSubmitAddOnLength;
 
     @FindBy(css = "form#DynamicForm button[title=\"Cancel\"]") private WebElement buttonCancelBundleDetailsForm;
     @FindBy(css = "form#DynamicForm button[title=\"Submit\"]") private WebElement buttonSubmitBundleDetailsForm;
     @FindBy(css = "input[name='bundle.length']") private WebElement inputBundleLength;
+    @FindBy(css = "input[name='Bundlenamesize']") private WebElement inputBundleNameFontSize;
+    @FindBy(css = "input[name='Bundlelengthsize']") private WebElement inputBundleLengthFontSize;
+    @FindBy(css = "input[name='Bundlesubdimensionsize']") private WebElement inputBundleSubdimensionFontSize;
+    @FindBy(css = "input[name='Bundlecoveringssize']") private WebElement inputBundleCoveringsFontSize;
+    @FindBy(css = "input[name='Bundlebreaksize']") private WebElement inputBundleBreakFontSize;
     String tableSearchCoveringRows = "table#tblSleeveTubePartNoList>tbody>tr";
 
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
@@ -273,6 +279,7 @@ public class BundlePage extends BasePage {
     }
 
     public void verifySearchCoveringWindowOpened() {
+        customCommand.waitForElementVisibility(driver,windowSearchCovering);
         Assert.assertTrue(windowSearchCovering.isDisplayed(),"Window to search covering is not displayed");
     }
 
@@ -426,5 +433,38 @@ public class BundlePage extends BasePage {
             Assert.assertTrue(listOfElements.size()==0,"PieceId is displayed on the bundle harness");
 
         }
+    }
+
+    public void verifyCoveringPartNumberNotDisplayedOnBundle(String coveringPartNumber) throws InterruptedException {
+        Thread.sleep(3000);
+        Assert.assertTrue(driver.findElements(By.cssSelector("a[data-partnumber='"+coveringPartNumber+"']")).size()==0,"PartNumber for the covering is still displayed on bundle");
+    }
+
+    public void setCoveringDescription(String coveringDescription) {
+        customCommand.clearAndEnterText(inputCoveringDescription,coveringDescription);
+    }
+
+    public void verifyCoveringDescriptionDisplayStatusOnBundleHarness(String coveringDescription, boolean isDisplayed) {
+        List<WebElement> listOfElements = driver.findElements(By.xpath("//*[name()='g' and @id='layer_85']//*[name()='g']//*[name()='text' and contains(text(),'"+coveringDescription+"')]"));
+        if(isDisplayed){
+            Assert.assertTrue(listOfElements.size()==1,"CoveringPartDescription is not displayed on the bundle harness");
+        }
+        else {
+            Assert.assertTrue(listOfElements.size()==0,"CoveringPartDescription is still displayed on the bundle harness");
+
+        }
+    }
+
+    public void verifyBundleFontSize(String expectedFont) throws InterruptedException {
+        customCommand.scrollIntoView(driver,inputBundleNameFontSize);
+        Assert.assertEquals(inputBundleNameFontSize.getAttribute("value"),expectedFont,"Size displayed for bundle name is not as expected");
+//        customCommand.scrollIntoView(driver,inputBundleLengthFontSize);
+        Assert.assertEquals(inputBundleLengthFontSize.getAttribute("value"),expectedFont,"Size displayed for bundle name is not as expected");
+//        customCommand.scrollIntoView(driver,inputBundleSubdimensionFontSize);
+        Assert.assertEquals(inputBundleSubdimensionFontSize.getAttribute("value"),expectedFont,"Size displayed for bundle name is not as expected");
+//        customCommand.scrollIntoView(driver,inputBundleCoveringsFontSize);
+        Assert.assertEquals(inputBundleCoveringsFontSize.getAttribute("value"),expectedFont,"Size displayed for bundle name is not as expected");
+//        customCommand.scrollIntoView(driver,inputBundleBreakFontSize);
+        Assert.assertEquals(inputBundleBreakFontSize.getAttribute("value"),expectedFont,"Size displayed for bundle name is not as expected");
     }
 }

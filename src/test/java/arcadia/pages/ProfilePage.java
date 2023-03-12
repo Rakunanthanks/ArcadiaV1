@@ -40,6 +40,12 @@ public class ProfilePage extends BasePage
     @FindBy(xpath = "*//div[@id='bundlesettings']//tr//td[3]//input") private List<WebElement> fontSizes;
     @FindBy(xpath = "*//div[@id='bundlesettings']//tr//td[4]//input") private List<WebElement> fontColors;
 
+    @FindBy(css = "input[name='Bundle Name'][type='number']") private WebElement inputBundleNameFont;
+    @FindBy(css = "input[name='Length/Wire Bundle Diameter'][type='number']") private WebElement inputBundleLengthFont;
+    @FindBy(css = "input[name='Sub Dimension Length'][type='number']") private WebElement inputBundleSubDimensionLengthFont;
+    @FindBy(css = "input[name='Coverings/Piece ID'][type='number']") private WebElement inputBundleCoveringsPieceIdFont;
+    @FindBy(css = "input[name='Bundle Break'][type='number']") private WebElement inputBundleBreakFont;
+
 
     String tableRows = "//table[@id='myTable']//tr";
 
@@ -126,6 +132,15 @@ public class ProfilePage extends BasePage
         {
             customCommand.javaScriptClickAndEnterValue(driver,ele,fontColor);
         }
+        buttonSaveBundleDisplaySettings.click();
+    }
+
+    public void updateBundleFontSize(String bundleFontSize) {
+        customCommand.clearAndEnterText(inputBundleNameFont,bundleFontSize);
+        customCommand.clearAndEnterText(inputBundleLengthFont,bundleFontSize);
+        customCommand.clearAndEnterText(inputBundleSubDimensionLengthFont,bundleFontSize);
+        customCommand.clearAndEnterText(inputBundleCoveringsPieceIdFont,bundleFontSize);
+        customCommand.clearAndEnterText(inputBundleBreakFont,bundleFontSize);
         buttonSaveBundleDisplaySettings.click();
     }
 }

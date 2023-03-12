@@ -92,6 +92,14 @@ public class ProfileStepDefinitions {
 
     }
 
+    @And("harness bundle font settings are updated")
+    public void harnessBundleFontSettingsAreUpdated() {
+        String bundleFontSize = "2";
+        FlowContext.bundleFontSize = bundleFontSize;
+        profilePage.updateBundleFontSize(bundleFontSize);
+        new CommonElements(context.driver).verifyAlertSuccessMessage("Properties updated successfully! Please select the tasks to update the settings");
+    }
+
     @And("user update the font settings for bundle harness")
     public void userUpdateTheFontSettingsForBundleHarness() throws InterruptedException {
         profilePage.updateBundleFont("10","#31edbe");

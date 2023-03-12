@@ -38,3 +38,14 @@ Feature: Bundle harness Context Menu
     And user validate the default bend radius of the bundle
     Then User verifies the bundle details window is opened successfully
 
+  @VerifyBundleHarness
+  Scenario: Test verifies bundle fonts updates in profile are reflected on bundle harness
+    Given I'm on Arcadia test environment
+    And Navigated to Harness Bundle Default Font Settings page
+    And harness bundle font settings are updated
+    And test data config loaded for test identifier test12
+    And Navigated to quickstart project
+    And harness with name 'BundleValidator' is launched successfully
+    And based on drawing orchestrator components are created
+    Then Verify font size displayed in bundle harness matches profile
+

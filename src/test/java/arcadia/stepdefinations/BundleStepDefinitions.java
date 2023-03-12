@@ -489,7 +489,8 @@ public class BundleStepDefinitions {
     @Then("user verifies {string} can be hidden from bundle harness successfully")
     public void userVerifiesBundlePropertyCanBeHiddenFromBundleHarnessSuccessfully(String bundleProperty) throws InterruptedException, AWTException {
         List<NodeIdentifier> nodeIdentifierList = new ArrayList<>();
-        String nodeId;
+        List<BundleIdentifier> bundleIdentifierList = new ArrayList<>();
+        String nodeId, bundleId,pieceId,coveringPartNumber,coveringDescription;
         switch (bundleProperty.toLowerCase()){
             case "bundlename":
                 bundlePage.getBundlePage("","");
@@ -518,20 +519,63 @@ public class BundleStepDefinitions {
                 nodeIdentifierList  = bundlePage.getNodeElementFromDrawingPage();
                 nodeId = nodeIdentifierList.get(0).getNodeElementId();
                 new HarnessPage(context.driver).getBundleContextMenu(nodeId);
-                List<BundleIdentifier> bundleIdentifierList = new ConnectorPage(context.driver).getBundleElementIdsFromDrawingPage();
-                String bundleId = bundleIdentifierList.get(0).getBundleId();
+                bundleIdentifierList = new ConnectorPage(context.driver).getBundleElementIdsFromDrawingPage();
+                bundleId = bundleIdentifierList.get(0).getBundleId();
                 new HarnessPage(context.driver).performOperation("Add covering",bundleId);
                 bundlePage.verifySearchCoveringWindowOpened();
-                String pieceId = "1234321";
+                pieceId = "1234321";
                 bundlePage.enterPieceId(pieceId);
-                String coveringPartNumber = bundlePage.addCoveringAndGetPartNumber();
+                coveringPartNumber = bundlePage.addCoveringAndGetPartNumber();
                 bundlePage.verifyPieceIdDisplayStatusOnBundleHarness(pieceId, true);
                 harnessPage.selectHeader("Advanced");
                 harnessPage.clickVisibility();
                 harnessPage.showHideComponentLabel("bundle pieceid","hide");
                 bundlePage.verifyPieceIdDisplayStatusOnBundleHarness(pieceId, false);
                 break;
+            case "coveringpn":
+                nodeIdentifierList  = bundlePage.getNodeElementFromDrawingPage();
+                nodeId = nodeIdentifierList.get(0).getNodeElementId();
+                new HarnessPage(context.driver).getBundleContextMenu(nodeId);
+                bundleIdentifierList = new ConnectorPage(context.driver).getBundleElementIdsFromDrawingPage();
+                bundleId = bundleIdentifierList.get(0).getBundleId();
+                new HarnessPage(context.driver).performOperation("Add covering",bundleId);
+                bundlePage.verifySearchCoveringWindowOpened();
+                coveringPartNumber = bundlePage.addCoveringAndGetPartNumber();
+                bundlePage.verifyCoveringPartNumberDisplayedOnBundle(coveringPartNumber);
+                harnessPage.selectHeader("Advanced");
+                harnessPage.clickVisibility();
+                harnessPage.showHideComponentLabel("bundle covering pn","hide");
+                bundlePage.verifyCoveringPartNumberNotDisplayedOnBundle(coveringPartNumber);
+                break;
+            case "coveringpartdescription":
+                nodeIdentifierList  = bundlePage.getNodeElementFromDrawingPage();
+                nodeId = nodeIdentifierList.get(0).getNodeElementId();
+                new HarnessPage(context.driver).getBundleContextMenu(nodeId);
+                bundleIdentifierList = new ConnectorPage(context.driver).getBundleElementIdsFromDrawingPage();
+                bundleId = bundleIdentifierList.get(0).getBundleId();
+                new HarnessPage(context.driver).performOperation("Add covering",bundleId);
+                bundlePage.verifySearchCoveringWindowOpened();
+                coveringPartNumber = bundlePage.addCoveringAndGetPartNumber();
+                coveringDescription = "TestCoveringDescription1234";
+                bundlePage.getBundlePage("","");
+                bundlePage.verifyBundleDetailsWindowOpened();
+                bundlePage.setCoveringDescription(coveringDescription);
+                bundlePage.submitBundleDetails();
+                bundlePage.verifyCoveringDescriptionDisplayStatusOnBundleHarness(coveringDescription, true);
+                harnessPage.selectHeader("Advanced");
+                harnessPage.clickVisibility();
+                harnessPage.showHideComponentLabel("bundle covering partdescription","hide");
+                bundlePage.verifyCoveringDescriptionDisplayStatusOnBundleHarness(coveringDescription, false);
+                break;
         }
+
+    }
+
+    @Then("Verify font size displayed in bundle harness matches profile")
+    public void verifyFontSizeDisplayedInBundleHarnessMatchesProfile() throws InterruptedException {
+        harnessPage.openFonts();
+        String expectedFontFromProfile = FlowContext.bundleFontSize;
+        bundlePage.verifyBundleFontSize(expectedFontFromProfile);
 
     }
 }
