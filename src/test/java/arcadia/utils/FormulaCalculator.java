@@ -4,7 +4,7 @@ import java.util.List;
 
 public class FormulaCalculator {
 
-    public Double getBundleDiameter(List<Double> wireDiameter){
+    public Double getBundleDiameter(List<String> wireDiameter){
         int numberOfWires = wireDiameter.size();
         Double bundleDiameter = 0.0;
         if(numberOfWires > 2){
@@ -20,7 +20,7 @@ public class FormulaCalculator {
             }
             Double squareRoot = Math.sqrt(numberOfWires);
             Double averageDiameter = wireDiameter.stream()
-                    .mapToDouble(d -> d)
+                    .mapToDouble(d -> Double.parseDouble(d))
                     .average()
                     .orElse(0.0);
             // Wire bundle diameter = packing factor * SQRT (wire count) * avg wire diameter)
@@ -30,7 +30,7 @@ public class FormulaCalculator {
 
         if(numberOfWires > 1 && numberOfWires<3){
             bundleDiameter = Double.valueOf(wireDiameter.stream()
-                    .mapToDouble(d -> d)
+                    .mapToDouble(d -> Double.parseDouble(d))
                     .sum());
         }
         if(numberOfWires > 0 && numberOfWires<2){

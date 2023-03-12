@@ -93,7 +93,7 @@ Feature: Bundle harness general validations
     And 'bundle' list is initialized
     Then user verifies "CoveringPartDescription" can be hidden from bundle harness successfully
 
-  Scenario: Test verifies font can be hidden from Bundle Harness
+  Scenario: Test verifies font size and color can be updated for Bundle Harness
     Given I'm on Arcadia test environment
     And Navigated to Harness Font setting page
     And user update the font settings for bundle harness
