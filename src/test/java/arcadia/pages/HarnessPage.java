@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
+import org.python.antlr.ast.Str;
 import org.testng.Assert;
 
 import java.awt.*;
@@ -71,12 +72,15 @@ public class HarnessPage extends BasePage{
 
     @FindBy(css = "#cEditor table.htCore") private WebElement tableConnectorEditor;
     @FindBy(xpath="//*[name()='g' and @id='layer_drawNodes']/*[name()='g'][6]") private WebElement bendRadius;
+    @FindBy(xpath="//*[name()='g' and @id='layer_drawNodes']/*[name()='g'][7]") private WebElement bundleNode;
 
     @FindBy(xpath = "//div[@title='Inspect Object']") private WebElement inspectButton;
     @FindBy(xpath = "//p[text()='Actual Radius:']/parent::div") private WebElement getRadius;
     @FindBy(xpath = "//table[@id='tblWirePartNoList']/tbody/tr") private WebElement rows;
     @FindBy(xpath = "//input[@name='bundle.allBendsRadius']") private WebElement radiusInput;
     @FindBy(xpath = "//input[@name='bundle.override']") private WebElement radiusOverride;
+    @FindBy(xpath = "//div[@id='rightBarContents']//input[@type='color']") private List<WebElement> color;
+    @FindBy(xpath = "//div[@id='rightBarContents']//input[@class='posnumeric']") private List<WebElement> textSize;
 
     @FindBy(css = "div#iupdatefonts>span") private WebElement buttonFonts;
     @FindBy(css = "input[name='Nodechildelesize']") private WebElement inputNodeChildSize;
@@ -734,6 +738,10 @@ public class HarnessPage extends BasePage{
         String id=bendRadius.getAttribute("id");
         return id;
     }
+    public String getBundleNodeId() throws InterruptedException {
+        String id=bundleNode.getAttribute("id");
+        return id;
+    }
 
     public void validateBendRadius(String id) throws InterruptedException {
         WebElement element=driver.findElement(By.xpath("//*[name()='g' and @id='"+id+"']"));
@@ -768,4 +776,47 @@ public class HarnessPage extends BasePage{
         buttonFonts.click();
         verifyUpdateFontsWindowOpened();
     }
+    public void inspectNode(String id) throws InterruptedException {
+        WebElement element=driver.findElement(By.xpath("//*[name()='g' and @id='"+id+"']"));
+        customCommand.javaScriptClick(driver,inspectButton);
+        customCommand.moveToElementAndClick(driver,element);
+        Thread.sleep(3000);
+    }
+
+    public void validateTextAndColorOfBundle()
+    {
+        boolean colorFlag=true;
+        boolean textFlag=true;
+        for(WebElement ele:color)
+        {
+            String color=ele.getAttribute("value");
+            if(!color.equalsIgnoreCase("#31edbe"))
+            {
+                colorFlag=false;
+            }
+        }
+        for(WebElement ele:textSize)
+        {
+            String text=ele.getAttribute("value");
+            if(!text.equalsIgnoreCase("10"))
+            {
+                textFlag=false;
+            }
+        }
+        if(!colorFlag)
+        {
+            Assert.fail();
+        }
+        else{
+            ExtentCucumberAdapter.addTestStepLog(String.format("Bundle Font Color is updated"));
+        }
+        if(!textFlag)
+        {
+            Assert.fail();
+        }
+        else{
+            ExtentCucumberAdapter.addTestStepLog(String.format("Bundle Font Size is updated"));
+        }
+    }
+
 }

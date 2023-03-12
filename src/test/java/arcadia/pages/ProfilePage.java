@@ -37,6 +37,8 @@ public class ProfilePage extends BasePage
     @FindBy(css = "input[name='bundle_DefaultLength5_value']") private WebElement inputBundleDefaultLength5;
     @FindBy(css = "div#idselectform button[value='Save']") private WebElement buttonSaveBundleDisplaySettings;
     @FindBy(css = "input[name='bundle_bendradius_value']") private WebElement defaultBendRadiusInput;
+    @FindBy(xpath = "*//div[@id='bundlesettings']//tr//td[3]//input") private List<WebElement> fontSizes;
+    @FindBy(xpath = "*//div[@id='bundlesettings']//tr//td[4]//input") private List<WebElement> fontColors;
 
     @FindBy(css = "input[name='Bundle Name'][type='number']") private WebElement inputBundleNameFont;
     @FindBy(css = "input[name='Length/Wire Bundle Diameter'][type='number']") private WebElement inputBundleLengthFont;
@@ -119,6 +121,17 @@ public class ProfilePage extends BasePage
     }
     public void updateBundleBendRadius(String defaultBendRadius) throws InterruptedException {
         customCommand.clearAndEnterText(defaultBendRadiusInput,defaultBendRadius);
+        buttonSaveBundleDisplaySettings.click();
+    }
+    public void updateBundleFont(String fontSize, String fontColor) throws InterruptedException {
+        for(WebElement ele:fontSizes)
+        {
+            customCommand.clearAndEnterText(ele,fontSize);
+        }
+        for(WebElement ele:fontColors)
+        {
+            customCommand.javaScriptClickAndEnterValue(driver,ele,fontColor);
+        }
         buttonSaveBundleDisplaySettings.click();
     }
 
