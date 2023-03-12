@@ -71,7 +71,7 @@ Feature: Filter junction part components
     Given I'm on Arcadia test environment
     And Navigated to selected componentDB
     And User selected 'junctionpart' from componentDB
-    Then verify user can filter junctionpart based on property 'ControlType'
+    Then verify user can filter junctionpart based on property 'Type'
 
   @JunctionPartComponentDB
   @FilterJunctionPart

@@ -798,7 +798,9 @@ public class ComponentDBStepDefinitions {
         List<JunctionPartComponentDB> dbData =new JunctionPartsComponentDBPage(context.driver).getJunctionPartsAPIData(response);
         JunctionPartComponentDB randomJunctionPartData = new JunctionPartsComponentDBPage(context.driver).getRandomJunctionPartComponent(dbData);
         List<JunctionPartComponentDB> filteredDbData = new ArrayList<>();
-        new CommonElements(context.driver).checkIfPropertyIsChecked(propertyName);
+        if (!propertyName.equalsIgnoreCase("partnumber")){
+            new CommonElements(context.driver).checkIfPropertyIsChecked(propertyName);
+        }
         switch (propertyName.toLowerCase()) {
             case "partnumber":
                 ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomJunctionPartData.getPartnumber()));
@@ -840,7 +842,7 @@ public class ComponentDBStepDefinitions {
                 filteredDbData = dbData.stream().filter(x -> x.getColour().equals(randomJunctionPartData.getColour())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnColour(randomJunctionPartData.getColour());
                 break;
-            case "controltype":
+            case "type":
                 ExtentCucumberAdapter.addTestStepLog(String.format("Search keyword %s", randomJunctionPartData.getType()));
                 filteredDbData = dbData.stream().filter(x -> x.getType().equals(randomJunctionPartData.getType())).collect(Collectors.toList());
                 new CommonElements(context.driver).filterComponentBasedOnControlType(randomJunctionPartData.getType());
@@ -1609,8 +1611,7 @@ public class ComponentDBStepDefinitions {
         String labelValue="";
         switch (valueType.toLowerCase()) {
             case "customvalues":
-                labelValue = "@@ConnectorID#\n" +
-                        "@@Functional Description#";
+                labelValue = "@@ConnectorID#\n@@Functional Description#";
                 break;
             case "initialvalues":
                 File file = new File("src/test/resources/macros/CustomLabel/CustomLabelData.json");

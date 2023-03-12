@@ -292,12 +292,14 @@ public class HarnessStepDefinitions {
         String identifier=FlowContext.connectorPlugIdentifierList.get(0).getConnectorId();
         WebElement ele=context.driver.findElement(By.xpath("//*[name()='g' and @id='"+identifier+"']/*[name()='rect']"));
         if (harnessPage.WireFanVisible(identifier)){
+            ele=context.driver.findElement(By.xpath("//*[name()='g' and @id='"+identifier+"']/*[name()='rect']"));
             new HarnessPage(context.driver).getContextMenu(identifier,ele);
             new HarnessPage(context.driver).performOperation("Hide Wire Fan",identifier);
             Thread.sleep(6000);
             Assert.assertFalse(harnessPage.WireFanVisible(identifier),"WireFan is visible even after trying to hide");
         }
         else {
+            ele=context.driver.findElement(By.xpath("//*[name()='g' and @id='"+identifier+"']/*[name()='rect']"));
             new HarnessPage(context.driver).getContextMenu(identifier,ele);
             new HarnessPage(context.driver).performOperation("Show Wire Fan",identifier);
             Thread.sleep(6000);
