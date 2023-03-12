@@ -160,7 +160,7 @@ public class ConnectorPage extends BasePage {
             List<WebElement> outerDia = driver.findElements(By.cssSelector("#wiretable >tbody >tr >td >input[name=\"wiretable.outerdia\"]"));
             customCommand.scrollIntoView(driver,outerDia.get(Integer.parseInt(connectorItem.getCavityFrom())-1));
             String wireOuterDia = outerDia.get(Integer.parseInt(connectorItem.getCavityFrom())-1).getAttribute("value");
-            wireProperties.setWireOuterDiameter(Double.valueOf(wireOuterDia));
+            wireProperties.setWireOuterDiameter(String.valueOf(wireOuterDia));
             wPropertyList.add(wireProperties);
         }
         wireItem.setWirePropertiesList(wPropertyList);
