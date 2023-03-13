@@ -1,11 +1,11 @@
 package arcadia.domainobjects;
 
 public class WireProperties {
-    public Double getWireOuterDiameter() {
+    public String getWireOuterDiameter() {
         return wireOuterDiameter;
     }
 
-    public void setWireOuterDiameter(Double wireOuterDiameter) {
+    public void setWireOuterDiameter(String wireOuterDiameter) {
         this.wireOuterDiameter = wireOuterDiameter;
     }
 
@@ -17,6 +17,6 @@ public class WireProperties {
         this.wireColour = wireColour;
     }
 
-    private Double wireOuterDiameter;
+    private String wireOuterDiameter;
     private String wireColour;
 }
