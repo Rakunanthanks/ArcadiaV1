@@ -57,6 +57,26 @@ public class IntegrationTestElementsPage extends BasePage{
 
     //To select a pin and dragdrop
     @FindBy(xpath = "//*[name()='g' and @id='layer_nodes']//*[name()='g' and @class='housing']") private List<WebElement> listOfInlinePins;
+    //After 06:20 in video
+    @FindBy(xpath = "//*[name()='g' and @id='layer_components']//*[name()='g' and @puid='splice']") private List<WebElement> listOfSplice;
+    @FindBy(xpath = "//input[@class='refCodeSpec']") private WebElement editSpliceName;
+    @FindBy(xpath = "//button[contains(@title,'Update component data, close dialog')]") private WebElement okButtonEditSplice;
+    @FindBy(xpath = "//span[@class='ribbon-title' and text()='Advanced']") private WebElement advancedTab;
+    @FindBy(xpath = "//span[@class='button-title' and text()='Wire Editor']") private WebElement wireEditor;
+    @FindBy(xpath = "count((//span[text() = 'Material'])[1]/../../preceding-sibling::th)") private WebElement materialColumnIndex;
+    @FindBy(xpath = "//tbody/tr/td[15]") private List<WebElement> materialColumnList;
+    @FindBy(xpath = "count((//span[text() = 'Gauge'])[1]/../../preceding-sibling::th)") private WebElement gaugeColumnIndex;
+    @FindBy(xpath = "//tbody/tr/td[15]") private List<WebElement> gaugeColumnList;
+    @FindBy(xpath = "count((//span[text() = 'Primary Color'])[1]/../../preceding-sibling::th)") private WebElement primaryColorColumnIndex;
+    @FindBy(xpath = "//tbody/tr/td[15]") private List<WebElement> primaryColorColumnList;
+    @FindBy(xpath = "//button[text() = 'Save']") private WebElement saveButton;
+    @FindBy(xpath = "//a[contains(text(),'Go to Drawing')]") private WebElement goToDrawing;
+    @FindBy(xpath = "//div[@Title = 'Wire Label Inline']") private WebElement wireLabelInline;
+    @FindBy(xpath = "//div[@Title = 'Remove All Wire Labels']") private WebElement removeAllWireLabels;
+    @FindBy(xpath = "//div[@Title = 'Line Label']") private WebElement wireLabel;
+
+
+
 
 
     public IntegrationTestElementsPage(WebDriver driver) {
