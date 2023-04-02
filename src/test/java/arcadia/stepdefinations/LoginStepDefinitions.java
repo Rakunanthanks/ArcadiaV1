@@ -5,6 +5,7 @@ import arcadia.context.FlowContext;
 import arcadia.context.TestContext;
 import arcadia.mapperObjects.DrawingInstructor;
 import arcadia.pages.*;
+import arcadia.pages.ComponentDB.CommonElements;
 import arcadia.pages.ComponentDB.HeaderPanel;
 import arcadia.utils.DrawingHelper;
 import io.cucumber.java.en.And;
@@ -155,5 +156,17 @@ public class LoginStepDefinitions {
     public void navigatedToHarnessFontSettingPage() {
         loginPage.load(EndPoint.FontSettingsURL.url.replace("profileName",System.getProperty("profileName")));
 
+    }
+
+    @And("User navigated to projects")
+    public void userNavigatedToProjects() {
+        new CommonElements(context.driver).navigateHome();
+        new CommonElements(context.driver).openProjects();
+        new ProjectLanding(context.driver).verifyProjectsPageOpened();
+    }
+
+    @And("Navigated to {string} project")
+    public void navigatedToDemo_IntegrationProject(String newProject) {
+        loginPage.load(EndPoint.NEWPROJECT.url.replace("projectName",newProject));
     }
 }

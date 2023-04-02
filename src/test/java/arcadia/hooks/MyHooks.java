@@ -56,6 +56,7 @@ public class MyHooks {
         bundleDefaultNtsText = "";
         bundleDefaultNtsColour = "";
         bundleFontSize = "";
+        schematicDescription = "";
     }
 
     @After
@@ -95,6 +96,7 @@ public class MyHooks {
         bundleDefaultNtsText = "";
         bundleDefaultNtsColour = "";
         bundleFontSize = "";
+        schematicDescription = "";
         driver.quit();
         driver = null;
     }
