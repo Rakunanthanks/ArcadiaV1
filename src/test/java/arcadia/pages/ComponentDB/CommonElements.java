@@ -182,6 +182,9 @@ public class CommonElements extends BasePage {
     @FindBy(xpath="//div[@title='Columns']//span[@class='caret']")
             private WebElement checkColumns;
 
+    @FindBy(xpath = "//span[text()='Projects']")
+    private WebElement projects;
+
     String tableComponentRows = "table[data-page-list=\"[25, 50, 75, 100, All\"]>tbody>tr";
 
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
@@ -665,6 +668,15 @@ public class CommonElements extends BasePage {
             customCommand.javaScriptClick(driver,confirmDeleteButton);
             Thread.sleep(5000);
 
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void openProjects()
+    {
+        try {
+            customCommand.javaScriptClick(driver,projects);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

@@ -7,26 +7,6 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 
 public class IntegrationTestElementsPage extends BasePage{
-    //Add project
-    @FindBy(css = "button#addProject") private WebElement buttonAddProject;
-    @FindBy(css = "input[name=\"projectName\"]") private WebElement inputProjectName;
-    @FindBy(css = "input[name=\"data.description\"]") private WebElement inputProjectDescription;
-    @FindBy(css = "input[name=\"data.tags\"]") private WebElement inputProjectTags;
-    @FindBy(css = "select[name=\"data.editableStatus\"]") private WebElement selectProjectEditableStatus;
-    @FindBy(css = "select[name=\"data.profile\"]") private WebElement selectProjectProfile;
-    @FindBy(css = "div[aria-labelledby=\"addProject\"] button#formSubmit") private WebElement buttonSubmitAddProject;
-
-    //Create schematic
-    @FindBy(css = "table#project a.addSchematic") private WebElement linkAddSchematic;
-
-    @FindBy(css = "input[name=\"Worktask\"]") private WebElement schematicWorkTask;
-    @FindBy(css = "input[name=\"Title\"]") private WebElement schematicTitle;
-    @FindBy(css = "input[name=\"Description\"]") private WebElement schematicDescription;
-    @FindBy(css = "input[name=\"Part Number\"]") private WebElement schematicPartNumber;
-    @FindBy(css = "input[name=\"Revision\"]") private WebElement schematicRevision;
-    @FindBy(css = "select[name=\"Library\"]") private WebElement schematicComponentDB;
-    @FindBy(css = "select[name=\"Profile\"]") private WebElement schematicProfile;
-    @FindBy(css = "button#formSubmit") private WebElement schematicSubmitButton;
 
     //Drawingpage
 
@@ -56,8 +36,13 @@ public class IntegrationTestElementsPage extends BasePage{
     @FindBy(css = "li#dropdown_pins>span") private WebElement buttonFooterPins;
 
     //To select a pin and dragdrop
-    @FindBy(xpath = "//*[name()='g' and @id='layer_nodes']//*[name()='g' and @class='housing']") private List<WebElement> listOfInlinePins;
-    //After 06:20 in video
+    @FindBy(xpath = "//*[name()='g' and @id='layer_nodes']//*[name()='g' and @class='housing']") private List<WebElement> listOfInlineNodes;
+
+    @FindBy(xpath = "//*[name()='g' and @id='layer_pins']//*[name()='g' and @objtype='pin']//*[name()='circle']") private List<WebElement> listOfPinsCircles;
+    @FindBy(xpath = "//div[@id=\"EIC\"]//a[text()=\"Connector\"]") private WebElement tabConnectorEditConnector;
+    @FindBy(xpath = "//div[@id=\"EIC\"]//a[text()=\"Inline Pin\"]") private WebElement tabInlinePinEditConnector;
+    @FindBy(css = "input[name=\"connDescFemale\"]") private WebElement inputEditConnectorDescFemaleHalf;
+    @FindBy(xpath = "//input[@id='EICshowDesc']//following-sibling::span[@class='switch-handle'] ") private WebElement switchShowDescription;
     @FindBy(xpath = "//*[name()='g' and @id='layer_components']//*[name()='g' and @puid='splice']") private List<WebElement> listOfSplice;
     @FindBy(xpath = "//input[@class='refCodeSpec']") private WebElement editSpliceName;
     @FindBy(xpath = "//button[contains(@title,'Update component data, close dialog')]") private WebElement okButtonEditSplice;
@@ -74,6 +59,12 @@ public class IntegrationTestElementsPage extends BasePage{
     @FindBy(xpath = "//div[@Title = 'Wire Label Inline']") private WebElement wireLabelInline;
     @FindBy(xpath = "//div[@Title = 'Remove All Wire Labels']") private WebElement removeAllWireLabels;
     @FindBy(xpath = "//div[@Title = 'Line Label']") private WebElement wireLabel;
+
+    @FindBy(xpath = "//span[text()=\"Confirm Action\"]") private WebElement headingConfirmActionRemoveWireLabel;
+    @FindBy(xpath = "//div[@class=\"ui-dialog-buttonset\"]//span[text()=\"Submit\"]") private WebElement buttonSubmitRemoveWireLabel;
+    @FindBy(xpath = "//div[@title=\"no Line Label\"]//span") private WebElement wireWOLabel;
+    @FindBy(css = "select#wireType") private WebElement selectWireTypeShowWireWithoutLabel;
+    @FindBy(css = "div#btnFotter button[title=\"Submit\"]") private WebElement buttonSubmitShowWireWithoutLabel;
 
 
 
