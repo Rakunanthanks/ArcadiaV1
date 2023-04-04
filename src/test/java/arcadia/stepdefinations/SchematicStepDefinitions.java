@@ -44,10 +44,10 @@ public class SchematicStepDefinitions {
     @And("add inline connectors to schematic")
     public void addInlineConnectorsToSchematic() throws InterruptedException, AWTException {
        IntegrationTestElementsPage integrationTestElementsPage=new IntegrationTestElementsPage(context.driver);
-        integrationTestElementsPage.addInlineConnector(200,200);
-//        integrationTestElementsPage.addInlineConnector(0,50);
-//        integrationTestElementsPage.addInlineConnector(-50,-25);
-
+        integrationTestElementsPage.addInlineConnector(0,0, "C1");
+        integrationTestElementsPage.addInlineConnector(0,100,"C2");
+        integrationTestElementsPage.addInlineConnector(200,0,"C3");
+        integrationTestElementsPage.addInlineConnector(200,100,"C4");
         Thread.sleep(2000);
 
     }
