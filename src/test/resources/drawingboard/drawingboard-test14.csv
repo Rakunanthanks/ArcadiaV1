@@ -1,0 +1,3 @@
+﻿Draw,Context,SubContext,Command,Comments,NodeNumber,ConnectorPartDescription,CavityNumber,AddCavity,WireParts,FrameSize,BundleCommand,ConnectFrom,ConnectTo,WiringDetails,Cavity,coordinates,covering,componentDB,material,colour,multipleCoveringType
+,Harness,Harness,Click on Frame,,,,,,,,,,,,,,,,,,
+,Frame,Frame,Draw Frame,,,,,,,A3 Landscape Standard,,,,,,,,,,,

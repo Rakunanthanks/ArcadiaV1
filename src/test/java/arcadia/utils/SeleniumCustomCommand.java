@@ -86,6 +86,16 @@ public class SeleniumCustomCommand {
         Thread.sleep(1000);
     }
 
+    public void movePointerAndClick(int xCoordinates , int yCoordinates) throws AWTException, InterruptedException {
+        Robot robot = new Robot();
+        robot.mouseMove(xCoordinates, yCoordinates);
+        Thread.sleep(2000);
+        robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+        robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+        Thread.sleep(1000);
+    }
+
+
     public String getValueByJavascriptExecutor(WebDriver driver , WebElement element){
         JavascriptExecutor jse = (JavascriptExecutor)driver;
         String elementValue = (String) jse.executeScript("return arguments[0].value", element);
@@ -161,5 +171,13 @@ public class SeleniumCustomCommand {
     public void moveRightOfElementAndContextClick(WebDriver driver , WebElement element, int offsetRight){
         Actions actions = new Actions(driver);
         actions.moveToElement(element).moveByOffset(offsetRight,0).contextClick().build().perform();
+    }
+
+    public void moveElementByOffset(WebDriver driver,WebElement element, int x, int y)
+    {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].scrollIntoView();", element);
+        js.executeScript("window.scrollBy(arguments[1], arguments[2]);", element, x, y);
+        js.executeScript("arguments[0].click();", element);
     }
 }

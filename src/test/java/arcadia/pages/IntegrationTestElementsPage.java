@@ -1,9 +1,13 @@
 package arcadia.pages;
 
+import arcadia.utils.SeleniumCustomCommand;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 
+import java.awt.*;
 import java.util.List;
 
 public class IntegrationTestElementsPage extends BasePage{
@@ -14,9 +18,13 @@ public class IntegrationTestElementsPage extends BasePage{
     //chooseFrame already there in DrawingHelper
     //clickOnConnector already there in HarnessPage
 
+    @FindBy(xpath = "//div[@Title = 'Insert Connector']") private WebElement inlineConnector;
+    @FindBy(xpath = "//div[@Title = 'Draw Select']") private WebElement selectButton;
     //Inline connectors
     @FindBy(xpath = "//*[name()='g' and @id='layer_components']//*[name()='g' and @puid='connector']") private List<WebElement> listOfInlineConnectors;
     @FindBy(xpath = "//*[name()='g' and @id='layer_components']//*[name()='g' and @puid='connector']//*[name()='g' and contains(@id,'_male')]") private List<WebElement> listOfMalePartInlineConnectors;
+    @FindBy(xpath = "//*[name()='g' and @id='layer_components']//*[name()='g' and @puid='connector']//*[name()='g' and contains(@id,'_female')]") private List<WebElement> listOfFemalePartInlineConnectors;
+    @FindBy(xpath = "//li[@id='cmaddmorepins']") private WebElement addMorePins;
     @FindBy(xpath = "//div[@aria-describedby=\"EIC\"]//span[text()=\"Edit Connector\"]") private WebElement headingEditConnector;
     @FindBy(css = "#codesFemaleId+div input") private WebElement inputEditConnectorIdFemaleHalf;
     @FindBy(css = "button[title=\"Add connector data, close dialog\"]>span") private WebElement buttonOkEditConnector;
@@ -66,11 +74,52 @@ public class IntegrationTestElementsPage extends BasePage{
     @FindBy(css = "select#wireType") private WebElement selectWireTypeShowWireWithoutLabel;
     @FindBy(css = "div#btnFotter button[title=\"Submit\"]") private WebElement buttonSubmitShowWireWithoutLabel;
 
-
+    SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
 
 
 
     public IntegrationTestElementsPage(WebDriver driver) {
         super(driver);
     }
+
+    public void addInlineConnector(int xpoint, int ypoint) throws InterruptedException, AWTException {
+        Thread.sleep(2000);
+        customCommand.javaScriptClick(driver,selectButton);
+        customCommand.javaScriptClick(driver,inlineConnector);
+        Actions actions = new Actions(driver);
+        WebElement element=inlineConnector;
+        if(listOfInlineConnectors.size()>0)
+        {
+            element=listOfInlineConnectors.get(0);
+        }
+        int x=element.getLocation().getX()-xpoint;
+        int y=element.getLocation().getY()+ypoint;
+        System.out.println(x+"-----"+y);
+//        customCommand.moveElementByOffset(driver,inlineConnector,x-xpoint,y+ypoint);
+        actions.moveByOffset(x,y).click().perform();
+    }
+
+    public void addPinsToConnector() throws InterruptedException {
+        customCommand.javaScriptClick(driver,selectButton);
+        for(WebElement ele:listOfFemalePartInlineConnectors)
+        {
+            String[] ids=ele.getAttribute("id").split("_");
+            String id=ids[0]+"comp";
+            WebElement connectorId=driver.findElement(By.xpath("//*[name()='g' and @id='"+id+"']"));
+            new HarnessPage(driver).getContextMenu("",connectorId);
+            customCommand.javaScriptClick(driver,addMorePins);
+            customCommand.clearAndEnterText(inputAddMorePins,"5");
+            customCommand.javaScriptClick(driver,buttonOkAddMorePins);
+        }
+    }
+
+    public void clickOnPinsFooter() throws InterruptedException {
+        customCommand.javaScriptClick(driver,buttonFooterPins);
+    }
+
+    public void clickOnHousingsFooter() throws InterruptedException {
+        customCommand.javaScriptClick(driver,buttonFooterHousings);
+System.out.println("");
+    }
+
 }

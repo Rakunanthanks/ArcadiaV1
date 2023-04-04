@@ -4,12 +4,11 @@ import arcadia.context.FlowContext;
 import arcadia.context.TestContext;
 import arcadia.domainobjects.Harness;
 import arcadia.domainobjects.Schematic;
-import arcadia.pages.CreateHarness;
-import arcadia.pages.CreateSchematic;
-import arcadia.pages.PageFactoryManager;
-import arcadia.pages.ProjectLanding;
+import arcadia.pages.*;
 import arcadia.utils.StringHelper;
 import io.cucumber.java.en.And;
+
+import java.awt.*;
 
 public class SchematicStepDefinitions {
     private final TestContext context;
@@ -40,5 +39,33 @@ public class SchematicStepDefinitions {
         schematicData.setWorkTask(new StringHelper().generateRandomDigit().toString());
         FlowContext.schematicDescription = schematicDescription;
         createSchematic.submitSchematicData(new Schematic(schematicData.getWorkTask(), schematicData.getTitle(), schematicData.getDescription(), schematicData.getPartNumber(), schematicData.getRevision(), schematicData.getComponentDB(),schematicData.getProfile()));
+    }
+
+    @And("add inline connectors to schematic")
+    public void addInlineConnectorsToSchematic() throws InterruptedException, AWTException {
+       IntegrationTestElementsPage integrationTestElementsPage=new IntegrationTestElementsPage(context.driver);
+        integrationTestElementsPage.addInlineConnector(200,200);
+//        integrationTestElementsPage.addInlineConnector(0,50);
+//        integrationTestElementsPage.addInlineConnector(-50,-25);
+
+        Thread.sleep(2000);
+
+    }
+
+    @And("add more pins to connector")
+    public void addMorePinsToConnector() throws InterruptedException {
+        new IntegrationTestElementsPage(context.driver).addPinsToConnector();
+
+    }
+
+    @And("click on Housings from the footer")
+    public void clickOnHousings() throws InterruptedException {
+        new IntegrationTestElementsPage(context.driver).clickOnHousingsFooter();
+
+    }
+
+    @And("click on Pins dropdown from the footer")
+    public void clickOnPinsDropdownFromTheFooter() throws InterruptedException {
+        new IntegrationTestElementsPage(context.driver).clickOnPinsFooter();
     }
 }
