@@ -167,6 +167,10 @@ public class SeleniumCustomCommand {
         Actions actions = new Actions(driver);
         actions.moveToElement(element).click().perform();
     }
+    public void moveToElementAndDoubleClick(WebDriver driver , WebElement element){
+        Actions actions = new Actions(driver);
+        actions.moveToElement(element).doubleClick().perform();
+    }
 
     public void moveRightOfElementAndContextClick(WebDriver driver , WebElement element, int offsetRight){
         Actions actions = new Actions(driver);
@@ -179,5 +183,15 @@ public class SeleniumCustomCommand {
         js.executeScript("arguments[0].scrollIntoView();", element);
         js.executeScript("window.scrollBy(arguments[1], arguments[2]);", element, x, y);
         js.executeScript("arguments[0].click();", element);
+    }
+
+    public void moveByOffsetOfElementAndClick(WebDriver driver , WebElement element, int offsetX, int offsetY){
+        Actions actions = new Actions(driver);
+        actions.moveToElement(element).moveByOffset(offsetX,offsetY).click().build().perform();
+    }
+
+    public void moveByOffsetAndClick(WebDriver driver, int offsetX, int offsetY){
+        Actions actions = new Actions(driver);
+        actions.moveByOffset(offsetX,offsetY).click().perform();
     }
 }

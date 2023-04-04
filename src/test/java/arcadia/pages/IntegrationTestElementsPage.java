@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
+import org.sikuli.hotkey.Keys;
 
 import java.awt.*;
 import java.util.List;
@@ -26,6 +27,7 @@ public class IntegrationTestElementsPage extends BasePage{
     @FindBy(xpath = "//*[name()='g' and @id='layer_components']//*[name()='g' and @puid='connector']//*[name()='g' and contains(@id,'_female')]") private List<WebElement> listOfFemalePartInlineConnectors;
     @FindBy(xpath = "//li[@id='cmaddmorepins']") private WebElement addMorePins;
     @FindBy(xpath = "//div[@aria-describedby=\"EIC\"]//span[text()=\"Edit Connector\"]") private WebElement headingEditConnector;
+    @FindBy(css = "#codesFemaleId+div div.item") private WebElement divEditConnectorIdFemaleHalf;
     @FindBy(css = "#codesFemaleId+div input") private WebElement inputEditConnectorIdFemaleHalf;
     @FindBy(css = "button[title=\"Add connector data, close dialog\"]>span") private WebElement buttonOkEditConnector;
 
@@ -82,21 +84,40 @@ public class IntegrationTestElementsPage extends BasePage{
         super(driver);
     }
 
-    public void addInlineConnector(int xpoint, int ypoint) throws InterruptedException, AWTException {
+    public void addInlineConnector(int xpoint, int ypoint, String connectorFemaleHalfName) throws InterruptedException {
         Thread.sleep(2000);
         customCommand.javaScriptClick(driver,selectButton);
         customCommand.javaScriptClick(driver,inlineConnector);
-        Actions actions = new Actions(driver);
-        WebElement element=inlineConnector;
+        WebElement element;
         if(listOfInlineConnectors.size()>0)
         {
             element=listOfInlineConnectors.get(0);
+            customCommand.moveByOffsetOfElementAndClick(driver,element,xpoint,ypoint);
         }
-        int x=element.getLocation().getX()-xpoint;
-        int y=element.getLocation().getY()+ypoint;
-        System.out.println(x+"-----"+y);
-//        customCommand.moveElementByOffset(driver,inlineConnector,x-xpoint,y+ypoint);
-        actions.moveByOffset(x,y).click().perform();
+        else {
+            element = inlineConnector;
+            int initialXCoordinateOfInsertConnectorButton = element.getLocation().getX();
+            int initialYCoordinateOfInsertConnectorButton = element.getLocation().getY();
+            customCommand.moveByOffsetAndClick(driver,initialXCoordinateOfInsertConnectorButton-250,initialYCoordinateOfInsertConnectorButton+200);
+        }
+        Thread.sleep(3000);
+        int numberOfInlineConnectors = listOfInlineConnectors.size();
+        WebElement eleInlineConnector = listOfInlineConnectors.get(numberOfInlineConnectors-1);
+        updateInlineConnectorName(eleInlineConnector,connectorFemaleHalfName);
+        eleInlineConnector = driver.findElements(By.xpath("//*[name()='g' and @id='layer_components']//*[name()='g' and @puid='connector']")).get(numberOfInlineConnectors-1);
+        customCommand.waitForElementToBeClickable(driver,eleInlineConnector);
+    }
+
+    public void updateInlineConnectorName(WebElement elementInlineConnector, String inlineConnectorName) throws InterruptedException {
+        customCommand.javaScriptClick(driver,selectButton);
+        customCommand.moveToElementAndDoubleClick(driver,elementInlineConnector);
+        customCommand.waitForElementVisibility(driver,tabConnectorEditConnector);
+        customCommand.waitForElementToBeClickable(driver,divEditConnectorIdFemaleHalf);
+        divEditConnectorIdFemaleHalf.click();
+        inputEditConnectorIdFemaleHalf.sendKeys(Keys.BACKSPACE);
+        customCommand.clearAndEnterText(inputEditConnectorIdFemaleHalf,inlineConnectorName);
+        tabConnectorEditConnector.click();
+        customCommand.javaScriptClick(driver,buttonOkEditConnector);
     }
 
     public void addPinsToConnector() throws InterruptedException {
@@ -119,7 +140,7 @@ public class IntegrationTestElementsPage extends BasePage{
 
     public void clickOnHousingsFooter() throws InterruptedException {
         customCommand.javaScriptClick(driver,buttonFooterHousings);
-System.out.println("");
+        System.out.println("");
     }
 
 }
