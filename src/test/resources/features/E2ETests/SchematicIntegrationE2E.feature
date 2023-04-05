@@ -9,7 +9,7 @@ Feature: Verify schematics
 
 
 
-  @VerifySchematic
+  @VerifySchematic @E2E
   Scenario: Test verifies a schematic
     And schematic with name 'Demo_Integration' is launched successfully
     And based on drawing orchestrator components are created
@@ -17,4 +17,5 @@ Feature: Verify schematics
     And add more pins to connector
     And click on Pins dropdown from the footer
     And click on Housings from the footer
+    And add splices to schematic
 

@@ -20,6 +20,7 @@ public class PageFactoryManager {
     private static ProfilePage profilePage;
     private static ConnectorEditorPage connectorEditorPage;
     private static CreateSchematic createSchematic;
+    private static SchematicsDrawingPage schematicsDrawingPagec;
 
 
     public static SearchPartsDatabasePage getPartsDatabasePage(WebDriver driver){
@@ -70,5 +71,8 @@ public class PageFactoryManager {
 
     public static CreateSchematic getCreateSchematic(WebDriver driver) {
         return createSchematic == null ? new CreateSchematic(driver) : createSchematic;
+    }
+    public static SchematicsDrawingPage getSchematicDrawingPage(WebDriver driver) {
+        return schematicsDrawingPagec == null ? new SchematicsDrawingPage(driver) : schematicsDrawingPagec;
     }
 }

@@ -2,7 +2,6 @@ package arcadia.stepdefinations;
 
 import arcadia.context.FlowContext;
 import arcadia.context.TestContext;
-import arcadia.domainobjects.Harness;
 import arcadia.domainobjects.Schematic;
 import arcadia.pages.*;
 import arcadia.utils.StringHelper;
@@ -14,11 +13,13 @@ public class SchematicStepDefinitions {
     private final TestContext context;
     private final ProjectLanding projectLanding;
     private final CreateSchematic createSchematic;
+    private final SchematicsDrawingPage schematicsDrawingPage;
 
     public SchematicStepDefinitions(TestContext context) {
         this.context = context;
         projectLanding = PageFactoryManager.getProjectLanding(context.driver);
         createSchematic = PageFactoryManager.getCreateSchematic(context.driver);
+        schematicsDrawingPage = PageFactoryManager.getSchematicDrawingPage(context.driver);
     }
 
     @And("schematic with name {string} is launched successfully")
@@ -43,29 +44,38 @@ public class SchematicStepDefinitions {
 
     @And("add inline connectors to schematic")
     public void addInlineConnectorsToSchematic() throws InterruptedException, AWTException {
-       IntegrationTestElementsPage integrationTestElementsPage=new IntegrationTestElementsPage(context.driver);
-        integrationTestElementsPage.addInlineConnector(0,0, "C1");
-        integrationTestElementsPage.addInlineConnector(0,100,"C2");
-        integrationTestElementsPage.addInlineConnector(200,0,"C3");
-        integrationTestElementsPage.addInlineConnector(200,100,"C4");
+        schematicsDrawingPage.addInlineConnector(0,0, "C1");
+        schematicsDrawingPage.addInlineConnector(0,100,"C2");
+        schematicsDrawingPage.addInlineConnector(0,200,"C3");
+        schematicsDrawingPage.addInlineConnector(200,0,"C4");
+        schematicsDrawingPage.addInlineConnector(200,100,"C5");
+        schematicsDrawingPage.addInlineConnector(200,200,"C6");
         Thread.sleep(2000);
 
     }
 
     @And("add more pins to connector")
     public void addMorePinsToConnector() throws InterruptedException {
-        new IntegrationTestElementsPage(context.driver).addPinsToConnector();
+        schematicsDrawingPage.addPinsToConnector();
 
     }
 
     @And("click on Housings from the footer")
     public void clickOnHousings() throws InterruptedException {
-        new IntegrationTestElementsPage(context.driver).clickOnHousingsFooter();
+        schematicsDrawingPage.clickOnHousingsFooter();
 
     }
 
     @And("click on Pins dropdown from the footer")
     public void clickOnPinsDropdownFromTheFooter() throws InterruptedException {
-        new IntegrationTestElementsPage(context.driver).clickOnPinsFooter();
+        schematicsDrawingPage.clickOnPinsFooter();
+    }
+
+    @And("add splices to schematic")
+    public void addSplicesToSchematicUsingPins() throws InterruptedException {
+        schematicsDrawingPage.addSplicesToSchematic(5,90,0,"C1","SP-BK");
+        schematicsDrawingPage.addSplicesToSchematic(3,110,0,"C2","SP_GN");
+        schematicsDrawingPage.addSplicesToSchematic(7,90,0,"C2","SP-YE");
+
     }
 }

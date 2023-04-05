@@ -4,22 +4,15 @@ import arcadia.utils.SeleniumCustomCommand;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.sikuli.hotkey.Keys;
 
-import java.awt.*;
 import java.util.List;
 
-public class IntegrationTestElementsPage extends BasePage{
-
-    //Drawingpage
-
-    //clickOnFrame already there in DrawingHelper
-    //chooseFrame already there in DrawingHelper
-    //clickOnConnector already there in HarnessPage
+public class SchematicsDrawingPage extends BasePage{
 
     @FindBy(xpath = "//div[@Title = 'Insert Connector']") private WebElement inlineConnector;
+    @FindBy(xpath = "//div[@Title = 'Insert Splice']") private WebElement insertInlineSplice;
     @FindBy(xpath = "//div[@Title = 'Draw Select']") private WebElement selectButton;
     //Inline connectors
     @FindBy(xpath = "//*[name()='g' and @id='layer_components']//*[name()='g' and @puid='connector']") private List<WebElement> listOfInlineConnectors;
@@ -80,7 +73,7 @@ public class IntegrationTestElementsPage extends BasePage{
 
 
 
-    public IntegrationTestElementsPage(WebDriver driver) {
+    public SchematicsDrawingPage(WebDriver driver) {
         super(driver);
     }
 
@@ -129,18 +122,46 @@ public class IntegrationTestElementsPage extends BasePage{
             WebElement connectorId=driver.findElement(By.xpath("//*[name()='g' and @id='"+id+"']"));
             new HarnessPage(driver).getContextMenu("",connectorId);
             customCommand.javaScriptClick(driver,addMorePins);
+            customCommand.waitForElementVisibility(driver,inputAddMorePins);
+            customCommand.waitForElementToBeClickable(driver,inputAddMorePins);
             customCommand.clearAndEnterText(inputAddMorePins,"5");
             customCommand.javaScriptClick(driver,buttonOkAddMorePins);
         }
     }
 
     public void clickOnPinsFooter() throws InterruptedException {
+        customCommand.waitForElementToBeClickable(driver,buttonFooterPins);
         customCommand.javaScriptClick(driver,buttonFooterPins);
+        Thread.sleep(2000);
     }
 
     public void clickOnHousingsFooter() throws InterruptedException {
+        customCommand.waitForElementToBeClickable(driver,buttonFooterHousings);
         customCommand.javaScriptClick(driver,buttonFooterHousings);
-        System.out.println("");
+        Thread.sleep(3000);
     }
 
+    public void addSplicesToSchematic( int pinNumber, int xOffset, int yOffset, String inlineConnectorName, String spliceName) throws InterruptedException {
+        Thread.sleep(3000);
+        customCommand.waitForElementToBeClickable(driver,insertInlineSplice);
+        List<WebElement> inlineConnectorpins = driver.findElements(By.xpath("//*[name()='g' and @title='"+inlineConnectorName+"']//*[name()='circle']"));
+        WebElement pin = inlineConnectorpins.get(pinNumber-1);
+        customCommand.javaScriptClick(driver,selectButton);
+        customCommand.javaScriptClick(driver,insertInlineSplice);
+        customCommand.moveByOffsetOfElementAndClick(driver,pin,xOffset,yOffset);
+        Thread.sleep(2000);
+        int numberOfSplices = listOfSplice.size();
+        WebElement eleSplice = listOfSplice.get(numberOfSplices-1);
+        updateSpliceReferenceCode(eleSplice,spliceName);
+    }
+
+    private void updateSpliceReferenceCode(WebElement eleSplice, String spliceName) throws InterruptedException {
+        customCommand.javaScriptClick(driver,selectButton);
+        customCommand.moveToElementAndDoubleClick(driver,eleSplice);
+        customCommand.waitForElementVisibility(driver,editSpliceName);
+        customCommand.waitForElementToBeClickable(driver,editSpliceName);
+        customCommand.clearAndEnterText(editSpliceName,spliceName);
+        customCommand.javaScriptClick(driver,okButtonEditSplice);
+        Thread.sleep(2000);
+    }
 }
