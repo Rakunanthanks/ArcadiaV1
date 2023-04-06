@@ -18,4 +18,6 @@ Feature: Verify schematics
     And click on Pins dropdown from the footer
     And click on Housings from the footer
     And add splices to schematic
+    And draw wires between connectors
+    And change the wire settings from wire editor
 

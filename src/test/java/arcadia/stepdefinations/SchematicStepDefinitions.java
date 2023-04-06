@@ -78,4 +78,15 @@ public class SchematicStepDefinitions {
         schematicsDrawingPage.addSplicesToSchematic(7,90,0,"C2","SP-YE");
 
     }
+
+    @And("draw wires between connectors")
+    public void drawWiresBetweenConnectors() {
+
+    }
+
+    @And("change the wire settings from wire editor")
+    public void changeTheWireSettingsFromWireEditor() throws InterruptedException {
+        schematicsDrawingPage.moveToWireEditor();
+        schematicsDrawingPage.changeGaugeAndMaterial();
+    }
 }
