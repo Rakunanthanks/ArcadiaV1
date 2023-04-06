@@ -44,20 +44,24 @@ public class SchematicStepDefinitions {
 
     @And("add inline connectors to schematic")
     public void addInlineConnectorsToSchematic() throws InterruptedException, AWTException {
-        schematicsDrawingPage.addInlineConnector(0,0, "C1");
-        schematicsDrawingPage.addInlineConnector(0,100,"C2");
-        schematicsDrawingPage.addInlineConnector(0,200,"C3");
-        schematicsDrawingPage.addInlineConnector(200,0,"C4");
-        schematicsDrawingPage.addInlineConnector(200,100,"C5");
-        schematicsDrawingPage.addInlineConnector(200,200,"C6");
+        schematicsDrawingPage.addInlineConnector(0,0, "C1","Main",true);
+        schematicsDrawingPage.addInlineConnector(0,100,"C2","Lamda1",true);
+        schematicsDrawingPage.addInlineConnector(0,200,"C3","Pressure",true);
+        schematicsDrawingPage.addInlineConnector(200,0,"C4","",false);
+        schematicsDrawingPage.addInlineConnector(200,100,"C5","",false);
+        schematicsDrawingPage.addInlineConnector(200,200,"C6","",false);
         Thread.sleep(2000);
 
     }
 
     @And("add more pins to connector")
     public void addMorePinsToConnector() throws InterruptedException {
-        schematicsDrawingPage.addPinsToConnector();
-
+        schematicsDrawingPage.addPinsToConnectorUsingConnectorName("C1",4);
+        schematicsDrawingPage.addPinsToConnectorUsingConnectorName("C2",3);
+        schematicsDrawingPage.addPinsToConnectorUsingConnectorName("C3",2);
+        schematicsDrawingPage.addPinsToConnectorUsingConnectorName("C4",1);
+        schematicsDrawingPage.addPinsToConnectorUsingConnectorName("C5",2);
+        schematicsDrawingPage.addPinsToConnectorUsingConnectorName("C6",5);
     }
 
     @And("click on Housings from the footer")
@@ -73,9 +77,9 @@ public class SchematicStepDefinitions {
 
     @And("add splices to schematic")
     public void addSplicesToSchematicUsingPins() throws InterruptedException {
-        schematicsDrawingPage.addSplicesToSchematic(5,90,0,"C1","SP-BK");
-        schematicsDrawingPage.addSplicesToSchematic(3,110,0,"C2","SP_GN");
-        schematicsDrawingPage.addSplicesToSchematic(7,90,0,"C2","SP-YE");
+        schematicsDrawingPage.addSplicesToSchematic(4,90,0,"C1","SP-BK");
+        schematicsDrawingPage.addSplicesToSchematic(6,110,0,"C2","SP_GN");
+        schematicsDrawingPage.addSplicesToSchematic(2,90,0,"C2","SP-YE");
 
     }
 
@@ -88,5 +92,12 @@ public class SchematicStepDefinitions {
     public void changeTheWireSettingsFromWireEditor() throws InterruptedException {
         schematicsDrawingPage.moveToWireEditor();
         schematicsDrawingPage.changeGaugeAndMaterial();
+        schematicsDrawingPage.changePrimaryColour();
+        schematicsDrawingPage.saveWireEditorChanges();
+    }
+
+    @And("go to drawing from wire editor")
+    public void goToDrawingFromWireEditor() {
+        schematicsDrawingPage.goToDrawingFromWireEditor();
     }
 }
