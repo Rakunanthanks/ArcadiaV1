@@ -54,7 +54,7 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(xpath = "count((//span[text() = 'Material'])[1]/../../preceding-sibling::th)") private WebElement materialColumnIndex;
     @FindBy(xpath = "//tbody/tr/td[15]") private List<WebElement> materialColumnList;
     @FindBy(xpath = "count((//span[text() = 'Gauge'])[1]/../../preceding-sibling::th)") private WebElement gaugeColumnIndex;
-    @FindBy(xpath = "//tbody/tr/td[15]") private List<WebElement> gaugeColumnList;
+    @FindBy(xpath = "//tbody/tr/td[16]") private List<WebElement> gaugeColumnList;
     @FindBy(xpath = "count((//span[text() = 'Primary Color'])[1]/../../preceding-sibling::th)") private WebElement primaryColorColumnIndex;
     @FindBy(xpath = "//tbody/tr/td[15]") private List<WebElement> primaryColorColumnList;
     @FindBy(xpath = "//button[text() = 'Save']") private WebElement saveButton;
@@ -164,4 +164,21 @@ public class SchematicsDrawingPage extends BasePage{
         customCommand.javaScriptClick(driver,okButtonEditSplice);
         Thread.sleep(2000);
     }
+
+    public void moveToWireEditor() throws InterruptedException {
+        customCommand.javaScriptClick(driver,advancedTab);
+        customCommand.javaScriptClick(driver,wireEditor);
+    }
+    public void changeGaugeAndMaterial() throws InterruptedException {
+        for(WebElement we:materialColumnList)
+        {
+            customCommand.clearAndEnterText(we,"GXL");
+        }
+        for(WebElement we:gaugeColumnList)
+        {
+            customCommand.clearAndEnterText(we,"12");
+        }
+        customCommand.javaScriptClick(driver,saveButton);
+    }
+
 }
