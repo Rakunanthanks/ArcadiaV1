@@ -12,6 +12,7 @@ import org.openqa.selenium.WebElement;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SchematicStepDefinitions {
     private final TestContext context;
@@ -89,25 +90,24 @@ public class SchematicStepDefinitions {
     @And("draw wires between connectors")
     public void drawWiresBetweenConnectors() throws InterruptedException {
         Thread.sleep(2000);
-        List<WebElement> leftConnector=new ArrayList<>();
-        List<WebElement> rightConnector=new ArrayList<>();
-        List<WebElement> connectorC1=schematicsDrawingPage.getInlineConnectorCircles("C1");
-        List<WebElement> connectorC2=schematicsDrawingPage.getInlineConnectorCircles("C2");
-        List<WebElement> connectorC3=schematicsDrawingPage.getInlineConnectorCircles("C3");
+        List<String> leftConnector=new ArrayList<>();
+        List<String> rightConnector=new ArrayList<>();
+        List<String> connectorC1= (schematicsDrawingPage.getInlineConnectorCircles("C1")).stream().map(x -> x.getAttribute("id")).toList();
+        List<String> connectorC2= (schematicsDrawingPage.getInlineConnectorCircles("C2")).stream().map(x -> x.getAttribute("id")).toList();
+        List<String> connectorC3= (schematicsDrawingPage.getInlineConnectorCircles("C3")).stream().map(x -> x.getAttribute("id")).toList();
         leftConnector.addAll(connectorC1);
         leftConnector.addAll(connectorC2);
         leftConnector.addAll(connectorC3);
-        List<WebElement> connectorC4=schematicsDrawingPage.getInlineConnectorCircles("C4");
-        List<WebElement> connectorC5=schematicsDrawingPage.getInlineConnectorCircles("C5");
-        List<WebElement> connectorC6=schematicsDrawingPage.getInlineConnectorCircles("C6");
+        List<String> connectorC4=(schematicsDrawingPage.getInlineConnectorCircles("C4")).stream().map(x -> x.getAttribute("id")).toList();
+        List<String> connectorC5=(schematicsDrawingPage.getInlineConnectorCircles("C5")).stream().map(x -> x.getAttribute("id")).toList();
+        List<String> connectorC6=(schematicsDrawingPage.getInlineConnectorCircles("C6")).stream().map(x -> x.getAttribute("id")).toList();
         rightConnector.addAll(connectorC4);
         rightConnector.addAll(connectorC5);
         rightConnector.addAll(connectorC6);
         for(int i=0;i<rightConnector.size();i++)
-        {   String leftId=leftConnector.get(i).getAttribute("id");
-            String rightId=rightConnector.get(i).getAttribute("id");
-            WebElement left=context.driver.findElement(By.xpath("(//*[name()='circle' and @comp='"+leftId+"'])[2]"));
-            WebElement right=context.driver.findElement(By.xpath("(//*[name()='circle' and @comp='"+rightId+"'])[1]"));
+        {
+            WebElement left=context.driver.findElement(By.xpath("(//*[name()='circle' and @comp='"+leftConnector.get(i)+"'])[2]"));
+            WebElement right=context.driver.findElement(By.xpath("(//*[name()='circle' and @comp='"+rightConnector.get(i)+"'])[1]"));
             String wireName="wire"+i;
             schematicsDrawingPage.connectWire(wireName,left,right);
         }
