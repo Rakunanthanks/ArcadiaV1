@@ -63,6 +63,7 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(xpath = "//tbody/tr/td[17]") private List<WebElement> primaryColorColumnList;
     @FindBy(xpath = "//button[text() = 'Save']") private WebElement saveButton;
     @FindBy(xpath = "//a[contains(text(),'Go to Drawing')]") private WebElement buttonGoToDrawing;
+    @FindBy(xpath = "//div[@title='Insert Wire']") private WebElement insertWire;
     @FindBy(xpath = "//div[@Title = 'Wire Label Inline']") private WebElement wireLabelInline;
     @FindBy(xpath = "//div[@Title = 'Remove All Wire Labels']") private WebElement removeAllWireLabels;
     @FindBy(xpath = "//div[@Title = 'Line Label']") private WebElement wireLabel;
@@ -72,6 +73,8 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(xpath = "//div[@title=\"no Line Label\"]//span") private WebElement wireWOLabel;
     @FindBy(css = "select#wireType") private WebElement selectWireTypeShowWireWithoutLabel;
     @FindBy(css = "div#btnFotter button[title=\"Submit\"]") private WebElement buttonSubmitShowWireWithoutLabel;
+    @FindBy(xpath = "//input[@class='wireidspec']") private WebElement wireName;
+    @FindBy(xpath = "//button[@title='Update wire data, close dialog']") private WebElement wireOkButton;
 
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
 
@@ -239,4 +242,24 @@ public class SchematicsDrawingPage extends BasePage{
         customCommand.javaScriptClick(driver,buttonOkAddMorePins);
 
     }
+
+    public List<WebElement> getInlineConnectorCircles(String inlineConnectorName)
+    {
+        List<WebElement> inlineConnectorpins = driver.findElements(By.xpath("//*[name()='g' and @title='"+inlineConnectorName+"']"));
+        return inlineConnectorpins;
+    }
+
+    public void connectWire(String name,WebElement left,WebElement right) throws InterruptedException {
+        customCommand.javaScriptClick(driver,insertWire);
+        left.click();
+        Thread.sleep(2000);
+        customCommand.moveByOffsetOfElementAndClick(driver,left,120,0);
+        Thread.sleep(2000);
+        right.click();
+        Thread.sleep(2000);
+//        customCommand.clearAndEnterText(wireName,name);
+        customCommand.javaScriptClick(driver,wireOkButton);
+        Thread.sleep(2000);
+    }
+
 }

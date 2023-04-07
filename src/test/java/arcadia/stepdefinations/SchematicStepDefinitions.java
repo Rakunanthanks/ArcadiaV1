@@ -6,8 +6,12 @@ import arcadia.domainobjects.Schematic;
 import arcadia.pages.*;
 import arcadia.utils.StringHelper;
 import io.cucumber.java.en.And;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SchematicStepDefinitions {
     private final TestContext context;
@@ -67,7 +71,6 @@ public class SchematicStepDefinitions {
     @And("click on Housings from the footer")
     public void clickOnHousings() throws InterruptedException {
         schematicsDrawingPage.clickOnHousingsFooter();
-
     }
 
     @And("click on Pins dropdown from the footer")
@@ -84,8 +87,30 @@ public class SchematicStepDefinitions {
     }
 
     @And("draw wires between connectors")
-    public void drawWiresBetweenConnectors() {
-
+    public void drawWiresBetweenConnectors() throws InterruptedException {
+        Thread.sleep(2000);
+        List<WebElement> leftConnector=new ArrayList<>();
+        List<WebElement> rightConnector=new ArrayList<>();
+        List<WebElement> connectorC1=schematicsDrawingPage.getInlineConnectorCircles("C1");
+        List<WebElement> connectorC2=schematicsDrawingPage.getInlineConnectorCircles("C2");
+        List<WebElement> connectorC3=schematicsDrawingPage.getInlineConnectorCircles("C3");
+        leftConnector.addAll(connectorC1);
+        leftConnector.addAll(connectorC2);
+        leftConnector.addAll(connectorC3);
+        List<WebElement> connectorC4=schematicsDrawingPage.getInlineConnectorCircles("C4");
+        List<WebElement> connectorC5=schematicsDrawingPage.getInlineConnectorCircles("C5");
+        List<WebElement> connectorC6=schematicsDrawingPage.getInlineConnectorCircles("C6");
+        rightConnector.addAll(connectorC4);
+        rightConnector.addAll(connectorC5);
+        rightConnector.addAll(connectorC6);
+        for(int i=0;i<rightConnector.size();i++)
+        {   String leftId=leftConnector.get(i).getAttribute("id");
+            String rightId=rightConnector.get(i).getAttribute("id");
+            WebElement left=context.driver.findElement(By.xpath("(//*[name()='circle' and @comp='"+leftId+"'])[2]"));
+            WebElement right=context.driver.findElement(By.xpath("(//*[name()='circle' and @comp='"+rightId+"'])[1]"));
+            String wireName="wire"+i;
+            schematicsDrawingPage.connectWire(wireName,left,right);
+        }
     }
 
     @And("change the wire settings from wire editor")
