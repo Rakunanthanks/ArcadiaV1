@@ -257,7 +257,7 @@ public class SchematicsDrawingPage extends BasePage{
         Thread.sleep(2000);
         right.click();
         Thread.sleep(2000);
-//        customCommand.clearAndEnterText(wireName,name);
+        customCommand.clearAndEnterText(wireName,name);
         customCommand.javaScriptClick(driver,wireOkButton);
         Thread.sleep(2000);
     }
