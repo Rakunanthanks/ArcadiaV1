@@ -1,5 +1,6 @@
 package arcadia.pages;
 
+import arcadia.pages.ComponentDB.AddNewComponentPage;
 import arcadia.utils.SeleniumCustomCommand;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -18,7 +19,7 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(xpath = "//*[name()='g' and @id='layer_components']//*[name()='g' and @puid='connector']") private List<WebElement> listOfInlineConnectors;
     @FindBy(xpath = "//*[name()='g' and @id='layer_components']//*[name()='g' and @puid='connector']//*[name()='g' and contains(@id,'_male')]") private List<WebElement> listOfMalePartInlineConnectors;
     @FindBy(xpath = "//*[name()='g' and @id='layer_components']//*[name()='g' and @puid='connector']//*[name()='g' and contains(@id,'_female')]") private List<WebElement> listOfFemalePartInlineConnectors;
-    @FindBy(xpath = "//li[@id='cmaddmorepins']") private WebElement addMorePins;
+    @FindBy(css = "li#cmaddmorepins") private WebElement addMorePins;
     @FindBy(xpath = "//div[@aria-describedby=\"EIC\"]//span[text()=\"Edit Connector\"]") private WebElement headingEditConnector;
     @FindBy(css = "#codesFemaleId+div div.item") private WebElement divEditConnectorIdFemaleHalf;
     @FindBy(css = "#codesFemaleId+div input") private WebElement inputEditConnectorIdFemaleHalf;
@@ -45,20 +46,23 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(xpath = "//div[@id=\"EIC\"]//a[text()=\"Connector\"]") private WebElement tabConnectorEditConnector;
     @FindBy(xpath = "//div[@id=\"EIC\"]//a[text()=\"Inline Pin\"]") private WebElement tabInlinePinEditConnector;
     @FindBy(css = "input[name=\"connDescFemale\"]") private WebElement inputEditConnectorDescFemaleHalf;
-    @FindBy(xpath = "//input[@id='EICshowDesc']//following-sibling::span[@class='switch-handle'] ") private WebElement switchShowDescription;
+    @FindBy(xpath = "//input[@id='EICshowDesc']//following-sibling::span[@class='switch-handle']") private WebElement switchShowDescription;
     @FindBy(xpath = "//*[name()='g' and @id='layer_components']//*[name()='g' and @puid='splice']") private List<WebElement> listOfSplice;
     @FindBy(xpath = "//input[@class='refCodeSpec']") private WebElement editSpliceName;
     @FindBy(xpath = "//button[contains(@title,'Update component data, close dialog')]") private WebElement okButtonEditSplice;
     @FindBy(xpath = "//span[@class='ribbon-title' and text()='Advanced']") private WebElement advancedTab;
     @FindBy(xpath = "//span[@class='button-title' and text()='Wire Editor']") private WebElement wireEditor;
+    @FindBy(id = "wire-editor") private WebElement divWireEditorPage;
+    @FindBy(xpath = "//th//span[text()=\"To Con\"]") private WebElement headingToCon;
+    @FindBy(xpath = "//tbody/tr/td[10]") private List<WebElement> connectorsColumnList;
     @FindBy(xpath = "count((//span[text() = 'Material'])[1]/../../preceding-sibling::th)") private WebElement materialColumnIndex;
     @FindBy(xpath = "//tbody/tr/td[15]") private List<WebElement> materialColumnList;
     @FindBy(xpath = "count((//span[text() = 'Gauge'])[1]/../../preceding-sibling::th)") private WebElement gaugeColumnIndex;
     @FindBy(xpath = "//tbody/tr/td[16]") private List<WebElement> gaugeColumnList;
     @FindBy(xpath = "count((//span[text() = 'Primary Color'])[1]/../../preceding-sibling::th)") private WebElement primaryColorColumnIndex;
-    @FindBy(xpath = "//tbody/tr/td[15]") private List<WebElement> primaryColorColumnList;
+    @FindBy(xpath = "//tbody/tr/td[17]") private List<WebElement> primaryColorColumnList;
     @FindBy(xpath = "//button[text() = 'Save']") private WebElement saveButton;
-    @FindBy(xpath = "//a[contains(text(),'Go to Drawing')]") private WebElement goToDrawing;
+    @FindBy(xpath = "//a[contains(text(),'Go to Drawing')]") private WebElement buttonGoToDrawing;
     @FindBy(xpath = "//div[@Title = 'Wire Label Inline']") private WebElement wireLabelInline;
     @FindBy(xpath = "//div[@Title = 'Remove All Wire Labels']") private WebElement removeAllWireLabels;
     @FindBy(xpath = "//div[@Title = 'Line Label']") private WebElement wireLabel;
@@ -77,7 +81,7 @@ public class SchematicsDrawingPage extends BasePage{
         super(driver);
     }
 
-    public void addInlineConnector(int xpoint, int ypoint, String connectorFemaleHalfName) throws InterruptedException {
+    public void addInlineConnector(int xpoint, int ypoint, String connectorIdFemaleHalfName,String connectorDescFemaleHalf, Boolean enableDescriptionToggle) throws InterruptedException {
         Thread.sleep(2000);
         customCommand.javaScriptClick(driver,selectButton);
         customCommand.javaScriptClick(driver,inlineConnector);
@@ -96,20 +100,26 @@ public class SchematicsDrawingPage extends BasePage{
         Thread.sleep(3000);
         int numberOfInlineConnectors = listOfInlineConnectors.size();
         WebElement eleInlineConnector = listOfInlineConnectors.get(numberOfInlineConnectors-1);
-        updateInlineConnectorName(eleInlineConnector,connectorFemaleHalfName);
+        updateInlineConnectorFemaleHalfIdandDescription(eleInlineConnector,connectorIdFemaleHalfName,connectorDescFemaleHalf,enableDescriptionToggle);
         eleInlineConnector = driver.findElements(By.xpath("//*[name()='g' and @id='layer_components']//*[name()='g' and @puid='connector']")).get(numberOfInlineConnectors-1);
         customCommand.waitForElementToBeClickable(driver,eleInlineConnector);
     }
 
-    public void updateInlineConnectorName(WebElement elementInlineConnector, String inlineConnectorName) throws InterruptedException {
+    public void updateInlineConnectorFemaleHalfIdandDescription(WebElement elementInlineConnector, String inlineConnectorIdFemaleHalfName, String connectorDescFemaleHalf, Boolean enableDescriptionToggle) throws InterruptedException {
         customCommand.javaScriptClick(driver,selectButton);
         customCommand.moveToElementAndDoubleClick(driver,elementInlineConnector);
         customCommand.waitForElementVisibility(driver,tabConnectorEditConnector);
+        if (enableDescriptionToggle){
+            switchShowDescription.click();
+        }
         customCommand.waitForElementToBeClickable(driver,divEditConnectorIdFemaleHalf);
         divEditConnectorIdFemaleHalf.click();
         inputEditConnectorIdFemaleHalf.sendKeys(Keys.BACKSPACE);
-        customCommand.clearAndEnterText(inputEditConnectorIdFemaleHalf,inlineConnectorName);
-        tabConnectorEditConnector.click();
+        customCommand.clearAndEnterText(inputEditConnectorIdFemaleHalf,inlineConnectorIdFemaleHalfName);
+        customCommand.waitForElementToBeClickable(driver,tabConnectorEditConnector);
+        customCommand.javaScriptClick(driver,tabConnectorEditConnector);
+        customCommand.waitForElementVisibility(driver,inputEditConnectorDescFemaleHalf);
+        customCommand.clearAndEnterText(inputEditConnectorDescFemaleHalf,connectorDescFemaleHalf);
         customCommand.javaScriptClick(driver,buttonOkEditConnector);
     }
 
@@ -168,6 +178,7 @@ public class SchematicsDrawingPage extends BasePage{
     public void moveToWireEditor() throws InterruptedException {
         customCommand.javaScriptClick(driver,advancedTab);
         customCommand.javaScriptClick(driver,wireEditor);
+        customCommand.waitForElementVisibility(driver,divWireEditorPage);
     }
     public void changeGaugeAndMaterial() throws InterruptedException {
         for(WebElement we:materialColumnList)
@@ -176,9 +187,56 @@ public class SchematicsDrawingPage extends BasePage{
         }
         for(WebElement we:gaugeColumnList)
         {
-            customCommand.clearAndEnterText(we,"12");
+            customCommand.clearAndEnterText(we,"18");
         }
-        customCommand.javaScriptClick(driver,saveButton);
     }
 
+    public void changePrimaryColour() throws InterruptedException {
+        customCommand.javaScriptClick(driver,headingToCon);
+        Thread.sleep(2000);
+        String primaryColour;
+        for (int i=0; i<connectorsColumnList.size(); i++){
+            if (connectorsColumnList.get(i).getText().equalsIgnoreCase("SP-BK")){
+                primaryColour = "BK";
+            }
+            else if (connectorsColumnList.get(i).getText().equalsIgnoreCase("SP-YE")){
+                primaryColour = "YE";
+            }
+            else if (connectorsColumnList.get(i).getText().equalsIgnoreCase("SP-GN")){
+                primaryColour = "GN";
+            }
+            else {
+                primaryColour = "WH";
+            }
+            customCommand.clearAndEnterText(primaryColorColumnList.get(i),primaryColour);
+        }
+    }
+
+    public void saveWireEditorChanges() throws InterruptedException {
+        customCommand.waitForElementToBeClickable(driver,saveButton);
+        customCommand.javaScriptClick(driver,saveButton);
+        new AddNewComponentPage(driver).verifyAlertMessage("Saved successfully");
+        new AddNewComponentPage(driver).closeAlertPopUp();
+        Thread.sleep(2000);
+    }
+
+    public void goToDrawingFromWireEditor() {
+        customCommand.waitForElementToBeClickable(driver, buttonGoToDrawing);
+        buttonGoToDrawing.click();
+        customCommand.longWaitForElementToBeClickable(driver,advancedTab);
+
+    }
+
+    public void addPinsToConnectorUsingConnectorName(String connectorIdFemaleHalf, int numberOfPins) throws InterruptedException {
+        customCommand.javaScriptClick(driver,selectButton);
+        WebElement ele = driver.findElement(By.xpath("//*[name()='g' and @title='"+connectorIdFemaleHalf+"']//*[name()='g' and contains(@id,'_male')]//*[name()='rect']"));
+        customCommand.moveToElementAndContextClick(driver,ele);
+        customCommand.waitForElementToBeClickable(driver,addMorePins);
+        customCommand.javaScriptClick(driver,addMorePins);
+        customCommand.waitForElementVisibility(driver,inputAddMorePins);
+        customCommand.waitForElementToBeClickable(driver,inputAddMorePins);
+        customCommand.clearAndEnterText(inputAddMorePins, String.valueOf(numberOfPins));
+        customCommand.javaScriptClick(driver,buttonOkAddMorePins);
+
+    }
 }

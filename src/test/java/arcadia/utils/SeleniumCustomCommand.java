@@ -194,4 +194,8 @@ public class SeleniumCustomCommand {
         Actions actions = new Actions(driver);
         actions.moveByOffset(offsetX,offsetY).click().perform();
     }
+    public void moveToElementAndContextClick(WebDriver driver , WebElement element){
+        Actions actions = new Actions(driver);
+        actions.moveToElement(element).contextClick().build().perform();
+    }
 }
