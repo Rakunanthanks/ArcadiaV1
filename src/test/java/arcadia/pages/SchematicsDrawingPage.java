@@ -5,6 +5,7 @@ import arcadia.utils.SeleniumCustomCommand;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.sikuli.hotkey.Keys;
 
@@ -250,12 +251,16 @@ public class SchematicsDrawingPage extends BasePage{
     }
 
     public void connectWire(String name,WebElement left,WebElement right) throws InterruptedException {
+        Actions actions = new Actions(driver);
         customCommand.javaScriptClick(driver,insertWire);
-        left.click();
+        actions.moveToElement(left).click().perform();
+//        left.click();
         Thread.sleep(2000);
         customCommand.moveByOffsetOfElementAndClick(driver,left,120,0);
         Thread.sleep(2000);
-        right.click();
+        customCommand.scrollIntoView(driver,right);
+        actions.moveToElement(right).click().perform();
+//        right.click();
         Thread.sleep(2000);
         customCommand.clearAndEnterText(wireName,name);
         customCommand.javaScriptClick(driver,wireOkButton);
