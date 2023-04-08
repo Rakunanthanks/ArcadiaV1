@@ -84,7 +84,7 @@ public class SchematicStepDefinitions {
         schematicsDrawingPage.addSplicesToSchematic(4,90,0,"C1","SP-BK");
         schematicsDrawingPage.addSplicesToSchematic(6,110,0,"C2","SP_GN");
         schematicsDrawingPage.addSplicesToSchematic(2,90,0,"C2","SP-YE");
-
+        schematicsDrawingPage.zoomOut();
     }
 
     @And("draw wires between connectors")
@@ -109,6 +109,14 @@ public class SchematicStepDefinitions {
             WebElement left=context.driver.findElement(By.xpath("(//*[name()='circle' and @comp='"+leftConnector.get(i)+"'])[2]"));
             WebElement right=context.driver.findElement(By.xpath("(//*[name()='circle' and @comp='"+rightConnector.get(i)+"'])[1]"));
             String wireName="wire"+i;
+            schematicsDrawingPage.connectWire(wireName,left,right);
+        }
+        List<String> spliceIds=(schematicsDrawingPage.getInlineSplices()).stream().map(x -> x.getAttribute("id")).toList();
+        for(int i=0;i<spliceIds.size();i++)
+        {
+            WebElement left=context.driver.findElement(By.xpath("(//*[name()='circle' and @comp='"+leftConnector.get(11)+"'])[2]"));
+            WebElement right=context.driver.findElement(By.xpath("//*[name()='circle' and @comp='"+spliceIds.get(i)+"']"));
+            String wireName="wire"+i+12;
             schematicsDrawingPage.connectWire(wireName,left,right);
         }
     }

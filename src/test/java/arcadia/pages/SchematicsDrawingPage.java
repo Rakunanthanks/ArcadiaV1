@@ -7,7 +7,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.sikuli.hotkey.Keys;
+
 
 import java.util.List;
 
@@ -76,7 +79,7 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(css = "div#btnFotter button[title=\"Submit\"]") private WebElement buttonSubmitShowWireWithoutLabel;
     @FindBy(xpath = "//input[@class='wireidspec']") private WebElement wireName;
     @FindBy(xpath = "//button[@title='Update wire data, close dialog']") private WebElement wireOkButton;
-
+    @FindBy(xpath = "//div[@title='Zoom Out']") private WebElement zoomOut;
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
 
 
@@ -249,6 +252,16 @@ public class SchematicsDrawingPage extends BasePage{
         List<WebElement> inlineConnectorpins = driver.findElements(By.xpath("//*[name()='g' and @title='"+inlineConnectorName+"']"));
         return inlineConnectorpins;
     }
+    public List<WebElement> getInlineSplices()
+    {
+        List<WebElement> inlineSplices = driver.findElements(By.xpath("//*[name()='g' and @puid='splice']"));
+        return inlineSplices;
+    }
+
+
+    public void zoomOut() throws InterruptedException {
+        customCommand.javaScriptClick(driver,zoomOut);
+    }
 
     public void connectWire(String name,WebElement left,WebElement right) throws InterruptedException {
         Actions actions = new Actions(driver);
@@ -258,10 +271,11 @@ public class SchematicsDrawingPage extends BasePage{
         Thread.sleep(2000);
         customCommand.moveByOffsetOfElementAndClick(driver,left,120,0);
         Thread.sleep(2000);
-        customCommand.scrollIntoView(driver,right);
         actions.moveToElement(right).click().perform();
 //        right.click();
         Thread.sleep(2000);
+        (new WebDriverWait(driver, 10))
+                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@class='wireidspec']")));
         customCommand.clearAndEnterText(wireName,name);
         customCommand.javaScriptClick(driver,wireOkButton);
         Thread.sleep(2000);
