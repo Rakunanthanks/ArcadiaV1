@@ -5,8 +5,12 @@ import arcadia.utils.SeleniumCustomCommand;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.sikuli.hotkey.Keys;
+
 
 import java.util.List;
 
@@ -63,6 +67,7 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(xpath = "//tbody/tr/td[17]") private List<WebElement> primaryColorColumnList;
     @FindBy(xpath = "//button[text() = 'Save']") private WebElement saveButton;
     @FindBy(xpath = "//a[contains(text(),'Go to Drawing')]") private WebElement buttonGoToDrawing;
+    @FindBy(xpath = "//div[@title='Insert Wire']") private WebElement insertWire;
     @FindBy(xpath = "//div[@Title = 'Wire Label Inline']") private WebElement wireLabelInline;
     @FindBy(xpath = "//div[@Title = 'Remove All Wire Labels']") private WebElement removeAllWireLabels;
     @FindBy(xpath = "//div[@Title = 'Line Label']") private WebElement wireLabel;
@@ -72,7 +77,9 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(xpath = "//div[@title=\"no Line Label\"]//span") private WebElement wireWOLabel;
     @FindBy(css = "select#wireType") private WebElement selectWireTypeShowWireWithoutLabel;
     @FindBy(css = "div#btnFotter button[title=\"Submit\"]") private WebElement buttonSubmitShowWireWithoutLabel;
-
+    @FindBy(xpath = "//input[@class='wireidspec']") private WebElement wireName;
+    @FindBy(xpath = "//button[@title='Update wire data, close dialog']") private WebElement wireOkButton;
+    @FindBy(xpath = "//div[@title='Zoom Out']") private WebElement zoomOut;
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
 
 
@@ -239,4 +246,39 @@ public class SchematicsDrawingPage extends BasePage{
         customCommand.javaScriptClick(driver,buttonOkAddMorePins);
 
     }
+
+    public List<WebElement> getInlineConnectorCircles(String inlineConnectorName)
+    {
+        List<WebElement> inlineConnectorpins = driver.findElements(By.xpath("//*[name()='g' and @title='"+inlineConnectorName+"']"));
+        return inlineConnectorpins;
+    }
+    public List<WebElement> getInlineSplices()
+    {
+        List<WebElement> inlineSplices = driver.findElements(By.xpath("//*[name()='g' and @puid='splice']"));
+        return inlineSplices;
+    }
+
+
+    public void zoomOut() throws InterruptedException {
+        customCommand.javaScriptClick(driver,zoomOut);
+    }
+
+    public void connectWire(String name,WebElement left,WebElement right) throws InterruptedException {
+        Actions actions = new Actions(driver);
+        customCommand.javaScriptClick(driver,insertWire);
+        actions.moveToElement(left).click().perform();
+//        left.click();
+        Thread.sleep(2000);
+        customCommand.moveByOffsetOfElementAndClick(driver,left,120,0);
+        Thread.sleep(2000);
+        actions.moveToElement(right).click().perform();
+//        right.click();
+        Thread.sleep(2000);
+        (new WebDriverWait(driver, 10))
+                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@class='wireidspec']")));
+        customCommand.clearAndEnterText(wireName,name);
+        customCommand.javaScriptClick(driver,wireOkButton);
+        Thread.sleep(2000);
+    }
+
 }

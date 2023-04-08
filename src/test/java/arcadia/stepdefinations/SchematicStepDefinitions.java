@@ -6,8 +6,13 @@ import arcadia.domainobjects.Schematic;
 import arcadia.pages.*;
 import arcadia.utils.StringHelper;
 import io.cucumber.java.en.And;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class SchematicStepDefinitions {
     private final TestContext context;
@@ -67,7 +72,6 @@ public class SchematicStepDefinitions {
     @And("click on Housings from the footer")
     public void clickOnHousings() throws InterruptedException {
         schematicsDrawingPage.clickOnHousingsFooter();
-
     }
 
     @And("click on Pins dropdown from the footer")
@@ -80,12 +84,41 @@ public class SchematicStepDefinitions {
         schematicsDrawingPage.addSplicesToSchematic(4,90,0,"C1","SP-BK");
         schematicsDrawingPage.addSplicesToSchematic(6,110,0,"C2","SP_GN");
         schematicsDrawingPage.addSplicesToSchematic(2,90,0,"C2","SP-YE");
-
+        schematicsDrawingPage.zoomOut();
     }
 
     @And("draw wires between connectors")
-    public void drawWiresBetweenConnectors() {
-
+    public void drawWiresBetweenConnectors() throws InterruptedException {
+        Thread.sleep(2000);
+        List<String> leftConnector=new ArrayList<>();
+        List<String> rightConnector=new ArrayList<>();
+        List<String> connectorC1= (schematicsDrawingPage.getInlineConnectorCircles("C1")).stream().map(x -> x.getAttribute("id")).toList();
+        List<String> connectorC2= (schematicsDrawingPage.getInlineConnectorCircles("C2")).stream().map(x -> x.getAttribute("id")).toList();
+        List<String> connectorC3= (schematicsDrawingPage.getInlineConnectorCircles("C3")).stream().map(x -> x.getAttribute("id")).toList();
+        leftConnector.addAll(connectorC1);
+        leftConnector.addAll(connectorC2);
+        leftConnector.addAll(connectorC3);
+        List<String> connectorC4=(schematicsDrawingPage.getInlineConnectorCircles("C4")).stream().map(x -> x.getAttribute("id")).toList();
+        List<String> connectorC5=(schematicsDrawingPage.getInlineConnectorCircles("C5")).stream().map(x -> x.getAttribute("id")).toList();
+        List<String> connectorC6=(schematicsDrawingPage.getInlineConnectorCircles("C6")).stream().map(x -> x.getAttribute("id")).toList();
+        rightConnector.addAll(connectorC4);
+        rightConnector.addAll(connectorC5);
+        rightConnector.addAll(connectorC6);
+        for(int i=0;i<rightConnector.size();i++)
+        {
+            WebElement left=context.driver.findElement(By.xpath("(//*[name()='circle' and @comp='"+leftConnector.get(i)+"'])[2]"));
+            WebElement right=context.driver.findElement(By.xpath("(//*[name()='circle' and @comp='"+rightConnector.get(i)+"'])[1]"));
+            String wireName="wire"+i;
+            schematicsDrawingPage.connectWire(wireName,left,right);
+        }
+        List<String> spliceIds=(schematicsDrawingPage.getInlineSplices()).stream().map(x -> x.getAttribute("id")).toList();
+        for(int i=0;i<spliceIds.size();i++)
+        {
+            WebElement left=context.driver.findElement(By.xpath("(//*[name()='circle' and @comp='"+leftConnector.get(11)+"'])[2]"));
+            WebElement right=context.driver.findElement(By.xpath("//*[name()='circle' and @comp='"+spliceIds.get(i)+"']"));
+            String wireName="wire"+i+12;
+            schematicsDrawingPage.connectWire(wireName,left,right);
+        }
     }
 
     @And("change the wire settings from wire editor")
