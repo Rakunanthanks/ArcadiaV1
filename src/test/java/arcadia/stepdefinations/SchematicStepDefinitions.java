@@ -122,10 +122,10 @@ public class SchematicStepDefinitions {
     }
 
     @And("change the wire settings from wire editor")
-    public void changeTheWireSettingsFromWireEditor() throws InterruptedException {
+    public void changeTheWireSettingsFromWireEditor() throws InterruptedException, AWTException {
         schematicsDrawingPage.moveToWireEditor();
-        schematicsDrawingPage.changeGaugeAndMaterial();
         schematicsDrawingPage.changePrimaryColour();
+        schematicsDrawingPage.changeGaugeAndMaterial();
         schematicsDrawingPage.saveWireEditorChanges();
     }
 

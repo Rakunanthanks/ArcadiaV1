@@ -198,4 +198,17 @@ public class SeleniumCustomCommand {
         Actions actions = new Actions(driver);
         actions.moveToElement(element).contextClick().build().perform();
     }
+    public void pressKey(WebDriver driver,String keyName) throws AWTException {
+        String key="";
+        switch (keyName.toLowerCase()){
+            case "escape":
+                key = String.valueOf(Keys.ESCAPE);
+                break;
+            case "tab":
+                key = String.valueOf(Keys.TAB);
+                break;
+        }
+        Actions actions = new Actions(driver);
+        actions.sendKeys(key).perform();
+    }
 }

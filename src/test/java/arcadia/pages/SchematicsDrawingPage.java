@@ -12,6 +12,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.sikuli.hotkey.Keys;
 
 
+import java.awt.*;
 import java.util.List;
 
 public class SchematicsDrawingPage extends BasePage{
@@ -58,7 +59,11 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(xpath = "//span[@class='button-title' and text()='Wire Editor']") private WebElement wireEditor;
     @FindBy(id = "wire-editor") private WebElement divWireEditorPage;
     @FindBy(xpath = "//th//span[text()=\"To Con\"]") private WebElement headingToCon;
-    @FindBy(xpath = "//tbody/tr/td[10]") private List<WebElement> connectorsColumnList;
+    @FindBy(xpath = "//th//span[text()=\"Material\"]") private WebElement headingMaterial;
+    @FindBy(xpath = "//th//span[text()=\"Gauge\"]") private WebElement headingGauge;
+    @FindBy(xpath = "//th//span[text()=\"Primary Color\"]") private WebElement headingPrimaryColour;
+    @FindBy(xpath = "//label[contains(text(),\"Component DB\")]//following-sibling::select") private WebElement selectDropdownComponentDB;
+    @FindBy(xpath = "//tbody/tr/td[10]") private WebElement connectorsColumns;
     @FindBy(xpath = "count((//span[text() = 'Material'])[1]/../../preceding-sibling::th)") private WebElement materialColumnIndex;
     @FindBy(xpath = "//tbody/tr/td[15]") private List<WebElement> materialColumnList;
     @FindBy(xpath = "count((//span[text() = 'Gauge'])[1]/../../preceding-sibling::th)") private WebElement gaugeColumnIndex;
@@ -183,39 +188,54 @@ public class SchematicsDrawingPage extends BasePage{
     }
 
     public void moveToWireEditor() throws InterruptedException {
+        customCommand.waitForElementToBeClickable(driver,advancedTab);
         customCommand.javaScriptClick(driver,advancedTab);
+        customCommand.waitForElementToBeClickable(driver,wireEditor);
         customCommand.javaScriptClick(driver,wireEditor);
         customCommand.waitForElementVisibility(driver,divWireEditorPage);
     }
-    public void changeGaugeAndMaterial() throws InterruptedException {
-        for(WebElement we:materialColumnList)
-        {
-            customCommand.clearAndEnterText(we,"GXL");
-        }
-        for(WebElement we:gaugeColumnList)
-        {
-            customCommand.clearAndEnterText(we,"18");
-        }
-    }
-
-    public void changePrimaryColour() throws InterruptedException {
+    public void changePrimaryColour() throws InterruptedException, AWTException {
+        Thread.sleep(3000);
+        customCommand.waitForElementToBeClickable(driver,selectDropdownComponentDB);
+        customCommand.scrollIntoView(driver,headingToCon);
         customCommand.javaScriptClick(driver,headingToCon);
         Thread.sleep(2000);
         String primaryColour;
-        for (int i=0; i<connectorsColumnList.size(); i++){
-            if (connectorsColumnList.get(i).getText().equalsIgnoreCase("SP-BK")){
+        List<WebElement> listOfConnectorsColumns = driver.findElements(By.xpath("//tbody/tr/td[10]"));
+        for (int i=0; i<listOfConnectorsColumns.size(); i++){
+            if (listOfConnectorsColumns.get(i).getText().equalsIgnoreCase("SP-BK")){
                 primaryColour = "BK";
             }
-            else if (connectorsColumnList.get(i).getText().equalsIgnoreCase("SP-YE")){
+            else if (listOfConnectorsColumns.get(i).getText().equalsIgnoreCase("SP-YE")){
                 primaryColour = "YE";
             }
-            else if (connectorsColumnList.get(i).getText().equalsIgnoreCase("SP-GN")){
+            else if (listOfConnectorsColumns.get(i).getText().equalsIgnoreCase("SP-GN")){
                 primaryColour = "GN";
             }
             else {
                 primaryColour = "WH";
             }
-            customCommand.clearAndEnterText(primaryColorColumnList.get(i),primaryColour);
+            customCommand.scrollIntoView(driver,headingPrimaryColour);
+            customCommand.moveToElementAndDoubleClick(driver,primaryColorColumnList.get(i));
+            customCommand.clearAndEnterText(driver.findElement(By.xpath("//textarea")),primaryColour);
+            customCommand.scrollIntoView(driver,headingToCon);
+        }
+    }
+    public void changeGaugeAndMaterial() throws InterruptedException, AWTException {
+        Thread.sleep(3000);
+        customCommand.scrollIntoView(driver,headingMaterial);
+        List<WebElement> listOfGaugeColumnRows = driver.findElements(By.xpath("//tbody/tr/td[16]"));
+        for(WebElement we:materialColumnList)
+        {
+            customCommand.moveToElementAndDoubleClick(driver,we);
+            customCommand.clearAndEnterText(driver.findElement(By.xpath("//textarea")),"GXL");
+        }
+        Thread.sleep(2000);
+        customCommand.scrollIntoView(driver,headingGauge);
+        for(WebElement eleGauge:listOfGaugeColumnRows)
+        {
+            customCommand.moveToElementAndDoubleClick(driver,eleGauge);
+            customCommand.clearAndEnterText(driver.findElement(By.xpath("//textarea")),"18");
         }
     }
 
