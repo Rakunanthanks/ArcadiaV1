@@ -5,9 +5,11 @@ import arcadia.context.TestContext;
 import arcadia.domainobjects.Schematic;
 import arcadia.pages.*;
 import arcadia.utils.StringHelper;
+import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import io.cucumber.java.en.And;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -114,9 +116,9 @@ public class SchematicStepDefinitions {
         List<String> spliceIds=(schematicsDrawingPage.getInlineSplices()).stream().map(x -> x.getAttribute("id")).toList();
         for(int i=0;i<spliceIds.size();i++)
         {
-            WebElement left=context.driver.findElement(By.xpath("(//*[name()='circle' and @comp='"+leftConnector.get(11)+"'])[2]"));
+            WebElement left=context.driver.findElement(By.xpath("(//*[name()='circle' and @comp='"+leftConnector.get(i)+"'])[2]"));
             WebElement right=context.driver.findElement(By.xpath("//*[name()='circle' and @comp='"+spliceIds.get(i)+"']"));
-            String wireName="wire"+i+12;
+            String wireName="wire"+(i+12);
             schematicsDrawingPage.connectWire(wireName,left,right);
         }
     }
@@ -132,5 +134,32 @@ public class SchematicStepDefinitions {
     @And("go to drawing from wire editor")
     public void goToDrawingFromWireEditor() {
         schematicsDrawingPage.goToDrawingFromWireEditor();
+    }
+
+    @And("validate the wire labels before removing")
+    public void validateTheWireLabelsBeforeRemoving() {
+        int no=schematicsDrawingPage.numberOfWireLabels();
+        if(no>0)
+        {
+            ExtentCucumberAdapter.addTestStepLog(String.format("Wire Labels are visible"));
+        }
+        else{
+            ExtentCucumberAdapter.addTestStepLog(String.format("Wire Labels are not visible"));
+            Assert.fail();
+        }
+    }
+
+    @And("validate the wire labels after removing")
+    public void validateTheWireLabelsAfterRemoving() throws InterruptedException {
+        schematicsDrawingPage.removeWireLabels();
+        int no=schematicsDrawingPage.numberOfWireLabels();
+        if(no>0)
+        {
+            ExtentCucumberAdapter.addTestStepLog(String.format("Wire Labels are visible"));
+            Assert.fail();
+        }
+        else{
+            ExtentCucumberAdapter.addTestStepLog(String.format("Wire Labels are not visible"));
+        }
     }
 }
