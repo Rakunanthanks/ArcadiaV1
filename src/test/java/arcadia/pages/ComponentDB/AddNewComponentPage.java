@@ -114,10 +114,15 @@ public class AddNewComponentPage extends BasePage {
 
     public void createComponent(AddComponentForm addComponentForm, String componentName) throws InterruptedException {
         //Details
+        customCommand.LongWaitForElementVisibility(driver,componentDescription);
         customCommand.enterText(componentDescription, addComponentForm.getComponentDetails().getDescription());
+        customCommand.LongWaitForElementVisibility(driver,componentFamily);
         customCommand.enterText(componentFamily, addComponentForm.getComponentDetails().getFamily());
+        customCommand.LongWaitForElementVisibility(driver,componentTypeCode);
         customCommand.enterText(componentTypeCode, addComponentForm.getComponentDetails().getTypecode());
+        customCommand.LongWaitForElementVisibility(driver,componentTypeCode);
         customCommand.enterText(componentProprietary, addComponentForm.getComponentDetails().getProprietary());
+        customCommand.LongWaitForElementVisibility(driver,componentPartType);
         customCommand.enterText(componentPartType, addComponentForm.getComponentDetails().getParttype());
         customCommand.selectDropDownByValue(componentMaterialCode, addComponentForm.getComponentDetails().getMaterialcode());
         customCommand.selectDropDownByValue(componentUsage, addComponentForm.getComponentDetails().getUsage());

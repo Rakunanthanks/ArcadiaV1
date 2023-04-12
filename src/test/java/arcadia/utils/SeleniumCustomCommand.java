@@ -37,6 +37,9 @@ public class SeleniumCustomCommand {
     public void waitForElementVisibility(WebDriver driver , WebElement element){
         new WebDriverWait(driver, Duration.ofSeconds(40)).until(ExpectedConditions.visibilityOf(element));
     }
+    public void LongWaitForElementVisibility(WebDriver driver , WebElement element){
+        new WebDriverWait(driver, Duration.ofMinutes(1)).until(ExpectedConditions.visibilityOf(element));
+    }
     public void waitForElementToBeClickable(WebDriver driver , WebElement element){
         new WebDriverWait(driver, Duration.ofSeconds(8)).until(ExpectedConditions.elementToBeClickable(element));
     }
