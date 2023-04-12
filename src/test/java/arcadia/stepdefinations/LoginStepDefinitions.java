@@ -79,6 +79,7 @@ public class LoginStepDefinitions {
         Thread.sleep(2000);
         WebElement ok = context.driver.findElement(By.xpath("//button[normalize-space()='OK']"));
         ok.click();
+        Thread.sleep(5000);
     }
 
 
@@ -224,6 +225,9 @@ public class LoginStepDefinitions {
     public void navigatedToHarnessAdvancedSettingPage() {
         loginPage.load(EndPoint.HARNESSADVANCED.url.replace("profileName",System.getProperty("profileName")));
     }
-
+@And("Navigated to Harness Splice editor setting page")
+    public void navigatedToHarnessSpliceEditorSettingPage() {
+        loginPage.load(EndPoint.SPLICEEDITORSETTING.url.replace("profileName",System.getProperty("profileName")));
+    }
 
 }

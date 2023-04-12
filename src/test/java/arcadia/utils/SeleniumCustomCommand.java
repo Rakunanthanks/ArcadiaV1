@@ -228,4 +228,10 @@ public class SeleniumCustomCommand {
         Actions actions = new Actions(driver);
         actions.sendKeys(key).perform();
     }
+  public void tabKey( ) throws AWTException {
+        Robot robot = new Robot();
+        robot.keyPress(KeyEvent.VK_TAB);
+        robot.keyRelease(KeyEvent.VK_TAB);
+        robot.delay(200);
+    }
 }
