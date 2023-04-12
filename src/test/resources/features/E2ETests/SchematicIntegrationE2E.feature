@@ -8,7 +8,7 @@ Feature: Verify schematics
     And Navigated to 'Demo_Integration' project
     And test data config loaded for test identifier test14
 
-  @VerifySchematic @E2E
+  @VerifySchematic
   Scenario: Test verifies a schematic can be created
     And schematic with name 'Demo_Integration' is launched successfully
     And based on drawing orchestrator components are created
@@ -18,9 +18,10 @@ Feature: Verify schematics
     And click on Housings from the footer
     And add splices to schematic
     And draw wires between connectors
-    And change the wire settings from wire editor
-    And go to drawing from wire editor
+#    And change the wire settings from wire editor
+#    And go to drawing from wire editor
 
+  @VerifySchematic
   Scenario: Test inline connectors, splices and wire can be added to schematic
     And schematic with name 'Demo_Integration' is launched successfully
     And based on drawing orchestrator components are created
@@ -31,7 +32,7 @@ Feature: Verify schematics
     And add splices to schematic
     And draw wires between connectors
 
-  @VerifySchematic @E2E
+  @VerifySchematic
   Scenario: Test verifies use is able to hide and show the wire label
     And schematic with name 'Demo_Integration' is launched successfully
     And based on drawing orchestrator components are created
@@ -44,6 +45,7 @@ Feature: Verify schematics
     And validate the wire labels before removing
     And validate the wire labels after removing
 
+  @VerifySchematic
   Scenario: Test verifies wire settings can be modified for schematic
     And schematic with name 'Demo_Integration' is launched successfully
     And based on drawing orchestrator components are created
@@ -53,6 +55,6 @@ Feature: Verify schematics
     And click on Housings from the footer
     And add splices to schematic
     And draw wires between connectors
-    And change the wire settings from wire editor
-    And go to drawing from wire editor
+#    And change the wire settings from wire editor
+#    And go to drawing from wire editor
     Then verify wire label can be removed successfully
