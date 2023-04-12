@@ -87,6 +87,9 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(xpath = "//input[@class='wireidspec']") private WebElement wireName;
     @FindBy(xpath = "//button[@title='Update wire data, close dialog']") private WebElement wireOkButton;
     @FindBy(xpath = "//div[@title='Zoom Out']") private WebElement zoomOut;
+    @FindBy(xpath = "//*[name()='text' and @class='complabel' and contains(text(),'WIRE')]") private List<WebElement> wireLabels;
+    @FindBy(xpath = "//span[text()='Remove All']") private WebElement removeWireLabels;
+    @FindBy(xpath = "//div[@class='ui-dialog-buttonset']//span[text()='Submit']") private WebElement confirmSubmition;
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
 
 
@@ -196,10 +199,37 @@ public class SchematicsDrawingPage extends BasePage{
         customCommand.javaScriptClick(driver,wireEditor);
         customCommand.waitForElementVisibility(driver,divWireEditorPage);
     }
-    public void changePrimaryColour() throws InterruptedException, AWTException {
-        Thread.sleep(3000);
-        customCommand.waitForElementToBeClickable(driver,selectDropdownComponentDB);
-        customCommand.scrollIntoView(driver,headingToCon);
+
+    public void changeGaugeAndMaterial() throws InterruptedException {
+        (new WebDriverWait(driver, 10))
+                .until(ExpectedConditions.elementToBeClickable(buttonGoToDrawing));
+        Thread.sleep(2000);
+        WebElement header=driver.findElement(By.xpath("(//span[text()='Material'])[1]//parent::div//parent::th"));
+        customCommand.scrollToElement(driver,header);
+        for(int i=0;i<materialColumnList.size()-1;i++)
+        {
+            customCommand.scrollToElement(driver,materialColumnList.get(i));
+            customCommand.doubleClick(driver,materialColumnList.get(i));
+            Thread.sleep(2000);
+            Actions actions = new Actions(driver);
+//            actions.moveToElement(materialColumnList.get(i)).click().perform();
+            WebElement value=driver.findElement(By.xpath("//td[@class='listbox htDimmed' and text()='GXL']"));
+            value.click();
+        }
+        for(int i=0;i<gaugeColumnList.size()-1;i++)
+        {
+            customCommand.moveToElementAndDoubleClick(driver,gaugeColumnList.get(i));
+            Thread.sleep(2000);
+            Actions actions = new Actions(driver);
+            actions.moveToElement(gaugeColumnList.get(i)).click().perform();
+            WebElement value=driver.findElement(By.xpath("//td[@class='listbox htDimmed' and text()='10']"));
+            value.click();
+        }
+    }
+
+    public void changePrimaryColour() throws InterruptedException {
+        (new WebDriverWait(driver, 10))
+                .until(ExpectedConditions.visibilityOf(buttonGoToDrawing));
         customCommand.javaScriptClick(driver,headingToCon);
         Thread.sleep(2000);
         String primaryColour;
@@ -221,23 +251,6 @@ public class SchematicsDrawingPage extends BasePage{
             customCommand.moveToElementAndDoubleClick(driver,primaryColorColumnList.get(i));
             customCommand.clearAndEnterText(driver.findElement(By.xpath("//textarea")),primaryColour);
             customCommand.scrollIntoView(driver,headingToCon);
-        }
-    }
-    public void changeGaugeAndMaterial() throws InterruptedException, AWTException {
-        Thread.sleep(3000);
-        customCommand.scrollIntoView(driver,headingMaterial);
-        List<WebElement> listOfGaugeColumnRows = driver.findElements(By.xpath("//tbody/tr/td[16]"));
-        for(WebElement we:materialColumnList)
-        {
-            customCommand.moveToElementAndDoubleClick(driver,we);
-            customCommand.clearAndEnterText(driver.findElement(By.xpath("//textarea")),"GXL");
-        }
-        Thread.sleep(2000);
-        customCommand.scrollIntoView(driver,headingGauge);
-        for(WebElement eleGauge:listOfGaugeColumnRows)
-        {
-            customCommand.moveToElementAndDoubleClick(driver,eleGauge);
-            customCommand.clearAndEnterText(driver.findElement(By.xpath("//textarea")),"18");
         }
     }
 
@@ -309,17 +322,26 @@ public class SchematicsDrawingPage extends BasePage{
         Actions actions = new Actions(driver);
         customCommand.javaScriptClick(driver,insertWire);
         actions.moveToElement(left).click().perform();
-//        left.click();
         Thread.sleep(2000);
         customCommand.moveByOffsetOfElementAndClick(driver,left,120,0);
         Thread.sleep(2000);
         actions.moveToElement(right).click().perform();
-//        right.click();
         Thread.sleep(2000);
         (new WebDriverWait(driver, 10))
                 .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@class='wireidspec']")));
         customCommand.clearAndEnterText(wireName,name);
         customCommand.javaScriptClick(driver,wireOkButton);
+        Thread.sleep(2000);
+    }
+
+    public int numberOfWireLabels()
+    {
+        return wireLabels.size();
+    }
+
+    public void removeWireLabels() throws InterruptedException {
+        customCommand.javaScriptClick(driver,removeWireLabels);
+        customCommand.javaScriptClick(driver,confirmSubmition);
         Thread.sleep(2000);
     }
 

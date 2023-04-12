@@ -62,6 +62,7 @@ public class SeleniumCustomCommand {
 
     public void javaScriptClickAndEnterValue(WebDriver driver , WebElement element,String value) throws InterruptedException {
         ((JavascriptExecutor)driver).executeScript("arguments[0].click();", element);
+        ((JavascriptExecutor)driver).executeScript("arguments[0].value='';", element);
         ((JavascriptExecutor)driver).executeScript("arguments[0].value='"+value+"'", element);
         Thread.sleep(1000);
     }
@@ -198,6 +199,13 @@ public class SeleniumCustomCommand {
         Actions actions = new Actions(driver);
         actions.moveToElement(element).contextClick().build().perform();
     }
+
+    public void scrollToElement(WebDriver driver,WebElement ele)
+    {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].scrollBy(50,0);", ele);
+    }
+
     public void pressKey(WebDriver driver,String keyName) throws AWTException {
         String key="";
         switch (keyName.toLowerCase()){
