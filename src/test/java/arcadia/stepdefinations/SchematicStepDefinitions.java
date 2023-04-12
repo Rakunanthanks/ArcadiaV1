@@ -7,6 +7,7 @@ import arcadia.pages.*;
 import arcadia.utils.StringHelper;
 import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import io.cucumber.java.en.And;
+import org.testng.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
@@ -124,10 +125,10 @@ public class SchematicStepDefinitions {
     }
 
     @And("change the wire settings from wire editor")
-    public void changeTheWireSettingsFromWireEditor() throws InterruptedException {
+    public void changeTheWireSettingsFromWireEditor() throws InterruptedException, AWTException {
         schematicsDrawingPage.moveToWireEditor();
-        schematicsDrawingPage.changeGaugeAndMaterial();
         schematicsDrawingPage.changePrimaryColour();
+        schematicsDrawingPage.changeGaugeAndMaterial();
         schematicsDrawingPage.saveWireEditorChanges();
     }
 
@@ -161,5 +162,16 @@ public class SchematicStepDefinitions {
         else{
             ExtentCucumberAdapter.addTestStepLog(String.format("Wire Labels are not visible"));
         }
+    }
+
+    @And("verify wire label can be removed successfully")
+    public void verifyWireLabelCanBeRemovedSuccessfully() throws InterruptedException {
+        String wireId = "WIRE0";
+        boolean isWireLabelPresent = schematicsDrawingPage.checkIfWireLabelPresent(wireId);
+        Assert.assertTrue(isWireLabelPresent,"Wire label is not present");
+        schematicsDrawingPage.removeAllWireLabels();
+        Thread.sleep(3000);
+        isWireLabelPresent = schematicsDrawingPage.checkIfWireLabelPresent(wireId);
+        Assert.assertFalse(isWireLabelPresent,"Wire label is present on schematic drawing page even after removing all wire labels");
     }
 }

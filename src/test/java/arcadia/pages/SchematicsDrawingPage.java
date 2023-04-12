@@ -10,8 +10,10 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.sikuli.hotkey.Keys;
+import org.testng.Assert;
 
 
+import java.awt.*;
 import java.util.List;
 
 public class SchematicsDrawingPage extends BasePage{
@@ -58,7 +60,11 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(xpath = "//span[@class='button-title' and text()='Wire Editor']") private WebElement wireEditor;
     @FindBy(id = "wire-editor") private WebElement divWireEditorPage;
     @FindBy(xpath = "//th//span[text()=\"To Con\"]") private WebElement headingToCon;
-    @FindBy(xpath = "//tbody/tr/td[10]") private List<WebElement> connectorsColumnList;
+    @FindBy(xpath = "//th//span[text()=\"Material\"]") private WebElement headingMaterial;
+    @FindBy(xpath = "//th//span[text()=\"Gauge\"]") private WebElement headingGauge;
+    @FindBy(xpath = "//th//span[text()=\"Primary Color\"]") private WebElement headingPrimaryColour;
+    @FindBy(xpath = "//label[contains(text(),\"Component DB\")]//following-sibling::select") private WebElement selectDropdownComponentDB;
+    @FindBy(xpath = "//tbody/tr/td[10]") private WebElement connectorsColumns;
     @FindBy(xpath = "count((//span[text() = 'Material'])[1]/../../preceding-sibling::th)") private WebElement materialColumnIndex;
     @FindBy(xpath = "//tbody/tr/td[15]") private List<WebElement> materialColumnList;
     @FindBy(xpath = "count((//span[text() = 'Gauge'])[1]/../../preceding-sibling::th)") private WebElement gaugeColumnIndex;
@@ -70,6 +76,7 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(xpath = "//div[@title='Insert Wire']") private WebElement insertWire;
     @FindBy(xpath = "//div[@Title = 'Wire Label Inline']") private WebElement wireLabelInline;
     @FindBy(xpath = "//div[@Title = 'Remove All Wire Labels']") private WebElement removeAllWireLabels;
+    @FindBy(xpath = "//div[@id=\"dialog\" and text()=\"Remove all labels for wires?\"]") private WebElement popupMessageRemoveLabelsFromWires;
     @FindBy(xpath = "//div[@Title = 'Line Label']") private WebElement wireLabel;
 
     @FindBy(xpath = "//span[text()=\"Confirm Action\"]") private WebElement headingConfirmActionRemoveWireLabel;
@@ -186,10 +193,16 @@ public class SchematicsDrawingPage extends BasePage{
     }
 
     public void moveToWireEditor() throws InterruptedException {
+        customCommand.waitForElementToBeClickable(driver,advancedTab);
         customCommand.javaScriptClick(driver,advancedTab);
+        customCommand.waitForElementToBeClickable(driver,wireEditor);
         customCommand.javaScriptClick(driver,wireEditor);
         customCommand.waitForElementVisibility(driver,divWireEditorPage);
     }
+    public void changePrimaryColour() throws InterruptedException, AWTException {
+        Thread.sleep(3000);
+        customCommand.waitForElementToBeClickable(driver,selectDropdownComponentDB);
+        customCommand.scrollIntoView(driver,headingToCon);
     public void changeGaugeAndMaterial() throws InterruptedException {
         (new WebDriverWait(driver, 10))
                 .until(ExpectedConditions.elementToBeClickable(buttonGoToDrawing));
@@ -223,19 +236,41 @@ public class SchematicsDrawingPage extends BasePage{
         customCommand.javaScriptClick(driver,headingToCon);
         Thread.sleep(2000);
         String primaryColour;
-        for (int i=0; i<connectorsColumnList.size(); i++){
-            if (connectorsColumnList.get(i).getText().equalsIgnoreCase("SP-BK")){
+        List<WebElement> listOfConnectorsColumns = driver.findElements(By.xpath("//tbody/tr/td[10]"));
+        for (int i=0; i<listOfConnectorsColumns.size(); i++){
+            if (listOfConnectorsColumns.get(i).getText().equalsIgnoreCase("SP-BK")){
                 primaryColour = "BK";
             }
-            else if (connectorsColumnList.get(i).getText().equalsIgnoreCase("SP-YE")){
+            else if (listOfConnectorsColumns.get(i).getText().equalsIgnoreCase("SP-YE")){
                 primaryColour = "YE";
             }
-            else if (connectorsColumnList.get(i).getText().equalsIgnoreCase("SP-GN")){
+            else if (listOfConnectorsColumns.get(i).getText().equalsIgnoreCase("SP-GN")){
                 primaryColour = "GN";
             }
             else {
                 primaryColour = "WH";
             }
+            customCommand.scrollIntoView(driver,headingPrimaryColour);
+            customCommand.moveToElementAndDoubleClick(driver,primaryColorColumnList.get(i));
+            customCommand.clearAndEnterText(driver.findElement(By.xpath("//textarea")),primaryColour);
+            customCommand.scrollIntoView(driver,headingToCon);
+        }
+    }
+    public void changeGaugeAndMaterial() throws InterruptedException, AWTException {
+        Thread.sleep(3000);
+        customCommand.scrollIntoView(driver,headingMaterial);
+        List<WebElement> listOfGaugeColumnRows = driver.findElements(By.xpath("//tbody/tr/td[16]"));
+        for(WebElement we:materialColumnList)
+        {
+            customCommand.moveToElementAndDoubleClick(driver,we);
+            customCommand.clearAndEnterText(driver.findElement(By.xpath("//textarea")),"GXL");
+        }
+        Thread.sleep(2000);
+        customCommand.scrollIntoView(driver,headingGauge);
+        for(WebElement eleGauge:listOfGaugeColumnRows)
+        {
+            customCommand.moveToElementAndDoubleClick(driver,eleGauge);
+            customCommand.clearAndEnterText(driver.findElement(By.xpath("//textarea")),"18");
             customCommand.moveToElementAndDoubleClick(driver,connectorsColumnList.get(i));
             Thread.sleep(2000);
             Actions actions = new Actions(driver);
@@ -271,6 +306,26 @@ public class SchematicsDrawingPage extends BasePage{
         customCommand.clearAndEnterText(inputAddMorePins, String.valueOf(numberOfPins));
         customCommand.javaScriptClick(driver,buttonOkAddMorePins);
 
+    }
+
+    public boolean checkIfWireLabelPresent(String wireId) {
+        List<WebElement> listOfWireLabelElements = driver.findElements(By.xpath("//*[name()='text' and @class='complabel' and contains(text(),'"+wireId+"')]"));
+        if (listOfWireLabelElements.size()>0){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public void removeAllWireLabels() throws InterruptedException {
+        customCommand.scrollIntoView(driver,removeAllWireLabels);
+        customCommand.waitForElementToBeClickable(driver,removeAllWireLabels);
+        customCommand.javaScriptClick(driver,removeAllWireLabels);
+        Assert.assertTrue(headingConfirmActionRemoveWireLabel.isDisplayed(),"ConfirmAction popup is not displayed for removing wire labels");
+        Assert.assertTrue(popupMessageRemoveLabelsFromWires.isDisplayed(),"Message for removing wire labels is not displayed");
+        buttonSubmitRemoveWireLabel.click();
+        customCommand.waitForElementToBeClickable(driver,advancedTab);
     }
 
     public List<WebElement> getInlineConnectorCircles(String inlineConnectorName)

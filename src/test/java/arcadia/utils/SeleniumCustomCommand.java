@@ -206,4 +206,17 @@ public class SeleniumCustomCommand {
         js.executeScript("arguments[0].scrollBy(50,0);", ele);
     }
 
+    public void pressKey(WebDriver driver,String keyName) throws AWTException {
+        String key="";
+        switch (keyName.toLowerCase()){
+            case "escape":
+                key = String.valueOf(Keys.ESCAPE);
+                break;
+            case "tab":
+                key = String.valueOf(Keys.TAB);
+                break;
+        }
+        Actions actions = new Actions(driver);
+        actions.sendKeys(key).perform();
+    }
 }

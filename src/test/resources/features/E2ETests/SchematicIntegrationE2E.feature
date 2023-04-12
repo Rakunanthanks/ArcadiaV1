@@ -55,3 +55,4 @@ Feature: Verify schematics
     And draw wires between connectors
     And change the wire settings from wire editor
     And go to drawing from wire editor
+    Then verify wire label can be removed successfully
