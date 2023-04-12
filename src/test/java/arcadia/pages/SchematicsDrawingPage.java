@@ -199,10 +199,7 @@ public class SchematicsDrawingPage extends BasePage{
         customCommand.javaScriptClick(driver,wireEditor);
         customCommand.waitForElementVisibility(driver,divWireEditorPage);
     }
-    public void changePrimaryColour() throws InterruptedException, AWTException {
-        Thread.sleep(3000);
-        customCommand.waitForElementToBeClickable(driver,selectDropdownComponentDB);
-        customCommand.scrollIntoView(driver,headingToCon);
+
     public void changeGaugeAndMaterial() throws InterruptedException {
         (new WebDriverWait(driver, 10))
                 .until(ExpectedConditions.elementToBeClickable(buttonGoToDrawing));
@@ -254,29 +251,6 @@ public class SchematicsDrawingPage extends BasePage{
             customCommand.moveToElementAndDoubleClick(driver,primaryColorColumnList.get(i));
             customCommand.clearAndEnterText(driver.findElement(By.xpath("//textarea")),primaryColour);
             customCommand.scrollIntoView(driver,headingToCon);
-        }
-    }
-    public void changeGaugeAndMaterial() throws InterruptedException, AWTException {
-        Thread.sleep(3000);
-        customCommand.scrollIntoView(driver,headingMaterial);
-        List<WebElement> listOfGaugeColumnRows = driver.findElements(By.xpath("//tbody/tr/td[16]"));
-        for(WebElement we:materialColumnList)
-        {
-            customCommand.moveToElementAndDoubleClick(driver,we);
-            customCommand.clearAndEnterText(driver.findElement(By.xpath("//textarea")),"GXL");
-        }
-        Thread.sleep(2000);
-        customCommand.scrollIntoView(driver,headingGauge);
-        for(WebElement eleGauge:listOfGaugeColumnRows)
-        {
-            customCommand.moveToElementAndDoubleClick(driver,eleGauge);
-            customCommand.clearAndEnterText(driver.findElement(By.xpath("//textarea")),"18");
-            customCommand.moveToElementAndDoubleClick(driver,connectorsColumnList.get(i));
-            Thread.sleep(2000);
-            Actions actions = new Actions(driver);
-            actions.moveToElement(connectorsColumnList.get(i)).click().perform();
-            WebElement value=driver.findElement(By.xpath("//td[@class='listbox htDimmed' and text()='"+primaryColour+"']"));
-            value.click();
         }
     }
 
