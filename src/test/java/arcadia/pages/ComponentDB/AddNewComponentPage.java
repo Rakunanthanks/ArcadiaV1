@@ -27,7 +27,7 @@ public class AddNewComponentPage extends BasePage {
     private WebElement componentTypeCode;
     @FindBy(css = "select[name=\"proprietary\"]+div input")
     private WebElement componentProprietary;
-    @FindBy(css = "select[name=\"groupname\"]")
+    @FindBy(css = "select[name=\"groupname\"]+div input")
     private WebElement componentPartType;
     String componentColour = "select[name=\"colour\"]";
     @FindBy(css = "select[name=\"status\"]")
@@ -116,13 +116,10 @@ public class AddNewComponentPage extends BasePage {
         //Details
         customCommand.LongWaitForElementVisibility(driver,componentDescription);
         customCommand.enterText(componentDescription, addComponentForm.getComponentDetails().getDescription());
-        customCommand.LongWaitForElementVisibility(driver,componentFamily);
         customCommand.enterText(componentFamily, addComponentForm.getComponentDetails().getFamily());
-        customCommand.LongWaitForElementVisibility(driver,componentTypeCode);
         customCommand.enterText(componentTypeCode, addComponentForm.getComponentDetails().getTypecode());
-        customCommand.LongWaitForElementVisibility(driver,componentTypeCode);
         customCommand.enterText(componentProprietary, addComponentForm.getComponentDetails().getProprietary());
-        customCommand.LongWaitForElementVisibility(driver,componentPartType);
+        componentMaterialCode.click();
         customCommand.enterText(componentPartType, addComponentForm.getComponentDetails().getParttype());
         customCommand.selectDropDownByValue(componentMaterialCode, addComponentForm.getComponentDetails().getMaterialcode());
         customCommand.selectDropDownByValue(componentUsage, addComponentForm.getComponentDetails().getUsage());
