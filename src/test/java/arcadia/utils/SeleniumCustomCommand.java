@@ -169,7 +169,7 @@ public class SeleniumCustomCommand {
 
     public void moveToElementAndClick(WebDriver driver , WebElement element){
         Actions actions = new Actions(driver);
-        actions.moveToElement(element).click().perform();
+        actions.moveToElement(element).click().build().perform();
     }
     public void moveToElementAndDoubleClick(WebDriver driver , WebElement element){
         Actions actions = new Actions(driver);

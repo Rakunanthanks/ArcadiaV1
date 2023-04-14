@@ -133,7 +133,7 @@ public class SchematicStepDefinitions {
     }
 
     @And("go to drawing from wire editor")
-    public void goToDrawingFromWireEditor() {
+    public void goToDrawingFromWireEditor() throws InterruptedException {
         schematicsDrawingPage.goToDrawingFromWireEditor();
     }
 

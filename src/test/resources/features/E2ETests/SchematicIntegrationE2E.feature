@@ -9,19 +9,6 @@ Feature: Verify schematics
     And test data config loaded for test identifier test14
 
   @VerifySchematic
-  Scenario: Test verifies a schematic can be created
-    And schematic with name 'Demo_Integration' is launched successfully
-    And based on drawing orchestrator components are created
-    And add inline connectors to schematic
-    And add more pins to connector
-    And click on Pins dropdown from the footer
-    And click on Housings from the footer
-    And add splices to schematic
-    And draw wires between connectors
-#    And change the wire settings from wire editor
-#    And go to drawing from wire editor
-
-  @VerifySchematic
   Scenario: Test inline connectors, splices and wire can be added to schematic
     And schematic with name 'Demo_Integration' is launched successfully
     And based on drawing orchestrator components are created
@@ -33,7 +20,34 @@ Feature: Verify schematics
     And draw wires between connectors
 
   @VerifySchematic
-  Scenario: Test verifies use is able to hide and show the wire label
+  Scenario: Test verifies wire settings can be edited from wire editor for schematic
+    And schematic with name 'Demo_Integration' is launched successfully
+    And based on drawing orchestrator components are created
+    And add inline connectors to schematic
+    And add more pins to connector
+    And click on Pins dropdown from the footer
+    And click on Housings from the footer
+    And add splices to schematic
+    And draw wires between connectors
+    And change the wire settings from wire editor
+    And go to drawing from wire editor
+
+  @VerifySchematic
+  Scenario: Test verifies wire label can be removed for schematic
+    And schematic with name 'Demo_Integration' is launched successfully
+    And based on drawing orchestrator components are created
+    And add inline connectors to schematic
+    And add more pins to connector
+    And click on Pins dropdown from the footer
+    And click on Housings from the footer
+    And add splices to schematic
+    And draw wires between connectors
+    And change the wire settings from wire editor
+    And go to drawing from wire editor
+    Then verify wire label can be removed successfully
+
+  @VerifySchematic
+  Scenario: Test verifies can be hidden and shown
     And schematic with name 'Demo_Integration' is launched successfully
     And based on drawing orchestrator components are created
     And add inline connectors to schematic
@@ -44,17 +58,3 @@ Feature: Verify schematics
     And draw wires between connectors
     And validate the wire labels before removing
     And validate the wire labels after removing
-
-  @VerifySchematic
-  Scenario: Test verifies wire settings can be modified for schematic
-    And schematic with name 'Demo_Integration' is launched successfully
-    And based on drawing orchestrator components are created
-    And add inline connectors to schematic
-    And add more pins to connector
-    And click on Pins dropdown from the footer
-    And click on Housings from the footer
-    And add splices to schematic
-    And draw wires between connectors
-#    And change the wire settings from wire editor
-#    And go to drawing from wire editor
-    Then verify wire label can be removed successfully
