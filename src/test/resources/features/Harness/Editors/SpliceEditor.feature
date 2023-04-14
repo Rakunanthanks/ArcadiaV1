@@ -47,15 +47,6 @@ Feature: Splice Editor
     And User exits the drawing page
     And User deletes Harness 'Splice Editor' successfully
 
-  Scenario:To Validate Splice Editor Options in Profile by hiding some headers(VERIFIED)
-    And  Navigated to Harness Splice editor setting page
-    And  Hiding some headers in profile
-    And  Navigating to created Project
-    And  splice editor is opened
-    And  Check editor headers after hiding from profile
-    And Navigated to Harness Splice editor setting page
-    And Turning on all Splice editor headers visibility
-
   Scenario:To Validate Export to CSV(VERIFIED)
     And User delete all old files from the default download folder
     And Enter possible values in the splice editor
@@ -73,7 +64,7 @@ Feature: Splice Editor
     And User deletes Harness 'Splice Editor' successfully
 
   Scenario:To Validate by duplicating some mandatory fields ,save editor and check validation message(VERIFIED)
-    And Enter duplicate connector ID
+    And Enter duplicate splice ID
     Then check validation message by saving form
     And go to drawing
     Then User exits the drawing page
@@ -104,3 +95,12 @@ Feature: Splice Editor
     And go to drawing
     And User exits the drawing page
     And User deletes Harness 'Splice Editor' successfully
+
+  Scenario:To Validate Splice Editor Options in Profile by hiding some headers(VERIFIED)
+    And  Navigated to Harness Splice editor setting page
+    And  Hiding some headers in profile
+    And  Navigating to created Project
+    And  splice editor is opened
+    And  Check editor headers after hiding from profile
+    And Navigated to Harness Splice editor setting page
+    And Turning on all Splice editor headers visibility

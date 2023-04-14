@@ -149,8 +149,8 @@ public class SpliceEditorStepDefinitions {
         spliceEditorPage.checkPartDescription();
     }
 
-    @And("Enter duplicate connector ID")
-    public void enterDuplicateConnectorID() throws InterruptedException, AWTException {
+    @And("Enter duplicate splice ID")
+    public void enterDuplicateSpliceID() throws InterruptedException, AWTException {
         spliceEditorPage.enterPossibleValuesInTheSpliceEditor("SP-001","quickstart","19189002",false);
     }
 
