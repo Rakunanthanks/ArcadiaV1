@@ -21,6 +21,7 @@ public class PageFactoryManager {
     private static ConnectorEditorPage connectorEditorPage;
     private static CreateSchematic createSchematic;
     private static SchematicsDrawingPage schematicsDrawingPagec;
+    private static SpliceEditorPage spliceEditorPage;
 
 
     public static SearchPartsDatabasePage getPartsDatabasePage(WebDriver driver){
@@ -74,5 +75,9 @@ public class PageFactoryManager {
     }
     public static SchematicsDrawingPage getSchematicDrawingPage(WebDriver driver) {
         return schematicsDrawingPagec == null ? new SchematicsDrawingPage(driver) : schematicsDrawingPagec;
+    }
+
+    public static SpliceEditorPage getSpliceEditorPage(WebDriver driver) {
+        return spliceEditorPage == null ? new SpliceEditorPage(driver) : spliceEditorPage;
     }
 }

@@ -69,6 +69,7 @@ public class HarnessPage extends BasePage{
     @FindBy(xpath = "//*[name()=\"rect\" and @etype=\"connector\"]") private List<WebElement> connectors ;
 
     @FindBy(css = "#iconneditor>span") private WebElement buttonConnectorEditor;
+    @FindBy(css = "#ispliceeditor>span") private WebElement buttonSpliceEditor;
 
     @FindBy(css = "#cEditor table.htCore") private WebElement tableConnectorEditor;
     @FindBy(xpath="//*[name()='g' and @id='layer_drawNodes']/*[name()='g'][6]") private WebElement bendRadius;
@@ -680,6 +681,10 @@ public class HarnessPage extends BasePage{
     public void openConnectorEditor() throws InterruptedException {
         customCommand.scrollIntoView(driver,buttonConnectorEditor);
         customCommand.javaScriptClick(driver,buttonConnectorEditor);
+    }
+    public void openSpliceEditor() throws InterruptedException {
+        customCommand.scrollIntoView(driver,buttonSpliceEditor);
+        customCommand.javaScriptClick(driver,buttonSpliceEditor);
     }
 
     public String captureWirePartNumberWithDiameter() throws InterruptedException {

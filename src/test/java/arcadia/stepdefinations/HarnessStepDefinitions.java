@@ -534,6 +534,13 @@ public class HarnessStepDefinitions {
         new HarnessPage(context.driver).inspectNode(id);
         new HarnessPage(context.driver).validateTextAndColorOfBundle();
     }
+    @And("splice editor is opened")
+    public void spliceEditorIsOpened() throws InterruptedException {
+        harnessPage.selectHeader("Advanced");
+        harnessPage.openSpliceEditor();
+        new SpliceEditorPage(context.driver).verifySpliceEditorOpened();
+    }
+
 
 
 //    @And("user delete the created bundle from context menu")
