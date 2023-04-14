@@ -8,20 +8,26 @@ import arcadia.pages.*;
 import arcadia.pages.ComponentDB.CommonElements;
 import arcadia.pages.ComponentDB.HeaderPanel;
 import arcadia.utils.DrawingHelper;
+import arcadia.utils.SeleniumCustomCommand;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import static arcadia.context.FlowContext.harnessComponentAlreadyCreated;
+import static arcadia.pages.BasePage.driver;
 import static arcadia.stepdefinations.HarnessStepDefinitions.getHarnessDescription;
 import java.awt.*;
 import java.io.IOException;
 import java.util.List;
 import io.cucumber.java.en.Then;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 
 public class LoginStepDefinitions {
     private final LoginPage loginPage;
     private final TestContext context;
+    SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
     public LoginStepDefinitions(TestContext context){
         this.context = context;
         loginPage = PageFactoryManager.getLoginPage(context.driver);
@@ -45,29 +51,25 @@ public class LoginStepDefinitions {
     public void navigateToProjectQuickStart(){
         loginPage.load(EndPoint.PROJECT.url.replace("projectName",System.getProperty("projectName")));
     }
-
+    @And("Navigated to General task units")
+    public void navigatedToGeneralTaskUnits() {
+        loginPage.load(EndPoint.TASKUNITS.url.replace("profileName",System.getProperty("profileName")));
+    }
     @And("Turning Visibility on for Bundle Tolerance")
     public void turning_visibility_on() throws InterruptedException {
         new DefineBundleTolerance(context.driver).turningvisibilityon();
     }
 
     @And("Navigating to Company profile page")
-    public void navigateToSettings() throws InterruptedException {
-        Thread.sleep(1000);
+    public void navigateToSettings()  {
         loginPage.load(EndPoint.SETTINGS.url);
         context.driver.switchTo( ).alert( ).accept();
-        Thread.sleep(1000);
-        loginPage.load(EndPoint.AutomationCompanyProfile.url.replace("profileName",System.getProperty("profileName")));
-        Thread.sleep(1000);
         loginPage.load(EndPoint.BUNDLEDEFAULTDISPLAY.url.replace("profileName",System.getProperty("profileName")));
-        Thread.sleep(1000);
-        new DefineBundleTolerance(context.driver).CaptureModifyBundleTollerance();
-        Thread.sleep(1000);
-
+        new DefineBundleTolerance(context.driver).CaptureModifyBundleTolerance();
     }
     @And("Navigating to created Project")
     public  void navigating_ToCreatedProject() throws InterruptedException {
-        loginPage.load(EndPoint.PROJECT.url.replace("projectName","quickstart"));
+        loginPage.load(EndPoint.PROJECT.url.replace("projectName",System.getProperty("projectName")));
         Thread.sleep(2000);
         WebElement harnessElement =  context.driver.findElement(By.xpath("//table[@id=\"tableHAR\"]/tbody//tr//td[text()=\"" + getHarnessDescription + "\"]"));
         harnessElement.click();
@@ -75,6 +77,39 @@ public class LoginStepDefinitions {
         WebElement ok = context.driver.findElement(By.xpath("//button[normalize-space()='OK']"));
         ok.click();
     }
+
+
+    @And("Generating Formboard")
+    public void generatingFormboard() throws InterruptedException {
+        Thread.sleep(5000);
+        System.out.println(getHarnessDescription);
+        WebElement findoptionButton =   driver.findElement(By.xpath("//table[@id=\"tableHAR\"]/tbody//tr//td[contains(text(),\""+getHarnessDescription+"\")]/following-sibling::td[3]/div/div/button[@title='Option List']"));
+        findoptionButton.click();
+        Thread.sleep(3000);
+        WebElement clickformBoard = driver.findElement(By.xpath("//div[@class='btn-group dropup open']//a[@title='Formboard'][normalize-space()='Formboard']"));
+        clickformBoard.click();
+        Thread.sleep(3000);
+        WebElement okayButton = driver.findElement(By.xpath("//button[normalize-space()='OK']"));
+        okayButton.click();
+        Thread.sleep(5000);
+//        String getUrl = driver.getCurrentUrl();
+//        String string = getUrl;
+//        String[] parts = string.split("#linkHAR");
+//        String part1 = parts[0];
+//        String part2 = parts[1];
+        WebElement harnessElement =  context.driver.findElement(By.xpath("//td[@class='info'][normalize-space()=\""+getHarnessDescription+"\"][1]"));
+        harnessElement.click();
+        Thread.sleep(2000);
+        WebElement ok = context.driver.findElement(By.xpath("//button[normalize-space()='OK']"));
+        ok.click();
+        Thread.sleep(3000);
+        WebElement syncHarness = driver.findElement(By.cssSelector("#ifhsync"));
+        Actions builder = new Actions(driver);
+        builder.moveToElement( syncHarness ).click( syncHarness );
+        builder.perform();
+        Thread.sleep(3000);
+    }
+
     @And( "Checking the Bundle Tolerance Value")
     public void Checking_the_Bundle_Tolerance_Value() throws InterruptedException {
         new DefineBundleTolerance(context.driver).CaptureBundleTollerance();
@@ -155,7 +190,17 @@ public class LoginStepDefinitions {
     @And("Navigated to Harness Font setting page")
     public void navigatedToHarnessFontSettingPage() {
         loginPage.load(EndPoint.FontSettingsURL.url.replace("profileName",System.getProperty("profileName")));
+    }
 
+    @And("Accept alert")
+    public void acceptAlert() throws InterruptedException {
+        try{
+            Alert alert = driver.switchTo().alert();
+            alert.accept();
+        }
+        catch (NoAlertPresentException e){
+            Thread.sleep(2000);
+        }
     }
 
     @And("User navigated to projects")
