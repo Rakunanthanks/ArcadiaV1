@@ -1588,7 +1588,6 @@ public class ComponentDBStepDefinitions {
     public void userImportDataForConnector(String component) throws InterruptedException {
         new CommonElements(context.driver).clickImportButton(component);
         new CommonElements(context.driver).importDB(component);
-
     }
 
     @And("User delete the new DB created")

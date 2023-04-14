@@ -65,8 +65,11 @@ public class LoginStepDefinitions {
         loginPage.load(EndPoint.SETTINGS.url);
         context.driver.switchTo( ).alert( ).accept();
         loginPage.load(EndPoint.BUNDLEDEFAULTDISPLAY.url.replace("profileName",System.getProperty("profileName")));
-        new DefineBundleTolerance(context.driver).CaptureModifyBundleTolerance();
+        Thread.sleep(1000);
+        new DefineBundleTolerance(context.driver).CaptureModifyBundleTollerance();
+        Thread.sleep(1000);
     }
+
     @And("Navigating to created Project")
     public  void navigating_ToCreatedProject() throws InterruptedException {
         loginPage.load(EndPoint.PROJECT.url.replace("projectName",System.getProperty("projectName")));
@@ -186,7 +189,6 @@ public class LoginStepDefinitions {
     public void navigatedToBundleDefaultFontSettingsPage() {
         loginPage.load(EndPoint.BUNDLEFONTDISPLAY.url.replace("profileName",System.getProperty("profileName")));
     }
-
     @And("Navigated to Harness Font setting page")
     public void navigatedToHarnessFontSettingPage() {
         loginPage.load(EndPoint.FontSettingsURL.url.replace("profileName",System.getProperty("profileName")));
@@ -214,4 +216,14 @@ public class LoginStepDefinitions {
     public void navigatedToDemo_IntegrationProject(String newProject) {
         loginPage.load(EndPoint.NEWPROJECT.url.replace("projectName",newProject));
     }
+@And("Navigated to Harness Connector editor setting page")
+    public void navigatedToHarnesConnectoreditorSettingPage() {
+        loginPage.load(EndPoint.CONNECTOREDITORSETTING.url.replace("profileName",System.getProperty("profileName")));
+    }
+ @And("Navigated to Harness Advanced setting page")
+    public void navigatedToHarnessAdvancedSettingPage() {
+        loginPage.load(EndPoint.HARNESSADVANCED.url.replace("profileName",System.getProperty("profileName")));
+    }
+
+
 }

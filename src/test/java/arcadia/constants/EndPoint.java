@@ -12,6 +12,8 @@ public enum EndPoint {
     AutomationCompanyProfile("/index.lp?app=generaledit&profilecode=profileName"),
     FontSettingsURL("/index.lp?section=Font%20Harness&appoption=3&app=generaledit&mainsection=Harness&profilecode=profileName"),
     BUNDLEDEFAULTDISPLAY("/index.lp?app=generaledit&appoption=3&section=Bundle%20Default%20Display&mainsection=Harness&profilecode=profileName"),
+    HARNESSADVANCED("/index.lp?app=generaledit&appoption=3&section=General%20Harness&mainsection=Harness&profilecode=profileName"),
+    CONNECTOREDITORSETTING("/index.lp?app=generaledit&appoption=3&section=Connector%20Editor%20Settings&mainsection=Editors&profilecode=profileName"),
     BUNDLEFONTDISPLAY("/index.lp?app=generaledit&appoption=3&section=Font%20Harness&mainsection=Harness&profilecode=profileName"),
     TASKUNITS("/index.lp?app=generaledit&appoption=3&section=Units&mainsection=General&profilecode=profileName"),
     NEWPROJECT("/index.lp?app=projects2&appoption=10&project=181&projName=projectName");
