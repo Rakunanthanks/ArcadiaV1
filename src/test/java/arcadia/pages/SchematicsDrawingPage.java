@@ -3,6 +3,7 @@ package arcadia.pages;
 import arcadia.pages.ComponentDB.AddNewComponentPage;
 import arcadia.utils.SeleniumCustomCommand;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -14,6 +15,7 @@ import org.testng.Assert;
 
 
 import java.awt.*;
+import java.awt.event.InputEvent;
 import java.util.List;
 
 public class SchematicsDrawingPage extends BasePage{
@@ -59,7 +61,7 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(xpath = "//span[@class='ribbon-title' and text()='Advanced']") private WebElement advancedTab;
     @FindBy(xpath = "//span[@class='button-title' and text()='Wire Editor']") private WebElement wireEditor;
     @FindBy(id = "wire-editor") private WebElement divWireEditorPage;
-    @FindBy(xpath = "//th//span[text()=\"To Con\"]") private WebElement headingToCon;
+    @FindBy(xpath = "(//thead)[2]//th[11]//div//span") private WebElement headingToCon;
     @FindBy(xpath = "//th//span[text()=\"Material\"]") private WebElement headingMaterial;
     @FindBy(xpath = "//th//span[text()=\"Gauge\"]") private WebElement headingGauge;
     @FindBy(xpath = "//th//span[text()=\"Primary Color\"]") private WebElement headingPrimaryColour;
@@ -199,58 +201,62 @@ public class SchematicsDrawingPage extends BasePage{
         customCommand.javaScriptClick(driver,wireEditor);
         customCommand.waitForElementVisibility(driver,divWireEditorPage);
     }
-
-    public void changeGaugeAndMaterial() throws InterruptedException {
+    public void changePrimaryColour() throws InterruptedException, AWTException {
         (new WebDriverWait(driver, 10))
                 .until(ExpectedConditions.elementToBeClickable(buttonGoToDrawing));
-        Thread.sleep(2000);
-        WebElement header=driver.findElement(By.xpath("(//span[text()='Material'])[1]//parent::div//parent::th"));
-        customCommand.scrollToElement(driver,header);
-        for(int i=0;i<materialColumnList.size()-1;i++)
-        {
-            customCommand.scrollToElement(driver,materialColumnList.get(i));
-            customCommand.doubleClick(driver,materialColumnList.get(i));
-            Thread.sleep(2000);
-            Actions actions = new Actions(driver);
-//            actions.moveToElement(materialColumnList.get(i)).click().perform();
-            WebElement value=driver.findElement(By.xpath("//td[@class='listbox htDimmed' and text()='GXL']"));
-            value.click();
-        }
-        for(int i=0;i<gaugeColumnList.size()-1;i++)
-        {
-            customCommand.moveToElementAndDoubleClick(driver,gaugeColumnList.get(i));
-            Thread.sleep(2000);
-            Actions actions = new Actions(driver);
-            actions.moveToElement(gaugeColumnList.get(i)).click().perform();
-            WebElement value=driver.findElement(By.xpath("//td[@class='listbox htDimmed' and text()='10']"));
-            value.click();
-        }
-    }
-
-    public void changePrimaryColour() throws InterruptedException {
-        (new WebDriverWait(driver, 10))
-                .until(ExpectedConditions.visibilityOf(buttonGoToDrawing));
-        customCommand.javaScriptClick(driver,headingToCon);
+        Thread.sleep(3000);
+        customCommand.scrollIntoView(driver,headingPrimaryColour);
+        List<WebElement> primaryColourColumns = driver.findElements(By.xpath("//tbody/tr/td[17]"));
+        customCommand.scrollIntoView(driver,headingToCon);
+        customCommand.moveToElementAndClick(driver,headingToCon);
         Thread.sleep(2000);
         String primaryColour;
         List<WebElement> listOfConnectorsColumns = driver.findElements(By.xpath("//tbody/tr/td[10]"));
-        for (int i=0; i<listOfConnectorsColumns.size(); i++){
-            if (listOfConnectorsColumns.get(i).getText().equalsIgnoreCase("SP-BK")){
+        for (int i=0; i<listOfConnectorsColumns.size()-1; i++){
+            System.out.println("Text of connector is : " +listOfConnectorsColumns.get(i).getText());
+            if (listOfConnectorsColumns.get(i).getText().toUpperCase().contains("SP-BK")){
                 primaryColour = "BK";
             }
-            else if (listOfConnectorsColumns.get(i).getText().equalsIgnoreCase("SP-YE")){
+            else if (listOfConnectorsColumns.get(i).getText().toUpperCase().contains("SP-YE")){
                 primaryColour = "YE";
             }
-            else if (listOfConnectorsColumns.get(i).getText().equalsIgnoreCase("SP-GN")){
+            else if (listOfConnectorsColumns.get(i).getText().toUpperCase().contains("SP-GN")){
                 primaryColour = "GN";
             }
             else {
                 primaryColour = "WH";
             }
             customCommand.scrollIntoView(driver,headingPrimaryColour);
-            customCommand.moveToElementAndDoubleClick(driver,primaryColorColumnList.get(i));
+            customCommand.moveToElementAndDoubleClick(driver,primaryColourColumns.get(i));
             customCommand.clearAndEnterText(driver.findElement(By.xpath("//textarea")),primaryColour);
+            customCommand.pressKey(driver,"Tab");
             customCommand.scrollIntoView(driver,headingToCon);
+        }
+    }
+
+    public void changeGaugeAndMaterial() throws InterruptedException, AWTException {
+        (new WebDriverWait(driver, 10))
+                .until(ExpectedConditions.elementToBeClickable(buttonGoToDrawing));
+        Thread.sleep(2000);
+        customCommand.scrollIntoView(driver,headingGauge);
+        List<WebElement> gaugeColumns = driver.findElements(By.xpath("//tbody/tr/td[16]"));
+        WebElement header=driver.findElement(By.xpath("(//span[text()='Material'])[1]//parent::div//parent::th"));
+        customCommand.scrollToElement(driver,header);
+        List<WebElement> materialColumns = driver.findElements(By.xpath("//tbody/tr/td[15]"));
+        for(int i=0;i<materialColumns.size()-1;i++)
+        {
+            customCommand.moveToElementAndDoubleClick(driver,materialColumns.get(i));
+            customCommand.clearAndEnterText(driver.findElement(By.xpath("//textarea")),"GXL");
+            customCommand.pressKey(driver,"Tab");
+            Thread.sleep(1000);
+        }
+        customCommand.scrollIntoView(driver,headingGauge);
+        for(int i=0;i<gaugeColumns.size()-1;i++)
+        {
+            customCommand.moveToElementAndDoubleClick(driver,gaugeColumns.get(i));
+            customCommand.clearAndEnterText(driver.findElement(By.xpath("//textarea")),"10");
+            customCommand.pressKey(driver,"Tab");
+            Thread.sleep(1000);
         }
     }
 
@@ -262,7 +268,8 @@ public class SchematicsDrawingPage extends BasePage{
         Thread.sleep(2000);
     }
 
-    public void goToDrawingFromWireEditor() {
+    public void goToDrawingFromWireEditor() throws InterruptedException {
+        Thread.sleep(3000);
         customCommand.waitForElementToBeClickable(driver, buttonGoToDrawing);
         buttonGoToDrawing.click();
         customCommand.longWaitForElementToBeClickable(driver,advancedTab);
@@ -298,7 +305,9 @@ public class SchematicsDrawingPage extends BasePage{
         customCommand.javaScriptClick(driver,removeAllWireLabels);
         Assert.assertTrue(headingConfirmActionRemoveWireLabel.isDisplayed(),"ConfirmAction popup is not displayed for removing wire labels");
         Assert.assertTrue(popupMessageRemoveLabelsFromWires.isDisplayed(),"Message for removing wire labels is not displayed");
+        customCommand.waitForElementToBeClickable(driver,buttonSubmitRemoveWireLabel);
         buttonSubmitRemoveWireLabel.click();
+        Thread.sleep(2000);
         customCommand.waitForElementToBeClickable(driver,advancedTab);
     }
 
