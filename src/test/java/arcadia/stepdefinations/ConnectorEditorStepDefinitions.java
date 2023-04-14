@@ -27,7 +27,7 @@ public class ConnectorEditorStepDefinitions {
        connectorEditorPage.enterConnectorDetails("X-003","quickstart","connector","FFH04142BK*T","FCI_FIN LOCK_4-WAY_RECEP HSG");
     }
 
-    @And("go to drawing")
+    @And("go to drawing in connector editor")
     public void goToDrawing() {
         connectorEditorPage.gotoDrawing();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
@@ -38,7 +38,7 @@ public class ConnectorEditorStepDefinitions {
         connectorEditorPage.turningOnConnectorIDGroup(options);
     }
 
-    @And("Hiding some headers in profile")
+    @And("Hiding some headers in profile in connector editor")
     public void turningOFF() throws InterruptedException {
         connectorEditorPage.connectorEditorColumnCustomizaton();
     }
@@ -47,49 +47,47 @@ public class ConnectorEditorStepDefinitions {
     public void checkEditorHeadersByTurningOfVisibility() {
         connectorEditorPage.checkEditorHeadersByTurningOfVisibility();
     }
-
-
-    @And("Perform remove row Operation")
+    @And("Perform remove row Operation in connector editor")
     public void performRemoveRowOperation() {
         connectorEditorPage.removeRow();
     }
 
-    @Then("Check editor detail that remove row has been performed or not")
+    @Then("Check editor detail that remove row has been performed or not in connector editor")
     public void checkEditorDetailThatRemoveRowHasBeenPerformedOrNot() {
        connectorEditorPage.checkRemoverow();
     }
 
-    @And("Perform undo operation")
+    @And("Perform undo operation in connector editor")
     public void performUndoOperation() {
         connectorEditorPage.undo();
     }
 
-    @Then("Check editor detail that undo has been performed or not")
+    @Then("Check editor detail that undo has been performed or not in connector editor")
     public void checkEditorDetailThatUndoHasBeenPerformedOrNot() {
         connectorEditorPage.checkUndo();
     }
 
-    @And("Perform redo operation")
+    @And("Perform redo operation in connector editor")
     public void performRedoOperation() {
         connectorEditorPage.redo();
     }
 
-    @Then("Check editor detail that redo operation has been performed or not")
+    @Then("Check editor detail that redo operation has been performed or not in connector editor")
     public void checkEditorDetailThatRedoOperationHasBeenPerformedOrNot() {
         connectorEditorPage.checkRedo();
     }
 
-    @And("Perform Clear all operation")
+    @And("Perform Clear all operation in connector editor")
     public void performClearAllOperation() throws InterruptedException {
         connectorEditorPage.clearAllValue();
     }
 
-    @Then("check in editor whether all values are disappeared or not")
+    @Then("check in editor whether all values are disappeared or not in connector editor")
     public void checkInEditorWhetherAllValuesAreDisappearedOrNot() {
         connectorEditorPage.checkInEditorWhetherAllValuesAreDisappearedOrNot();
     }
 
-    @And("Check editor headers after hiding from profile")
+    @And("Check editor headers after hiding from profile in connector editor")
     public void checkEditorHeadersAfterHidingFromProfile() {
         connectorEditorPage.checkEditorHeadersByTurningOfVisibility();
     }
@@ -99,12 +97,12 @@ public class ConnectorEditorStepDefinitions {
         connectorEditorPage.turningOnAllConnectorEditorHeadersVisibility();
     }
 
-    @And("Get default headers name")
+    @And("Get default headers name in connector editor")
     public void getDefaultHeadersName() {
         connectorEditorPage.getHeaders();
     }
 
-    @Then("Check default headers name")
+    @Then("Check default headers name in connector editor")
     public void checkDefaultHeadersName() {
         connectorEditorPage.checkDefaultHeadersName();
     }
@@ -145,12 +143,12 @@ public class ConnectorEditorStepDefinitions {
         connectorEditorPage.checkParttypeIsPopulatingCorrectlyOrNot();
     }
 
-    @And("click Download Template button in editor")
+    @And("click Download Template button in connector editor")
     public void clickDownloadTemplateButtonInEditor() throws InterruptedException {
         connectorEditorPage.clickDownloadTemplateButtonInEditor();
     }
 
-    @Then("check able to download template or not")
+    @Then("check able to download template or not in connector editor")
     public void checkAbleToDownloadTemplateOrNot() {
         connectorEditorPage.checkAbleToDownloadOrNot("templates_connector_editor_import_format_variants.csv");   }
 
@@ -159,7 +157,7 @@ public class ConnectorEditorStepDefinitions {
         connectorEditorPage.enterPossibleValuesInTheConnectorEditor("X-003","quickstart","connector","FFH04142BK*T");
     }
 
-    @And("click export to csv")
+    @And("click export to csv in connector editor")
     public void clickExportToCsv() throws InterruptedException {
         connectorEditorPage.clickExportCSVButton();
     }
@@ -171,7 +169,7 @@ public class ConnectorEditorStepDefinitions {
         System.out.println(taskID);
         return taskID;
     }
-    @Then("Check able to export csv and the entered values are present in the exported csv or not")
+    @Then("Check able to export csv and the entered values are present in the exported csv or not in connector editor")
     public void checkAbleToExportCsvAndTheEnteredValuesArePresentInTheExportedCsvOrNot() {
         connectorEditorPage.checkAbleToDownloadOrNot("HAR"+getTaskID()+"_conInfo.csv");
     }
@@ -196,7 +194,7 @@ public class ConnectorEditorStepDefinitions {
         connectorEditorPage.enterDuplicateConnectorID("X-002");
     }
 
-    @Then("check validation message by saving form")
+    @Then("check validation message by saving form in connector editor")
     public void checkValidationMessageBySavingForm() throws InterruptedException {
         connectorEditorPage.checkValidationMessageBySavingForm();
     }
@@ -226,7 +224,7 @@ public class ConnectorEditorStepDefinitions {
         connectorEditorPage.checkTheValueOfPartNumberAfterSorted();
     }
 
-    @And("Sort Part Number column in descending order")
+    @And("Sort Part Number column in descending order in connector editor")
     public void sortPartNumberColumnInDescendingOrder() throws InterruptedException {
         connectorEditorPage.sortPartNumberColumn();
     }
@@ -267,17 +265,17 @@ public class ConnectorEditorStepDefinitions {
         connectorEditorPage.whetherNewConnectorsAreAddedOrNot();
     }
 
-    @And("Importing CSV by adding some values to the CSV")
+    @And("Importing CSV by adding some values to the CSV in connector editor")
     public void importingCSVByAddingSomeValuesToTheCSV() {
         connectorEditorPage.importingCSVByAddingSomeValuesToTheCSV();
     }
 
-    @Then("Check whether able to save or not without any errors")
+    @Then("Check whether able to save or not without any errors in connector editor")
     public void checkWhetherAbleToSaveOrNotWithoutAnyErrors() throws InterruptedException {
         connectorEditorPage.checkWhetherAbleToSaveOrNotWithoutAnyErrors();
     }
 
-    @Then("Check check all values are updated in editors as expected or not")
+    @Then("Check check all values are updated in editors as expected or not in connector editor")
     public void checkCheckAllValuesAreUpdatedInEditorsAsExpectedOrNot() {
         connectorEditorPage.checkCheckAllValuesAreUpdatedInEditorsAsExpectedOrNot();
     }

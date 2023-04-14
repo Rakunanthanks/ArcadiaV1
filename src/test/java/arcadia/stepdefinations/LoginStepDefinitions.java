@@ -61,12 +61,12 @@ public class LoginStepDefinitions {
     }
 
     @And("Navigating to Company profile page")
-    public void navigateToSettings()  {
+    public void navigateToSettings() throws InterruptedException {
         loginPage.load(EndPoint.SETTINGS.url);
         context.driver.switchTo( ).alert( ).accept();
         loginPage.load(EndPoint.BUNDLEDEFAULTDISPLAY.url.replace("profileName",System.getProperty("profileName")));
         Thread.sleep(1000);
-        new DefineBundleTolerance(context.driver).CaptureModifyBundleTollerance();
+        new DefineBundleTolerance(context.driver).CaptureModifyBundleTolerance();
         Thread.sleep(1000);
     }
 
