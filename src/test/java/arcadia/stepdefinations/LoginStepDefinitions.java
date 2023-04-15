@@ -230,4 +230,8 @@ public class LoginStepDefinitions {
         loginPage.load(EndPoint.SPLICEEDITORSETTING.url.replace("profileName",System.getProperty("profileName")));
     }
 
+    @And("Navigated to Schematic wire properties page")
+    public void navigatedToSchematicWirePropertiesPage() {
+        loginPage.load(EndPoint.SCHEMATICWIREPROPERTIES.url.replace("profileName",System.getProperty("profileName")));
+    }
 }

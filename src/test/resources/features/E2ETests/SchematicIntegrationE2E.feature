@@ -4,12 +4,11 @@ Feature: Verify schematics
     Given I'm on Arcadia test environment
     And User navigated to projects
     And Created Project 'Demo_Integration'
-    And Navigated to quickstart project
-    And Navigated to 'Demo_Integration' project
     And test data config loaded for test identifier test14
 
   @VerifySchematic
   Scenario: Test inline connectors, splices and wire can be added to schematic
+    And Navigated to 'Demo_Integration' project
     And schematic with name 'Demo_Integration' is launched successfully
     And based on drawing orchestrator components are created
     And add inline connectors to schematic
@@ -21,6 +20,7 @@ Feature: Verify schematics
 
   @VerifySchematic
   Scenario: Test verifies wire settings can be edited from wire editor for schematic
+    And Navigated to 'Demo_Integration' project
     And schematic with name 'Demo_Integration' is launched successfully
     And based on drawing orchestrator components are created
     And add inline connectors to schematic
@@ -34,6 +34,7 @@ Feature: Verify schematics
 
   @VerifySchematic
   Scenario: Test verifies wire label can be removed for schematic
+    And Navigated to 'Demo_Integration' project
     And schematic with name 'Demo_Integration' is launched successfully
     And based on drawing orchestrator components are created
     And add inline connectors to schematic
@@ -47,7 +48,8 @@ Feature: Verify schematics
     Then verify wire label can be removed successfully
 
   @VerifySchematic
-  Scenario: Test verifies can be hidden and shown
+  Scenario: Test verifies wire label can be hidden and shown
+    And Navigated to 'Demo_Integration' project
     And schematic with name 'Demo_Integration' is launched successfully
     And based on drawing orchestrator components are created
     And add inline connectors to schematic
@@ -58,3 +60,18 @@ Feature: Verify schematics
     And draw wires between connectors
     And validate the wire labels before removing
     And validate the wire labels after removing
+
+  @VerifySchematic
+  Scenario: Test verifies wire label properties can be updated for schematic
+    And Navigated to Schematic wire properties page
+    And User updates the schematic wire properties
+    And Navigated to 'Demo_Integration' project
+    And schematic with name 'Demo_Integration' is launched successfully
+    And based on drawing orchestrator components are created
+    And add inline connectors to schematic
+    And add more pins to connector
+    And click on Pins dropdown from the footer
+    And click on Housings from the footer
+    And add splices to schematic
+    And draw wires between connectors
+    And makes the wire labels inline

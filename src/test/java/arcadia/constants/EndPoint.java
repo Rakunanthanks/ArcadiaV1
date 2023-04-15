@@ -17,7 +17,8 @@ public enum EndPoint {
     BUNDLEFONTDISPLAY("/index.lp?app=generaledit&appoption=3&section=Font%20Harness&mainsection=Harness&profilecode=profileName"),
     SPLICEEDITORSETTING("/index.lp?app=generaledit&appoption=3&section=Splice%20Editor%20Settings&mainsection=Editors&profilecode=profileName"),
     TASKUNITS("/index.lp?app=generaledit&appoption=3&section=Units&mainsection=General&profilecode=profileName"),
-    NEWPROJECT("/index.lp?app=projects2&appoption=10&project=181&projName=projectName");
+    NEWPROJECT("/index.lp?app=projects2&appoption=10&project=29&projName=projectName"),
+    SCHEMATICWIREPROPERTIES("/index.lp?app=generaledit&appoption=3&section=Signal%20Properties&mainsection=Schematic&profilecode=profileName");
     public final String url;
     EndPoint(String url) {
         this.url = url;

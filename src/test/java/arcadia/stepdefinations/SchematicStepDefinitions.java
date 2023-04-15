@@ -4,6 +4,7 @@ import arcadia.context.FlowContext;
 import arcadia.context.TestContext;
 import arcadia.domainobjects.Schematic;
 import arcadia.pages.*;
+import arcadia.pages.ComponentDB.CommonElements;
 import arcadia.utils.StringHelper;
 import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import io.cucumber.java.en.And;
@@ -85,7 +86,7 @@ public class SchematicStepDefinitions {
     @And("add splices to schematic")
     public void addSplicesToSchematicUsingPins() throws InterruptedException {
         schematicsDrawingPage.addSplicesToSchematic(4,90,0,"C1","SP-BK");
-        schematicsDrawingPage.addSplicesToSchematic(6,110,0,"C2","SP_GN");
+        schematicsDrawingPage.addSplicesToSchematic(6,110,0,"C2","SP-GN");
         schematicsDrawingPage.addSplicesToSchematic(2,90,0,"C2","SP-YE");
         schematicsDrawingPage.zoomOut();
     }
@@ -174,4 +175,10 @@ public class SchematicStepDefinitions {
         isWireLabelPresent = schematicsDrawingPage.checkIfWireLabelPresent(wireId);
         Assert.assertFalse(isWireLabelPresent,"Wire label is present on schematic drawing page even after removing all wire labels");
     }
+
+    @And("makes the wire labels inline")
+    public void makesTheWireLabelsInline() throws InterruptedException {
+        schematicsDrawingPage.selectWireLabelsInline();
+    }
+
 }
