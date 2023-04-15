@@ -34,7 +34,7 @@ public class ProjectLanding extends BasePage {
         createHarness.click();
     }
     public void invokeCreateSchematic(){
-        customCommand.waitForElementToBeClickable(driver,createSchematic);
+        customCommand.longWaitForElementToBeClickable(driver,createSchematic);
         createSchematic.click();
     }
 

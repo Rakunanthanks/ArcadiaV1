@@ -105,4 +105,15 @@ public class ProfileStepDefinitions {
         profilePage.updateBundleFont("10","#31edbe");
         new CommonElements(context.driver).verifyAlertSuccessMessage("Properties updated successfully! Please select the tasks to update the settings");
     }
+
+    @And("User updates the schematic wire properties")
+    public void userUpdatesTheSchematicWireProperties() throws InterruptedException {
+        profilePage.clearWireTagElements();
+        profilePage.enterWireTagElements("Wire ID","Gauge","Colour Code","Material");
+        profilePage.enterWireTagSeparator("-");
+        profilePage.saveWirePropertiesChanges();
+        new CommonElements(context.driver).verifyAlertSuccessMessage("Properties updated successfully! Please select the tasks to update the settings");
+        profilePage.selectAllTasks();
+        profilePage.saveTaskChanges();
+    }
 }

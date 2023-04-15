@@ -354,4 +354,9 @@ public class SchematicsDrawingPage extends BasePage{
         Thread.sleep(2000);
     }
 
+    public void selectWireLabelsInline() throws InterruptedException {
+        customCommand.waitForElementToBeClickable(driver,wireLabelInline);
+        customCommand.javaScriptClick(driver,wireLabelInline);
+        Thread.sleep(2000);
+    }
 }

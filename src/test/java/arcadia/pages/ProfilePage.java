@@ -45,6 +45,11 @@ public class ProfilePage extends BasePage
     @FindBy(css = "input[name='Sub Dimension Length'][type='number']") private WebElement inputBundleSubDimensionLengthFont;
     @FindBy(css = "input[name='Coverings/Piece ID'][type='number']") private WebElement inputBundleCoveringsPieceIdFont;
     @FindBy(css = "input[name='Bundle Break'][type='number']") private WebElement inputBundleBreakFont;
+    @FindBy(css = "select[name=\"Signal Tag Elements\"]+div input") private WebElement inputWireTagElements;
+    @FindBy(css = "input[name=\"Signal Tag Separator\"]") private WebElement inputWireTagSeparator;
+    @FindBy(css = "div#idselectform button[value='Save']") private WebElement buttonSaveWirePropertiesSettings;
+    @FindBy(css = "div#idselectform table th[data-field='chkcolumn']") private WebElement checkboxSelectAllTasks;
+    @FindBy(css = "div#idselectform+div.box-footer button[value='Save']") private WebElement buttonSaveTaskChanges;
 
 
     String tableRows = "//table[@id='myTable']//tr";
@@ -142,5 +147,38 @@ public class ProfilePage extends BasePage
         customCommand.clearAndEnterText(inputBundleCoveringsPieceIdFont,bundleFontSize);
         customCommand.clearAndEnterText(inputBundleBreakFont,bundleFontSize);
         buttonSaveBundleDisplaySettings.click();
+    }
+    public void clearWireTagElements() {
+        List<WebElement> listOfRemoveIconLinks = driver.findElements(By.cssSelector("a[title=\"Remove\"]"));
+        for (WebElement ele: listOfRemoveIconLinks){
+            customCommand.waitForElementToBeClickable(driver,ele);
+            ele.click();
+        }
+    }
+
+    public void enterWireTagElements(String wireId, String gauge, String colourCode, String material) {
+        inputWireTagElements.clear();
+        customCommand.simulateKeyEnterWithValue(inputWireTagElements,wireId);
+        customCommand.simulateKeyEnterWithValue(inputWireTagElements,gauge);
+        customCommand.simulateKeyEnterWithValue(inputWireTagElements,colourCode);
+        customCommand.simulateKeyEnterWithValue(inputWireTagElements,material);
+    }
+
+    public void enterWireTagSeparator(String wireTagSeparator) {
+        customCommand.clearAndEnterText(inputWireTagSeparator,wireTagSeparator);
+    }
+
+    public void saveWirePropertiesChanges() throws InterruptedException {
+        customCommand.javaScriptClick(driver,buttonSaveWirePropertiesSettings);
+    }
+
+    public void selectAllTasks() throws InterruptedException {
+        customCommand.waitForElementToBeClickable(driver,checkboxSelectAllTasks);
+        customCommand.javaScriptClick(driver,checkboxSelectAllTasks);
+    }
+
+    public void saveTaskChanges() throws InterruptedException {
+        customCommand.javaScriptClick(driver,buttonSaveTaskChanges);
+        Thread.sleep(3000);
     }
 }
