@@ -17,7 +17,7 @@ public class CreateSchematic extends BasePage {
     @FindBy(css = "input[name=\"Description\"]") private WebElement schematicDescription;
     @FindBy(css = "input[name=\"Part Number\"]") private WebElement schematicPartNumber;
     @FindBy(css = "input[name=\"Revision\"]") private WebElement schematicRevision;
-    @FindBy(css = "select[name=\"Library\"]") private WebElement schematicComponentDB;
+    @FindBy(css = "div#Information select[name=\"Library\"]") private WebElement schematicComponentDB;
     @FindBy(css = "select[name=\"Profile\"]") private WebElement schematicProfile;
     @FindBy(css = "button#formSubmit") private WebElement schematicSubmitButton;
 
@@ -33,6 +33,7 @@ public class CreateSchematic extends BasePage {
         customCommand.enterText(schematicRevision,schematicData.getRevision());
         customCommand.selectDropDownByValue(schematicComponentDB,schematicData.getComponentDB());
         customCommand.selectDropDownByValue(schematicProfile,schematicData.getprofile());
+        customCommand.selectDropDownByValue(schematicComponentDB,schematicData.getComponentDB());
         schematicSubmitButton.click();
 
     }

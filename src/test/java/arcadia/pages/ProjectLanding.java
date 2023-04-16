@@ -43,7 +43,8 @@ public class ProjectLanding extends BasePage {
         Assert.assertTrue(buttonAddProject.isDisplayed());
     }
 
-    public Boolean checkProjectExists(String projectName){
+    public Boolean checkProjectExists(String projectName) throws InterruptedException {
+        Thread.sleep(4000);
         List<WebElement> listOfElements = driver.findElements(By.xpath("//div[@id=\"example-tables\"]//div[@tabulator-field=\"projectname\" and contains(text(),\""+projectName+"\")]"));
         if (listOfElements.size()==1){
             return true;
@@ -60,6 +61,7 @@ public class ProjectLanding extends BasePage {
         customCommand.clearAndEnterText(inputProjectName,projectName);
         customCommand.clearAndEnterText(inputProjectDescription,projectName);
         customCommand.selectDropDownByValue(selectProjectProfile,System.getProperty("profileName"));
+        customCommand.waitForElementToBeClickable(driver,buttonSubmitAddProject);
         buttonSubmitAddProject.click();
         customCommand.waitForElementToBeClickable(driver,buttonAddProject);
         Assert.assertTrue(checkProjectExists(projectName), "Project could not be created");

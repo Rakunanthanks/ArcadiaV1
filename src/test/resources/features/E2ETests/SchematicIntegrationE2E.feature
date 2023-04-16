@@ -3,13 +3,13 @@ Feature: Verify schematics
   Background: User is Logged In
     Given I'm on Arcadia test environment
     And User navigated to projects
-    And Created Project 'Demo_Integration'
+    And Created Project 'Aut_Integration'
     And test data config loaded for test identifier test14
 
   @VerifySchematic
   Scenario: Test inline connectors, splices and wire can be added to schematic
-    And Navigated to 'Demo_Integration' project
-    And schematic with name 'Demo_Integration' is launched successfully
+    And Navigated to 'Aut_Integration' project
+    And schematic with name 'Aut_Integration' is launched successfully
     And based on drawing orchestrator components are created
     And add inline connectors to schematic
     And add more pins to connector
@@ -20,8 +20,8 @@ Feature: Verify schematics
 
   @VerifySchematic
   Scenario: Test verifies wire settings can be edited from wire editor for schematic
-    And Navigated to 'Demo_Integration' project
-    And schematic with name 'Demo_Integration' is launched successfully
+    And Navigated to 'Aut_Integration' project
+    And schematic with name 'Aut_Integration' is launched successfully
     And based on drawing orchestrator components are created
     And add inline connectors to schematic
     And add more pins to connector
@@ -34,8 +34,8 @@ Feature: Verify schematics
 
   @VerifySchematic
   Scenario: Test verifies wire label can be removed for schematic
-    And Navigated to 'Demo_Integration' project
-    And schematic with name 'Demo_Integration' is launched successfully
+    And Navigated to 'Aut_Integration' project
+    And schematic with name 'Aut_Integration' is launched successfully
     And based on drawing orchestrator components are created
     And add inline connectors to schematic
     And add more pins to connector
@@ -49,8 +49,8 @@ Feature: Verify schematics
 
   @VerifySchematic
   Scenario: Test verifies wire label can be hidden and shown
-    And Navigated to 'Demo_Integration' project
-    And schematic with name 'Demo_Integration' is launched successfully
+    And Navigated to 'Aut_Integration' project
+    And schematic with name 'Aut_Integration' is launched successfully
     And based on drawing orchestrator components are created
     And add inline connectors to schematic
     And add more pins to connector
@@ -65,8 +65,8 @@ Feature: Verify schematics
   Scenario: Test verifies wire label properties can be updated for schematic
     And Navigated to Schematic wire properties page
     And User updates the schematic wire properties
-    And Navigated to 'Demo_Integration' project
-    And schematic with name 'Demo_Integration' is launched successfully
+    And Navigated to 'Aut_Integration' project
+    And schematic with name 'Aut_Integration' is launched successfully
     And based on drawing orchestrator components are created
     And add inline connectors to schematic
     And add more pins to connector
@@ -75,3 +75,6 @@ Feature: Verify schematics
     And add splices to schematic
     And draw wires between connectors
     And makes the wire labels inline
+    And change the wire settings from wire editor
+    And go to drawing from wire editor
+    Then verify the wire label  on drawing matches wire properties
