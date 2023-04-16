@@ -8,6 +8,8 @@ import arcadia.pages.ComponentDB.CommonElements;
 import arcadia.utils.StringHelper;
 import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import io.cucumber.java.en.And;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import org.testng.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -128,6 +130,7 @@ public class SchematicStepDefinitions {
     @And("change the wire settings from wire editor")
     public void changeTheWireSettingsFromWireEditor() throws InterruptedException, AWTException {
         schematicsDrawingPage.moveToWireEditor();
+        schematicsDrawingPage.selectComponentDB();
         schematicsDrawingPage.changePrimaryColour();
         schematicsDrawingPage.changeGaugeAndMaterial();
         schematicsDrawingPage.saveWireEditorChanges();
@@ -181,4 +184,14 @@ public class SchematicStepDefinitions {
         schematicsDrawingPage.selectWireLabelsInline();
     }
 
+    @Then("verify the wire label  on drawing matches wire properties")
+    public void verifyTheWireLabelOnDrawingMatchesWireProperties() throws InterruptedException {
+        Thread.sleep(3000);
+        String expectedWireLabel = "WIRE12-10-BK-GXL";
+        schematicsDrawingPage.verifyWireLabel(expectedWireLabel);
+    }
+
+    @When("User updates pin display")
+    public void userUpdatesPinDisplay() {
+    }
 }

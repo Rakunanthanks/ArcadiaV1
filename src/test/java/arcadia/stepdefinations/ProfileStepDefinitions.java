@@ -115,5 +115,6 @@ public class ProfileStepDefinitions {
         new CommonElements(context.driver).verifyAlertSuccessMessage("Properties updated successfully! Please select the tasks to update the settings");
         profilePage.selectAllTasks();
         profilePage.saveTaskChanges();
+        profilePage.verifyTaskSettingsUpdateSuccessMessage();
     }
 }

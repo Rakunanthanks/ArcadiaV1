@@ -48,8 +48,9 @@ public class ProfilePage extends BasePage
     @FindBy(css = "select[name=\"Signal Tag Elements\"]+div input") private WebElement inputWireTagElements;
     @FindBy(css = "input[name=\"Signal Tag Separator\"]") private WebElement inputWireTagSeparator;
     @FindBy(css = "div#idselectform button[value='Save']") private WebElement buttonSaveWirePropertiesSettings;
-    @FindBy(css = "div#idselectform table th[data-field='chkcolumn']") private WebElement checkboxSelectAllTasks;
+    @FindBy(css = "div#idselectform table th[data-field='chkcolumn'] input#chbox") private WebElement checkboxSelectAllTasks;
     @FindBy(css = "div#idselectform+div.box-footer button[value='Save']") private WebElement buttonSaveTaskChanges;
+    @FindBy(xpath = "//div[text() = \"Settings updated successfully for the selected task(s)!\"]") private WebElement messageTaskSettingsSaved;
 
 
     String tableRows = "//table[@id='myTable']//tr";
@@ -180,5 +181,10 @@ public class ProfilePage extends BasePage
     public void saveTaskChanges() throws InterruptedException {
         customCommand.javaScriptClick(driver,buttonSaveTaskChanges);
         Thread.sleep(3000);
+    }
+
+    public void verifyTaskSettingsUpdateSuccessMessage() {
+        customCommand.waitForElementVisibility(driver,messageTaskSettingsSaved);
+        Assert.assertTrue(messageTaskSettingsSaved.isDisplayed(),"Success message not displayed for saved task settings");
     }
 }

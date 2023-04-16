@@ -61,6 +61,7 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(xpath = "//span[@class='ribbon-title' and text()='Advanced']") private WebElement advancedTab;
     @FindBy(xpath = "//span[@class='button-title' and text()='Wire Editor']") private WebElement wireEditor;
     @FindBy(id = "wire-editor") private WebElement divWireEditorPage;
+    @FindBy(xpath = "//div[@id='wire-editor']//label[contains(text(),'Component DB')]//following-sibling::select") private WebElement selectComponentDBWireEditor;
     @FindBy(xpath = "(//thead)[2]//th[11]//div//span") private WebElement headingToCon;
     @FindBy(xpath = "//th//span[text()=\"Material\"]") private WebElement headingMaterial;
     @FindBy(xpath = "//th//span[text()=\"Gauge\"]") private WebElement headingGauge;
@@ -358,5 +359,23 @@ public class SchematicsDrawingPage extends BasePage{
         customCommand.waitForElementToBeClickable(driver,wireLabelInline);
         customCommand.javaScriptClick(driver,wireLabelInline);
         Thread.sleep(2000);
+    }
+
+    public void verifyWireLabel(String expectedWireLabel) {
+        List<WebElement> eleWireLabel = driver.findElements(By.xpath("//*[name()='g' and @class='complabel']//*[name()='text' and text()='"+expectedWireLabel+"']"));
+        Assert.assertTrue(eleWireLabel.size()==1,"Wirelabel with text: " + expectedWireLabel + " is not present on schematic drawing");
+        Assert.assertTrue(eleWireLabel.get(0).isDisplayed(),"Wirelabel with text: " + expectedWireLabel + " is not displayed on schematic drawing");
+    }
+
+    public void selectComponentDB() throws InterruptedException {
+        Thread.sleep(2000);
+        customCommand.waitForElementToBeClickable(driver,selectComponentDBWireEditor);
+        Thread.sleep(2000);
+        customCommand.selectDropDownByValue(selectComponentDBWireEditor,"Manual");
+        Thread.sleep(2000);
+        if (driver.findElements(By.xpath("//div[text()='Do you want to overwrite the existing libraries?']")).size()==1){
+            driver.findElement(By.cssSelector("button[data-bb-handler=\"confirm\"]")).click();
+            Thread.sleep(2000);
+        }
     }
 }

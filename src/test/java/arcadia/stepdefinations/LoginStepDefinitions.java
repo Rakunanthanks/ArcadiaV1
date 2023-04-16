@@ -215,7 +215,7 @@ public class LoginStepDefinitions {
 
     @And("Navigated to {string} project")
     public void navigatedToDemo_IntegrationProject(String newProject) {
-        loginPage.load(EndPoint.NEWPROJECT.url.replace("projectName",newProject));
+        loginPage.load(EndPoint.PROJECT.url.replace("projectName",newProject));
     }
 @And("Navigated to Harness Connector editor setting page")
     public void navigatedToHarnesConnectoreditorSettingPage() {
@@ -233,5 +233,6 @@ public class LoginStepDefinitions {
     @And("Navigated to Schematic wire properties page")
     public void navigatedToSchematicWirePropertiesPage() {
         loginPage.load(EndPoint.SCHEMATICWIREPROPERTIES.url.replace("profileName",System.getProperty("profileName")));
+//        loginPage.load(EndPoint.SCHEMATICWIREPROPERTIES.url.replace("profileName","default"));
     }
 }
