@@ -6,7 +6,7 @@ Feature: Verify schematics
     And Created Project 'Aut_Integration'
     And test data config loaded for test identifier test14
 
-  @VerifySchematic
+  @VerifySchematic @WireEditorConnector
   Scenario: Test inline connectors, splices and wire can be added to schematic
     And Navigated to 'Aut_Integration' project
     And schematic with name 'Aut_Integration' is launched successfully
@@ -78,3 +78,18 @@ Feature: Verify schematics
     And change the wire settings from wire editor
     And go to drawing from wire editor
     Then verify the wire label  on drawing matches wire properties
+
+  @E2E @vipul
+  Scenario: Test verifies wire label can be hidden and shown
+    And Navigated to 'Aut_Integration' project
+    And schematic with name 'Aut_Integration' is launched successfully
+    And based on drawing orchestrator components are created
+    And add inline connectors to schematic
+    And add more pins to connector
+    And click on Pins dropdown from the footer
+    And click on Housings from the footer
+    And add splices to schematic
+    And draw wires between connectors
+    And validate the wire labels before removing
+    And validate the wire labels after removing
+    And add the wire label for few of the wire and verify
