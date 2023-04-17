@@ -194,4 +194,19 @@ public class SchematicStepDefinitions {
     @When("User updates pin display")
     public void userUpdatesPinDisplay() {
     }
+
+    @And("add the wire label for few of the wire and verify")
+    public void addTheWireLabelForOneOfThwWireAndVerify() throws InterruptedException {
+        schematicsDrawingPage.drawWireLabel(4,90,0,"C1");
+        schematicsDrawingPage.showWireWOLabel();
+        int no=schematicsDrawingPage.numberOfWireLabels();
+        if(no>0)
+        {
+            ExtentCucumberAdapter.addTestStepLog(String.format("Wire Labels are visible"));
+        }
+        else{
+            ExtentCucumberAdapter.addTestStepLog(String.format("Wire Labels are not visible"));
+            Assert.fail();
+        }
+    }
 }

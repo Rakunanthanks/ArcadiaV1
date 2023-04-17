@@ -2,6 +2,7 @@ package arcadia.pages;
 
 import arcadia.pages.ComponentDB.AddNewComponentPage;
 import arcadia.utils.SeleniumCustomCommand;
+import org.bouncycastle.jcajce.provider.asymmetric.X509;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -93,6 +94,10 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(xpath = "//*[name()='text' and @class='complabel' and contains(text(),'WIRE')]") private List<WebElement> wireLabels;
     @FindBy(xpath = "//span[text()='Remove All']") private WebElement removeWireLabels;
     @FindBy(xpath = "//div[@class='ui-dialog-buttonset']//span[text()='Submit']") private WebElement confirmSubmition;
+    @FindBy(xpath = "//span[text()='Wire Label']") private WebElement addWireLabel;
+    @FindBy(xpath = "//span[text()='Wire w/o Label']") private WebElement showWireWOLabel;
+    @FindBy(xpath = "//div[@id='btnFotter']//span[text()='Submit']") private WebElement SubmitWire;
+
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
 
 
@@ -378,4 +383,23 @@ public class SchematicsDrawingPage extends BasePage{
             Thread.sleep(2000);
         }
     }
+
+    public void drawWireLabel( int pinNumber, int xOffset, int yOffset, String inlineConnectorName) throws InterruptedException {
+        Thread.sleep(3000);
+        customCommand.waitForElementToBeClickable(driver,addWireLabel);
+        customCommand.javaScriptClick(driver,addWireLabel);
+        List<WebElement> inlineConnectorpins = driver.findElements(By.xpath("//*[name()='g' and @title='"+inlineConnectorName+"']//*[name()='circle']"));
+        WebElement pin = inlineConnectorpins.get(pinNumber-1);
+        customCommand.moveByOffsetOfElementAndClick(driver,pin,xOffset,yOffset-30);
+        Thread.sleep(2000);
+        customCommand.moveByOffsetOfElementAndClick(driver,pin,xOffset,yOffset+50);
+        Thread.sleep(3000);
+        System.out.println("Wires Added");
+    }
+
+    public void showWireWOLabel() throws InterruptedException {
+        customCommand.javaScriptClick(driver,showWireWOLabel);
+        customCommand.javaScriptClick(driver,SubmitWire);
+    }
+
 }
