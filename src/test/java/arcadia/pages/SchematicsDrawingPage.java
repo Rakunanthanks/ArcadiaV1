@@ -4,7 +4,6 @@ import arcadia.pages.ComponentDB.AddNewComponentPage;
 import arcadia.utils.SeleniumCustomCommand;
 import org.bouncycastle.jcajce.provider.asymmetric.X509;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -16,7 +15,6 @@ import org.testng.Assert;
 
 
 import java.awt.*;
-import java.awt.event.InputEvent;
 import java.util.List;
 
 public class SchematicsDrawingPage extends BasePage{
@@ -29,7 +27,9 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(xpath = "//*[name()='g' and @id='layer_components']//*[name()='g' and @puid='connector']//*[name()='g' and contains(@id,'_male')]") private List<WebElement> listOfMalePartInlineConnectors;
     @FindBy(xpath = "//*[name()='g' and @id='layer_components']//*[name()='g' and @puid='connector']//*[name()='g' and contains(@id,'_female')]") private List<WebElement> listOfFemalePartInlineConnectors;
     @FindBy(css = "li#cmaddmorepins") private WebElement addMorePins;
+    @FindBy(css = "li#cmeditconn") private WebElement editConnector;
     @FindBy(xpath = "//div[@aria-describedby=\"EIC\"]//span[text()=\"Edit Connector\"]") private WebElement headingEditConnector;
+    @FindBy(css = "select[name='pinDisplay']") private WebElement selectPinDisplay;
     @FindBy(css = "#codesFemaleId+div div.item") private WebElement divEditConnectorIdFemaleHalf;
     @FindBy(css = "#codesFemaleId+div input") private WebElement inputEditConnectorIdFemaleHalf;
     @FindBy(css = "button[title=\"Add connector data, close dialog\"]>span") private WebElement buttonOkEditConnector;
@@ -97,6 +97,14 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(xpath = "//span[text()='Wire Label']") private WebElement addWireLabel;
     @FindBy(xpath = "//span[text()='Wire w/o Label']") private WebElement showWireWOLabel;
     @FindBy(xpath = "//div[@id='btnFotter']//span[text()='Submit']") private WebElement SubmitWire;
+
+    @FindBy(css = "input[name='Fwiretable.conbutton'][type='button']") private WebElement buttonArrowFHalfPartNumber;
+    @FindBy(css = "input[name='nPartNumber']") private WebElement inputSearchPnOrDescription;
+    @FindBy(css = "input[name='nCavities']") private WebElement inputSearchCavities;
+    @FindBy(css = "select[name='housingGender']") private WebElement selectHousingGender;
+    @FindBy(css = "#tblBOMPartNoList>tbody>tr") private WebElement eleFirstRow;
+    @FindBy(xpath = "//div[@class='ui-dialog-buttonset']//span[text()='Yes']")  private WebElement buttonYesWarning;
+    String tablePartsRows = "#tblBOMPartNoList > tbody > tr";
 
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
 
@@ -284,6 +292,7 @@ public class SchematicsDrawingPage extends BasePage{
 
     public void addPinsToConnectorUsingConnectorName(String connectorIdFemaleHalf, int numberOfPins) throws InterruptedException {
         customCommand.javaScriptClick(driver,selectButton);
+        Thread.sleep(2000);
         WebElement ele = driver.findElement(By.xpath("//*[name()='g' and @title='"+connectorIdFemaleHalf+"']//*[name()='g' and contains(@id,'_male')]//*[name()='rect']"));
         customCommand.moveToElementAndContextClick(driver,ele);
         customCommand.waitForElementToBeClickable(driver,addMorePins);
@@ -402,4 +411,56 @@ public class SchematicsDrawingPage extends BasePage{
         customCommand.javaScriptClick(driver,SubmitWire);
     }
 
+    private boolean checkIfSearchComponentResultsReturned() throws InterruptedException {
+        Thread.sleep(4000);
+        boolean isResultAvailable = driver.findElements(By.cssSelector(tablePartsRows)).size() >0 ;
+        if(isResultAvailable){
+            customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(tablePartsRows)));
+        }
+        return  isResultAvailable;
+    }
+
+    private void selectPartNumberFemaleHalf(int numberOfCavities, String housingGender) throws InterruptedException {
+        customCommand.waitForElementToBeClickable(driver,buttonArrowFHalfPartNumber);
+        customCommand.javaScriptClick(driver,buttonArrowFHalfPartNumber);
+        customCommand.longWaitForElementToBeClickable(driver,inputSearchPnOrDescription);
+        inputSearchPnOrDescription.clear();
+        //We will enable this step after we have working data linked to component DB
+        //customCommand.waitForElementToBeClickable(driver,selectHousingGender);
+//        customCommand.selectDropDownByValue(selectHousingGender,housingGender.toUpperCase());
+        customCommand.waitForElementToBeClickable(driver,inputSearchCavities);
+        inputSearchCavities.clear();
+        customCommand.simulateKeyEnterWithValue(inputSearchCavities, String.valueOf(numberOfCavities));
+        Assert.assertTrue(checkIfSearchComponentResultsReturned(),"Parts not displayed for searched cavity");
+        customCommand.waitForElementToBeClickable(driver,eleFirstRow);
+        customCommand.doubleClick(driver,eleFirstRow);
+        Thread.sleep(4000);
+        if (driver.findElements(By.xpath("//div[@id=\"dialog\" and text()=\"You have chosen a Part Number with a different housing gender. Please click yes to continue.\"]")).size()>0){
+            customCommand.javaScriptClick(driver,buttonYesWarning);
+        }
+        customCommand.longWaitForElementToBeClickable(driver,inputEditConnectorDescFemaleHalf);
+    }
+
+    public void updatePinDisplayAndPartNumber(String connectorIdFemaleHalf, String pinDisplay, int numberOfCavities) throws InterruptedException {
+        Thread.sleep(2000);
+        customCommand.javaScriptClick(driver,selectButton);
+        WebElement ele = driver.findElement(By.xpath("//*[name()='g' and @title='"+connectorIdFemaleHalf+"']//*[name()='g' and @visibility='visible']//*[name()='circle']"));
+        customCommand.mouseHover(driver,ele);
+        customCommand.moveToElementAndContextClick(driver,ele);
+        customCommand.waitForElementToBeClickable(driver,editConnector);
+        customCommand.javaScriptClick(driver,editConnector);
+        customCommand.waitForElementVisibility(driver,headingEditConnector);
+        customCommand.waitForElementToBeClickable(driver,selectPinDisplay);
+        customCommand.selectDropDownByValue(selectPinDisplay,pinDisplay);
+        customCommand.javaScriptClick(driver,tabConnectorEditConnector);
+        customCommand.waitForElementVisibility(driver,inputEditConnectorDescFemaleHalf);
+        customCommand.waitForElementToBeClickable(driver,inputEditConnectorDescFemaleHalf);
+        selectPartNumberFemaleHalf(numberOfCavities,pinDisplay);
+        customCommand.javaScriptClick(driver,buttonOkEditConnector);
+        Thread.sleep(2000);
+        customCommand.longWaitForElementToBeClickable(driver,advancedTab);
+        customCommand.waitForElementToBeClickable(driver,selectButton);
+        customCommand.waitForElementToBeClickable(driver,zoomOut);
+        Thread.sleep(2000);
+    }
 }

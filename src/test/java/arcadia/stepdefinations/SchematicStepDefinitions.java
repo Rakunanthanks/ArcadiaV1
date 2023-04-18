@@ -4,7 +4,6 @@ import arcadia.context.FlowContext;
 import arcadia.context.TestContext;
 import arcadia.domainobjects.Schematic;
 import arcadia.pages.*;
-import arcadia.pages.ComponentDB.CommonElements;
 import arcadia.utils.StringHelper;
 import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import io.cucumber.java.en.And;
@@ -13,12 +12,10 @@ import io.cucumber.java.en.When;
 import org.testng.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class SchematicStepDefinitions {
     private final TestContext context;
@@ -208,5 +205,15 @@ public class SchematicStepDefinitions {
             ExtentCucumberAdapter.addTestStepLog(String.format("Wire Labels are not visible"));
             Assert.fail();
         }
+    }
+
+    @And("pin display type and partnumber is updated")
+    public void pinDisplayTypeAndPartNumberIsUpdated() throws InterruptedException {
+        schematicsDrawingPage.updatePinDisplayAndPartNumber("C1","Male",5);
+        schematicsDrawingPage.updatePinDisplayAndPartNumber("C2","Male",4);
+        schematicsDrawingPage.updatePinDisplayAndPartNumber("C3","Male",3);
+//        schematicsDrawingPage.updatePinDisplayAndPartNumber("C4","Female",1);
+        schematicsDrawingPage.updatePinDisplayAndPartNumber("C5","Female",3);
+        schematicsDrawingPage.updatePinDisplayAndPartNumber("C6","Female",6);
     }
 }
