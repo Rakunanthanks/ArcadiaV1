@@ -79,7 +79,7 @@ Feature: Verify schematics
     And go to drawing from wire editor
     Then verify the wire label  on drawing matches wire properties
 
-  @E2E @vipul
+  @VerifySchematic
   Scenario: Test verifies wire label can be hidden and shown
     And Navigated to 'Aut_Integration' project
     And schematic with name 'Aut_Integration' is launched successfully
