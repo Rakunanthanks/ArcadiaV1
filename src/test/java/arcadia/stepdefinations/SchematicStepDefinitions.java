@@ -216,4 +216,9 @@ public class SchematicStepDefinitions {
         schematicsDrawingPage.updatePinDisplayAndPartNumber("C5","Female",3);
         schematicsDrawingPage.updatePinDisplayAndPartNumber("C6","Female",6);
     }
+
+    @And("updated the font settings for the schematic")
+    public void updatedTheFontSettingsForTheSchematic() throws InterruptedException {
+        schematicsDrawingPage.updateFontSettings();
+    }
 }

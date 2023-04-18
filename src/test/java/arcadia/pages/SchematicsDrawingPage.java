@@ -104,6 +104,14 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(css = "select[name='housingGender']") private WebElement selectHousingGender;
     @FindBy(css = "#tblBOMPartNoList>tbody>tr") private WebElement eleFirstRow;
     @FindBy(xpath = "//div[@class='ui-dialog-buttonset']//span[text()='Yes']")  private WebElement buttonYesWarning;
+    @FindBy(xpath = "//span[text()='Update Font']") private WebElement updateFont;
+    @FindBy(xpath = "(//table[@class='tablesorter'])[1]//td[2]/input") private List<WebElement> updateFontSize;
+    @FindBy(xpath = "(//table[@class='tablesorter'])[1]//td[4]//input") private List<WebElement> updateFontCheckBox;
+    @FindBy(xpath = "(//table[@class='tablesorter'])[1]//td[3]/input") private List<WebElement> updateFontColor;
+    @FindBy(xpath = "//button[@class='sbarbut']/span[text()='Submit']") private WebElement submitFontUpdate;
+
+
+
     String tablePartsRows = "#tblBOMPartNoList > tbody > tr";
 
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
@@ -463,4 +471,18 @@ public class SchematicsDrawingPage extends BasePage{
         customCommand.waitForElementToBeClickable(driver,zoomOut);
         Thread.sleep(2000);
     }
+
+    public void updateFontSettings() throws InterruptedException {
+        customCommand.javaScriptClick(driver,updateFont);
+        Thread.sleep(2000);
+        for(int i=0;i<updateFontSize.size();i++)
+        {
+            customCommand.javaScriptClickAndEnterValue(driver,updateFontSize.get(i),"3");
+            customCommand.javaScriptClickAndEnterValue(driver,updateFontColor.get(i),"#00ff0d");
+            customCommand.javaScriptClick(driver,updateFontCheckBox.get(i));
+        }
+        customCommand.javaScriptClick(driver,submitFontUpdate);
+        Thread.sleep(3000);
+    }
+
 }
