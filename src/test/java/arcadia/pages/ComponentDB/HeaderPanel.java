@@ -3,6 +3,7 @@ package arcadia.pages.ComponentDB;
 import arcadia.pages.BasePage;
 import arcadia.utils.SeleniumCustomCommand;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -56,7 +57,15 @@ public class HeaderPanel extends BasePage {
         Thread.sleep(3000);
     }
 
+    public void handleAlerts() {
+        try {
+            driver.switchTo().alert().accept();
+        } catch(NoAlertPresentException e) {
+        }
+    }
+
     public void invokeMainMenu(String menuName){
+        handleAlerts();
         if(menuName.equals("component")){
             menuName = "component&company";
         }

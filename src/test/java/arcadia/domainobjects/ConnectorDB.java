@@ -15,8 +15,8 @@ public class ConnectorDB {
     private String ttype;
     private Integer noofcavity;
     private String keyway;
-    public ConnectorDB() {
-    }
+
+
 
     public ConnectorDB(String partNumber, String description, String family, String status, String usage, String supplier, String supplierPN, String colour, String housingGender, String terminalGender, String connectorType, Integer numberOfCavities, String keyway) {
         this.partnumber = partNumber;
