@@ -1,0 +1,13 @@
+! Manual upload of Terminals," Seals and Plugs",,,,,,,,,,,,,,
+! DO NOT ALTER IDX Column. This is for Internal Mapping based on Variants & Options,,,,,,,,,,,,,,,
+! Data consists of all the Cavity IDs and the Connector IDs in the Harness. Manually entered Cavities will not be updated.,,,,,,,,,,,,,,,
+! Altering Cavity ID," Connector Ref Code"," Connector PN"," Variant or Options will not be updated as this is for Information only.",,,,,,,,,,,,
+IDX,"Cavity ID",Wire ID,Signal Name,Wire Gauge,Wire CSA,Wire OD,MC ID,Connector Ref code,Connector PN,Variant,Options,Terminal Finish,Terminal PN,Seal PN,Plug PN
+1,"1",001,,1.5,0.5,2.4,,X-001,FFH04142BK*T,,,,,,
+2,"2",002,,1.5,0.5,2.4,,X-001,FFH04142BK*T,,,,,,
+3,"3",003,,1.5,0.5,2.4,,X-001,FFH04142BK*T,,,,,,
+4,"4",,,,,,,X-001,FFH04142BK*T,,,,,,
+1,"1",001,,1.5,0.5,2.4,,X-002,FFH04142BK*T,,,TIN,0-0444334-2,,
+2,"2",002,,1.5,0.5,2.4,,X-002,FFH04142BK*T,,,,,,
+3,"3",003,,1.5,0.5,2.4,,X-002,FFH04142BK*T,,,,,,
+4,"4",004,,,,,,X-002,FFH04142BK*T,,,,,,

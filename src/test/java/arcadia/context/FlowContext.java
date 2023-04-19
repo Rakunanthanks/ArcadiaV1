@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FlowContext {
-    public static List<NodeIdentifier> nodeIdentifierList = new ArrayList<>();;
+    public static List<NodeIdentifier> nodeIdentifierList = new ArrayList<>();
     public static List<ConnectorIdentifier> connectorIdentifierList = new ArrayList<>();
     public static List<ConnectorPlugIdentifier> connectorPlugIdentifierList = new ArrayList<>();
     public static List<SpliceIdentifier> spliceIdentifierList = new ArrayList<>();

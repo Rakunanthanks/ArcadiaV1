@@ -26,6 +26,7 @@ public class DrawingHelper {
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
 
     public List<DrawingInstructor> getDrawingInstruction(String testIdentifier) throws IOException {
+        System.out.println(testIdentifier);
         String filePath = "src/test/resources/drawingboard/drawingboard-"+testIdentifier+".csv";
         Reader reader = new BufferedReader(new FileReader(filePath));
         CsvToBean<DrawingInstructor> csvReader = new CsvToBeanBuilder(reader)
@@ -61,6 +62,10 @@ public class DrawingHelper {
                 case "splice":
                     spliceOrchestrator(instructions,driver);
                     break;
+		       case "updatecavities":
+                    updateCavitiesOrchestrator(instructions,driver);
+                    break;
+
             }
 
         }
@@ -84,6 +89,10 @@ public class DrawingHelper {
                 case "sleevetube":
                     new HarnessPage(driver).clickOnGlobalUpdateSleeve();
                     break;
+                case "cavities":
+                    new HarnessPage(driver).clickOnGlobalUpdateCavities();
+                    break;
+
             }
         }
     }
@@ -113,6 +122,13 @@ public class DrawingHelper {
             }
         }
     }
+
+    private void updateCavitiesOrchestrator(DrawingInstructor instructions,WebDriver driver) throws InterruptedException{
+            WebElement updatecavities = driver.findElement(By.xpath("//div[@id='appContextMenu']//li[@id='cmigettermsandseals']"));
+            updatecavities.click();
+            Thread.sleep(2000);
+    }
+
     private void wireRouteOrchestrator(DrawingInstructor instructions, WebDriver driver) throws InterruptedException {
         if(instructions.getCommand().equalsIgnoreCase("Invoke WireRoute") ){
             System.out.println("Invoke WireRoute");
@@ -202,6 +218,9 @@ public class DrawingHelper {
         }
         if(instructions.getCommand().equalsIgnoreCase("Gather Connector Plug Element") ){
             new ConnectorPage(driver).getConnectorPlugELementIdsFromDrawingPage();
+        }
+        if(instructions.getCommand().equalsIgnoreCase("Right Click Connector Plug Element") ){
+            new ConnectorPage(driver).rightClickConnectorPlugElement(FlowContext.connectorPlugIdentifierList.get(0).getConnectorId());
         }
     }
 }

@@ -41,6 +41,7 @@ public class HarnessPage extends BasePage{
     @FindBy(id = "iaddframe") private WebElement frame;
     @FindBy(id = "iupdateroute") private WebElement wireRoute;
     @FindBy(id = "iupdatesleevetube") private WebElement updateSleeveGlobal;
+    @FindBy(id="igettermsandseals") private WebElement updateCavitiesGlobal;
     @FindBy(id = "iopenmenu") private WebElement open;
 
     @FindBy(css = "input#nodeshow") private WebElement buttonShowNode;
@@ -142,6 +143,11 @@ public class HarnessPage extends BasePage{
         customCommand.scrollIntoView(driver,updateSleeveGlobal);
         customCommand.waitClick(updateSleeveGlobal);
         //updateSleeveGlobal.click();
+    }
+
+    public void  clickOnGlobalUpdateCavities()throws AWTException,InterruptedException{
+        customCommand.scrollIntoView(driver,updateCavitiesGlobal);
+        customCommand.waitClick(updateCavitiesGlobal);
     }
 
     public void clickOnWireRoute() throws AWTException, InterruptedException {
