@@ -32,7 +32,7 @@ public class SpliceEditorStepDefinitions {
     }
 
     @And("go to drawing")
-    public void goToDrawing() {
+    public void goToDrawing() throws InterruptedException {
         spliceEditorPage.gotoDrawing();
     }
 

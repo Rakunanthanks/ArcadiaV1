@@ -78,11 +78,12 @@ public class SpliceEditorPage extends BasePage {
         List<String> expectedHeaders = new ArrayList<>(Arrays.asList("Splice ID", "Short Name","Functional Description", "Component DB", "Splice PN", "PN Description", "Cavities", "Link Node", "Variants"));
         Assert.assertEquals(listOfHeaders, expectedHeaders, "Default Headers are not as expected");
     }
-    public void gotoDrawing() {
+    public void gotoDrawing() throws InterruptedException {
         gotoDrawing.click();
         try {
             okayButton.click();
         } catch (org.openqa.selenium.NoSuchElementException e) {
+            Thread.sleep(1000);
             driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         }
     }

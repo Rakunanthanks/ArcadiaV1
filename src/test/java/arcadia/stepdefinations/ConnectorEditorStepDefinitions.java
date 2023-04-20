@@ -109,6 +109,7 @@ public class ConnectorEditorStepDefinitions {
 
     @And("Selecting ConnectorID,ComponentDB,partype as {string}")
     public void selectingConnectorIDComponentDBPartype(String parttype) throws InterruptedException, JsonProcessingException, AWTException {
+
         connectorEditorPage.enterconnectorIDCompParttype("X-003","quickstart",parttype);
         System.out.println(parttype);
     }

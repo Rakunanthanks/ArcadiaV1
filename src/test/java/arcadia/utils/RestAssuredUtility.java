@@ -46,6 +46,20 @@ public class RestAssuredUtility {
         String jsonString = response.asString();
         return jsonString;
     }
+    public String getwireEditorResponse(WebDriver driver,String url){
+        String BASE_URL=ConfigLoader.getInstance().getBaseUrl() + System.getProperty("testInstance")+"/index.lp";
+        RestAssured.baseURI = BASE_URL;
+        RequestSpecification request = RestAssured.given();
+        String cookie=getCookie(driver);
+        request.header("authority","qa.cadonix.online");
+        request.header("accept","application/json");
+        request.header("content-type","application/x-www-form-urlencoded; charset=UTF-8");
+        request.header("cookie", "ArchonixAuth="+cookie+"");
+        response = request.post(url);
+        String jsonString = response.asString();
+        return jsonString;
+    }
+
 
     public String getCookie(WebDriver driver)
     {
