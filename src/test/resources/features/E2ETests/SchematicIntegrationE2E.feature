@@ -80,7 +80,7 @@ Feature: Verify schematics
     Then verify the wire label  on drawing matches wire properties
 
   @VerifySchematic
-  Scenario: Test verifies wire label can be hidden and shown
+  Scenario: Test verifies wire label can be hidden and shown  for some specific wires
     And Navigated to 'Aut_Integration' project
     And schematic with name 'Aut_Integration' is launched successfully
     And based on drawing orchestrator components are created
@@ -111,3 +111,19 @@ Feature: Verify schematics
     And change the wire settings from wire editor
     And go to drawing from wire editor
     And pin display type and partnumber is updated
+
+  @VerifySchematic
+  Scenario: Test verifies font settings can be updated for schematic
+    And Navigated to Schematic wire properties page
+    And User updates the schematic wire properties
+    And Navigated to 'Aut_Integration' project
+    And schematic with name 'Aut_Integration' is launched successfully
+    And based on drawing orchestrator components are created
+    And add inline connectors to schematic
+    And add more pins to connector
+    And click on Pins dropdown from the footer
+    And click on Housings from the footer
+    And add splices to schematic
+    And draw wires between connectors
+    And makes the wire labels inline
+    And updated the font settings for the schematic
