@@ -450,11 +450,13 @@ public class SchematicsDrawingPage extends BasePage{
     }
 
     public void updatePinDisplayAndPartNumber(String connectorIdFemaleHalf, String pinDisplay, int numberOfCavities) throws InterruptedException {
-        Thread.sleep(2000);
+        Thread.sleep(4000);
         customCommand.javaScriptClick(driver,selectButton);
-        WebElement ele = driver.findElement(By.xpath("//*[name()='g' and @title='"+connectorIdFemaleHalf+"']//*[name()='g' and @visibility='visible']//*[name()='circle']"));
-        customCommand.mouseHover(driver,ele);
-        customCommand.moveToElementAndContextClick(driver,ele);
+        Thread.sleep(1000);
+//        WebElement eleConnector = driver.findElement(By.xpath("//*[name()='g' and @title='"+connectorIdFemaleHalf+"']//*[name()='g' and @visibility='visible']//*[name()='circle']"));
+        WebElement eleConnector = driver.findElement(By.xpath("//*[name()='g' and @title='"+connectorIdFemaleHalf+"']//*[name()='g' and contains(@id,'comp')]//*[name()='g']"));
+        customCommand.mouseHover(driver,eleConnector);
+        customCommand.moveToElementAndContextClick(driver,eleConnector);
         customCommand.waitForElementToBeClickable(driver,editConnector);
         customCommand.javaScriptClick(driver,editConnector);
         customCommand.waitForElementVisibility(driver,headingEditConnector);
@@ -485,4 +487,26 @@ public class SchematicsDrawingPage extends BasePage{
         Thread.sleep(3000);
     }
 
+    public void verifyPartNumberIsPresentForConnector(String connectorIdFemaleHalf) throws InterruptedException {
+        Thread.sleep(2000);
+        customCommand.javaScriptClick(driver,selectButton);
+        WebElement ele = driver.findElement(By.xpath("//*[name()='g' and @title='"+connectorIdFemaleHalf+"']//*[name()='g' and contains(@id,'comp')]//*[name()='g']"));
+        customCommand.mouseHover(driver,ele);
+        customCommand.moveToElementAndContextClick(driver,ele);
+        customCommand.waitForElementToBeClickable(driver,editConnector);
+        customCommand.javaScriptClick(driver,editConnector);
+        customCommand.waitForElementVisibility(driver,headingEditConnector);
+        customCommand.waitForElementToBeClickable(driver,selectPinDisplay);
+        customCommand.javaScriptClick(driver,tabConnectorEditConnector);
+        customCommand.waitForElementVisibility(driver,inputEditConnectorDescFemaleHalf);
+        customCommand.waitForElementToBeClickable(driver,inputEditConnectorDescFemaleHalf);
+        String partNumberValue = driver.findElement(By.xpath("//input[contains(@id,\"connPartNo\")]")).getAttribute("value");
+        Assert.assertNotEquals(partNumberValue,"","Value of partnumber is blank");
+        customCommand.javaScriptClick(driver,buttonOkEditConnector);
+        Thread.sleep(2000);
+        customCommand.longWaitForElementToBeClickable(driver,advancedTab);
+        customCommand.waitForElementToBeClickable(driver,selectButton);
+        customCommand.waitForElementToBeClickable(driver,zoomOut);
+        Thread.sleep(2000);
+    }
 }

@@ -108,7 +108,7 @@ public class SeleniumCustomCommand {
 
     public void mouseHover(WebDriver driver , WebElement element){
         Actions actions = new Actions(driver);
-        actions.moveToElement(element).perform();
+        actions.moveToElement(element).build().perform();
     }
 
     public void waitClick(WebElement element) throws InterruptedException {
