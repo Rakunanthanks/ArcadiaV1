@@ -221,4 +221,14 @@ public class SchematicStepDefinitions {
     public void updatedTheFontSettingsForTheSchematic() throws InterruptedException {
         schematicsDrawingPage.updateFontSettings();
     }
+
+    @Then("verify partnumbers are added for connectors")
+    public void verifyPartNumbersAreAddedForConnectors() throws InterruptedException {
+        schematicsDrawingPage.verifyPartNumberIsPresentForConnector("C1");
+        schematicsDrawingPage.verifyPartNumberIsPresentForConnector("C2");
+        schematicsDrawingPage.verifyPartNumberIsPresentForConnector("C3");
+//        schematicsDrawingPage.verifyPartNumberIsPresentForConnector("C4");
+        schematicsDrawingPage.verifyPartNumberIsPresentForConnector("C5");
+        schematicsDrawingPage.verifyPartNumberIsPresentForConnector("C6");
+    }
 }

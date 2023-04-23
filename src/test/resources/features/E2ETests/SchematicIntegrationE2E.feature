@@ -111,6 +111,7 @@ Feature: Verify schematics
     And change the wire settings from wire editor
     And go to drawing from wire editor
     And pin display type and partnumber is updated
+    Then verify partnumbers are added for connectors
 
   @VerifySchematic
   Scenario: Test verifies font settings can be updated for schematic
