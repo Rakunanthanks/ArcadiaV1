@@ -10,6 +10,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.python.antlr.ast.Str;
 import org.sikuli.hotkey.Keys;
 import org.testng.Assert;
 
@@ -109,6 +110,9 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(xpath = "(//table[@class='tablesorter'])[1]//td[4]//input") private List<WebElement> updateFontCheckBox;
     @FindBy(xpath = "(//table[@class='tablesorter'])[1]//td[3]/input") private List<WebElement> updateFontColor;
     @FindBy(xpath = "//button[@class='sbarbut']/span[text()='Submit']") private WebElement submitFontUpdate;
+    @FindBy(xpath = "//span[text()='Colour On/Off']") private WebElement colourOnOff;
+    @FindBy(xpath = "//*[name()='g' and @title='WIRE2']//*[name()='path' and contains(@id,'outer')]") private WebElement verifyColor;
+
 
 
 
@@ -508,5 +512,18 @@ public class SchematicsDrawingPage extends BasePage{
         customCommand.waitForElementToBeClickable(driver,selectButton);
         customCommand.waitForElementToBeClickable(driver,zoomOut);
         Thread.sleep(2000);
+    }
+
+    public void switchOnColour() throws InterruptedException {
+        customCommand.javaScriptClick(driver,colourOnOff);
+    }
+
+    public boolean verifyWireColour()
+    {
+        String text= verifyColor.getAttribute("stroke");
+        if(text.equalsIgnoreCase("#FFAA00"))
+            return true;
+        else
+            return false;
     }
 }
