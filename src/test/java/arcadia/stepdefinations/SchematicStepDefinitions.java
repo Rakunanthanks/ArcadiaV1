@@ -231,4 +231,22 @@ public class SchematicStepDefinitions {
         schematicsDrawingPage.verifyPartNumberIsPresentForConnector("C5");
         schematicsDrawingPage.verifyPartNumberIsPresentForConnector("C6");
     }
+
+    @And("switch on the colour of the wires")
+    public void switchOnTheColourOfTheWires() throws InterruptedException {
+        schematicsDrawingPage.switchOnColour();
+    }
+
+    @And("Verify the colour of the wires")
+    public void verifyTheColourOfTheWires() {
+        boolean flag=schematicsDrawingPage.verifyWireColour();
+        if(flag)
+        {
+            ExtentCucumberAdapter.addTestStepLog(String.format("Wires colours are switched on"));
+        }
+        else{
+            ExtentCucumberAdapter.addTestStepLog(String.format("Wires colours are not able to switched on"));
+            Assert.fail();
+        }
+    }
 }

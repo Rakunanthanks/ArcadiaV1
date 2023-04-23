@@ -128,3 +128,5 @@ Feature: Verify schematics
     And draw wires between connectors
     And makes the wire labels inline
     And updated the font settings for the schematic
+    And switch on the colour of the wires
+    And Verify the colour of the wires
