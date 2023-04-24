@@ -157,7 +157,7 @@ public class UpdateCavitiesStepDefinitions {
         WebElement close = driver.findElement(By.cssSelector("button[onclick='fnDoCancel();']"));
         close.click();
         Thread.sleep(3000);
-        WebElement connectorElement = driver.findElement(By.cssSelector("rect[etype='connector'][nodex='144.87']"));
+        WebElement connectorElement = driver.findElement(By.cssSelector("rect[etype='connector'][nodex='144.88']"));
         customCommand.rightClick(driver,connectorElement);
         Thread.sleep(5000);
         WebElement inspect = driver.findElement(By.cssSelector("body > div:nth-child(21) > li:nth-child(1)"));

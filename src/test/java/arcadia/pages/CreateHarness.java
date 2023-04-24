@@ -35,8 +35,8 @@ public class CreateHarness extends BasePage {
         customCommand.enterText(description,harnessData.getDescription());
         customCommand.enterText(partNumber,harnessData.getPartNumber());
         customCommand.enterText(revision,harnessData.getRevision());
-        customCommand.selectDropDownByValue(componentDB,harnessData.getComponentDB());
         customCommand.selectDropDownByValue(profile,harnessData.getprofile());
+        customCommand.selectDropDownByValue(componentDB,harnessData.getComponentDB());
         harnessSubmitButton.click();
 
     }

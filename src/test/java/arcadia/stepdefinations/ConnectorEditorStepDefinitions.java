@@ -149,7 +149,7 @@ public class ConnectorEditorStepDefinitions {
     }
 
     @Then("check able to download template or not in connector editor")
-    public void checkAbleToDownloadTemplateOrNot() {
+    public void checkAbleToDownloadTemplateOrNot() throws InterruptedException {
         connectorEditorPage.checkAbleToDownloadOrNot("templates_connector_editor_import_format_variants.csv");   }
 
     @And("Enter possible values in the connector editor")
@@ -170,7 +170,7 @@ public class ConnectorEditorStepDefinitions {
         return taskID;
     }
     @Then("Check able to export csv and the entered values are present in the exported csv or not in connector editor")
-    public void checkAbleToExportCsvAndTheEnteredValuesArePresentInTheExportedCsvOrNot() {
+    public void checkAbleToExportCsvAndTheEnteredValuesArePresentInTheExportedCsvOrNot() throws InterruptedException {
         connectorEditorPage.checkAbleToDownloadOrNot("HAR"+getTaskID()+"_conInfo.csv");
     }
 

@@ -234,12 +234,15 @@ public class ConnectorPage extends BasePage {
                 if(!element.findElements(By.cssSelector("rect[etype=\"connector\"]")).isEmpty()){
                     connectorPlugId = element.getAttribute("id");
                     FlowContext.connectorPlugIdentifierList.add(new ConnectorPlugIdentifier(connectorPlugId));
+
                 }
             }
+        System.out.println(FlowContext.connectorPlugIdentifierList);
         return  FlowContext.connectorPlugIdentifierList;
     }
     public void rightClickConnectorPlugElement(String connectorPlugId) throws InterruptedException {
-
+        WebElement select = driver.findElement(By.cssSelector("#idrawcom"));
+        select.click();
         Actions actions = new Actions(driver);
         WebElement ele = driver.findElement(By.xpath("//*[name()='g' and @id='"+connectorPlugId+"']//*[name()='rect' and contains(@etype,'connector')]"));
         actions.contextClick(ele).perform();
