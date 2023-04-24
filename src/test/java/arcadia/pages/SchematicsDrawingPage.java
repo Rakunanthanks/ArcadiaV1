@@ -457,8 +457,7 @@ public class SchematicsDrawingPage extends BasePage{
         Thread.sleep(4000);
         customCommand.javaScriptClick(driver,selectButton);
         Thread.sleep(1000);
-//        WebElement eleConnector = driver.findElement(By.xpath("//*[name()='g' and @title='"+connectorIdFemaleHalf+"']//*[name()='g' and @visibility='visible']//*[name()='circle']"));
-        WebElement eleConnector = driver.findElement(By.xpath("//*[name()='g' and @title='"+connectorIdFemaleHalf+"']//*[name()='g' and contains(@id,'comp')]//*[name()='g']"));
+        WebElement eleConnector = driver.findElement(By.xpath("//*[name()='g' and @title='"+connectorIdFemaleHalf+"']//*[name()='g' and contains(@id,'_male')]//*[name()='rect']"));
         customCommand.mouseHover(driver,eleConnector);
         customCommand.moveToElementAndContextClick(driver,eleConnector);
         customCommand.waitForElementToBeClickable(driver,editConnector);
@@ -494,7 +493,7 @@ public class SchematicsDrawingPage extends BasePage{
     public void verifyPartNumberIsPresentForConnector(String connectorIdFemaleHalf) throws InterruptedException {
         Thread.sleep(2000);
         customCommand.javaScriptClick(driver,selectButton);
-        WebElement ele = driver.findElement(By.xpath("//*[name()='g' and @title='"+connectorIdFemaleHalf+"']//*[name()='g' and contains(@id,'comp')]//*[name()='g']"));
+        WebElement ele = driver.findElement(By.xpath("//*[name()='g' and @title='"+connectorIdFemaleHalf+"']//*[name()='g' and contains(@id,'_male')]//*[name()='rect']"));
         customCommand.mouseHover(driver,ele);
         customCommand.moveToElementAndContextClick(driver,ele);
         customCommand.waitForElementToBeClickable(driver,editConnector);

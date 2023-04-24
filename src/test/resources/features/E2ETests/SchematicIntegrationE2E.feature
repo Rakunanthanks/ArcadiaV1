@@ -110,8 +110,12 @@ Feature: Verify schematics
     And makes the wire labels inline
     And change the wire settings from wire editor
     And go to drawing from wire editor
+    And click on Pins dropdown from the footer
+    And click on Housings from the footer
     And pin display type and partnumber is updated
     Then verify partnumbers are added for connectors
+    And click on Pins dropdown from the footer
+    And click on Housings from the footer
 
   @VerifySchematic
   Scenario: Test verifies font settings can be updated for schematic
