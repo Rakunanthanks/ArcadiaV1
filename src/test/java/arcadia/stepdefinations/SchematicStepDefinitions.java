@@ -181,7 +181,7 @@ public class SchematicStepDefinitions {
         schematicsDrawingPage.selectWireLabelsInline();
     }
 
-    @Then("verify the wire label  on drawing matches wire properties")
+    @Then("verify the wire label on drawing matches wire properties")
     public void verifyTheWireLabelOnDrawingMatchesWireProperties() throws InterruptedException {
         Thread.sleep(3000);
         String expectedWireLabel = "WIRE12-10-BK-GXL";

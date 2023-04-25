@@ -389,8 +389,8 @@ public class SchematicsDrawingPage extends BasePage{
 
     public void verifyWireLabel(String expectedWireLabel) {
         List<WebElement> eleWireLabel = driver.findElements(By.xpath("//*[name()='g' and @class='complabel']//*[name()='text' and text()='"+expectedWireLabel+"']"));
-        Assert.assertTrue(eleWireLabel.size()==1,"Wirelabel with text: " + expectedWireLabel + " is not present on schematic drawing");
-        Assert.assertTrue(eleWireLabel.get(0).isDisplayed(),"Wirelabel with text: " + expectedWireLabel + " is not displayed on schematic drawing");
+        Assert.assertTrue(eleWireLabel.size()==1,"Wirelabel with text: " + expectedWireLabel + " is not present on schematic drawing as the wire property profile settings are not reflected on the drawing");
+        Assert.assertTrue(eleWireLabel.get(0).isDisplayed(),"Wirelabel with text: " + expectedWireLabel + " is not displayed on schematic drawing as the wire property profile settings are not reflected on the drawing");
     }
 
     public void selectComponentDB() throws InterruptedException {
