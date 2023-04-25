@@ -77,7 +77,7 @@ Feature: Verify schematics
     And makes the wire labels inline
     And change the wire settings from wire editor
     And go to drawing from wire editor
-    Then verify the wire label  on drawing matches wire properties
+    Then verify the wire label on drawing matches wire properties
 
   @VerifySchematic
   Scenario: Test verifies wire label can be hidden and shown  for some specific wires
