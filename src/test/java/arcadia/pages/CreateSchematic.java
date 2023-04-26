@@ -25,7 +25,7 @@ public class CreateSchematic extends BasePage {
 
     public void submitSchematicData(Schematic schematicData) throws InterruptedException {
         customCommand.waitForElementVisibility(driver ,schematicWorkTask);
-        Thread.sleep(1000);
+        Thread.sleep(3000);
         customCommand.enterText(schematicWorkTask,schematicData.getWorkTask());
         customCommand.enterText(schematicTitle,schematicData.getTitle());
         customCommand.enterText(schematicDescription,schematicData.getDescription());

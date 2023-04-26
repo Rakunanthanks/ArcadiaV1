@@ -1,5 +1,6 @@
 package arcadia.pages;
 
+import arcadia.context.FlowContext;
 import arcadia.pages.ComponentDB.AddNewComponentPage;
 import arcadia.utils.SeleniumCustomCommand;
 import org.bouncycastle.jcajce.provider.asymmetric.X509;
@@ -17,6 +18,7 @@ import org.testng.Assert;
 
 import java.awt.*;
 import java.util.List;
+import java.util.Set;
 
 public class SchematicsDrawingPage extends BasePage{
 
@@ -113,9 +115,11 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(xpath = "//span[text()='Colour On/Off']") private WebElement colourOnOff;
     @FindBy(xpath = "//*[name()='g' and @title='WIRE2']//*[name()='path' and contains(@id,'outer')]") private WebElement verifyColor;
 
+    @FindBy(xpath = "//span[text()='Open']") private WebElement openButton;
 
+    @FindBy(xpath = "(//ul[@class='dropdown-menu']//a[@title='Create Harness'])[2]") private WebElement createharness;
 
-
+    @FindBy(xpath = "//a[text()='Click here to return to projects']") private WebElement returnProject;
     String tablePartsRows = "#tblBOMPartNoList > tbody > tr";
 
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
@@ -525,4 +529,43 @@ public class SchematicsDrawingPage extends BasePage{
         else
             return false;
     }
+
+    public void goToCreateHarness() throws InterruptedException {
+        String currentWindowHandle = driver.getWindowHandle();
+        customCommand.javaScriptClick(driver,openButton);
+        Set<String> windowHandles = driver.getWindowHandles();
+        for (String windowHandle : windowHandles) {
+            if (!windowHandle.equals(currentWindowHandle)) {
+                driver.switchTo().window(windowHandle);
+                break;
+            }
+        }
+        String name= FlowContext.schematicDescription;
+        WebElement ele=driver.findElement(By.xpath("//td[text()='"+name+"']/parent::tr//button[@title='Option List']"));
+        customCommand.javaScriptClick(driver,ele);
+        customCommand.javaScriptClick(driver,createharness);
+        Thread.sleep(2000);
+    }
+
+    public boolean verifyHarnessCreated() throws InterruptedException {
+        customCommand.waitClick(returnProject);
+        String name= FlowContext.schematicDescription;
+        WebElement ele=driver.findElement(By.xpath("//td[text()='"+name+"']"));
+        if(ele.isDisplayed())
+            return true;
+        else
+            return false;
+    }
+
+    public void goToHarness() throws InterruptedException {
+        String name= FlowContext.schematicDescription;
+        WebElement ele=driver.findElement(By.xpath("//td[text()='"+name+"']"));
+        customCommand.javaScriptClick(driver,ele);
+    }
+
+    public void switchToFrame(){
+        WebElement iframe = driver.findElement(By.xpath("//iframe[@id='pluginFrame']"));
+        driver.switchTo().frame(iframe);
+    }
+
 }

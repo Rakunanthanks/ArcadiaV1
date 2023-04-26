@@ -50,6 +50,21 @@ public class SchematicStepDefinitions {
         createSchematic.submitSchematicData(new Schematic(schematicData.getWorkTask(), schematicData.getTitle(), schematicData.getDescription(), schematicData.getPartNumber(), schematicData.getRevision(), schematicData.getComponentDB(),schematicData.getProfile()));
     }
 
+    private void createNewHarnessInstance(String schematicDescription) throws InterruptedException {
+        String partNumber = new StringHelper().generateRandomDigit().toString();
+        arcadia.mapperObjects.CreateSchematic schematicData = new arcadia.mapperObjects.CreateSchematic();
+        schematicData.setComponentDB(System.getProperty("componentDB"));
+        schematicData.setProfile(System.getProperty("profileName"));
+        schematicData.setPartNumber(partNumber);
+        schematicData.setDescription(schematicDescription);
+        schematicData.setRevision(new StringHelper().generateRandomDigit().toString());
+        schematicData.setTitle(new StringHelper().generateRandomDigit().toString());
+        schematicData.setWorkTask(new StringHelper().generateRandomDigit().toString());
+        FlowContext.schematicDescription = schematicDescription;
+        CreateSchematic createSchematic1=new CreateSchematic(context.driver);
+        createSchematic1.submitSchematicData(new Schematic(schematicData.getWorkTask(), schematicData.getTitle(), schematicData.getDescription(), schematicData.getPartNumber(), schematicData.getRevision(), schematicData.getComponentDB(),schematicData.getProfile()));
+    }
+
     @And("add inline connectors to schematic")
     public void addInlineConnectorsToSchematic() throws InterruptedException, AWTException {
         schematicsDrawingPage.addInlineConnector(0,0, "C1","Main",true);
@@ -248,5 +263,30 @@ public class SchematicStepDefinitions {
             ExtentCucumberAdapter.addTestStepLog(String.format("Wires colours are not able to switched on"));
             Assert.fail();
         }
+    }
+
+    @And("user create the harness from schematic")
+    public void userCreateTheHarnessFromSchematic() throws InterruptedException {
+        schematicsDrawingPage.goToCreateHarness();
+        schematicsDrawingPage.switchToFrame();
+        createNewHarnessInstance(FlowContext.schematicDescription);
+    }
+
+    @And("user verify the harness created from schematic")
+    public void userVerifyTheHarnessCreatedFromSchematic() throws InterruptedException {
+        boolean flag=schematicsDrawingPage.verifyHarnessCreated();
+        if(flag)
+        {
+            ExtentCucumberAdapter.addTestStepLog(String.format("Harness is successfully created from schematic"));
+        }
+        else{
+            ExtentCucumberAdapter.addTestStepLog(String.format("Harness is failed to be created from schematic"));
+            Assert.fail();
+        }
+    }
+
+    @And("user navigated to newly created schematic")
+    public void userNavigatedToNewlyCreatedSchematic() throws InterruptedException {
+        schematicsDrawingPage.goToHarness();
     }
 }
