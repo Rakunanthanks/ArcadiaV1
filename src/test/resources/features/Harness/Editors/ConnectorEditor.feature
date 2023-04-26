@@ -1,3 +1,4 @@
+@Regression
 @ConnectorEditor
 Feature: Connector Editor
   Background: User is Logged In
@@ -54,7 +55,7 @@ Feature: Connector Editor
     And User exits the drawing page
     And User deletes Harness 'Connector Editor' successfully
 
-  Scenario:To Validate Remove row,Undo,Redo(VERIFIED THERE IS ISSUE IN UNDO)
+  Scenario:To Validate Remove row,Undo,Redo
     And Perform remove row Operation in connector editor
     Then Check editor detail that remove row has been performed or not in connector editor
     And Perform undo operation in connector editor
@@ -80,7 +81,7 @@ Feature: Connector Editor
     And User exits the drawing page
     And User deletes Harness 'Connector Editor' successfully
 
-  Scenario: To Validate by selecting componentDB and part type check connector part number listed or not(VERIFIED THERE IS ISSUE)
+  Scenario: To Validate by selecting componentDB and part type check connector part number listed or not
     And Selecting ConnectorID,ComponentDB,partype as 'connector'
     Then Check all Connector partnumber listed or not
     And Selecting ConnectorID,ComponentDB,partype as 'terminal'
@@ -95,14 +96,14 @@ Feature: Connector Editor
     And User exits the drawing page
     And User deletes Harness 'Connector Editor' successfully
 
-  Scenario:To Validate by duplicating some mandatory fields ,save editor and check validation message(VERIFIED)
+  Scenario:To Validate by duplicating some mandatory fields ,save editor and check validation message
     And Enter duplicate connector ID
     Then check validation message by saving form in connector editor
     And go to drawing
     Then User exits the drawing page
     Then User deletes Harness 'Connector Editor' successfully
 
-  Scenario:To Validate by sorting columns(VERIFIED)
+  Scenario:To Validate by sorting columns
     And Get values of Connector ID from editor before sorting
     And Sort Connector ID column in descending order
     Then Check the Value of connector ID after sorted
@@ -113,7 +114,7 @@ Feature: Connector Editor
     And User exits the drawing page
     And User deletes Harness 'Connector Editor' successfully
 
-  Scenario:To Validate the connector groupID in connector editor(VERIFIED THERE IS MORE SLEEP SHOULD OPTIMIZE)
+  Scenario:To Validate the connector groupID in connector editor
     And Enter duplicate connector ID,component DB,cavities in editor
     And Enter group ID editor
     Then Check able to save editor or not
@@ -122,7 +123,7 @@ Feature: Connector Editor
     And User exits the drawing page
     And User deletes Harness 'Connector Editor' successfully
 
-  Scenario:To Validate by entering connector id and cavity number check whether connector part number populates correctly or not(VERIFIED)
+  Scenario:To Validate by entering connector id and cavity number check whether connector part number populates correctly or not
     And Enter Connector ID,Component DB,Cavities in Editor
     And Get Connector partnumber response from editor
     Then Check whether partnumber is suggesting as per cavities
@@ -130,7 +131,7 @@ Feature: Connector Editor
     And User exits the drawing page
     And User deletes Harness 'Connector Editor' successfully
 
-  Scenario:To Validate Connector Editor Options in Profile by hiding some headers(VERIFIED)
+  Scenario:To Validate Connector Editor Options in Profile by hiding some headers
     And  Navigated to Harness Connector editor setting page
     And  Hiding some headers in profile in connector editor
     And  Navigating to created Project

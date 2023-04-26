@@ -62,6 +62,7 @@ public class ConnectorEditorPage extends BasePage {
     RestAssuredUtility rs = new RestAssuredUtility();
     JavascriptExecutor js = (JavascriptExecutor) driver;
     String database = System.getProperty("componentDB");
+    String projectID = System.getProperty("projectID");
     String actualConnectorID = null;
     String pnDescription;
     String cavities;
@@ -154,7 +155,7 @@ public class ConnectorEditorPage extends BasePage {
     }
 
     public void getDetailsConnectorEditorDetails() {
-        String fulldetailsurl = "?app=projects2&appoption=58&project=37&ajax=true&taskID=HAR" + getTaskID() + "&type=partnumber&filter=FFH04142BK*T&rowIndex=4&library=" + database + "&ctype=connector";
+        String fulldetailsurl = "?app=projects2&appoption=58&project="+projectID+"&ajax=true&taskID=HAR" + getTaskID() + "&type=partnumber&filter=FFH04142BK*T&rowIndex=4&library=" + database + "&ctype=connector";
         System.out.println(fulldetailsurl);
         String fulldetailsresponse = rs.getEditorResponse(driver, fulldetailsurl);
         System.out.println("FULLDETAILS");
@@ -163,7 +164,8 @@ public class ConnectorEditorPage extends BasePage {
 
     public String getConnnectorID() {
         //To get Connector ID from the ajax call
-        String conurl = "?app=projects2&appoption=58&project=37&ajax=true&taskID=HAR" + getTaskID() + "&type=connector";
+
+        String conurl = "?app=projects2&appoption=58&project="+projectID+"&ajax=true&taskID=HAR" + getTaskID() + "&type=connector";
         String response = rs.getEditorResponse(driver, conurl);
         System.out.println("CONID");
         System.out.println(response);
@@ -172,7 +174,7 @@ public class ConnectorEditorPage extends BasePage {
 
     public List<String> getPartnumbers(String component) throws JsonProcessingException {
         //TO get response connector part number
-        String url = "?app=projects2&appoption=58&project=37&ajax=true&taskID=HAR" + getTaskID() + "&type=partnumber&pnonly=true&library=" + database + "&ctype=" + component + "&cavity=";
+        String url = "?app=projects2&appoption=58&project="+projectID+"&ajax=true&taskID=HAR" + getTaskID() + "&type=partnumber&pnonly=true&library=" + database + "&ctype=" + component + "&cavity=";
         String response = rs.getEditorResponse(driver, url);
         System.out.println("PARTNUMBER");
         ObjectMapper mapper = new ObjectMapper();
@@ -386,9 +388,10 @@ public class ConnectorEditorPage extends BasePage {
         customCommand.waitClick(downloadTemplate);
     }
 
-    public String checkAbleToDownloadOrNot(String file_name) {
+    public String checkAbleToDownloadOrNot(String file_name) throws InterruptedException {
         String path = System.getProperty("user.dir") + File.separator + "externalFiles" + File.separator + "downloadFiles";
         String file_with_location = path + File.separator + file_name;
+        Thread.sleep(3000);
         File file = new File(file_with_location);
         if (file.exists()) {
             System.out.println(file_with_location + " is present");
@@ -610,7 +613,7 @@ public class ConnectorEditorPage extends BasePage {
     }
 
     public List<String> getConnectorPartnumberResponseFromEditor(String component,String cavity) throws JsonProcessingException {
-        String url = "?app=projects2&appoption=58&project=37&ajax=true&taskID=HAR" + getTaskID() + "&type=partnumber&pnonly=true&library=" + database + "&ctype=" + component + "&cavity="+cavity+"";
+        String url = "?app=projects2&appoption=58&project="+projectID+"&ajax=true&taskID=HAR" + getTaskID() + "&type=partnumber&pnonly=true&library=" + database + "&ctype=" + component + "&cavity="+cavity+"";
         String response = rs.getEditorResponse(driver, url);
         System.out.println("PARTNUMBER");
         ObjectMapper mapper = new ObjectMapper();

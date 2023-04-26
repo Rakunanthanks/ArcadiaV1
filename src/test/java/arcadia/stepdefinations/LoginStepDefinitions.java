@@ -39,7 +39,6 @@ public class LoginStepDefinitions {
     }
     @Given("test data config loaded for test identifier {word}")
     public void test_data_config_loaded_for_test_identifier(String string) throws IOException, InterruptedException {
-        System.out.println(string);
         context.testIdentifier = string;
     }
 

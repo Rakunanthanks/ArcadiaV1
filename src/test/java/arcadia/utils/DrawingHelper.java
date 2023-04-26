@@ -65,7 +65,6 @@ public class DrawingHelper {
 		       case "updatecavities":
                     updateCavitiesOrchestrator(instructions,driver);
                     break;
-
             }
 
         }
