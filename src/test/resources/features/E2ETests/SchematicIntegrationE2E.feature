@@ -118,7 +118,7 @@ Feature: Verify schematics
     And click on Housings from the footer
 
   @VerifySchematic
-  Scenario: Test verifies font settings can be updated for schematic
+  Scenario: Test verifies font settings and colour can be updated for schematic
     And Navigated to Schematic wire properties page
     And User updates the schematic wire properties
     And Navigated to 'Aut_Integration' project
@@ -134,3 +134,29 @@ Feature: Verify schematics
     And updated the font settings for the schematic
     And switch on the colour of the wires
     And Verify the colour of the wires
+
+  @VerifySchematic @vipul
+  Scenario: Test verifies harness can be created from schematic
+    And Navigated to Schematic wire properties page
+    And User updates the schematic wire properties
+    And Navigated to 'Aut_Integration' project
+    And schematic with name 'Aut_Integration' is launched successfully
+    And based on drawing orchestrator components are created
+    And add inline connectors to schematic
+    And add more pins to connector
+    And click on Pins dropdown from the footer
+    And click on Housings from the footer
+    And add splices to schematic
+    And draw wires between connectors
+    And makes the wire labels inline
+    And change the wire settings from wire editor
+    And go to drawing from wire editor
+    And click on Pins dropdown from the footer
+    And click on Housings from the footer
+    And pin display type and partnumber is updated
+    Then verify partnumbers are added for connectors
+    And click on Pins dropdown from the footer
+    And click on Housings from the footer
+    And user create the harness from schematic
+    And user verify the harness created from schematic
+    And user navigated to newly created schematic
