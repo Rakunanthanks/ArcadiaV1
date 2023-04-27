@@ -8,7 +8,7 @@ import org.testng.annotations.DataProvider;
         plugin =  {"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"},
         glue = {"arcadia"},
         features = "src/test/resources/features",
-        tags = "@E2E"
+        tags = "@vipul"
 )
 public class MyTestNGRunnerTest extends AbstractTestNGCucumberTests {
 

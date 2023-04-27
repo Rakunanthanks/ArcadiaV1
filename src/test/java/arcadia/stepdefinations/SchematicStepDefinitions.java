@@ -62,7 +62,7 @@ public class SchematicStepDefinitions {
         schematicData.setWorkTask(new StringHelper().generateRandomDigit().toString());
         FlowContext.schematicDescription = schematicDescription;
         CreateSchematic createSchematic1=new CreateSchematic(context.driver);
-        createSchematic1.submitSchematicData(new Schematic(schematicData.getWorkTask(), schematicData.getTitle(), schematicData.getDescription(), schematicData.getPartNumber(), schematicData.getRevision(), schematicData.getComponentDB(),schematicData.getProfile()));
+        createSchematic1.submitHarnessData(new Schematic(schematicData.getWorkTask(), schematicData.getTitle(), schematicData.getDescription(), schematicData.getPartNumber(), schematicData.getRevision(), schematicData.getComponentDB(),schematicData.getProfile()));
     }
 
     @And("add inline connectors to schematic")
