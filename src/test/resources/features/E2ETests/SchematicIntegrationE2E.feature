@@ -135,7 +135,7 @@ Feature: Verify schematics
     And switch on the colour of the wires
     And Verify the colour of the wires
 
-  @VerifySchematic @vipul
+  @VerifySchematic
   Scenario: Test verifies harness can be created from schematic
     And Navigated to Schematic wire properties page
     And User updates the schematic wire properties

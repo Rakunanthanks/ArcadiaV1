@@ -15,7 +15,7 @@ public class CreateSchematic extends BasePage {
     @FindBy(css = "input[name=\"Worktask\"]") private WebElement schematicWorkTask;
     @FindBy(css = "input[name=\"Title\"]") private WebElement schematicTitle;
     @FindBy(css = "input[name=\"Description\"]") private WebElement schematicDescription;
-    @FindBy(css = "input[name=\"Part Number\"]") private WebElement schematicPartNumber;
+    @FindBy(xpath = "//input[@name=\"Part Number\"] | //select[@name=\"Part Number\"]//following-sibling::div//input") private WebElement schematicPartNumber;
     @FindBy(css = "input[name=\"Revision\"]") private WebElement schematicRevision;
     @FindBy(css = "div#Information select[name=\"Library\"]") private WebElement schematicComponentDB;
     @FindBy(css = "select[name=\"Profile\"]") private WebElement schematicProfile;
