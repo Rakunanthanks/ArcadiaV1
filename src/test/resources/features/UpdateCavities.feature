@@ -1,3 +1,4 @@
+@Regression
 Feature: Update Cavities
   Background: User is Logged In
     Given I'm on Arcadia test environment
@@ -30,15 +31,6 @@ Feature: Update Cavities
       And User selected componentDB from Update cavities form
       And Getting update cavities form Family,Type,Finish,Material values
       Then Checking The values are matching as per componentDB
-  @UpdateCavities
-  Scenario: To Check wire od and csa matches to the componentDB
-    And Navigated to quickstart project
-    And harness with name 'UpdateCavities' is launched successfully
-    And based on drawing orchestrator components are created
-    And select the wires to be updated
-    And Navigated to selected componentDB
-    And User selected 'connector' from componentDB
-    Then Search the Terminal part number csa and od
   @UpdateCavities
   Scenario: To Check wire od and csa matches to the componentDB
     And Navigated to quickstart project

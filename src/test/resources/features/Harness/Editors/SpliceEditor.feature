@@ -1,3 +1,4 @@
+@Regression
 @SpliceEditor
 Feature: Splice Editor
   Background: User is Logged In
@@ -8,28 +9,28 @@ Feature: Splice Editor
     And based on drawing orchestrator components are created
     And splice editor is opened
 
-  Scenario:To Validate Splice Editor Header Names(VERIFIED)
+  Scenario:To Validate Splice Editor Header Names
     And Get default headers name
     Then Check default headers name
     And go to drawing
     And User exits the drawing page
     And User deletes Harness 'Splice Editor' successfully
 
-  Scenario:To Validate Splice ID Auto populated or not(VERIFIED)
+  Scenario:To Validate Splice ID Auto populated or not
     And get spliceID from Editor page from splice ID drop down
     Then check splice ID populated or not correctly
     And go to drawing
     And User exits the drawing page
     And User deletes Harness 'Splice Editor' successfully
 
-  Scenario:To Validate Clear all option(VERIFIED)
+  Scenario:To Validate Clear all option
     And Perform Clear all operation
     Then check in editor whether all values are disappeared or not
     And go to drawing
     And User exits the drawing page
     And User deletes Harness 'Splice Editor' successfully
 
-  Scenario:To Validate Download Template is working or not(VERIFIED)
+  Scenario:To Validate Download Template is working or not
     And User delete all old files from the default download folder
     And click Download Template button in editor
     Then check able to download template or not
@@ -37,7 +38,7 @@ Feature: Splice Editor
     And User exits the drawing page
     And User deletes Harness 'Splice Editor' successfully
 
-  Scenario:To Validate Remove row,Undo,Redo(VERIFIED THERE IS ISSUE IN UNDO)
+  Scenario:To Validate Remove row,Undo,Redo
     And Perform remove row Operation
     Then Check editor detail that remove row has been performed or not
     And Perform undo operation
@@ -47,7 +48,7 @@ Feature: Splice Editor
     And User exits the drawing page
     And User deletes Harness 'Splice Editor' successfully
 
-  Scenario:To Validate Export to CSV(VERIFIED)
+  Scenario:To Validate Export to CSV
     And User delete all old files from the default download folder
     And Enter possible values in the splice editor
     And click export to csv
@@ -56,21 +57,20 @@ Feature: Splice Editor
     And User exits the drawing page
     And User deletes Harness 'Splice Editor' successfully
 
-  Scenario:To Validate by entering Splice Part Number check auto populating Part Description(ISSUES ONLY IN AUTOMATION)
-    And Enter values in the splice editor
+  Scenario:To Validate by entering Splice Part Number check auto populating Part Description
     Then Check part description
     And go to drawing
     And User exits the drawing page
     And User deletes Harness 'Splice Editor' successfully
 
-  Scenario:To Validate by duplicating some mandatory fields ,save editor and check validation message(VERIFIED)
+  Scenario:To Validate by duplicating some mandatory fields ,save editor and check validation message
     And Enter duplicate splice ID
     Then check validation message by saving form
     And go to drawing
     Then User exits the drawing page
     Then User deletes Harness 'Splice Editor' successfully
 
-  Scenario:To Validate by sorting columns(VERIFIED)
+  Scenario:To Validate by sorting columns
     And Get values of Splice ID from editor before sorting
     And Sort Splice ID column in descending order
     Then Check the Value of Splice ID after sorted
@@ -81,14 +81,14 @@ Feature: Splice Editor
     And User exits the drawing page
     And User deletes Harness 'Splice Editor' successfully
 
-  Scenario: To Validate by selecting componentDB and part type check connector part number listed or not(VERIFIED)
+  Scenario: To Validate by selecting componentDB and part type check connector part number listed or not
     And Selecting spliceID,ComponentDB
     Then Check all Splice partnumber listed or not
     And go to drawing
     And User exits the drawing page
     And User deletes Harness 'Splice Editor' successfully
 
-  Scenario:To Validate Import CSV option(VERIFIED)
+  Scenario:To Validate Import CSV option
     And Importing CSV by adding some values to the CSV
     Then Check whether able to save or not without any errors
     Then Check check all values are updated in editors as expected or not
@@ -96,7 +96,7 @@ Feature: Splice Editor
     And User exits the drawing page
     And User deletes Harness 'Splice Editor' successfully
 
-  Scenario:To Validate Splice Editor Options in Profile by hiding some headers(VERIFIED)
+  Scenario:To Validate Splice Editor Options in Profile by hiding some headers
     And  Navigated to Harness Splice editor setting page
     And  Hiding some headers in profile
     And  Navigating to created Project

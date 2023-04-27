@@ -150,8 +150,8 @@ public class SchematicsDrawingPage extends BasePage{
         int numberOfInlineConnectors = listOfInlineConnectors.size();
         WebElement eleInlineConnector = listOfInlineConnectors.get(numberOfInlineConnectors-1);
         updateInlineConnectorFemaleHalfIdandDescription(eleInlineConnector,connectorIdFemaleHalfName,connectorDescFemaleHalf,enableDescriptionToggle);
-        eleInlineConnector = driver.findElements(By.xpath("//*[name()='g' and @id='layer_components']//*[name()='g' and @puid='connector']")).get(numberOfInlineConnectors-1);
-        customCommand.waitForElementToBeClickable(driver,eleInlineConnector);
+        WebElement eleInlineConnector1 = driver.findElements(By.xpath("//*[name()='g' and @id='layer_components']//*[name()='g' and @puid='connector']")).get(numberOfInlineConnectors-1);
+        customCommand.waitForElementToBeClickable(driver,eleInlineConnector1);
     }
 
     public void updateInlineConnectorFemaleHalfIdandDescription(WebElement elementInlineConnector, String inlineConnectorIdFemaleHalfName, String connectorDescFemaleHalf, Boolean enableDescriptionToggle) throws InterruptedException {

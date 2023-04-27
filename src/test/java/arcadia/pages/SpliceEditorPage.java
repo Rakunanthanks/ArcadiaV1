@@ -41,7 +41,7 @@ public class SpliceEditorPage extends BasePage {
     @FindBy(css = "button[value='Save']") private WebElement saveButton;
     @FindBy(css = "#btnSaveWire") private WebElement saveSplice;
     @FindBy(css = ".btnExportCSV.btn.btn-info.btn-sm") private WebElement exportToCSV;
-
+    String projectID = System.getProperty("projectID");
     String spliceEditorRows = "#cEditor table.htCore tbody tr";
     String spliceEditorHeaders = "#cEditor > div.ht_clone_top.handsontable tr";
     String partNumberDescription = null;;
@@ -96,7 +96,7 @@ public class SpliceEditorPage extends BasePage {
     }
     public String getSpliceID() {
         //To get Connector ID from the ajax call
-        String conurl = "?app=projects2&appoption=59&project=37&ajax=true&taskID=HAR" + getTaskID() + "&type=splice";
+        String conurl = "?app=projects2&appoption=59&project="+projectID+"&ajax=true&taskID=HAR" + getTaskID() + "&type=splice";
         String response = rs.getEditorResponse(driver, conurl);
         System.out.println("SPLICE ID");
         System.out.println(response);
@@ -137,6 +137,7 @@ public class SpliceEditorPage extends BasePage {
         Thread.sleep(5000);
         String path = System.getProperty("user.dir") + File.separator + "externalFiles" + File.separator + "downloadFiles";
         String file_with_location = path + File.separator + file_name;
+        Thread.sleep(3000);
         File file = new File(file_with_location);
         if (file.exists()) {
             System.out.println(file_with_location + " is present");
@@ -401,7 +402,7 @@ String spliceIDBeforeSortingRow1, spliceIDBeforeSortingRow2;
     }
     public List<String> getPartnumbers(String component) throws JsonProcessingException {
         //TO get response splice part number
-        String url = "?app=projects2&appoption=59&project=37&ajax=true&taskID=HAR" + getTaskID() + "&type=partnumber&pnonly=true&library="+database;
+        String url = "?app=projects2&appoption=59&project="+projectID+"&ajax=true&taskID=HAR" + getTaskID() + "&type=partnumber&pnonly=true&library="+database;
         String response = rs.getEditorResponse(driver, url);
         ObjectMapper mapper = new ObjectMapper();
         List<String> partNumbersList = new ArrayList<>();
