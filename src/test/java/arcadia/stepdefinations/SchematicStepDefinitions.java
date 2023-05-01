@@ -285,8 +285,9 @@ public class SchematicStepDefinitions {
         }
     }
 
-    @And("user navigated to newly created schematic")
-    public void userNavigatedToNewlyCreatedSchematic() throws InterruptedException {
+    @And("user navigated to newly created harness")
+    public void userNavigatedToNewlyCreatedHarness() throws InterruptedException {
+        schematicsDrawingPage.verifyDrawingsListPageLoaded();
         schematicsDrawingPage.goToHarness();
     }
 }
