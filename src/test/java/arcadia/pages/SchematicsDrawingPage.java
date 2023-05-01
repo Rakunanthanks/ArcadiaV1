@@ -3,7 +3,6 @@ package arcadia.pages;
 import arcadia.context.FlowContext;
 import arcadia.pages.ComponentDB.AddNewComponentPage;
 import arcadia.utils.SeleniumCustomCommand;
-import org.bouncycastle.jcajce.provider.asymmetric.X509;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,7 +10,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.python.antlr.ast.Str;
 import org.sikuli.hotkey.Keys;
 import org.testng.Assert;
 
@@ -22,6 +20,7 @@ import java.util.Set;
 
 public class SchematicsDrawingPage extends BasePage{
 
+    @FindBy(css = "a[title=\"Create Schematic\"]") private WebElement createSchematic;
     @FindBy(xpath = "//div[@Title = 'Insert Connector']") private WebElement inlineConnector;
     @FindBy(xpath = "//div[@Title = 'Insert Splice']") private WebElement insertInlineSplice;
     @FindBy(xpath = "//div[@Title = 'Draw Select']") private WebElement selectButton;
@@ -559,8 +558,17 @@ public class SchematicsDrawingPage extends BasePage{
 
     public void goToHarness() throws InterruptedException {
         String name= FlowContext.schematicDescription;
-        WebElement ele=driver.findElement(By.xpath("//td[text()='"+name+"']"));
+//        String name= "Aut_Integration 281";
+        WebElement ele=driver.findElement(By.xpath("//table[@id='tableHAR']//td[text()='"+name+"']"));
+        customCommand.scrollIntoView(driver,ele);
         customCommand.javaScriptClick(driver,ele);
+        try{
+            new AddNewComponentPage(driver).verifyConfirmationMessage("It appears you are already editing this task! It is advised that you only edit a single instance of this task");
+            new AddNewComponentPage(driver).acceptConfirmationPopup();
+        }
+        catch (Exception e){
+            customCommand.waitForElementVisibility(driver, inlineConnector);
+        }
     }
 
     public void switchToFrame(){
@@ -568,4 +576,9 @@ public class SchematicsDrawingPage extends BasePage{
         driver.switchTo().frame(iframe);
     }
 
+    public void verifyDrawingsListPageLoaded() {
+        customCommand.longWaitForElementToBeClickable(driver,createSchematic);
+        WebElement eleDrawingHeading=driver.findElement(By.xpath("//h3[text()=' Drawings']"));
+        customCommand.waitForElementVisibility(driver,eleDrawingHeading);
+    }
 }

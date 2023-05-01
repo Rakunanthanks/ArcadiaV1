@@ -1,0 +1,5 @@
+﻿Draw,Context,SubContext,Command,Comments,NodeNumber,ConnectorPartDescription,CavityNumber,AddCavity,WireParts,FrameSize,BundleCommand,ConnectFrom,ConnectTo,WiringDetails,Cavity,coordinates,covering,componentDB,material,colour,multipleCoveringType
+,Harness,Harness,Click on Frame,,,,,,,,,,,,,,,,,,
+,Frame,Frame,Draw Frame,,,,,,,A2 Landscape Standard,,,,,,,,,,,
+,Harness,Harness,Click on Bundle,,,,,,,,,,,,,,,,,,
+,Bundle,Bundle,Draw bundle,,,,,,,,"freebundle 0 88.8mm,266.84mm 428.72mm,266.84mm ",,,,,,,,,,
