@@ -41,6 +41,7 @@ public class ConnectorsDBPage extends BasePage {
             String description= tdElements.get(2).getText();
             String family= tdElements.get(3).getText();
             String status= tdElements.get(5).getText();
+            String manufacturerStatus = tdElements.get(6).getText();
             String usage= tdElements.get(7).getText();
             String supplier= tdElements.get(8).getText();
             String supplierPN= tdElements.get(9).getText();
@@ -50,7 +51,7 @@ public class ConnectorsDBPage extends BasePage {
             String connectorType= tdElements.get(13).getText();
             Integer numberOfCavities= Integer.valueOf(tdElements.get(14).getText());
             String keyway= tdElements.get(15).getText();
-            componentDbData.add(new ConnectorDB(partNumber,description,family,status,usage,supplier,supplierPN,colour,housingGender,terminalGender,connectorType,numberOfCavities,keyway));
+            componentDbData.add(new ConnectorDB(partNumber,description,family,status,manufacturerStatus,usage,supplier,supplierPN,colour,housingGender,terminalGender,connectorType,numberOfCavities,keyway));
         }
         return componentDbData;
     }
