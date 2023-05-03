@@ -56,7 +56,7 @@ public class BundleStepDefinitions {
                 List<WireProperties> wireProperties = wItem.getWirePropertiesList();
                 String expectedDiameter = String.valueOf(new FormulaCalculator().getBundleDiameter(wireProperties.stream().map(x->x.getWireOuterDiameter()).collect(toList())));
                 String actualDiameter = String.valueOf(FlowContext.bundleFormData.stream().filter(x->x.getBundleFormName().equalsIgnoreCase(bundleFormName)).map(x->x.getBundleDiameter()).findFirst().get());
-                ExtentCucumberAdapter.addTestStepLog(String.format("Bundleform name is %s", bundleFormName));
+//                ExtentCucumberAdapter.addTestStepLog(String.format("Bundleform name is %s", bundleFormName));
                 Assert.assertEquals(Double.valueOf(actualDiameter),Double.valueOf(expectedDiameter),bundleFormName);
             }
 

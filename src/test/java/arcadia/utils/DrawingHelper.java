@@ -65,6 +65,9 @@ public class DrawingHelper {
 		       case "updatecavities":
                     updateCavitiesOrchestrator(instructions,driver);
                     break;
+                case "node":
+                    nodeOrchestrator(instructions,driver);
+                    break;
             }
 
         }
@@ -90,6 +93,9 @@ public class DrawingHelper {
                     break;
                 case "cavities":
                     new HarnessPage(driver).clickOnGlobalUpdateCavities();
+                    break;
+                case "node":
+                    new HarnessPage(driver).clickOnNode();
                     break;
 
             }
@@ -220,6 +226,14 @@ public class DrawingHelper {
         }
         if(instructions.getCommand().equalsIgnoreCase("Right Click Connector Plug Element") ){
             new ConnectorPage(driver).rightClickConnectorPlugElement(FlowContext.connectorPlugIdentifierList.get(0).getConnectorId());
+        }
+    }
+    private void nodeOrchestrator(DrawingInstructor instructions, WebDriver driver) throws InterruptedException, AWTException {
+        if(instructions.getCommand().equalsIgnoreCase("Place node") ){
+            new NodeLabelVisibilityPage(driver).placeNode(instructions.getNodeCommand().trim());
+        }
+        if(instructions.getCommand().equalsIgnoreCase("Gather Node Element") ){
+            new BundlePage(driver).getNodeElementFromDrawingPage();
         }
     }
 }
