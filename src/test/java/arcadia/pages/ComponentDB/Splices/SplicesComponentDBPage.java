@@ -50,13 +50,14 @@ public class SplicesComponentDBPage extends BasePage {
             String description= tdElements.get(2).getText();
             String family= tdElements.get(3).getText();
             String status= tdElements.get(5).getText();
-            String usage= tdElements.get(6).getText();
-            String supplier= tdElements.get(7).getText();
-            String supplierPN= tdElements.get(8).getText();
-            String colour= tdElements.get(9).getText();
-            String sealingType= tdElements.get(10).getText();
+            String manufacturerStatus= tdElements.get(6).getText();
+            String usage= tdElements.get(7).getText();
+            String supplier= tdElements.get(8).getText();
+            String supplierPN= tdElements.get(9).getText();
+            String colour= tdElements.get(10).getText();
+            String sealingType= tdElements.get(11).getText();
             String material= tdElements.get(12).getText();
-            componentDbData.add(new SplicesComponentDB(partNumber,description,family,status,usage,supplier,supplierPN,colour,sealingType,material));
+            componentDbData.add(new SplicesComponentDB(partNumber,description,family,status,manufacturerStatus,usage,supplier,supplierPN,colour,sealingType,material));
         }
         return componentDbData;
     }

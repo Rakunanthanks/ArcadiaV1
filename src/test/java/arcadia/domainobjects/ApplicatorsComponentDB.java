@@ -6,6 +6,7 @@ public class ApplicatorsComponentDB {
     private String description;
     private String family;
     private String status;
+    private String manufacturerpartstatus;
     private String usage;
     private String supplier;
     private String supplierpn;
@@ -16,11 +17,12 @@ public class ApplicatorsComponentDB {
     private String applicatorsite;
     public ApplicatorsComponentDB() {
     }
-    public ApplicatorsComponentDB(String partNumber, String description, String family, String status, String usage, String supplier, String supplierPN, String colour, String applicatorUsage, String forSealOrTerminal, String inService, String applicatorSite) {
+    public ApplicatorsComponentDB(String partNumber, String description, String family, String status, String manufacturerPartStatus, String usage, String supplier, String supplierPN, String colour, String applicatorUsage, String forSealOrTerminal, String inService, String applicatorSite) {
         this.partnumber = partNumber;
         this.description = description;
         this.family = family;
         this.status = status;
+        this.manufacturerpartstatus = manufacturerPartStatus;
         this.usage = usage;
         this.supplier = supplier;
         this.supplierpn = supplierPN;
@@ -61,6 +63,13 @@ public class ApplicatorsComponentDB {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+    public String getManufacturerpartstatus() {
+        return manufacturerpartstatus;
+    }
+
+    public void setManufacturerpartstatus(String manufacturerPartStatus) {
+        this.manufacturerpartstatus = manufacturerPartStatus;
     }
 
     public String getUsage() {

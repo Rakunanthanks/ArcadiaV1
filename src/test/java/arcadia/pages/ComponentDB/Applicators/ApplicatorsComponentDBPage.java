@@ -40,15 +40,16 @@ public class ApplicatorsComponentDBPage extends BasePage {
             String description= tdElements.get(2).getText();
             String family= tdElements.get(3).getText();
             String status= tdElements.get(5).getText();
-            String usage= tdElements.get(6).getText();
-            String supplier= tdElements.get(7).getText();
-            String supplierPN= tdElements.get(8).getText();
-            String colour= tdElements.get(9).getText();
-            String applicatorUsage= tdElements.get(10).getText();
-            String forSealOrTerminal= tdElements.get(11).getText();
-            String inService= tdElements.get(12).getText();
-            String applicatorSite= tdElements.get(13).getText();
-            componentDbData.add(new ApplicatorsComponentDB(partNumber,description,family,status,usage,supplier,supplierPN,colour,applicatorUsage,forSealOrTerminal,inService,applicatorSite));
+            String manufacturerStatus= tdElements.get(6).getText();
+            String usage= tdElements.get(7).getText();
+            String supplier= tdElements.get(8).getText();
+            String supplierPN= tdElements.get(9).getText();
+            String colour= tdElements.get(10).getText();
+            String applicatorUsage= tdElements.get(11).getText();
+            String forSealOrTerminal= tdElements.get(12).getText();
+            String inService= tdElements.get(13).getText();
+            String applicatorSite= tdElements.get(14).getText();
+            componentDbData.add(new ApplicatorsComponentDB(partNumber,description,family,status,manufacturerStatus,usage,supplier,supplierPN,colour,applicatorUsage,forSealOrTerminal,inService,applicatorSite));
         }
         return componentDbData;
     }
