@@ -52,11 +52,12 @@ public class ComponentsDBPage extends BasePage {
             String description= tdElements.get(2).getText();
             String family= tdElements.get(3).getText();
             String status= tdElements.get(5).getText();
+            String manufacturerpartstatus=tdElements.get(6).getText();
             String usage= tdElements.get(7).getText();
             String supplier= tdElements.get(8).getText();
             String supplierPN= tdElements.get(9).getText();
             Integer numberOfCavities= Integer.valueOf(tdElements.get(10).getText());
-            componentDbData.add(new ComponentsDB(partNumber,description,family,status,usage,supplier,supplierPN,numberOfCavities));
+            componentDbData.add(new ComponentsDB(partNumber,description,family,status,usage,manufacturerpartstatus,supplier,supplierPN,numberOfCavities));
         }
         return componentDbData;
     }

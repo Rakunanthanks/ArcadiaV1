@@ -6,6 +6,8 @@ public class MulticoreComponentDB {
     private String family;
     private String status;
     private String usage;
+
+    private String manufacturerpartstatus;
     private String supplier;
     private String supplierpn;
     private String colour;
@@ -14,12 +16,13 @@ public class MulticoreComponentDB {
     public MulticoreComponentDB() {
     }
 
-    public MulticoreComponentDB(String partNumber, String description, String family, String status, String usage, String supplier, String supplierPN, String colour, String cabletype, Integer numberOfWires) {
+    public MulticoreComponentDB(String partNumber, String description, String family, String status, String usage,String manufacturerpartstatus, String supplier, String supplierPN, String colour, String cabletype, Integer numberOfWires) {
         this.partnumber = partNumber;
         this.description = description;
         this.family = family;
         this.status = status;
         this.usage = usage;
+        this.manufacturerpartstatus=manufacturerpartstatus;
         this.supplier = supplier;
         this.supplierpn = supplierPN;
         this.colour = colour;
@@ -33,6 +36,14 @@ public class MulticoreComponentDB {
 
     public void setPartnumber(String partNumber) {
         this.partnumber = partNumber;
+    }
+
+    public String getManufacturerpartstatus() {
+        return manufacturerpartstatus;
+    }
+
+    public void setManufacturerpartstatus(String manufacturerpartstatus) {
+        this.manufacturerpartstatus = manufacturerpartstatus;
     }
 
     public String getDescription() {

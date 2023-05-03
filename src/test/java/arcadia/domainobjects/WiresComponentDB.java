@@ -6,6 +6,8 @@ public class WiresComponentDB {
     private String family;
     private String status;
     private String usage;
+
+    private String manufacturerpartstatus;
     private String supplier;
     private String supplierpn;
     private String colour;
@@ -23,12 +25,13 @@ public class WiresComponentDB {
 
     }
 
-    public WiresComponentDB(String partNumber, String description, String family, String status, String usage, String supplier, String supplierPN, String colour, String awgSize, String gauge, Double wireCSA, Double outsideDia, String material, Double minimumRadius, Double maxcurrent, Double resistance) {
+    public WiresComponentDB(String partNumber, String description, String family, String status, String usage,String manufacturerpartstatus, String supplier, String supplierPN, String colour, String awgSize, String gauge, Double wireCSA, Double outsideDia, String material, Double minimumRadius, Double maxcurrent, Double resistance) {
         this.partnumber = partNumber;
         this.description = description;
         this.family = family;
         this.status = status;
         this.usage = usage;
+        this.manufacturerpartstatus=manufacturerpartstatus;
         this.supplier = supplier;
         this.supplierpn = supplierPN;
         this.colour = colour;
@@ -48,6 +51,13 @@ public class WiresComponentDB {
 
     public void setPartnumber(String partNumber) {
         this.partnumber = partNumber;
+    }
+    public String getManufacturerpartstatus() {
+        return manufacturerpartstatus;
+    }
+
+    public void setManufacturerpartstatus(String manufacturerpartstatus) {
+        this.manufacturerpartstatus = manufacturerpartstatus;
     }
 
     public String getDescription() {

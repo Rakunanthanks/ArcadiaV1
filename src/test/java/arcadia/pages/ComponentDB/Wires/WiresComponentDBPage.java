@@ -52,6 +52,7 @@ public class WiresComponentDBPage extends BasePage {
             String description= tdElements.get(2).getText();
             String family= tdElements.get(3).getText();
             String status= tdElements.get(5).getText();
+            String manufacturerpartstatus=tdElements.get(6).getText();
             String usage= tdElements.get(7).getText();
             String supplier= tdElements.get(8).getText();
             String supplierPN= tdElements.get(9).getText();
@@ -65,7 +66,7 @@ public class WiresComponentDBPage extends BasePage {
             Double maxcurrent= Double.valueOf(tdElements.get(17).getText());
             Double resistance= Double.valueOf(tdElements.get(18).getText());
 
-            componentDbData.add(new WiresComponentDB(partNumber,description,family,status,usage,supplier,supplierPN,colour,awgSize,gauge,wireCSA,outsideDia,material,minimumRadius,maxcurrent,resistance));
+            componentDbData.add(new WiresComponentDB(partNumber,description,family,status,usage,manufacturerpartstatus,supplier,supplierPN,colour,awgSize,gauge,wireCSA,outsideDia,material,minimumRadius,maxcurrent,resistance));
         }
         return componentDbData;
     }

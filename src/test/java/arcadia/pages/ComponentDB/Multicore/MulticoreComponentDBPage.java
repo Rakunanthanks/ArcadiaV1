@@ -39,13 +39,14 @@ public class MulticoreComponentDBPage extends BasePage {
             String description= tdElements.get(2).getText();
             String family= tdElements.get(3).getText();
             String status= tdElements.get(5).getText();
+            String manufacturerpartstatus=tdElements.get(6).getText();
             String usage= tdElements.get(7).getText();
             String supplier= tdElements.get(8).getText();
             String supplierPN= tdElements.get(9).getText();
             String colour= tdElements.get(10).getText();
             String cableType= tdElements.get(11).getText();
             Integer numberOfWires= Integer.valueOf(tdElements.get(12).getText());
-            componentDbData.add(new MulticoreComponentDB(partNumber,description,family,status,usage,supplier,supplierPN,colour,cableType,numberOfWires));
+            componentDbData.add(new MulticoreComponentDB(partNumber,description,family,status,usage,manufacturerpartstatus,supplier,supplierPN,colour,cableType,numberOfWires));
         }
         return componentDbData;
     }

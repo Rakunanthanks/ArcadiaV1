@@ -6,6 +6,8 @@ public class TerminalsComponentDB {
     private String family;
     private String status;
     private String usage;
+
+    private String manufacturerpartstatus;
     private String supplier;
     private String supplierpn;
     private String colour;
@@ -22,12 +24,13 @@ public class TerminalsComponentDB {
 
     }
 
-    public TerminalsComponentDB(String partNumber, String description, String family, String status, String usage, String supplier, String supplierPN, String colour, String gender, String type, String finish, String material, Double stripLength, Double threadDia, String insOD, String csa) {
+    public TerminalsComponentDB(String partNumber, String description, String family, String status, String usage,String manufacturerpartstatus, String supplier, String supplierPN, String colour, String gender, String type, String finish, String material, Double stripLength, Double threadDia, String insOD, String csa) {
         this.partnumber = partNumber;
         this.description = description;
         this.family = family;
         this.status = status;
         this.usage = usage;
+        this.manufacturerpartstatus=manufacturerpartstatus;
         this.supplier = supplier;
         this.supplierpn = supplierPN;
         this.colour = colour;
@@ -71,6 +74,14 @@ public class TerminalsComponentDB {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getManufacturerpartstatus() {
+        return manufacturerpartstatus;
+    }
+
+    public void setManufacturerpartstatus(String manufacturerpartstatus) {
+        this.manufacturerpartstatus = manufacturerpartstatus;
     }
 
     public String getUsage() {
