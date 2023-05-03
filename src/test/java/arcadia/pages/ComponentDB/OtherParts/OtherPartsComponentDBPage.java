@@ -50,11 +50,12 @@ public class OtherPartsComponentDBPage extends BasePage {
             String description= tdElements.get(2).getText();
             String family= tdElements.get(3).getText();
             String status= tdElements.get(5).getText();
-            String usage= tdElements.get(6).getText();
-            String supplier= tdElements.get(7).getText();
-            String supplierPN= tdElements.get(8).getText();
-            String colour= tdElements.get(9).getText();
-            componentDbData.add(new OtherPartsComponentDB(partNumber,description,family,status,usage,supplier,supplierPN,colour));
+            String manufacturerStatus= tdElements.get(6).getText();
+            String usage= tdElements.get(7).getText();
+            String supplier= tdElements.get(8).getText();
+            String supplierPN= tdElements.get(9).getText();
+            String colour= tdElements.get(10).getText();
+            componentDbData.add(new OtherPartsComponentDB(partNumber,description,family,status,manufacturerStatus,usage,supplier,supplierPN,colour));
         }
         return componentDbData;
     }

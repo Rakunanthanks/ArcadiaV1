@@ -74,13 +74,14 @@ public class SealsComponentDBPage extends BasePage {
             String description= tdElements.get(2).getText();
             String family= tdElements.get(3).getText();
             String status= tdElements.get(5).getText();
-            String usage= tdElements.get(6).getText();
-            String supplier= tdElements.get(7).getText();
-            String supplierPN= tdElements.get(8).getText();
-            String colour= tdElements.get(9).getText();
-            String cavity= (tdElements.get(10).getText());
-            String insulationOD= (tdElements.get(11).getText());
-            componentDbData.add(new SealsComponentDB(partNumber,description,family,status,usage,supplier,supplierPN,colour,cavity,insulationOD));
+            String manufacturerStatus= tdElements.get(6).getText();
+            String usage= tdElements.get(7).getText();
+            String supplier= tdElements.get(8).getText();
+            String supplierPN= tdElements.get(9).getText();
+            String colour= tdElements.get(10).getText();
+            String cavity= (tdElements.get(11).getText());
+            String insulationOD= (tdElements.get(12).getText());
+            componentDbData.add(new SealsComponentDB(partNumber,description,family,status,manufacturerStatus,usage,supplier,supplierPN,colour,cavity,insulationOD));
         }
         return componentDbData;
     }

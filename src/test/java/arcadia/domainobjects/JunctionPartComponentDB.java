@@ -5,6 +5,7 @@ public class JunctionPartComponentDB {
     private String description;
     private String family;
     private String status;
+    private String manufacturerpartstatus;
     private String usage;
     private String supplier;
     private String supplierpn;
@@ -16,11 +17,12 @@ public class JunctionPartComponentDB {
 
     }
 
-    public JunctionPartComponentDB(String partnumber, String description, String family, String status, String usage, String supplier, String supplierpn, String colour, String type, String material, String rec_wall_thickness) {
+    public JunctionPartComponentDB(String partnumber, String description, String family, String status, String manufacturerPartStatus, String usage, String supplier, String supplierpn, String colour, String type, String material, String rec_wall_thickness) {
         this.partnumber = partnumber;
         this.description = description;
         this.family = family;
         this.status = status;
+        this.manufacturerpartstatus = manufacturerPartStatus;
         this.usage = usage;
         this.supplier = supplier;
         this.supplierpn = supplierpn;
@@ -60,6 +62,13 @@ public class JunctionPartComponentDB {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+    public String getManufacturerpartstatus() {
+        return manufacturerpartstatus;
+    }
+
+    public void setManufacturerpartstatus(String manufacturerPartStatus) {
+        this.manufacturerpartstatus = manufacturerPartStatus;
     }
 
     public String getUsage() {

@@ -5,6 +5,7 @@ public class OtherPartsComponentDB {
     private String description;
     private String family;
     private String status;
+    private String manufacturerpartstatus;
     private String usage;
     private String supplier;
     private String supplierpn;
@@ -14,11 +15,12 @@ public class OtherPartsComponentDB {
 
     }
 
-    public OtherPartsComponentDB(String partNumber, String description, String family, String status, String usage, String supplier, String supplierPN, String colour) {
+    public OtherPartsComponentDB(String partNumber, String description, String family, String status, String manufacturerPartStatus, String usage, String supplier, String supplierPN, String colour) {
         this.partnumber = partNumber;
         this.description = description;
         this.family = family;
         this.status = status;
+        this.manufacturerpartstatus = manufacturerPartStatus;
         this.usage = usage;
         this.supplier = supplier;
         this.supplierpn = supplierPN;
@@ -55,6 +57,13 @@ public class OtherPartsComponentDB {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+    public String getManufacturerpartstatus() {
+        return manufacturerpartstatus;
+    }
+
+    public void setManufacturerpartstatus(String manufacturerPartStatus) {
+        this.manufacturerpartstatus = manufacturerPartStatus;
     }
 
     public String getUsage() {
