@@ -52,18 +52,18 @@ public class WiresComponentDBPage extends BasePage {
             String description= tdElements.get(2).getText();
             String family= tdElements.get(3).getText();
             String status= tdElements.get(5).getText();
-            String usage= tdElements.get(6).getText();
-            String supplier= tdElements.get(7).getText();
-            String supplierPN= tdElements.get(8).getText();
-            String colour= tdElements.get(9).getText();
-            String awgSize= tdElements.get(10).getText();
-            String gauge= tdElements.get(11).getText();
-            Double wireCSA= Double.valueOf(tdElements.get(12).getText());
-            Double outsideDia= Double.valueOf(tdElements.get(13).getText());
-            String material= tdElements.get(14).getText();
-            Double minimumRadius= Double.valueOf(tdElements.get(15).getText());
-            Double maxcurrent= Double.valueOf(tdElements.get(16).getText());
-            Double resistance= Double.valueOf(tdElements.get(17).getText());
+            String usage= tdElements.get(7).getText();
+            String supplier= tdElements.get(8).getText();
+            String supplierPN= tdElements.get(9).getText();
+            String colour= tdElements.get(10).getText();
+            String awgSize= tdElements.get(11).getText();
+            String gauge= tdElements.get(12).getText();
+            Double wireCSA= Double.valueOf(tdElements.get(13).getText());
+            Double outsideDia= Double.valueOf(tdElements.get(14).getText());
+            String material= tdElements.get(15).getText();
+            Double minimumRadius= Double.valueOf(tdElements.get(16).getText());
+            Double maxcurrent= Double.valueOf(tdElements.get(17).getText());
+            Double resistance= Double.valueOf(tdElements.get(18).getText());
 
             componentDbData.add(new WiresComponentDB(partNumber,description,family,status,usage,supplier,supplierPN,colour,awgSize,gauge,wireCSA,outsideDia,material,minimumRadius,maxcurrent,resistance));
         }
