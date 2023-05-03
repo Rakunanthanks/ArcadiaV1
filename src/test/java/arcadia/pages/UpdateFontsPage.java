@@ -194,18 +194,13 @@ public class UpdateFontsPage extends BasePage {
         changeBundleFontSize(module);
         } else if (Objects.equals(component, "connector")) {
             changeConnectorFontSize(module);
-            customCommand.javaScriptClickAndEnterValue(driver,revisionTableFontSizeInProfile,profileFontSize);
         }
         else if (Objects.equals(component, "node")) {
             changeNodeFontSize();
         }
         else if (Objects.equals(component, "splice")) {
             changeSpliceFontSize(module);
-        }else if (Objects.equals(component, "revision")) {
-            customCommand.scrollIntoView(driver,revisionTableFontSizeInProfile);
-            customCommand.javaScriptClickAndEnterValue(driver,revisionTableFontSizeInProfile,"2.5");
         }
-        customCommand.javaScriptClickAndEnterValue(driver,revisionTableFontSizeInProfile,"1.6");
     }
 
     public void saveProfileSettings() throws InterruptedException {
@@ -874,10 +869,6 @@ public String bundleId(){
         else if (Objects.equals(labelName, "Manufacturing Table Font")) {
             customCommand.scrollIntoView(driver,manufacturingTableFontSizeInProfile);
             customCommand.javaScriptClickAndEnterValue(driver,manufacturingTableFontSizeInProfile,"2.5");
-        }
-        else if (Objects.equals(labelName, "Revision Table Font")) {
-            customCommand.scrollIntoView(driver,revisionTableFontSizeInProfile);
-            customCommand.javaScriptClickAndEnterValue(driver,revisionTableFontSizeInProfile,"2.5");
         }
         customCommand.scrollIntoView(driver,saveButton);
         customCommand.javaScriptClick(driver,saveButton);

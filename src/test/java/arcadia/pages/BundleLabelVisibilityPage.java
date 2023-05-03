@@ -89,12 +89,12 @@ public class BundleLabelVisibilityPage  extends BasePage {
                 case "bundle piece id length mm" ->{
                     addCovering();
                     System.out.println(coveringDetails.getText());
-                    Assert.assertEquals(coveringDetails.getText(),"130.83","Bundle Piece length in metric task is not visible as expected");
+                    Assert.assertEquals(coveringDetails.getText(),"130.83mm","Bundle Piece length in metric task is not visible as expected");
                 }
                 case "bundle piece id length inch" ->{
                     addCovering();
                     System.out.println(coveringDetails.getText());
-                    Assert.assertEquals(coveringDetails.getText(),"5.15","Bundle Piece length in imperial is not visible as expected");
+                    Assert.assertEquals(coveringDetails.getText(),"5.15\"","Bundle Piece length in imperial is not visible as expected");
                 }
                 case "bundle covering pn" -> {
                     addCovering();

@@ -32,7 +32,7 @@ Feature: Connector Editor
     And User exits the drawing page
     And User deletes Harness 'Connector Editor' successfully
 
-  Scenario:To Validate Import CSV option
+  Scenario:To Validate Import CSV option in connector editor
    And Importing CSV by adding some values to the CSV in connector editor
    Then Check whether able to save or not without any errors in connector editor
     Then Check check all values are updated in editors as expected or not in connector editor
