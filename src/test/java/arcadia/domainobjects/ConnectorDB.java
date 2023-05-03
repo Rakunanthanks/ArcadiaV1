@@ -6,6 +6,7 @@ public class ConnectorDB {
     private String description;
     private String family;
     private String status;
+    private String manufacturerpartstatus;
     private String usage;
     private String supplier;
     private String supplierpn;
@@ -16,13 +17,18 @@ public class ConnectorDB {
     private Integer noofcavity;
     private String keyway;
 
+    //Default constructor is needed for json response parsing
+    public ConnectorDB(){
+    }
 
 
-    public ConnectorDB(String partNumber, String description, String family, String status, String usage, String supplier, String supplierPN, String colour, String housingGender, String terminalGender, String connectorType, Integer numberOfCavities, String keyway) {
+
+    public ConnectorDB(String partNumber, String description, String family, String status, String manufacturerPartStatus, String usage, String supplier, String supplierPN, String colour, String housingGender, String terminalGender, String connectorType, Integer numberOfCavities, String keyway) {
         this.partnumber = partNumber;
         this.description = description;
         this.family = family;
         this.status = status;
+        this.manufacturerpartstatus = manufacturerPartStatus;
         this.usage = usage;
         this.supplier = supplier;
         this.supplierpn = supplierPN;
@@ -64,6 +70,14 @@ public class ConnectorDB {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getManufacturerpartstatus() {
+        return manufacturerpartstatus;
+    }
+
+    public void setManufacturerpartstatus(String manufacturerPartStatus) {
+        this.manufacturerpartstatus = manufacturerPartStatus;
     }
 
     public String getUsage() {
