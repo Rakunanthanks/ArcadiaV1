@@ -7,7 +7,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
-import org.python.antlr.ast.Str;
 import org.testng.Assert;
 
 import java.awt.*;
@@ -18,6 +17,7 @@ public class HarnessPage extends BasePage{
     @FindBy(id = "commandline") private WebElement commandLine;
     @FindBy(css = "button[title=\"OK\"]") private WebElement commandOK;
     @FindBy(css = "div[title=\"Insert Connector\"]") private WebElement insertConnector;
+    @FindBy(css = "div[title=\"Insert Node\"]") private WebElement insertNode;
     @FindBy(id = "ifreebundle") private WebElement bundle;
     @FindBy(id = "izoom_in") private WebElement zoomIn;
     @FindBy(id = "idrawcom") private WebElement select;
@@ -94,7 +94,8 @@ public class HarnessPage extends BasePage{
         customCommand.waitForElementToBeClickable(driver,bundle);
     }
 
-    public WebElement getHeaderElement(String headerName){
+    public WebElement getHeaderElement(String headerName) throws InterruptedException {
+        Thread.sleep(3000);
         WebElement ele = driver.findElement(By.xpath("//div[@id=\"ribbon-tab-header-strip\"]//span[text()=\""+headerName+"\"]"));
         return ele;
     }
@@ -137,6 +138,10 @@ public class HarnessPage extends BasePage{
     public void clickOnBundle() throws AWTException, InterruptedException {
         customCommand.longWaitForElementToBeClickable(driver,insertConnector);
         customCommand.waitClick(bundle);
+    }
+    public void clickOnNode() throws AWTException, InterruptedException {
+        customCommand.longWaitForElementToBeClickable(driver,insertNode);
+        customCommand.waitClick(insertNode);
     }
 
     public void clickOnGlobalUpdateSleeve() throws AWTException, InterruptedException {
@@ -829,5 +834,4 @@ public class HarnessPage extends BasePage{
             ExtentCucumberAdapter.addTestStepLog(String.format("Bundle Font Size is updated"));
         }
     }
-
 }
