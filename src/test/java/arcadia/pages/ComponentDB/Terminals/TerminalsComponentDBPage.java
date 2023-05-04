@@ -49,6 +49,7 @@ public class TerminalsComponentDBPage extends BasePage {
             String description= tdElements.get(2).getText();
             String family= tdElements.get(3).getText();
             String status= tdElements.get(5).getText();
+            String manufacturerpartstatus=tdElements.get(6).getText();
             String usage= tdElements.get(7).getText();
             String supplier= tdElements.get(8).getText();
             String supplierPN= tdElements.get(9).getText();
@@ -61,7 +62,7 @@ public class TerminalsComponentDBPage extends BasePage {
             Double threadDia= Double.valueOf(tdElements.get(16).getText());
             String wireInsOD= tdElements.get(17).getText();
             String wireCSA= tdElements.get(18).getText();
-            componentDbData.add(new TerminalsComponentDB(partNumber,description,family,status,usage,supplier,supplierPN,colour,gender,type,finish,material,stripLength,threadDia,wireInsOD,wireCSA));
+            componentDbData.add(new TerminalsComponentDB(partNumber,description,family,status,usage,manufacturerpartstatus,supplier,supplierPN,colour,gender,type,finish,material,stripLength,threadDia,wireInsOD,wireCSA));
         }
         return componentDbData;
     }

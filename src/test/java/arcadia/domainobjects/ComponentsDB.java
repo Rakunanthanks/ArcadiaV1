@@ -7,18 +7,21 @@ public class ComponentsDB {
     private String family;
     private String status;
     private String usage;
+
+    private String manufacturerpartstatus;
     private String supplier;
     private String supplierpn;
     private Integer noofcavity;
     public ComponentsDB() {
     }
 
-    public ComponentsDB(String partNumber, String description, String family, String status, String usage, String supplier, String supplierPN, Integer numberOfCavities) {
+    public ComponentsDB(String partNumber, String description, String family, String status, String usage,String manufacturerpartstatus,  String supplier, String supplierPN, Integer numberOfCavities) {
         this.partnumber = partNumber;
         this.description = description;
         this.family = family;
         this.status = status;
         this.usage = usage;
+        this.manufacturerpartstatus=manufacturerpartstatus;
         this.supplier = supplier;
         this.supplierpn = supplierPN;
         this.noofcavity = numberOfCavities;
@@ -30,6 +33,13 @@ public class ComponentsDB {
 
     public void setPartnumber(String partnumber) {
         this.partnumber = partnumber;
+    }
+    public String getManufacturerpartstatus() {
+        return manufacturerpartstatus;
+    }
+
+    public void setManufacturerpartstatus(String manufacturerpartstatus) {
+        this.manufacturerpartstatus = manufacturerpartstatus;
     }
 
     public String getDescription() {
