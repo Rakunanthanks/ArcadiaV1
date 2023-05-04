@@ -581,4 +581,18 @@ public class SchematicsDrawingPage extends BasePage{
         WebElement eleDrawingHeading=driver.findElement(By.xpath("//h3[text()=' Drawings']"));
         customCommand.waitForElementVisibility(driver,eleDrawingHeading);
     }
+
+    public void addNodesToHarness() throws InterruptedException, AWTException {
+        WebElement eleNode = driver.findElement(By.cssSelector("#layer_80 >g[class=\"DG28 bundleGroup\"]>g>g"));
+        customCommand.moveRightOfElementAndClick(driver,eleNode,28);
+        Thread.sleep(1000);
+        new HarnessPage(driver).clickOnNode();
+        WebElement eleNode1 = driver.findElement(By.cssSelector("#layer_80 >g[class=\"DG28 bundleGroup\"]>g>g"));
+        customCommand.moveRightOfElementAndClick(driver,eleNode1,56);
+        Thread.sleep(1000);
+        new HarnessPage(driver).clickOnNode();
+        WebElement eleNode2 = driver.findElement(By.cssSelector("#layer_80 >g[class=\"DG28 bundleGroup\"]>g>g"));
+        customCommand.moveRightOfElementAndClick(driver,eleNode2,84);
+        Thread.sleep(1000);
+    }
 }

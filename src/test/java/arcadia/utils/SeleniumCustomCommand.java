@@ -186,6 +186,10 @@ public class SeleniumCustomCommand {
         Actions actions = new Actions(driver);
         actions.moveToElement(element).moveByOffset(offsetRight,0).contextClick().build().perform();
     }
+    public void moveRightOfElementAndClick(WebDriver driver , WebElement element, int offsetRight){
+        Actions actions = new Actions(driver);
+        actions.moveToElement(element).moveByOffset(offsetRight,0).click().build().perform();
+    }
 
     public void moveElementByOffset(WebDriver driver,WebElement element, int x, int y)
     {

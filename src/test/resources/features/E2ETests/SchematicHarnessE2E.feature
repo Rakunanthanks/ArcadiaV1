@@ -9,3 +9,6 @@ Feature: Verify schematics harness
   @VerifySchematicHarness
   Scenario: Test schematic harness properties
     And based on drawing orchestrator components are created
+    And user sets label 'bundle' to "Show"
+    And user sets label 'node' to "Show"
+    And user add nodes to schematic harness

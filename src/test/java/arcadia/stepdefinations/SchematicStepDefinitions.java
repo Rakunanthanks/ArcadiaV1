@@ -2,6 +2,7 @@ package arcadia.stepdefinations;
 
 import arcadia.context.FlowContext;
 import arcadia.context.TestContext;
+import arcadia.domainobjects.NodeIdentifier;
 import arcadia.domainobjects.Schematic;
 import arcadia.pages.*;
 import arcadia.utils.StringHelper;
@@ -289,5 +290,13 @@ public class SchematicStepDefinitions {
     public void userNavigatedToNewlyCreatedHarness() throws InterruptedException {
         schematicsDrawingPage.verifyDrawingsListPageLoaded();
         schematicsDrawingPage.goToHarness();
+    }
+
+    @And("user add nodes to schematic harness")
+    public void userAddNodesToSchematicHarness() throws InterruptedException, AWTException {
+        new HarnessPage(context.driver).selectHeader("Harness");
+        new HarnessPage(context.driver).clickOnNode();
+        schematicsDrawingPage.addNodesToHarness();
+        Thread.sleep(2000);
     }
 }
