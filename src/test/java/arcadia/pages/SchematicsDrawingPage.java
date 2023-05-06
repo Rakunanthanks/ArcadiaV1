@@ -119,6 +119,19 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(xpath = "(//ul[@class='dropdown-menu']//a[@title='Create Harness'])[2]") private WebElement createharness;
 
     @FindBy(xpath = "//a[text()='Click here to return to projects']") private WebElement returnProject;
+    @FindBy(xpath = "//*[name()='use' and contains(@onmouseenter,'#HEHBnode3')]") private List<WebElement> nodes;
+    @FindBy(xpath = "//li[@id='cmiLinkParts']") private WebElement linkParts;
+
+    @FindBy(xpath = "//span[text()='Existing']") private WebElement existingButton;
+   @FindBy(xpath = "//input[@id='searchText']") private WebElement searchBox;
+    @FindBy(xpath = "//button[@title='Submit']") private WebElement submitButton;
+    @FindBy(xpath = "//input[@class='showConnector']") private WebElement connectorCheckbox;
+
+    @FindBy(xpath = "//input[@class='showSplice']") private WebElement showSpliceCheckbox;
+    @FindBy(xpath = "//input[@class='showOthers']") private WebElement showOthersCheckbox;
+    @FindBy(xpath = "//input[@class='hidelink']") private WebElement hidelinkCheckbox;
+
+
     String tablePartsRows = "#tblBOMPartNoList > tbody > tr";
 
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
@@ -557,8 +570,8 @@ public class SchematicsDrawingPage extends BasePage{
     }
 
     public void goToHarness() throws InterruptedException {
-        String name= FlowContext.schematicDescription;
-//        String name= "Aut_Integration 281";
+//        String name= FlowContext.schematicDescription;
+        String name= "Aut_Integration 281";
         WebElement ele=driver.findElement(By.xpath("//table[@id='tableHAR']//td[text()='"+name+"']"));
         customCommand.scrollIntoView(driver,ele);
         customCommand.javaScriptClick(driver,ele);
@@ -595,4 +608,37 @@ public class SchematicsDrawingPage extends BasePage{
         customCommand.moveRightOfElementAndClick(driver,eleNode2,84);
         Thread.sleep(1000);
     }
+
+    public void selectNodeToAddPart(String nodeIndex,String partNameIndex) throws InterruptedException {
+        customCommand.javaScriptClick(driver,selectButton);
+        int nIndex= Integer.parseInt(nodeIndex.substring(3));
+        WebElement node=nodes.get(nIndex);
+        new HarnessPage(driver).getContextMenu("",node);
+        customCommand.javaScriptClick(driver,linkParts);
+        customCommand.javaScriptClick(driver,existingButton);
+        Thread.sleep(2000);
+    }
+
+    public void chooseFilter(String filter) throws InterruptedException {
+        customCommand.javaScriptClick(driver,connectorCheckbox);
+        customCommand.javaScriptClick(driver,showSpliceCheckbox);
+        customCommand.javaScriptClick(driver,showOthersCheckbox);
+        customCommand.javaScriptClick(driver,hidelinkCheckbox);
+        switch(filter.toLowerCase()) {
+            case "connector":
+                customCommand.javaScriptClick(driver,connectorCheckbox);
+                break;
+            case "splices":
+                customCommand.javaScriptClick(driver,showSpliceCheckbox);
+                break;
+        }
+    }
+
+    public void addPartToNode(String partNameIndex) throws InterruptedException {
+        customCommand.clearAndEnterText(searchBox,partNameIndex);
+        WebElement ele=driver.findElement(By.xpath("//table[@id='findTbl']//tr/td[text()='"+partNameIndex+"']/parent::tr/td[1]/input"));
+        customCommand.javaScriptClick(driver,submitButton);
+
+    }
+
 }

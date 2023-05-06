@@ -299,4 +299,21 @@ public class SchematicStepDefinitions {
         schematicsDrawingPage.addNodesToHarness();
         Thread.sleep(2000);
     }
+
+    @And("user select the {string} to add the part {string}")
+    public void userSelectTheNodeToAddTheParts(String nodeIndex,String partNameIndex) throws InterruptedException {
+        schematicsDrawingPage.selectNodeToAddPart(nodeIndex,partNameIndex);
+    }
+
+    @And("user verifies the {string} filter to link part {string}")
+    public void userVerifiesTheSearchFilterToLinkParts(String filter, String partNameIndex) throws InterruptedException {
+        switch(filter.toLowerCase()) {
+            case "search":
+                break;
+            default:
+                schematicsDrawingPage.chooseFilter(filter);
+                break;
+    }
+        schematicsDrawingPage.addPartToNode(partNameIndex);
+    }
 }
