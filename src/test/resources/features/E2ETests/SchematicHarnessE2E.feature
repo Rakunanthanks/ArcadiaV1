@@ -12,15 +12,9 @@ Feature: Verify schematics harness
     And user sets label 'bundle' to "Show"
     And user sets label 'node' to "Show"
     And user add nodes to schematic harness
-
-
-
-  @VerifySchematicHarness
-  Scenario: Test schematic harness properties
-    And based on drawing orchestrator components are created
-    And user sets label 'bundle' to "Show"
-    And user sets label 'node' to "Show"
-    And user add nodes to schematic harness
+    And user selects footer snap "Minor"
+    And user opens left pane on harness
+    And user adds connector and splice to node from tree view
 
 
   @VerifySchematicHarness
@@ -35,5 +29,3 @@ Feature: Verify schematics harness
     And user verifies the 'connector' filter to link part "s1"
     And user select the 'node4' to add the part "s2"
     And user verifies the 'splices' filter to link part "s2"
-
-

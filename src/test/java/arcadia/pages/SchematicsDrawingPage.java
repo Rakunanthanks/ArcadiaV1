@@ -132,6 +132,11 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(xpath = "//input[@class='hidelink']") private WebElement hidelinkCheckbox;
 
 
+    @FindBy(css = "div[title='Project Navigator']") private WebElement leftPanelProjectNavigator;
+    @FindBy(id = "izoom_in") private WebElement zoomIn;
+
+    //Harness footer
+    @FindBy(css = "li#dropdown_snap") private WebElement footerSnap;
     String tablePartsRows = "#tblBOMPartNoList > tbody > tr";
 
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
@@ -641,4 +646,61 @@ public class SchematicsDrawingPage extends BasePage{
 
     }
 
+
+    public void selectSnap(String snap) throws InterruptedException {
+        Actions act = new Actions(driver);
+        act.moveToElement(footerSnap).moveToElement(driver.findElement(By.xpath("//li[@id='dropdown_snap']//li[text()='"+snap+"']"))).click().build().perform();
+        Thread.sleep(2000);
+    }
+
+    public void openLeftPanel() throws InterruptedException {
+        Boolean leftPanelDisplayed = driver.findElements(By.cssSelector("div#leftTabs")).get(0).isDisplayed();
+        if (!leftPanelDisplayed){
+            leftPanelProjectNavigator.click();
+        }
+    }
+
+    public void addComponentFromTreeToDrawing(String componentType, String componentName, String destinationType, String destName) throws InterruptedException {
+        switch (componentType.toLowerCase()){
+            case "connector":
+                driver.findElement(By.xpath("//ul[@id='idLinkPartsSheet']//span[contains(text(),'Connectors')]")).click();
+                break;
+            case "splice":
+                driver.findElement(By.xpath("//ul[@id='idLinkPartsSheet']//span[contains(text(),'Splices')]")).click();
+                break;
+        }
+        WebElement sourceElement = driver.findElement(By.xpath("//ul[@id='idLinkPartsSheet']//span[text()='"+componentName+"']"));
+        WebElement destinationElement = null;
+        switch (destinationType.toLowerCase()){
+            case "node":
+                if (destName.equalsIgnoreCase("Node10")) {
+                    List<WebElement> destNode10 = driver.findElements(By.cssSelector("#layer_80 >g[class=\"DG27 bundleGroup\"]>g>g>use"));
+                    if (destNode10.size()>1){
+                        destinationElement = destNode10.get(1);
+                    }
+                    else {
+                        destinationElement = destNode10.get(0);
+                    }
+//                    destinationElement = driver.findElements(By.xpath("//*[name()='use' and contains(@onmouseenter,'#HEHBnode3')]")).get(3);
+                }
+                else if (destName.equalsIgnoreCase("Node18")){
+                    List<WebElement> destNode18 = driver.findElements(By.cssSelector("#layer_80 >g[class=\"DG57 bundleGroup\"]>g>g>use"));
+                    if (destNode18.size()>1){
+                        destinationElement = destNode18.get(1);
+                    }
+                    else {
+                        destinationElement = destNode18.get(0);
+                    }
+//                    destinationElement = driver.findElements(By.xpath("//*[name()='use' and contains(@onmouseenter,'#HEHBnode3')]")).get(7);
+                }
+                break;
+        }
+        customCommand.javaScriptClick(driver,selectButton);
+        customCommand.javaScriptClick(driver,sourceElement);
+        customCommand.javaScriptClick(driver,selectButton);
+        Thread.sleep(2000);
+        Actions actMove = new Actions(driver);
+        actMove.moveToElement(destinationElement).click().build().perform();
+        Thread.sleep(5000);
+    }
 }

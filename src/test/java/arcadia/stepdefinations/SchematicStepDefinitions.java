@@ -316,4 +316,20 @@ public class SchematicStepDefinitions {
     }
         schematicsDrawingPage.addPartToNode(partNameIndex);
     }
+
+    @And("user selects footer snap {string}")
+    public void userSelectsFooterSnap(String snap) throws InterruptedException {
+        schematicsDrawingPage.selectSnap(snap.toUpperCase());
+    }
+
+    @And("user opens left pane on harness")
+    public void userOpensLeftPaneOnHarness() throws InterruptedException {
+        schematicsDrawingPage.openLeftPanel();
+    }
+
+    @And("user adds connector and splice to node from tree view")
+    public void userAddsConnectorAndSpliceToNodeFromTreeView() throws InterruptedException {
+        schematicsDrawingPage.addComponentFromTreeToDrawing("Connector","C1 - Main","Node","Node10");
+        schematicsDrawingPage.addComponentFromTreeToDrawing("Splice","SP-BK - Splice","Node","Node18");
+    }
 }
