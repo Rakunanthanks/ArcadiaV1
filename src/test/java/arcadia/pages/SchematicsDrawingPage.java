@@ -121,6 +121,7 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(xpath = "//a[text()='Click here to return to projects']") private WebElement returnProject;
     @FindBy(xpath = "//*[name()='use' and contains(@onmouseenter,'#HEHBnode3')]") private List<WebElement> nodes;
     @FindBy(xpath = "//li[@id='cmiLinkParts']") private WebElement linkParts;
+    @FindBy(xpath = "(//li[text()='Change Node'])[2]") private WebElement changeNode;
 
     @FindBy(xpath = "//span[text()='Existing']") private WebElement existingButton;
    @FindBy(xpath = "//input[@id='searchText']") private WebElement searchBox;
@@ -616,7 +617,7 @@ public class SchematicsDrawingPage extends BasePage{
 
     public void selectNodeToAddPart(String nodeIndex,String partNameIndex) throws InterruptedException {
         customCommand.javaScriptClick(driver,selectButton);
-        int nIndex= Integer.parseInt(nodeIndex.substring(3));
+        int nIndex= Integer.parseInt(nodeIndex.substring(4));
         WebElement node=nodes.get(nIndex);
         new HarnessPage(driver).getContextMenu("",node);
         customCommand.javaScriptClick(driver,linkParts);
@@ -642,6 +643,7 @@ public class SchematicsDrawingPage extends BasePage{
     public void addPartToNode(String partNameIndex) throws InterruptedException {
         customCommand.clearAndEnterText(searchBox,partNameIndex);
         WebElement ele=driver.findElement(By.xpath("//table[@id='findTbl']//tr/td[text()='"+partNameIndex+"']/parent::tr/td[1]/input"));
+        customCommand.javaScriptClick(driver,ele);
         customCommand.javaScriptClick(driver,submitButton);
 
     }
@@ -703,4 +705,16 @@ public class SchematicsDrawingPage extends BasePage{
         actMove.moveToElement(destinationElement).click().build().perform();
         Thread.sleep(5000);
     }
+
+    public void selectConnectorToChangeNode(String nodeIndex,String connectorIndex) throws InterruptedException {
+        customCommand.javaScriptClick(driver,selectButton);
+        WebElement ele=driver.findElement(By.xpath("//*[name()='text' and text()='"+connectorIndex+"']/ancestor::*[name()='g']/*[name()='rect' and @etype='connector']"));
+        new HarnessPage(driver).getContextMenu("",ele);
+        customCommand.javaScriptClick(driver,changeNode);
+        int nIndex= Integer.parseInt(nodeIndex.substring(4));
+        WebElement node=nodes.get(nIndex);
+        customCommand.javaScriptClick(driver,node);
+        Thread.sleep(2000);
+    }
+
 }

@@ -332,4 +332,10 @@ public class SchematicStepDefinitions {
         schematicsDrawingPage.addComponentFromTreeToDrawing("Connector","C1 - Main","Node","Node10");
         schematicsDrawingPage.addComponentFromTreeToDrawing("Splice","SP-BK - Splice","Node","Node18");
     }
+
+    @And("user click on part {string} to drag and drop to {string}")
+    public void userClickOnPartCToDragAndDropToNode(String connectorIndex , String nodeindex) throws InterruptedException {
+        schematicsDrawingPage.selectConnectorToChangeNode(nodeindex,connectorIndex);
+
+    }
 }
