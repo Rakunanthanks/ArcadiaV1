@@ -58,6 +58,7 @@ public class MyHooks {
         bundleDefaultNtsColour = "";
         bundleFontSize = "";
         schematicDescription = "";
+        schematicHarnessName = "";
     }
 
     @After
@@ -98,6 +99,7 @@ public class MyHooks {
         bundleDefaultNtsColour = "";
         bundleFontSize = "";
         schematicDescription = "";
+        schematicHarnessName = "";
         driver.quit();
         driver = null;
     }

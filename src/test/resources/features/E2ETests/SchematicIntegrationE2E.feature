@@ -159,4 +159,3 @@ Feature: Verify schematics
     And click on Housings from the footer
     And user create the harness from schematic
     And user verify the harness created from schematic
-    And user navigated to newly created harness

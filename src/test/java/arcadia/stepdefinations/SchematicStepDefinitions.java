@@ -294,6 +294,7 @@ public class SchematicStepDefinitions {
 
     @And("user add nodes to schematic harness")
     public void userAddNodesToSchematicHarness() throws InterruptedException, AWTException {
+        schematicsDrawingPage.zoomFit();
         new HarnessPage(context.driver).selectHeader("Harness");
         new HarnessPage(context.driver).clickOnNode();
         schematicsDrawingPage.addNodesToHarness();
@@ -337,5 +338,12 @@ public class SchematicStepDefinitions {
     public void userClickOnPartCToDragAndDropToNode(String connectorIndex , String nodeindex) throws InterruptedException {
         schematicsDrawingPage.selectConnectorToChangeNode(nodeindex,connectorIndex);
 
+    }
+
+    @And("User imports schematic harness")
+    public void userImportsSchematicHarness() throws InterruptedException {
+        schematicsDrawingPage.verifyDrawingsListPageLoaded();
+        String harnessFilePath = "src/test/resources/drawingboard/SchematicHarness_SchematicHarness_SchematicHarness_1683473883.hrx";
+        schematicsDrawingPage.importHarness(harnessFilePath);
     }
 }

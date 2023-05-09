@@ -3,6 +3,7 @@ package arcadia.pages;
 import arcadia.context.FlowContext;
 import arcadia.pages.ComponentDB.AddNewComponentPage;
 import arcadia.utils.SeleniumCustomCommand;
+import arcadia.utils.StringHelper;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -15,12 +16,17 @@ import org.testng.Assert;
 
 
 import java.awt.*;
+import java.io.File;
 import java.util.List;
 import java.util.Set;
+
+import static org.sikuli.hotkey.Keys.*;
 
 public class SchematicsDrawingPage extends BasePage{
 
     @FindBy(css = "a[title=\"Create Schematic\"]") private WebElement createSchematic;
+    @FindBy(css = "button[title=\"Import Tools\"]") private WebElement importTools;
+    @FindBy(xpath = "//a[text()='Import Task']") private WebElement importTask;
     @FindBy(xpath = "//div[@Title = 'Insert Connector']") private WebElement inlineConnector;
     @FindBy(xpath = "//div[@Title = 'Insert Splice']") private WebElement insertInlineSplice;
     @FindBy(xpath = "//div[@Title = 'Draw Select']") private WebElement selectButton;
@@ -93,6 +99,8 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(xpath = "//input[@class='wireidspec']") private WebElement wireName;
     @FindBy(xpath = "//button[@title='Update wire data, close dialog']") private WebElement wireOkButton;
     @FindBy(xpath = "//div[@title='Zoom Out']") private WebElement zoomOut;
+    @FindBy(id = "izoom_in") private WebElement zoomIn;
+    @FindBy(id = "izoom_fit") private WebElement zoomFit;
     @FindBy(xpath = "//*[name()='text' and @class='complabel' and contains(text(),'WIRE')]") private List<WebElement> wireLabels;
     @FindBy(xpath = "//span[text()='Remove All']") private WebElement removeWireLabels;
     @FindBy(xpath = "//div[@class='ui-dialog-buttonset']//span[text()='Submit']") private WebElement confirmSubmition;
@@ -134,10 +142,17 @@ public class SchematicsDrawingPage extends BasePage{
 
 
     @FindBy(css = "div[title='Project Navigator']") private WebElement leftPanelProjectNavigator;
-    @FindBy(id = "izoom_in") private WebElement zoomIn;
 
     //Harness footer
     @FindBy(css = "li#dropdown_snap") private WebElement footerSnap;
+
+    //Import task form
+    @FindBy(css = "form#frmImportLibrary") private WebElement formImportTask;
+    @FindBy(css = "input[name=\"title\"]") private WebElement inputImportTaskName;
+    @FindBy(css = "input[name=\"file\"]") private WebElement inputUploadFile;
+    @FindBy(css = "select[name=\"profile\"]") private WebElement selectImportTaskProfile;
+    @FindBy(css = "select[name=\"library\"]") private WebElement selectImportTaskLibrary;
+    @FindBy(css = "button[value='Import']") private WebElement buttonSubmitImport;
     String tablePartsRows = "#tblBOMPartNoList > tbody > tr";
 
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
@@ -181,7 +196,7 @@ public class SchematicsDrawingPage extends BasePage{
         }
         customCommand.waitForElementToBeClickable(driver,divEditConnectorIdFemaleHalf);
         divEditConnectorIdFemaleHalf.click();
-        inputEditConnectorIdFemaleHalf.sendKeys(Keys.BACKSPACE);
+        inputEditConnectorIdFemaleHalf.sendKeys(BACKSPACE);
         customCommand.clearAndEnterText(inputEditConnectorIdFemaleHalf,inlineConnectorIdFemaleHalfName);
         customCommand.waitForElementToBeClickable(driver,tabConnectorEditConnector);
         customCommand.javaScriptClick(driver,tabConnectorEditConnector);
@@ -374,6 +389,10 @@ public class SchematicsDrawingPage extends BasePage{
 
     public void zoomOut() throws InterruptedException {
         customCommand.javaScriptClick(driver,zoomOut);
+    }
+    public void zoomFit() throws InterruptedException {
+        customCommand.longWaitForElementToBeClickable(driver,zoomFit);
+        customCommand.javaScriptClick(driver,zoomFit);
     }
 
     public void connectWire(String name,WebElement left,WebElement right) throws InterruptedException {
@@ -576,8 +595,8 @@ public class SchematicsDrawingPage extends BasePage{
     }
 
     public void goToHarness() throws InterruptedException {
-//        String name= FlowContext.schematicDescription;
-        String name= "Aut_Integration 281";
+        String name= FlowContext.schematicHarnessName;
+//        String name= "SchematicHarness 2098";
         WebElement ele=driver.findElement(By.xpath("//table[@id='tableHAR']//td[text()='"+name+"']"));
         customCommand.scrollIntoView(driver,ele);
         customCommand.javaScriptClick(driver,ele);
@@ -642,6 +661,7 @@ public class SchematicsDrawingPage extends BasePage{
 
     public void addPartToNode(String partNameIndex) throws InterruptedException {
         customCommand.clearAndEnterText(searchBox,partNameIndex);
+        Thread.sleep(2000);
         WebElement ele=driver.findElement(By.xpath("//table[@id='findTbl']//tr/td[text()='"+partNameIndex+"']/parent::tr/td[1]/input"));
         customCommand.javaScriptClick(driver,ele);
         customCommand.javaScriptClick(driver,submitButton);
@@ -677,6 +697,7 @@ public class SchematicsDrawingPage extends BasePage{
             case "node":
                 if (destName.equalsIgnoreCase("Node10")) {
                     List<WebElement> destNode10 = driver.findElements(By.cssSelector("#layer_80 >g[class=\"DG27 bundleGroup\"]>g>g>use"));
+//                    List<WebElement> destNode10 = driver.findElements(By.xpath("//*[@id='layer_80']//*[name()='g' and @class='DG27 bundleGroup']//*[name()='g']//*[name()='g']//*[name()='use']"));
                     if (destNode10.size()>1){
                         destinationElement = destNode10.get(1);
                     }
@@ -697,13 +718,13 @@ public class SchematicsDrawingPage extends BasePage{
                 }
                 break;
         }
+
         customCommand.javaScriptClick(driver,selectButton);
         customCommand.javaScriptClick(driver,sourceElement);
-        customCommand.javaScriptClick(driver,selectButton);
         Thread.sleep(2000);
         Actions actMove = new Actions(driver);
         actMove.moveToElement(destinationElement).click().build().perform();
-        Thread.sleep(5000);
+        Thread.sleep(3000);
     }
 
     public void selectConnectorToChangeNode(String nodeIndex,String connectorIndex) throws InterruptedException {
@@ -717,4 +738,23 @@ public class SchematicsDrawingPage extends BasePage{
         Thread.sleep(2000);
     }
 
+
+    public void importHarness(String harnessFilePath) throws InterruptedException {
+        customCommand.longWaitForElementToBeClickable(driver,importTools);
+        customCommand.javaScriptClick(driver,importTools);
+        customCommand.moveToElementAndClick(driver,importTask);
+        switchToFrame();
+        customCommand.longWaitForElementToBeClickable(driver,inputImportTaskName);
+        String schemHarnessName = "SchematicHarness " + new StringHelper().generateRandomDigit();
+        FlowContext.schematicHarnessName = schemHarnessName;
+        inputImportTaskName.sendKeys(schemHarnessName);
+        File file = new File(harnessFilePath);
+        inputUploadFile.sendKeys(file.getAbsolutePath());
+        Thread.sleep(4000);
+        customCommand.selectDropDownByValue(selectImportTaskProfile,System.getProperty("profileName"));
+        customCommand.selectDropDownByValue(selectImportTaskLibrary,System.getProperty("componentDB"));
+        customCommand.javaScriptClick(driver,buttonSubmitImport);
+        Thread.sleep(5000);
+        customCommand.waitClick(returnProject);
+    }
 }
