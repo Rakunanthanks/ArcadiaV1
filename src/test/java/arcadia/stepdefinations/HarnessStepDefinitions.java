@@ -478,6 +478,13 @@ public class HarnessStepDefinitions {
         harnessPage.openConnectorEditor();
         new ConnectorEditorPage(context.driver).verifyConnectorEditorOpened();
     }
+    @And("wire editor is opened")
+    public void wirerEditorIsOpened() throws InterruptedException {
+        Thread.sleep(9000);
+        harnessPage.selectHeader("Advanced");
+        harnessPage.openWireEditor();
+        new WireEditorPage(context.driver).verifyWireEditorOpened();
+    }
 
     @And("add configurations to create splice image")
     public void addConfigurationsToCreateSpliceImage() throws InterruptedException {

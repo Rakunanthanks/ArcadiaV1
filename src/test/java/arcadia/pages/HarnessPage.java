@@ -71,6 +71,7 @@ public class HarnessPage extends BasePage{
 
     @FindBy(css = "#iconneditor>span") private WebElement buttonConnectorEditor;
     @FindBy(css = "#ispliceeditor>span") private WebElement buttonSpliceEditor;
+    @FindBy(css = "#iwireeditor>span") private WebElement buttonWireEditor;
 
     @FindBy(css = "#cEditor table.htCore") private WebElement tableConnectorEditor;
     @FindBy(xpath="//*[name()='g' and @id='layer_drawNodes']/*[name()='g'][6]") private WebElement bendRadius;
@@ -410,6 +411,7 @@ public class HarnessPage extends BasePage{
     }
 
     public void exitDrawingPage() throws InterruptedException {
+        Thread.sleep(2000);
         getHeaderElement("Exit").click();
         customCommand.waitForElementVisibility(driver,buttonExitDrawing);
         buttonExitDrawing.click();
@@ -833,5 +835,10 @@ public class HarnessPage extends BasePage{
         else{
             ExtentCucumberAdapter.addTestStepLog(String.format("Bundle Font Size is updated"));
         }
+    }
+
+    public void openWireEditor() throws InterruptedException {
+        customCommand.scrollIntoView(driver,buttonWireEditor);
+        customCommand.javaScriptClick(driver,buttonWireEditor);
     }
 }
