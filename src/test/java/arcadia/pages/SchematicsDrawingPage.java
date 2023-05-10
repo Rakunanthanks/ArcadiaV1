@@ -153,6 +153,8 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(css = "select[name=\"profile\"]") private WebElement selectImportTaskProfile;
     @FindBy(css = "select[name=\"library\"]") private WebElement selectImportTaskLibrary;
     @FindBy(css = "button[value='Import']") private WebElement buttonSubmitImport;
+  @FindBy(xpath = "//span[text()='Zoom In']") private WebElement zoominButton;
+  @FindBy(xpath = "//span[text()='Refresh']") private WebElement refreshButton;
     String tablePartsRows = "#tblBOMPartNoList > tbody > tr";
 
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
@@ -728,13 +730,21 @@ public class SchematicsDrawingPage extends BasePage{
     }
 
     public void selectConnectorToChangeNode(String nodeIndex,String connectorIndex) throws InterruptedException {
+        if(connectorIndex.contains("6"))
+        {
+            customCommand.javaScriptClick(driver,refreshButton);
+            Thread.sleep(3000);
+            customCommand.javaScriptClick(driver,zoomOut);
+        }
         customCommand.javaScriptClick(driver,selectButton);
         WebElement ele=driver.findElement(By.xpath("//*[name()='text' and text()='"+connectorIndex+"']/ancestor::*[name()='g']/*[name()='rect' and @etype='connector']"));
+        ele=driver.findElement(By.xpath("//*[name()='text' and text()='"+connectorIndex+"']/ancestor::*[name()='g']/*[name()='rect' and @etype='connector']"));
         new HarnessPage(driver).getContextMenu("",ele);
         customCommand.javaScriptClick(driver,changeNode);
         int nIndex= Integer.parseInt(nodeIndex.substring(4));
+        Thread.sleep(2000);
         WebElement node=nodes.get(nIndex);
-        customCommand.javaScriptClick(driver,node);
+        node.click();
         Thread.sleep(2000);
     }
 
