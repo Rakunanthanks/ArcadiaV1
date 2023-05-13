@@ -2,6 +2,7 @@ package arcadia.pages;
 
 import arcadia.context.FlowContext;
 import arcadia.pages.ComponentDB.AddNewComponentPage;
+import arcadia.pages.ComponentDB.CommonElements;
 import arcadia.utils.SeleniumCustomCommand;
 import arcadia.utils.StringHelper;
 import org.openqa.selenium.By;
@@ -11,7 +12,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.sikuli.hotkey.Keys;
 import org.testng.Assert;
 
 
@@ -155,7 +155,9 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(css = "button[value='Import']") private WebElement buttonSubmitImport;
   @FindBy(xpath = "//span[text()='Zoom In']") private WebElement zoominButton;
   @FindBy(xpath = "//span[text()='Refresh']") private WebElement refreshButton;
+    @FindBy(css = "div[title=\"Delete All Existing Wires\"]") private WebElement buttonDeleteAllWires;
     String tablePartsRows = "#tblBOMPartNoList > tbody > tr";
+    String wireTableRows = "table.wireTableClass tbody>tr";
 
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
 
@@ -605,7 +607,7 @@ public class SchematicsDrawingPage extends BasePage{
 
     public void goToHarness() throws InterruptedException {
         String name= FlowContext.schematicHarnessName;
-//        String name= "SchematicHarness 2098";
+//        String name= "AB_TestWires";
         WebElement ele=driver.findElement(By.xpath("//table[@id='tableHAR']//td[text()='"+name+"']"));
         customCommand.scrollIntoView(driver,ele);
         customCommand.javaScriptClick(driver,ele);
@@ -773,5 +775,26 @@ public class SchematicsDrawingPage extends BasePage{
         customCommand.javaScriptClick(driver,buttonSubmitImport);
         Thread.sleep(5000);
         customCommand.waitClick(returnProject);
+    }
+
+    public int getWiresCount() {
+        customCommand.longWaitForElementToBeClickable(driver,zoomFit);
+        customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(wireTableRows)));
+        int numberOfWires = driver.findElements(By.cssSelector(wireTableRows)).size();
+        return numberOfWires;
+    }
+
+    public void verifyWiresCanBeDeleted(int initialWiresCount) throws InterruptedException {
+        customCommand.waitForElementToBeClickable(driver,advancedTab);
+        customCommand.javaScriptClick(driver,advancedTab);
+        Assert.assertTrue(driver.findElements(By.cssSelector(wireTableRows)).size()!=0,"Wire count is zero so no wire is available to delete");
+        customCommand.scrollIntoView(driver,buttonDeleteAllWires);
+        customCommand.waitForElementToBeClickable(driver,buttonDeleteAllWires);
+        customCommand.javaScriptClick(driver,buttonDeleteAllWires);
+        new CommonElements(driver).verifyAlertMessage("Do you want to delete all the Existing Wires?");
+        new CommonElements(driver).acceptAlertMessage();
+        Thread.sleep(2000);
+        customCommand.waitForElementToBeClickable(driver,buttonDeleteAllWires);
+        Assert.assertTrue(driver.findElements(By.cssSelector(wireTableRows)).size()==0,"Wires were not deleted successfully as the wire count is not as expected");
     }
 }

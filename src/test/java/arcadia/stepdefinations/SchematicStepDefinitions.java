@@ -2,7 +2,6 @@ package arcadia.stepdefinations;
 
 import arcadia.context.FlowContext;
 import arcadia.context.TestContext;
-import arcadia.domainobjects.NodeIdentifier;
 import arcadia.domainobjects.Schematic;
 import arcadia.pages.*;
 import arcadia.utils.StringHelper;
@@ -344,5 +343,11 @@ public class SchematicStepDefinitions {
         schematicsDrawingPage.verifyDrawingsListPageLoaded();
         String harnessFilePath = "src/test/resources/drawingboard/SchematicHarness_SchematicHarness_SchematicHarness_1683473883.hrx";
         schematicsDrawingPage.importHarness(harnessFilePath);
+    }
+
+    @Then("user verifies wires can be deleted succesfully on schematic harness")
+    public void userVerifiesWiresCanBeDeletedSuccesfullyOnSchematicHarness() throws InterruptedException {
+        int initialWiresCount = schematicsDrawingPage.getWiresCount();
+        schematicsDrawingPage.verifyWiresCanBeDeleted(initialWiresCount);
     }
 }
