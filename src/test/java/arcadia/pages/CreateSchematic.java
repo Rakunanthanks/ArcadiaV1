@@ -47,7 +47,7 @@ public class CreateSchematic extends BasePage {
         customCommand.enterText(schematicWorkTask,schematicData.getWorkTask());
         customCommand.enterText(schematicTitle,schematicData.getTitle());
         customCommand.enterText(schematicDescription,schematicData.getDescription());
-        customCommand.enterText(harnessPartNumber,schematicData.getPartNumber());
+        customCommand.enterText(schematicPartNumber,schematicData.getPartNumber());
         customCommand.enterText(schematicRevision,schematicData.getRevision());
         customCommand.selectDropDownByValue(schematicComponentDB,schematicData.getComponentDB());
         customCommand.selectDropDownByValue(schematicProfile,schematicData.getprofile());

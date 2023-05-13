@@ -185,6 +185,7 @@ public class SchematicsDrawingPage extends BasePage{
         int numberOfInlineConnectors = listOfInlineConnectors.size();
         WebElement eleInlineConnector = listOfInlineConnectors.get(numberOfInlineConnectors-1);
         updateInlineConnectorFemaleHalfIdandDescription(eleInlineConnector,connectorIdFemaleHalfName,connectorDescFemaleHalf,enableDescriptionToggle);
+        Thread.sleep(3000);
         WebElement eleInlineConnector1 = driver.findElements(By.xpath("//*[name()='g' and @id='layer_components']//*[name()='g' and @puid='connector']")).get(numberOfInlineConnectors-1);
         customCommand.waitForElementToBeClickable(driver,eleInlineConnector1);
     }
@@ -342,8 +343,10 @@ public class SchematicsDrawingPage extends BasePage{
     }
 
     public void addPinsToConnectorUsingConnectorName(String connectorIdFemaleHalf, int numberOfPins) throws InterruptedException {
+        zoomFit();
+        Thread.sleep(3000);
         customCommand.javaScriptClick(driver,selectButton);
-        Thread.sleep(2000);
+        Thread.sleep(3000);
         WebElement ele = driver.findElement(By.xpath("//*[name()='g' and @title='"+connectorIdFemaleHalf+"']//*[name()='g' and contains(@id,'_male')]//*[name()='rect']"));
         customCommand.moveToElementAndContextClick(driver,ele);
         customCommand.waitForElementToBeClickable(driver,addMorePins);
@@ -366,6 +369,7 @@ public class SchematicsDrawingPage extends BasePage{
     }
 
     public void removeAllWireLabels() throws InterruptedException {
+        Thread.sleep(3000);
         customCommand.scrollIntoView(driver,removeAllWireLabels);
         customCommand.waitForElementToBeClickable(driver,removeAllWireLabels);
         customCommand.javaScriptClick(driver,removeAllWireLabels);
@@ -430,7 +434,8 @@ public class SchematicsDrawingPage extends BasePage{
         Thread.sleep(2000);
     }
 
-    public void verifyWireLabel(String expectedWireLabel) {
+    public void verifyWireLabel(String expectedWireLabel) throws InterruptedException {
+        Thread.sleep(3000);
         List<WebElement> eleWireLabel = driver.findElements(By.xpath("//*[name()='g' and @class='complabel']//*[name()='text' and text()='"+expectedWireLabel+"']"));
         Assert.assertTrue(eleWireLabel.size()==1,"Wirelabel with text: " + expectedWireLabel + " is not present on schematic drawing as the wire property profile settings are not reflected on the drawing");
         Assert.assertTrue(eleWireLabel.get(0).isDisplayed(),"Wirelabel with text: " + expectedWireLabel + " is not displayed on schematic drawing as the wire property profile settings are not reflected on the drawing");
@@ -497,9 +502,10 @@ public class SchematicsDrawingPage extends BasePage{
     }
 
     public void updatePinDisplayAndPartNumber(String connectorIdFemaleHalf, String pinDisplay, int numberOfCavities) throws InterruptedException {
+        zoomFit();
         Thread.sleep(4000);
         customCommand.javaScriptClick(driver,selectButton);
-        Thread.sleep(1000);
+        Thread.sleep(4000);
         WebElement eleConnector = driver.findElement(By.xpath("//*[name()='g' and @title='"+connectorIdFemaleHalf+"']//*[name()='g' and contains(@id,'_male')]//*[name()='rect']"));
         customCommand.mouseHover(driver,eleConnector);
         customCommand.moveToElementAndContextClick(driver,eleConnector);
@@ -536,6 +542,7 @@ public class SchematicsDrawingPage extends BasePage{
     public void verifyPartNumberIsPresentForConnector(String connectorIdFemaleHalf) throws InterruptedException {
         Thread.sleep(2000);
         customCommand.javaScriptClick(driver,selectButton);
+        Thread.sleep(2000);
         WebElement ele = driver.findElement(By.xpath("//*[name()='g' and @title='"+connectorIdFemaleHalf+"']//*[name()='g' and contains(@id,'_male')]//*[name()='rect']"));
         customCommand.mouseHover(driver,ele);
         customCommand.moveToElementAndContextClick(driver,ele);
