@@ -606,8 +606,8 @@ public class SchematicsDrawingPage extends BasePage{
     }
 
     public void goToHarness() throws InterruptedException {
-//        String name= FlowContext.schematicHarnessName;
-        String name= "AB_TestWires";
+        String name= FlowContext.schematicHarnessName;
+//        String name= "AB_TestWires";
         WebElement ele=driver.findElement(By.xpath("//table[@id='tableHAR']//td[text()='"+name+"']"));
         customCommand.scrollIntoView(driver,ele);
         customCommand.javaScriptClick(driver,ele);
