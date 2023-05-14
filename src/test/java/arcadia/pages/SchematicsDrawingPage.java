@@ -156,8 +156,17 @@ public class SchematicsDrawingPage extends BasePage{
   @FindBy(xpath = "//span[text()='Zoom In']") private WebElement zoominButton;
   @FindBy(xpath = "//span[text()='Refresh']") private WebElement refreshButton;
     @FindBy(css = "div[title=\"Delete All Existing Wires\"]") private WebElement buttonDeleteAllWires;
+    @FindBy(css = "a.btnExportCSV") private WebElement buttonExportCsvAllWires;
+    @FindBy(xpath = "//button[contains(text(),'Load From Schematic')]") private WebElement buttonLoadFromSchematic;
+    @FindBy(css = "form[name=\"loadFromSchematicForm\"]") private WebElement formLoadSchematic;
+    @FindBy(xpath = "//form[@name=\"loadFromSchematicForm\"]//button[text()=\"Next\"]") private WebElement buttonNextLoadFromSchematic;
+    @FindBy(xpath = "//form[@name=\"loadFromSchematicForm\"]//button[text()=\"Submit \"]") private WebElement buttonSubmitLoadFromSchematic;
+    @FindBy(css = "form[name=\"loadFromSchemForm\"] button[type=\"submit\"]") private WebElement buttonSubmitWireEditor;
+    @FindBy(css = "div#wire-editor table>thead input[type=\"checkbox\"]") private WebElement buttonSelectALlWiresOnEditor;
+    @FindBy(css = "div#wire-editor button[value=\"Clear all\"]+button") private WebElement buttonSaveWireEditor;
     String tablePartsRows = "#tblBOMPartNoList > tbody > tr";
     String wireTableRows = "table.wireTableClass tbody>tr";
+    String wireEditorRows = "div#wire-editor table>tbody>tr";
 
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
 
@@ -263,7 +272,7 @@ public class SchematicsDrawingPage extends BasePage{
     }
 
     public void moveToWireEditor() throws InterruptedException {
-        customCommand.waitForElementToBeClickable(driver,advancedTab);
+        customCommand.longWaitForElementToBeClickable(driver,advancedTab);
         customCommand.javaScriptClick(driver,advancedTab);
         customCommand.waitForElementToBeClickable(driver,wireEditor);
         customCommand.javaScriptClick(driver,wireEditor);
@@ -338,7 +347,7 @@ public class SchematicsDrawingPage extends BasePage{
 
     public void goToDrawingFromWireEditor() throws InterruptedException {
         Thread.sleep(3000);
-        customCommand.waitForElementToBeClickable(driver, buttonGoToDrawing);
+        customCommand.longWaitForElementToBeClickable(driver, buttonGoToDrawing);
         buttonGoToDrawing.click();
         customCommand.longWaitForElementToBeClickable(driver,advancedTab);
 
@@ -606,8 +615,8 @@ public class SchematicsDrawingPage extends BasePage{
     }
 
     public void goToHarness() throws InterruptedException {
-        String name= FlowContext.schematicHarnessName;
-//        String name= "AB_TestWires";
+//        String name= FlowContext.schematicHarnessName;
+        String name= "AB_TestWires";
         WebElement ele=driver.findElement(By.xpath("//table[@id='tableHAR']//td[text()='"+name+"']"));
         customCommand.scrollIntoView(driver,ele);
         customCommand.javaScriptClick(driver,ele);
@@ -777,6 +786,25 @@ public class SchematicsDrawingPage extends BasePage{
         customCommand.waitClick(returnProject);
     }
 
+    public void importtask(String filePath) throws InterruptedException {
+        customCommand.longWaitForElementToBeClickable(driver,importTools);
+        customCommand.javaScriptClick(driver,importTools);
+        customCommand.moveToElementAndClick(driver,importTask);
+        switchToFrame();
+        customCommand.longWaitForElementToBeClickable(driver,inputImportTaskName);
+        String taskName = "TestTask " + new StringHelper().generateRandomDigit();
+        FlowContext.drawingTaskName = taskName;
+        inputImportTaskName.sendKeys(taskName);
+        File file = new File(filePath);
+        inputUploadFile.sendKeys(file.getAbsolutePath());
+        Thread.sleep(4000);
+        customCommand.selectDropDownByValue(selectImportTaskProfile,System.getProperty("profileName"));
+        customCommand.selectDropDownByValue(selectImportTaskLibrary,System.getProperty("componentDB"));
+        customCommand.javaScriptClick(driver,buttonSubmitImport);
+        Thread.sleep(5000);
+        customCommand.waitClick(returnProject);
+    }
+
     public int getWiresCount() {
         customCommand.longWaitForElementToBeClickable(driver,zoomFit);
         customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(wireTableRows)));
@@ -796,5 +824,54 @@ public class SchematicsDrawingPage extends BasePage{
         Thread.sleep(2000);
         customCommand.waitForElementToBeClickable(driver,buttonDeleteAllWires);
         Assert.assertTrue(driver.findElements(By.cssSelector(wireTableRows)).size()==0,"Wires were not deleted successfully as the wire count is not as expected");
+    }
+
+    public void selectExportWires() throws InterruptedException {
+        customCommand.longWaitForElementToBeClickable(driver,buttonExportCsvAllWires);
+        customCommand.javaScriptClick(driver,buttonExportCsvAllWires);
+    }
+
+    public void selectLoadFromSchematic() throws InterruptedException {
+        customCommand.longWaitForElementToBeClickable(driver,buttonLoadFromSchematic);
+        customCommand.javaScriptClick(driver,buttonLoadFromSchematic);
+    }
+
+    public void verifyLoadSchematicWindowOpened() {
+        customCommand.waitForElementVisibility(driver,formLoadSchematic);
+        Assert.assertTrue(formLoadSchematic.isDisplayed(),"LoadFromSchematic form is not displayed");
+    }
+
+    public void selectTaskToBeLoaded(String schematicTaskName) throws InterruptedException {
+        WebElement eleTaskRadio = driver.findElement(By.xpath("//form[@name=\"loadFromSchematicForm\"]//input[@name=\"schtask\"][contains(@value,'"+schematicTaskName+"')]"));
+        //form[@name="loadFromSchematicForm"]//input[@name="schtask"][contains(@value,'TestTask 4941')]
+        customCommand.scrollToElement(driver,eleTaskRadio);
+        customCommand.javaScriptClick(driver,eleTaskRadio);
+        customCommand.scrollToElement(driver,buttonNextLoadFromSchematic);
+        customCommand.javaScriptClick(driver,buttonNextLoadFromSchematic);
+        customCommand.longWaitForElementToBeClickable(driver,buttonSubmitLoadFromSchematic);
+        customCommand.javaScriptClick(driver,buttonSubmitLoadFromSchematic);
+        customCommand.longWaitForElementToBeClickable(driver,buttonGoToDrawing);
+    }
+
+    public int getWiresCountOnWireEditor() {
+        customCommand.longWaitForElementToBeClickable(driver,buttonGoToDrawing);
+        customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(wireEditorRows)));
+        int numberOfWiresOnEditor = driver.findElements(By.cssSelector(wireEditorRows)).size();
+        return numberOfWiresOnEditor;
+    }
+
+    public void selectAllWiresOnEditor() throws InterruptedException {
+        customCommand.waitForElementToBeClickable(driver,buttonSelectALlWiresOnEditor);
+        customCommand.javaScriptClick(driver,buttonSelectALlWiresOnEditor);
+    }
+
+    public void submitWires() throws InterruptedException {
+        customCommand.scrollToElement(driver,buttonSubmitWireEditor);
+        customCommand.javaScriptClick(driver,buttonSubmitWireEditor);
+    }
+
+    public void saveWireChanges() throws InterruptedException {
+        customCommand.waitForElementToBeClickable(driver,buttonSaveWireEditor);
+        customCommand.javaScriptClick(driver,buttonSaveWireEditor);
     }
 }
