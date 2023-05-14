@@ -1,14 +1,12 @@
 package arcadia.stepdefinations;
 
 import arcadia.context.TestContext;
-import arcadia.pages.ConnectorEditorPage;
 import arcadia.pages.PageFactoryManager;
 import arcadia.pages.WireEditorPage;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import org.json.simple.parser.ParseException;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
 import java.awt.*;
@@ -133,7 +131,7 @@ public class WireEditorStepDefinitions {
     }
     @Then("Check able to download template or not in wire editor")
     public void checkAbleToDownloadTemplateOrNotInWireEditor() throws InterruptedException {
-        wireEditorPage.checkAbleToDownloadOrNot("wire_editor_import_format_grp.csv");
+        wireEditorPage.verifyFileIsDownloaded("wire_editor_import_format_grp.csv");
     }
 
     @Then("Check able to export csv and the entered values are present in the exported csv or not in wire editor")
@@ -148,7 +146,7 @@ public class WireEditorStepDefinitions {
 
     @Then("Check able to export csv in wire editor")
     public void checkAbleToExportCsvInWireEditor() throws InterruptedException {
-        wireEditorPage.checkAbleToDownloadOrNot("wires.csv");
+        wireEditorPage.verifyFileIsDownloaded("wires.csv");
     }
 
     @And("Enter WireID, From Con,From Cav,TO Conn,To Cav.")

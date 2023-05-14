@@ -59,6 +59,7 @@ public class MyHooks {
         bundleFontSize = "";
         schematicDescription = "";
         schematicHarnessName = "";
+        drawingTaskName = "";
     }
 
     @After
@@ -100,6 +101,7 @@ public class MyHooks {
         bundleFontSize = "";
         schematicDescription = "";
         schematicHarnessName = "";
+        drawingTaskName = "";
         driver.quit();
         driver = null;
     }

@@ -1,10 +1,7 @@
 package arcadia.pages;
 
-import arcadia.domainobjects.ComponentsDB;
-import arcadia.domainobjects.ConnectorDB;
 import arcadia.domainobjects.WiresComponentDB;
 import arcadia.pages.ComponentDB.AddNewComponentPage;
-import arcadia.pages.ComponentDB.Connectors.ConnectorsDBPage;
 import arcadia.pages.ComponentDB.Wires.WiresComponentDBPage;
 import arcadia.utils.RestAssuredUtility;
 import arcadia.utils.SeleniumCustomCommand;
@@ -13,7 +10,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.JsonArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -21,7 +17,6 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
-import org.python.antlr.ast.Str;
 import org.testng.Assert;
 
 import java.awt.*;
@@ -433,7 +428,7 @@ public class WireEditorPage extends BasePage {
         customCommand.waitClick(downloadTemplate);
     }
 
-    public String checkAbleToDownloadOrNot(String file_name) throws InterruptedException {
+    public String verifyFileIsDownloaded(String file_name) throws InterruptedException {
         String path = System.getProperty("user.dir") + File.separator + "externalFiles" + File.separator + "downloadFiles";
         String file_with_location = path + File.separator + file_name;
         Thread.sleep(3000);

@@ -4,6 +4,7 @@ import arcadia.context.FlowContext;
 import arcadia.context.TestContext;
 import arcadia.domainobjects.Schematic;
 import arcadia.pages.*;
+import arcadia.pages.ComponentDB.AddNewComponentPage;
 import arcadia.utils.StringHelper;
 import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import io.cucumber.java.en.And;
@@ -22,12 +23,14 @@ public class SchematicStepDefinitions {
     private final ProjectLanding projectLanding;
     private final CreateSchematic createSchematic;
     private final SchematicsDrawingPage schematicsDrawingPage;
+    private final WireEditorPage wireEditorPage;
 
     public SchematicStepDefinitions(TestContext context) {
         this.context = context;
         projectLanding = PageFactoryManager.getProjectLanding(context.driver);
         createSchematic = PageFactoryManager.getCreateSchematic(context.driver);
         schematicsDrawingPage = PageFactoryManager.getSchematicDrawingPage(context.driver);
+        wireEditorPage = PageFactoryManager.getWireEditorPage(context.driver);
     }
 
     @And("schematic with name {string} is launched successfully")
@@ -349,5 +352,41 @@ public class SchematicStepDefinitions {
     public void userVerifiesWiresCanBeDeletedSuccesfullyOnSchematicHarness() throws InterruptedException {
         int initialWiresCount = schematicsDrawingPage.getWiresCount();
         schematicsDrawingPage.verifyWiresCanBeDeleted(initialWiresCount);
+    }
+
+    @And("User imports base schematic")
+    public void userImportsBaseSchematic() throws InterruptedException {
+        schematicsDrawingPage.verifyDrawingsListPageLoaded();
+        String schematicFilePath = "src/test/resources/baseSchematic/5465_8496_8414_1684070728.srx";
+        schematicsDrawingPage.importtask(schematicFilePath);
+    }
+
+    @Then("user verifies wires can be exported succesfully on schematic harness")
+    public void userVerifiesWiresCanBeExportedSuccesfullyOnSchematicHarness() throws InterruptedException {
+        int initialWiresCount = schematicsDrawingPage.getWiresCount();
+        Assert.assertTrue(initialWiresCount!=0,"No wires are available on drawing to export");
+        schematicsDrawingPage.moveToWireEditor();
+        schematicsDrawingPage.selectExportWires();
+        wireEditorPage.verifyFileIsDownloaded("wires.csv");
+    }
+
+    @Then("user verifies wires are loaded from schematic succesfully")
+    public void userVerifiesWiresAreLoadedFromSchematicSuccesfullyOnHarnessWireeditor() throws InterruptedException {
+        int wirecount = schematicsDrawingPage.getWiresCountOnWireEditor();
+        Assert.assertTrue(wirecount!=0,"No wires present on wireeditor");
+        schematicsDrawingPage.selectAllWiresOnEditor();
+        schematicsDrawingPage.submitWires();
+        schematicsDrawingPage.saveWireChanges();
+        new AddNewComponentPage(context.driver).verifyAlertMessage("Wires imported successfully.");
+        new AddNewComponentPage(context.driver).closeAlertPopUp();
+    }
+
+    @And("user loades wires from schematic on harness wireeditor")
+    public void userLoadesWiresFromSchematicOnHarnessWireeditor() throws InterruptedException {
+        schematicsDrawingPage.moveToWireEditor();
+        schematicsDrawingPage.selectLoadFromSchematic();
+        schematicsDrawingPage.verifyLoadSchematicWindowOpened();
+        String schematicTaskName = FlowContext.drawingTaskName;
+        schematicsDrawingPage.selectTaskToBeLoaded(schematicTaskName);
     }
 }
