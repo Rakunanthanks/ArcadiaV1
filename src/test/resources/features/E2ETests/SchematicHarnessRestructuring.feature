@@ -7,7 +7,7 @@ Feature: Verify harness created from schematic can be restructured
     And User imports harness
     And user navigated to newly created harness
 
-  @vipul
+  @SchematicToHarness
   Scenario: Verifies that Harness can be restructured
     And user move the whole drawing relatively to have every component inside frame
     And User click on Auto Arrange button to arrange the components
