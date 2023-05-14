@@ -77,6 +77,7 @@ public class SearchPartsDatabasePage extends BasePage{
     @FindBy(css = "div#idFetchcavitytable input#btnClearFilterDetails") private WebElement buttonResetCavityFilterDetails;
 
     @FindBy(css = "div#idFetchcavitytable input[name=\"nPartNumber\"]") private WebElement inputPNCavityFilterDetails;
+
     String tablePartsRows = "#tblBOMPartNoList > tbody > tr";
 
     String tableWiresRows = "#tblWirePartNoList>tbody>tr";

@@ -31,4 +31,5 @@ public class FlowContext {
     public static String bundleFontSize ="";
     public static String schematicDescription = "";
     public static String schematicHarnessName = "";
+    public static String drawingTaskName = "";
 }
