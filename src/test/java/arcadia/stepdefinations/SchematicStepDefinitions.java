@@ -9,6 +9,7 @@ import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.openqa.selenium.Point;
 import org.testng.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -341,7 +342,7 @@ public class SchematicStepDefinitions {
     @And("User imports schematic harness")
     public void userImportsSchematicHarness() throws InterruptedException {
         schematicsDrawingPage.verifyDrawingsListPageLoaded();
-        String harnessFilePath = "src/test/resources/drawingboard/SchematicHarness_SchematicHarness_SchematicHarness_1683473883.hrx";
+        String harnessFilePath = "src/test/resources/drawingboard/Harness_Harness_Harness_1684066729.hrx";
         schematicsDrawingPage.importHarness(harnessFilePath);
     }
 
@@ -349,5 +350,53 @@ public class SchematicStepDefinitions {
     public void userVerifiesWiresCanBeDeletedSuccesfullyOnSchematicHarness() throws InterruptedException {
         int initialWiresCount = schematicsDrawingPage.getWiresCount();
         schematicsDrawingPage.verifyWiresCanBeDeleted(initialWiresCount);
+    }
+
+    @And("user move the whole drawing relatively to have every component inside frame")
+    public void userMoveTheWholeDrawingRelativelyToHaveEveryComponentInsideFrame() throws InterruptedException {
+        Point p=schematicsDrawingPage.getCurrentPositionOfNode();
+        ExtentCucumberAdapter.addTestStepLog(String.format("Current Location of node, X: "+p.getX()+" and Y: "+p.getY()));
+        String id=schematicsDrawingPage.getIdOfRelativeNode();
+        String command="moverelative "+id+" 151.25mm,242.5mm";
+        HarnessPage harnessPage = new HarnessPage(context.driver);
+        harnessPage.fillCommandLine(command);
+        harnessPage.clickOnCommandLineOK();
+        harnessPage.waitBetweenHarnessActions();
+        Point p1=schematicsDrawingPage.getCurrentPositionOfNode();
+        ExtentCucumberAdapter.addTestStepLog(String.format("New Location of node, X: "+p1.getX()+" and Y: "+p1.getY()));
+
+    }
+
+    @And("User imports harness")
+    public void userImportsHarness() throws InterruptedException {
+        schematicsDrawingPage.verifyDrawingsListPageLoaded();
+        String harnessFilePath = "src/test/resources/drawingboard/SchematicHarness_8575_Harness_Harness_1684067377.hrx";
+        schematicsDrawingPage.importHarness(harnessFilePath);
+    }
+
+    @And("User click on Auto Arrange button to arrange the components")
+    public void userClickOnAutoArrangeButtonToArrangeTheComponents() throws InterruptedException {
+        schematicsDrawingPage.autoArrangeHanress();
+
+    }
+
+    @And("User toggle on the splice images for all the splices")
+    public void userToggleOnTheSpliceImagesForAllTheSplices() throws InterruptedException {
+        schematicsDrawingPage.toggleOnTheSpliceImage();
+    }
+
+    @And("User move the splice images to restructure the harness")
+    public void userMoveTheSpliceImagesToRestructureTheHarness() throws InterruptedException {
+        schematicsDrawingPage.moveSpliceImages();
+    }
+
+    @And("user change select the Show to locations from context menu of splice")
+    public void userChangeSelectTheShowToLocationsFromContextMenuOfSplice() throws InterruptedException {
+        schematicsDrawingPage.showWireLocations();
+    }
+
+    @And("user scale up the image size for some components")
+    public void userScaleUpTheImageSizeForSomeComponents() throws InterruptedException {
+        schematicsDrawingPage.scaleUpImages();
     }
 }
