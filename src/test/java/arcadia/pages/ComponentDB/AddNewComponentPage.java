@@ -187,7 +187,7 @@ public class AddNewComponentPage extends BasePage {
 
     public void verifyAlertMessage(String message) {
         customCommand.waitForElementVisibility(driver, alertPopUpMessage);
-        Assert.assertEquals(message, alertPopUpMessage.getText());
+        Assert.assertEquals(alertPopUpMessage.getText(),message );
     }
 
     public void closeAlertPopUp() {

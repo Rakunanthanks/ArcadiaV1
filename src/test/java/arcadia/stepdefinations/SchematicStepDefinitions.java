@@ -384,6 +384,7 @@ public class SchematicStepDefinitions {
     @And("user loades wires from schematic on harness wireeditor")
     public void userLoadesWiresFromSchematicOnHarnessWireeditor() throws InterruptedException {
         schematicsDrawingPage.moveToWireEditor();
+        Thread.sleep(4000);
         schematicsDrawingPage.selectLoadFromSchematic();
         schematicsDrawingPage.verifyLoadSchematicWindowOpened();
         String schematicTaskName = FlowContext.drawingTaskName;

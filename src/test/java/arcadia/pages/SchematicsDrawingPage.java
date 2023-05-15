@@ -842,13 +842,16 @@ public class SchematicsDrawingPage extends BasePage{
     }
 
     public void selectTaskToBeLoaded(String schematicTaskName) throws InterruptedException {
+        Thread.sleep(2000);
         WebElement eleTaskRadio = driver.findElement(By.xpath("//form[@name=\"loadFromSchematicForm\"]//input[@name=\"schtask\"][contains(@value,'"+schematicTaskName+"')]"));
         //form[@name="loadFromSchematicForm"]//input[@name="schtask"][contains(@value,'TestTask 4941')]
-        customCommand.scrollToElement(driver,eleTaskRadio);
+        customCommand.scrollIntoView(driver,eleTaskRadio);
         customCommand.javaScriptClick(driver,eleTaskRadio);
-        customCommand.scrollToElement(driver,buttonNextLoadFromSchematic);
+        Thread.sleep(2000);
+        customCommand.scrollIntoView(driver,buttonNextLoadFromSchematic);
         customCommand.javaScriptClick(driver,buttonNextLoadFromSchematic);
         customCommand.longWaitForElementToBeClickable(driver,buttonSubmitLoadFromSchematic);
+        Thread.sleep(2000);
         customCommand.javaScriptClick(driver,buttonSubmitLoadFromSchematic);
         customCommand.longWaitForElementToBeClickable(driver,buttonGoToDrawing);
     }
