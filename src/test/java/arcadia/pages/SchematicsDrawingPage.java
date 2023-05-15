@@ -6,6 +6,7 @@ import arcadia.pages.ComponentDB.CommonElements;
 import arcadia.utils.SeleniumCustomCommand;
 import arcadia.utils.StringHelper;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -156,6 +157,22 @@ public class SchematicsDrawingPage extends BasePage{
   @FindBy(xpath = "//span[text()='Zoom In']") private WebElement zoominButton;
   @FindBy(xpath = "//span[text()='Refresh']") private WebElement refreshButton;
     @FindBy(css = "div[title=\"Delete All Existing Wires\"]") private WebElement buttonDeleteAllWires;
+   @FindBy(xpath = "//span[text()='Auto Arrange']") private WebElement autoArrange;
+
+    @FindBy(xpath = "//*[name()='g' and contains(@onclick,'splice')]") private List<WebElement> spliceImageNodes;
+    @FindBy(xpath = "//span[text()='Move']") private WebElement moveButton;
+    @FindBy(xpath = "//span[text()='Image Views']") private WebElement imageViews;
+
+    @FindBy(xpath = "//*[name()='rect' and @etype='splice']") private List<WebElement> splices;
+    @FindBy(xpath = "//li[@id='cmishowToLocation']") private WebElement showLocation;
+    @FindBy(xpath = "//input[@name='updateviews']") private WebElement updateView;
+    @FindBy(xpath = "//input[@name='updatescale']") private WebElement updateScale;
+    @FindBy(xpath = "//div[@class='dynformrowexpand']//div[@value='Loading']//input[@name='autorotate.connector']") private WebElement loadingCheckBox;
+    @FindBy(xpath = "//div[@class='dynformrowexpand']//div[@value='Side']//input[@name='colocate.connector']") private WebElement sideCheckBox;
+    @FindBy(xpath = "//input[@name='Loading']") private WebElement LoadingInputBox;
+    @FindBy(xpath = "//input[@name='Side']") private WebElement sideInputBox;
+    @FindBy(xpath = "//button[@class='sbarbut']/span[text()='Submit']") private WebElement submitButtonImageView;
+
     @FindBy(css = "a.btnExportCSV") private WebElement buttonExportCsvAllWires;
     @FindBy(xpath = "//button[contains(text(),'Load From Schematic')]") private WebElement buttonLoadFromSchematic;
     @FindBy(css = "form[name=\"loadFromSchematicForm\"]") private WebElement formLoadSchematic;
@@ -877,4 +894,65 @@ public class SchematicsDrawingPage extends BasePage{
         customCommand.waitForElementToBeClickable(driver,buttonSaveWireEditor);
         customCommand.javaScriptClick(driver,buttonSaveWireEditor);
     }
+
+    public String getIdOfRelativeNode()
+    {
+        WebElement ele=driver.findElement(By.xpath("//*[name()='g' and @id='layer_drawNodes']/*[name()='g'][3]"));
+        String id=ele.getAttribute("id");
+        id=id.substring(2);
+        return id;
+    }
+
+    public Point getCurrentPositionOfNode()
+    {
+        WebElement ele=driver.findElement(By.xpath("//*[name()='g' and @id='layer_drawNodes']/*[name()='g'][3]"));
+        Point p=ele.getLocation();
+        return p;
+    }
+
+    public void autoArrangeHanress() throws InterruptedException {
+        customCommand.javaScriptClick(driver,autoArrange);
+    }
+
+    public void toggleOnTheSpliceImage() throws InterruptedException {
+        String command="toggleallspliceimage 1";
+        HarnessPage harnessPage = new HarnessPage(driver);
+        harnessPage.fillCommandLine(command);
+        harnessPage.clickOnCommandLineOK();
+        harnessPage.waitBetweenHarnessActions();
+    }
+
+    public void moveSpliceImages() throws InterruptedException {
+        for(WebElement ele:spliceImageNodes)
+        {
+            String id="DN"+ele.getAttribute("data-uid");
+            WebElement node=driver.findElement(By.xpath("//*[name()='g' and @id='"+id+"']/*[name()='use']"));
+            customCommand.javaScriptClick(driver,moveButton);
+           zoomIn.click();
+            node.click();
+            customCommand.moveByOffsetOfElementAndClick(driver,node,node.getLocation().getX(),node.getLocation().getY()-50);
+        }
+    }
+
+    public void showWireLocations() throws InterruptedException {
+        for(WebElement ele:splices)
+        {
+            new HarnessPage(driver).getContextMenu("",ele);
+            Thread.sleep(2000);
+            customCommand.javaScriptClick(driver,showLocation);
+            Thread.sleep(2000);
+        }
+    }
+
+    public void scaleUpImages() throws InterruptedException {
+        customCommand.javaScriptClick(driver,imageViews);
+        customCommand.javaScriptClick(driver,updateView);
+        customCommand.javaScriptClick(driver,loadingCheckBox);
+        customCommand.javaScriptClick(driver,sideCheckBox);
+        customCommand.javaScriptClick(driver,updateScale);
+        customCommand.clearAndEnterText(LoadingInputBox,"1.5");
+        customCommand.clearAndEnterText(sideInputBox,"1.5");
+        customCommand.javaScriptClick(driver,submitButtonImageView);
+    }
+
 }
