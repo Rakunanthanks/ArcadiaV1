@@ -23,6 +23,7 @@ public class PageFactoryManager {
     private static SchematicsDrawingPage schematicsDrawingPagec;
     private static SpliceEditorPage spliceEditorPage;
     private static WireEditorPage wireEditorPage;
+    private static NodeLabelVisibilityPage nodeLabelVisibilityPage;
 
 
     public static SearchPartsDatabasePage getPartsDatabasePage(WebDriver driver){
@@ -83,5 +84,8 @@ public class PageFactoryManager {
     }
     public static WireEditorPage getWireEditorPage(WebDriver driver) {
         return wireEditorPage == null ? new WireEditorPage(driver) : wireEditorPage;
+    }
+    public static NodeLabelVisibilityPage getNodeLabelVisibilityPage(WebDriver driver) {
+        return nodeLabelVisibilityPage == null ? new NodeLabelVisibilityPage(driver) : nodeLabelVisibilityPage;
     }
 }

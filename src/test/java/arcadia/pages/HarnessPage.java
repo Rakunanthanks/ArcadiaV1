@@ -1,4 +1,5 @@
 package arcadia.pages;
+import arcadia.context.FlowContext;
 import arcadia.pages.ComponentDB.AddNewComponentPage;
 import arcadia.utils.SeleniumCustomCommand;
 import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
@@ -362,6 +363,62 @@ public class HarnessPage extends BasePage{
                 }
                 else {
                     driver.findElement(By.cssSelector("input.bundlehide[name='bundle_CoveringsPartDescription']")).click();
+                }
+                break;
+            case "node child element":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input.nodeshow[name='node_ChildElement']")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input.nodehide[name='node_ChildElement']")).click();
+                }
+                break;
+            case "node name":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input.nodeshow[name='node_Name']")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input.nodehide[name='node_Name']")).click();
+                }
+                break;
+            case "node functional description":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input.nodeshow[name='node_FuncDescription']")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input.nodehide[name='node_FuncDescription']")).click();
+                }
+                break;
+            case "node attached parts":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input.nodeshow[name='node_AttachedParts']")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input.nodehide[name='node_AttachedParts']")).click();
+                }
+                break;
+            case "node attached parts name":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input.nodeshow[name='node_AttachedPartsName']")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input.nodehide[name='node_AttachedPartsName']")).click();
+                }
+                break;
+            case "node attached parts description":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input.nodeshow[name='node_AttachedPartsDescription']")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input.nodehide[name='node_AttachedPartsDescription']")).click();
+                }
+                break;
+            case "node attached parts variants":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input.nodeshow[name='node_AttachedPartsVariants']")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input.nodehide[name='node_AttachedPartsVariants']")).click();
                 }
                 break;
         }

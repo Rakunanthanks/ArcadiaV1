@@ -265,4 +265,15 @@ public class DrawingInstructor {
     @CsvBindByName
     private String gender;
 
+    public String getNodeCommand() {
+        return NodeCommand;
+    }
+
+    public void setNodeCommand(String nodeCommand) {
+        this.NodeCommand = nodeCommand;
+    }
+
+    @CsvBindByName
+    private String NodeCommand;
+
 }

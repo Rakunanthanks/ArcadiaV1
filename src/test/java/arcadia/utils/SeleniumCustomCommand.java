@@ -1,6 +1,7 @@
 package arcadia.utils;
 
 import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -228,8 +229,25 @@ public class SeleniumCustomCommand {
             case "tab":
                 key = String.valueOf(Keys.TAB);
                 break;
+            case "down":
+                key=String.valueOf(Keys.DOWN);
+                break;
+            case "enter":
+                key =String.valueOf(Keys.ENTER);
+                break;
         }
         Actions actions = new Actions(driver);
         actions.sendKeys(key).perform();
     }
+
+    public void dragAndDropByOffset(WebDriver driver,WebElement source,int xOffset,int yOffset)
+    {
+        Actions actions = new Actions(driver);
+        Action dragAndDrop = actions.clickAndHold(source)
+                .moveByOffset(xOffset, yOffset)
+                .release()
+                .build();
+        dragAndDrop.perform();
+    }
+
 }

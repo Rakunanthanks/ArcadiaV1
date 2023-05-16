@@ -238,4 +238,8 @@ public class LoginStepDefinitions {
         loginPage.load(EndPoint.SCHEMATICWIREPROPERTIES.url.replace("profileName",System.getProperty("profileName")));
 //        loginPage.load(EndPoint.SCHEMATICWIREPROPERTIES.url.replace("profileName","default"));
     }
+    @And("Navigated to Label visibility in profile page")
+    public void navigatedToLabelVisibility() {
+        loginPage.load(EndPoint.LABELVISIBILITY.url.replace("profileName",System.getProperty("profileName")));
+    }
 }
