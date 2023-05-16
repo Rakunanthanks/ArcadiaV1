@@ -18,6 +18,7 @@ import org.testng.Assert;
 
 import java.awt.*;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -190,9 +191,13 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(xpath = "(//*[name()='text' and text()='WIRE4'])[2]") private WebElement wire4;
     @FindBy(xpath = "//span[text()='Connector Label']") private WebElement connectorLabel;
     @FindBy(xpath = "//*[name()='text']/*[name()='tspan']") private List<WebElement> connectorLabelsCount;
+
+    @FindBy(css = "table.wireTableClass thead") private WebElement wiretableHeader;
+    @FindBy(css = "div#wire-editor button.dropdown-toggle") private WebElement toggleButtonShowHideHeaders;
     String tablePartsRows = "#tblBOMPartNoList > tbody > tr";
     String wireTableRows = "table.wireTableClass tbody>tr";
     String wireEditorRows = "div#wire-editor table>tbody>tr";
+    String wireEditorHeaders = "//div[@id=\"wire-editor\"]//thead//th//input";
 
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
 
@@ -641,8 +646,8 @@ public class SchematicsDrawingPage extends BasePage{
     }
 
     public void goToHarness() throws InterruptedException {
-//        String name= FlowContext.schematicHarnessName;
-        String name= "AB_TestWires";
+        String name= FlowContext.schematicHarnessName;
+//        String name= "AB_TestWires";
         WebElement ele=driver.findElement(By.xpath("//table[@id='tableHAR']//td[text()='"+name+"']"));
         customCommand.scrollIntoView(driver,ele);
         customCommand.javaScriptClick(driver,ele);
@@ -831,9 +836,10 @@ public class SchematicsDrawingPage extends BasePage{
         customCommand.waitClick(returnProject);
     }
 
-    public int getWiresCount() {
+    public int getWiresCount() throws InterruptedException {
         customCommand.longWaitForElementToBeClickable(driver,zoomFit);
-        customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(wireTableRows)));
+        customCommand.waitForElementVisibility(driver,wiretableHeader);
+        Thread.sleep(2000);
         int numberOfWires = driver.findElements(By.cssSelector(wireTableRows)).size();
         return numberOfWires;
     }
@@ -988,4 +994,45 @@ public class SchematicsDrawingPage extends BasePage{
 
     }
 
+    public List<String> getWireEditorHeaders(){
+        List<String> headersToBeReturned = new ArrayList<>();
+        List<WebElement> listOfHeaders = driver.findElements(By.xpath(wireEditorHeaders));
+        for (WebElement ele: listOfHeaders){
+            headersToBeReturned.add(ele.getAttribute("placeholder"));
+        }
+        return headersToBeReturned;
+    }
+
+    public void showHideHeaders(int numberOfHeaders) throws InterruptedException {
+        customCommand.waitClick(toggleButtonShowHideHeaders);
+        for (int i=0; i<numberOfHeaders; i++){
+            driver.findElements(By.cssSelector("div#wire-editor button.dropdown-toggle+ul>li label>input")).get(i).click();
+        }
+        customCommand.waitClick(toggleButtonShowHideHeaders);
+    }
+
+    public void showAllHeaders() throws InterruptedException {
+        customCommand.waitClick(toggleButtonShowHideHeaders);
+        List<WebElement> lisOfCheckboxes = driver.findElements(By.cssSelector("div#wire-editor button.dropdown-toggle+ul>li label>input"));
+        for(WebElement ele: lisOfCheckboxes){
+            if(!ele.isSelected()){
+                ele.click();
+            }
+        }
+        customCommand.waitClick(toggleButtonShowHideHeaders);
+    }
+
+
+
+    public void verifyShowHideWireEditorColumns() throws InterruptedException {
+        showAllHeaders();
+        List<String> headersShownOnWireEditor = getWireEditorHeaders();
+        int headerCountBeforeHide = headersShownOnWireEditor.size();
+        showHideHeaders(5);
+        List<String> headersShownOnWireEditorAfterHide = getWireEditorHeaders();
+        int headerCountAfterHide = headersShownOnWireEditor.size();
+        Assert.assertEquals(headerCountAfterHide,headerCountBeforeHide-5);
+        Assert.assertNotEquals(headersShownOnWireEditorAfterHide,headersShownOnWireEditor);
+        showAllHeaders();
+    }
 }

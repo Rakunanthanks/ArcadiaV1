@@ -380,15 +380,23 @@ public class SchematicStepDefinitions {
         schematicsDrawingPage.saveWireChanges();
         new AddNewComponentPage(context.driver).verifyAlertMessage("Wires imported successfully.");
         new AddNewComponentPage(context.driver).closeAlertPopUp();
+        schematicsDrawingPage.goToDrawingFromWireEditor();
+        int finalWiresCount = schematicsDrawingPage.getWiresCount();
+        Assert.assertEquals(finalWiresCount,wirecount);
     }
 
     @And("user loades wires from schematic on harness wireeditor")
     public void userLoadesWiresFromSchematicOnHarnessWireeditor() throws InterruptedException {
+        int initialWiresCount = schematicsDrawingPage.getWiresCount();
+        if (initialWiresCount>0){
+            schematicsDrawingPage.verifyWiresCanBeDeleted(initialWiresCount);
+        }
         schematicsDrawingPage.moveToWireEditor();
         Thread.sleep(4000);
         schematicsDrawingPage.selectLoadFromSchematic();
         schematicsDrawingPage.verifyLoadSchematicWindowOpened();
-        String schematicTaskName = FlowContext.drawingTaskName;
+//        String schematicTaskName = FlowContext.drawingTaskName;
+        String schematicTaskName = "5465";
         schematicsDrawingPage.selectTaskToBeLoaded(schematicTaskName);
     }
 
@@ -460,5 +468,15 @@ public class SchematicStepDefinitions {
     @And("User add the label to connector label from config page")
     public void userAddTheLabelToConnectorLabelFromConfigPage() {
         schematicsDrawingPage.addLabelToConnector();
+    }
+
+    @And("User moved to wire editor")
+    public void userMovedToWireEditor() throws InterruptedException {
+        schematicsDrawingPage.moveToWireEditor();
+    }
+
+    @Then("user verifies columns can be hidden and shown on wire editor")
+    public void userVerifiesColumnsCanBeHiddenAndShownOnWireEditor() throws InterruptedException {
+        schematicsDrawingPage.verifyShowHideWireEditorColumns();
     }
 }
