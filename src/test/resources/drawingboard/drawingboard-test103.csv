@@ -1,0 +1,7 @@
+Draw,Context,SubContext,Command,Comments,NodeNumber,ConnectorPartDescription,CavityNumber,AddCavity,WireParts,FrameSize,NodeCommand,ConnectFrom,ConnectTo,WiringDetails,Cavity,coordinates,covering,componentDB,material,colour,multipleCoveringType
+,Harness,Harness,Click on Frame,,,,,,,,,,,,,,,,,,
+,Frame,Frame,Draw Frame,,,,,,,A2 Landscape Standard,,,,,,,,,,,
+,Node,Node,Place node,,,,,,,,"node 214.55mm,31.22mm",,,,,,,,,,
+,Node,Node,Gather Node Element,,,,,,,,,,,,,,,,,,
+,Harness,Harness,Click on Connector,,,,,,,,,,,,,,,,,,
+,Connector,Connector,Add Connector,,1,FCI_FIN LOCK_4-WAY_RECEP HSG,,,,,,,,,,,,,,,

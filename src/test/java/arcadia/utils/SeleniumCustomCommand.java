@@ -229,6 +229,12 @@ public class SeleniumCustomCommand {
             case "tab":
                 key = String.valueOf(Keys.TAB);
                 break;
+            case "down":
+                key=String.valueOf(Keys.DOWN);
+                break;
+            case "enter":
+                key =String.valueOf(Keys.ENTER);
+                break;
         }
         Actions actions = new Actions(driver);
         actions.sendKeys(key).perform();
