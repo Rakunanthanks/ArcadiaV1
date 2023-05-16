@@ -15,8 +15,8 @@ Feature: Verify harness created from schematic can be restructured
     And User move the splice images to restructure the harness
     And user change select the Show to locations from context menu of splice
     And user scale up the image size for some components
-#    And user move wire leads to restructure the wire linked to components
-#    And user toggle on the connector label option for all connectors
+    And user move wire leads to restructure the wire linked to components
+    And user toggle on the connector label option for all connectors
 #    And User add the label to connector label from config page
 
 

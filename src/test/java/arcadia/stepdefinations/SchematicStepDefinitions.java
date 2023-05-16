@@ -438,4 +438,26 @@ public class SchematicStepDefinitions {
     public void userScaleUpTheImageSizeForSomeComponents() throws InterruptedException {
         schematicsDrawingPage.scaleUpImages();
     }
+
+    @And("user move wire leads to restructure the wire linked to components")
+    public void userMoveWireLeadsToRestructureTheWireLinkedToComponents() throws InterruptedException {
+        schematicsDrawingPage.moveWireLeads();
+    }
+
+    @And("user toggle on the connector label option for all connectors")
+    public void userToggleOnTheConnectorLabelOptionForAllConnectors() throws InterruptedException {
+        int size=schematicsDrawingPage.toggleConnectorLabel();
+        if (size>0)
+        {
+            ExtentCucumberAdapter.addTestStepLog(String.format("Connector Labels are toggled on"));
+        }
+        else{
+            ExtentCucumberAdapter.addTestStepLog(String.format("Connector Labels are failed to toggled on"));
+        }
+    }
+
+    @And("User add the label to connector label from config page")
+    public void userAddTheLabelToConnectorLabelFromConfigPage() {
+        schematicsDrawingPage.addLabelToConnector();
+    }
 }
