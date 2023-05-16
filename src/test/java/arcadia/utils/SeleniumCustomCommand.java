@@ -1,6 +1,7 @@
 package arcadia.utils;
 
 import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -232,4 +233,15 @@ public class SeleniumCustomCommand {
         Actions actions = new Actions(driver);
         actions.sendKeys(key).perform();
     }
+
+    public void dragAndDropByOffset(WebDriver driver,WebElement source,int xOffset,int yOffset)
+    {
+        Actions actions = new Actions(driver);
+        Action dragAndDrop = actions.clickAndHold(source)
+                .moveByOffset(xOffset, yOffset)
+                .release()
+                .build();
+        dragAndDrop.perform();
+    }
+
 }

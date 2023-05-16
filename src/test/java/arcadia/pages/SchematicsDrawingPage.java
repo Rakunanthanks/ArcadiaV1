@@ -181,6 +181,15 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(css = "form[name=\"loadFromSchemForm\"] button[type=\"submit\"]") private WebElement buttonSubmitWireEditor;
     @FindBy(css = "div#wire-editor table>thead input[type=\"checkbox\"]") private WebElement buttonSelectALlWiresOnEditor;
     @FindBy(css = "div#wire-editor button[value=\"Clear all\"]+button") private WebElement buttonSaveWireEditor;
+    @FindBy(xpath = "(//*[name()='image' and @data-etype='connector'])[5]") private WebElement connectorImageWire10;
+    @FindBy(xpath = "//li[@id='cmieditconnlead']") private  WebElement moveWireLeads;
+    @FindBy(xpath = "//li[@id='cmisaveconnlead']") private  WebElement saveWireLeads;
+
+    @FindBy(xpath = "//*[name()='text' and text()='WIRE10']") private WebElement wire10;
+    @FindBy(xpath = "(//*[name()='image' and @data-etype='connector'])[3]") private WebElement connectorImageWire4;
+    @FindBy(xpath = "(//*[name()='text' and text()='WIRE4'])[2]") private WebElement wire4;
+    @FindBy(xpath = "//span[text()='Connector Label']") private WebElement connectorLabel;
+    @FindBy(xpath = "//*[name()='text']/*[name()='tspan']") private List<WebElement> connectorLabelsCount;
     String tablePartsRows = "#tblBOMPartNoList > tbody > tr";
     String wireTableRows = "table.wireTableClass tbody>tr";
     String wireEditorRows = "div#wire-editor table>tbody>tr";
@@ -950,6 +959,30 @@ public class SchematicsDrawingPage extends BasePage{
         customCommand.clearAndEnterText(LoadingInputBox,"1.5");
         customCommand.clearAndEnterText(sideInputBox,"1.5");
         customCommand.javaScriptClick(driver,submitButtonImageView);
+    }
+
+    public void moveWireLeads() throws InterruptedException {
+        new HarnessPage(driver).getContextMenu("",connectorImageWire10);
+        customCommand.javaScriptClick(driver,moveWireLeads);
+        customCommand.dragAndDropByOffset(driver,wire10,-50,0);
+        new HarnessPage(driver).getContextMenu("",connectorImageWire10);
+        customCommand.javaScriptClick(driver,saveWireLeads);
+        new HarnessPage(driver).getContextMenu("",connectorImageWire4);
+        customCommand.javaScriptClick(driver,moveWireLeads);
+        customCommand.dragAndDropByOffset(driver,wire4,-50,0);
+        new HarnessPage(driver).getContextMenu("",connectorImageWire4);
+        customCommand.javaScriptClick(driver,saveWireLeads);
+    }
+
+    public int toggleConnectorLabel() throws InterruptedException {
+        customCommand.javaScriptClick(driver,connectorLabel);
+        Thread.sleep(2000);
+        return connectorLabelsCount.size();
+    }
+
+    public void addLabelToConnector()
+    {
+
     }
 
 }
