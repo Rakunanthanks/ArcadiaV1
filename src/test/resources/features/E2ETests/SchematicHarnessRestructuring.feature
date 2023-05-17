@@ -17,7 +17,7 @@ Feature: Verify harness created from schematic can be restructured
     And user scale up the image size for some components
     And user move wire leads to restructure the wire linked to components
     And user toggle on the connector label option for all connectors
-#    And User add the label to connector label from config page
+    And User add the label to connector label from config page
 
 
 
