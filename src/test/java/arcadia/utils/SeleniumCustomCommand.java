@@ -6,6 +6,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.python.antlr.ast.Str;
 
 import java.awt.*;
 import java.awt.event.InputEvent;
@@ -13,6 +14,8 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 public class SeleniumCustomCommand {
     public void enterText(WebElement element , String value){
@@ -250,4 +253,19 @@ public class SeleniumCustomCommand {
         dragAndDrop.perform();
     }
 
+    public String extractTaskID(String url) {
+        try {
+            URI uri = new URI(url);
+            String query = uri.getQuery();
+            String[] queryParams = query.split("&");
+            for (String param : queryParams) {
+                if (param.startsWith("taskID=")) {
+                    return param.substring("taskID=".length());
+                }
+            }
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

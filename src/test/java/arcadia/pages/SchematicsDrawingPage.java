@@ -1,8 +1,10 @@
 package arcadia.pages;
 
+import arcadia.constants.EndPoint;
 import arcadia.context.FlowContext;
 import arcadia.pages.ComponentDB.AddNewComponentPage;
 import arcadia.pages.ComponentDB.CommonElements;
+import arcadia.utils.ConfigLoader;
 import arcadia.utils.SeleniumCustomCommand;
 import arcadia.utils.StringHelper;
 import org.openqa.selenium.By;
@@ -197,6 +199,11 @@ public class SchematicsDrawingPage extends BasePage{
     String tablePartsRows = "#tblBOMPartNoList > tbody > tr";
     String wireTableRows = "table.wireTableClass tbody>tr";
     String wireEditorRows = "div#wire-editor table>tbody>tr";
+    @FindBy(xpath = "(//span[text()='General']/parent::a)[1]/i[1]") private WebElement GeneralMenuSelection;
+    @FindBy(xpath = "//a[contains(@href,'Macros')]") private WebElement macros;
+    @FindBy(xpath = "//textarea[@name='labelcustom.LabelText']") private WebElement macrosLabel;
+    @FindBy(xpath = "//input[@placeholder='Search']") private WebElement searchInput;
+   @FindBy(xpath = "//button[@type='submit']") private WebElement submitButtonType;
     String wireEditorHeaders = "//div[@id=\"wire-editor\"]//thead//th//input";
 
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
@@ -989,9 +996,43 @@ public class SchematicsDrawingPage extends BasePage{
         return connectorLabelsCount.size();
     }
 
-    public void addLabelToConnector()
-    {
+    public void openProfileSettingPage() throws InterruptedException {
+        String currentWindowHandle = driver.getWindowHandle();
+        String URL= driver.getCurrentUrl();
+        String taskID=customCommand.extractTaskID(URL);
+        customCommand.javaScriptClick(driver,openButton);
+        Set<String> windowHandles = driver.getWindowHandles();
+        for (String windowHandle : windowHandles) {
+            if (!windowHandle.equals(currentWindowHandle)) {
+                driver.switchTo().window(windowHandle);
+                break;
+            }
+        }
+        new LoginPage(driver).load(EndPoint.PROFILE.url.replace("profileName",System.getProperty("profileName")));
+        openMacrosSetting();
+        addMacrosLabel(taskID);
+        driver.switchTo().window(currentWindowHandle);
+        customCommand.javaScriptClick(driver,refreshButton);
+    }
+    public void openMacrosSetting() throws InterruptedException {
+        Thread.sleep(2000);
+        customCommand.javaScriptClick(driver,GeneralMenuSelection);
+        customCommand.mouseHover(driver,GeneralMenuSelection);
+        Thread.sleep(2000);
+        customCommand.javaScriptClick(driver,macros);
+    }
 
+    public void addMacrosLabel(String task) throws InterruptedException {
+        customCommand.scrollToElement(driver,macrosLabel);
+        customCommand.clearAndEnterText(macrosLabel,"@@ConnectorID#\n" +
+                "@@Functional Description#\n" +
+                "@@Short Name#\n" +
+                "@@Connector Part Description#");
+        new GeneralMacrosPage(driver).clickSaveButton();
+        customCommand.clearAndEnterText(searchInput,task);
+        WebElement ele=driver.findElement(By.xpath("//input[@id='"+task+"']"));
+        ele.click();
+        customCommand.javaScriptClick(driver,submitButtonType);
     }
 
     public List<String> getWireEditorHeaders(){

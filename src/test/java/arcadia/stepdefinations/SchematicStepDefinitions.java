@@ -466,8 +466,8 @@ public class SchematicStepDefinitions {
     }
 
     @And("User add the label to connector label from config page")
-    public void userAddTheLabelToConnectorLabelFromConfigPage() {
-        schematicsDrawingPage.addLabelToConnector();
+    public void userAddTheLabelToConnectorLabelFromConfigPage() throws InterruptedException {
+        schematicsDrawingPage.openProfileSettingPage();
     }
 
     @And("User moved to wire editor")
