@@ -1,0 +1,10 @@
+Draw,Context,SubContext,Command,Comments,NodeNumber,ConnectorPartDescription,CavityNumber,AddCavity,WireParts,FrameSize,BundleCommand,ConnectFrom,ConnectTo,WiringDetails,Cavity,coordinates,covering,multipleCoveringType
+,Harness,Harness,Click on Bundle,,,,,,,,,,,,,,,
+,Bundle,Bundle,Draw bundle,,,,,,,,"freebundle 0 19.04mm,46.05mm 19.04mm,46.05mm 149.87mm,46.05mm",,,,,,,
+,Bundle,Bundle,Gather Node Element,,,,,,,,,,,,,,,
+,Harness,Harness,Click on Connector,,,,,,,,,,,,,,,
+,Connector,Connector,Add Connector,,1,FCI_FIN LOCK_4-WAY_RECEP HSG,4,,,,,,,,,,,
+,Connector,Connector,Add Connector,,2,FCI_FIN LOCK_4-WAY_RECEP HSG,4,4,,,,,,,,,,
+,Connector,Connector,Open Connector,,,,,,,,,X-002,,,,,,
+,Connector,Connector,Add Wire,submit connector,0,NA,0,0,NA,NA,,X-002,X-001,1-WIRE_BK_1.5_FLRY~2-WIRE_BK_1.5_FLRY~3-WIRE_BK_1.5_FLRY,1-1~2-2~3-3,,,
+,Connector,Connector,Gather Connector Plug Element,,,,,,,,,,,,,,,

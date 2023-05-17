@@ -8,6 +8,7 @@ Feature: Node Label Visibility
     And harness with name 'Node label Visibility' is launched successfully
     And test data config loaded for test identifier test103
     And based on drawing orchestrator components are created
+    And user sets label 'node' to "hide"
     And user sets label 'node child element' to "Show"
     Then Verify 'child element' label is 'visible' or not
     And user sets label 'node child element' to "Hide"
@@ -21,6 +22,7 @@ Feature: Node Label Visibility
     And harness with name 'Node label Visibility' is launched successfully
     And test data config loaded for test identifier test104
     And based on drawing orchestrator components are created
+    And user sets label 'node' to "hide"
     And user sets label 'node name' to "Show"
     Then Verify 'name' label is 'visible' or not
     And user sets label 'node name' to "Hide"
@@ -34,6 +36,7 @@ Feature: Node Label Visibility
     And harness with name 'Node label Visibility' is launched successfully
     And test data config loaded for test identifier test104
     And based on drawing orchestrator components are created
+    And user sets label 'node' to "hide"
     And user sets label 'node functional description' to "Show"
     Then Verify 'functional description' label is 'visible' or not
     And user sets label 'node functional description' to "Hide"
@@ -47,6 +50,7 @@ Feature: Node Label Visibility
     And harness with name 'Node label Visibility' is launched successfully
     And test data config loaded for test identifier test104
     And based on drawing orchestrator components are created
+    And user sets label 'node' to "hide"
     And user sets label 'node attached parts' to "Show"
     Then Verify 'attached parts' label is 'visible' or not
     And user sets label 'node attached parts' to "Hide"
@@ -60,6 +64,7 @@ Feature: Node Label Visibility
     And harness with name 'Node label Visibility' is launched successfully
     And test data config loaded for test identifier test104
     And based on drawing orchestrator components are created
+    And user sets label 'node' to "hide"
     And user sets label 'node attached parts name' to "Show"
     Then Verify 'attached parts name' label is 'visible' or not
     And user sets label 'node attached parts name' to "Hide"

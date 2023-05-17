@@ -274,8 +274,10 @@ public class SpliceEditorPage extends BasePage {
         Thread.sleep(5000);
     }
 
-    public void checkPartDescription() {
-        Assert.assertEquals(partNumberDescription,"Krimptite Butt Splice for 18-22 AWG Wire","Issue is suggesting Description");
+    public void
+    checkPartDescription() throws InterruptedException {
+        Thread.sleep(3000);
+        Assert.assertEquals(partNumberDescription,"Krimptite Butt Splice for 18-22 AWG Wire","There is issue in suggesting Description");
     }
 
     public void checkValidationMessageBySavingForm() throws InterruptedException {
