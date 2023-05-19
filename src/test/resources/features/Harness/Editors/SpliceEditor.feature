@@ -58,6 +58,7 @@ Feature: Splice Editor
     And User deletes Harness 'Splice Editor' successfully
 
   Scenario:To Validate by entering Splice Part Number check auto populating Part Description
+    And Enter possible values in the splice editor
     Then Check part description
     And go to drawing
     And User exits the drawing page

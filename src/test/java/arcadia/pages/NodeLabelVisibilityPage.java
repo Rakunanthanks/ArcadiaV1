@@ -106,7 +106,7 @@ public class NodeLabelVisibilityPage extends BasePage {
                    String identifier = FlowContext.nodeIdentifierList.get(0).getNodeElementId();
                    harnessPage.getNodeContextMenu(identifier);
                    new HarnessPage(driver).performOperation("inspect",identifier);
-                   customCommand.clearAndEnterText(functionalDescription,"Automation Test");
+                   customCommand.clearAndEnterText(functionalDescription,testValue);
                    customCommand.javaScriptClick(driver,buttonSubmitDetails);
                    Assert.assertEquals(complabel.getText(), testValue, "Functional description is not Visible as expected");
                    System.out.println(complabel.getText());
@@ -114,10 +114,8 @@ public class NodeLabelVisibilityPage extends BasePage {
                }
                case "attached parts": {
                    linkOtherParts();
-                   customCommand.javaScriptClick(driver,buttonSubmitDetails);
-                   customCommand.waitForElementVisibility(driver,attachParts);
-                   System.out.println(attachParts.getText());
-                   Assert.assertEquals(attachParts.getText(), "1x  "+otherPartNumberValue, "Attach parts label is not Visible as expected");
+                   System.out.println(attachPartsDetails.getText());
+                   Assert.assertEquals(attachPartsDetails.getText(), "1x "+otherPartNumberValue, "Attach parts label is not Visible as expected");
                    break;
                }
                case "attached parts name": {
@@ -130,6 +128,7 @@ public class NodeLabelVisibilityPage extends BasePage {
                    customCommand.javaScriptClick(driver,buttonSubmitDetails);
                    System.out.println(complabel.getText());
                    Assert.assertEquals(complabel.getText(),testValue,"Attach parts name comp label is not as expected");
+                   break;
                }
                case "attached parts description": {
                    linkOtherParts();
@@ -160,10 +159,12 @@ public class NodeLabelVisibilityPage extends BasePage {
                    String description = otherPartsAPIData().get(0).getDescription().replaceAll("\\s+", "");
                    System.out.println("NODE1"+testValue+"1x"+otherPartNumberValue+"-"+otherPartsAPIData().get(0).getDescription()+"-BASIC"+testValue);
                    Assert.assertEquals(layer85.getText().replaceAll("\\s+", ""),"NODE1"+testValue+"1x"+otherPartNumberValue+"-"+description+"-BASIC"+testValue,"By enabling all values to show is not visible as expected");
+                   break;
                }
                case "all node option hide":{
                    userEnterPossibleNodeValuesForLabelVisibility();
                    Assert.assertEquals(layer85.getText().replaceAll("\\s+", ""),"","By enabling all values to show is not visible as expected");
+                   break;
                }
            }
        } else if (visibileHide.equalsIgnoreCase("hide")){
@@ -226,6 +227,14 @@ public class NodeLabelVisibilityPage extends BasePage {
                     driver.findElement(By.cssSelector("input#nodeshow")).click();
                 } else {
                     driver.findElement(By.cssSelector("input#nodehide")).click();
+                }
+                break;
+            case "bundle" :
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input#bundleshow")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input#bundlehide")).click();
                 }
                 break;
         }

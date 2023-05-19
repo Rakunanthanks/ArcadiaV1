@@ -24,6 +24,7 @@ Feature: Bundle Tolerance
     Then Check Bundle Tolerance Value By Inspecting Bundle
     Then Bundles are Deleted
     And  Bundles are drawn
+    And user sets label 'node' to "hide"
     And  Getting the Values of Component Label
     Then Check the component label value
     Then Check by printing the drawing in Metric Task units
@@ -55,6 +56,7 @@ Feature: Bundle Tolerance
     Then Check Bundle Tolerance Value By Inspecting Bundle for Imperial task
     Then Bundles are Deleted
     And  Bundles are drawn
+    And user sets label 'node' to "hide"
     And  Getting the Values of Component Label
     Then Check the component label value for Imperial task
     Then Check by printing the drawing in Imperial Task units
