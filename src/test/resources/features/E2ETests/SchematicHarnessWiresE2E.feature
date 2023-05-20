@@ -19,5 +19,9 @@ Feature: Verify schematics harness wires functionality
   @VerifySchematicHarnessWires
   Scenario: Verifies that wires can be loaded from schematic on harness
     And user loades wires from schematic on harness wireeditor
-    And user verifies wires are loaded from schematic succesfully
-    And go to drawing from wire editor
+    Then user verifies wires are loaded from schematic succesfully
+
+  @VerifySchematicHarnessWires
+  Scenario: Verifies that columns can be hidden and shown on wire editor
+    And User moved to wire editor
+    Then user verifies columns can be hidden and shown on wire editor

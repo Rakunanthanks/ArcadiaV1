@@ -2,6 +2,7 @@ package arcadia.stepdefinations;
 
 import arcadia.constants.EndPoint;
 import arcadia.context.FlowContext;
+import arcadia.pages.ComponentDB.CommonElements;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import arcadia.pages.DefineBundleTolerance;
@@ -89,6 +90,7 @@ public class BundleToleranceStepDefinition {
         Se.selectByValue(units);
         WebElement saveButton = driver.findElement(By.cssSelector("button[value='Save']"));
         saveButton.click();
+        new CommonElements(driver).verifyAlertSuccessMessage("Properties updated successfully");
     }
 
     @Then("Check Bundle Tolerance Value By Inspecting Bundle for Imperial task")
