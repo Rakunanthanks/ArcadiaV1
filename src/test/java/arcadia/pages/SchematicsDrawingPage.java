@@ -204,6 +204,12 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(xpath = "//textarea[@name='labelcustom.LabelText']") private WebElement macrosLabel;
     @FindBy(xpath = "//input[@placeholder='Search']") private WebElement searchInput;
    @FindBy(xpath = "//button[@type='submit']") private WebElement submitButtonType;
+    @FindBy(xpath = "//span[text()='Inspect']") private WebElement inspectButton;
+    @FindBy(xpath = "//th[@class='imageClick' and text()='S.No']") private WebElement serialNoTable;
+
+    @FindBy(xpath = "//h3[text()='Table Layout']") private WebElement tableLayout;
+
+    @FindBy(xpath = "//select[@name='wiretablelayout.showoptions']") private List<WebElement> selectYesOption;
     String wireEditorHeaders = "//div[@id=\"wire-editor\"]//thead//th//input";
 
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
@@ -455,7 +461,7 @@ public class SchematicsDrawingPage extends BasePage{
         customCommand.javaScriptClick(driver,insertWire);
         actions.moveToElement(left).click().perform();
         Thread.sleep(2000);
-        customCommand.moveByOffsetOfElementAndClick(driver,left,120,0);
+        customCommand.moveByOffsetOfElementAndClick(driver,left,90,0);
         Thread.sleep(2000);
         actions.moveToElement(right).click().perform();
         Thread.sleep(2000);
@@ -1035,6 +1041,33 @@ public class SchematicsDrawingPage extends BasePage{
         customCommand.javaScriptClick(driver,submitButtonType);
     }
 
+    public void addNewFrame() throws InterruptedException {
+        String command="insertframe 0mm,0mm DRA1_SHT8 2 1 5 0 yes";
+        HarnessPage harnessPage = new HarnessPage(driver);
+        harnessPage.fillCommandLine(command);
+        harnessPage.clickOnCommandLineOK();
+        harnessPage.waitBetweenHarnessActions();
+    }
+
+    public void addWireTable() throws InterruptedException {
+        String command="wiretable 602.5mm,75mm";
+        HarnessPage harnessPage = new HarnessPage(driver);
+        harnessPage.fillCommandLine(command);
+        harnessPage.clickOnCommandLineOK();
+        harnessPage.waitBetweenHarnessActions();
+    }
+
+    public void updateWireTable() throws InterruptedException {
+        customCommand.javaScriptClick(driver,inspectButton);
+        customCommand.javaScriptClick(driver,serialNoTable);
+        customCommand.javaScriptClick(driver,tableLayout);
+        for(WebElement ele:selectYesOption)
+        {
+            customCommand.scrollToElement(driver,ele);
+            customCommand.selectDropDownByValue(ele,"no");
+        }
+        customCommand.javaScriptClick(driver,submitButton);
+    }
     public List<String> getWireEditorHeaders(){
         List<String> headersToBeReturned = new ArrayList<>();
         List<WebElement> listOfHeaders = driver.findElements(By.xpath(wireEditorHeaders));
