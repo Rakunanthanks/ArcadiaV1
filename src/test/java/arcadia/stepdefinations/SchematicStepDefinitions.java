@@ -460,4 +460,22 @@ public class SchematicStepDefinitions {
     public void userAddTheLabelToConnectorLabelFromConfigPage() throws InterruptedException {
         schematicsDrawingPage.openProfileSettingPage();
     }
+
+    @And("user add the wire table in the new frame adjacent to existing frame")
+    public void userAddTheWireTableInTheNewFrameAdjacentToExistingFrame() throws InterruptedException {
+        schematicsDrawingPage.addNewFrame();
+        schematicsDrawingPage.addWireTable();
+        schematicsDrawingPage.updateWireTable();
+    }
+
+    @And("user made some changes in wires connected to components")
+    public void userMadeSomeChangesInWiresConnectedToComponents() {
+
+    }
+    @And("changes should be visible in wire table")
+    public void changesShouldBeVisibleInWireTable() {
+
+    }
+
+
 }
