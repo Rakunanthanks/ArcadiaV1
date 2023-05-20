@@ -117,7 +117,7 @@ public class SpliceEditorStepDefinitions {
 
     @And("Enter possible values in the splice editor")
     public void enterPossibleValuesInTheSpliceEditor() throws InterruptedException, AWTException {
-        spliceEditorPage.enterPossibleValuesInTheSpliceEditor("SP-002","quickstart","19189002",true);
+        spliceEditorPage.enterPossibleValuesInTheSpliceEditor("SP-002","quickstart","191890002",true);
         spliceEditorPage.saveEditor();
     }
 
@@ -145,7 +145,7 @@ public class SpliceEditorStepDefinitions {
     }
 
     @Then("Check part description")
-    public void checkPartDescription() {
+    public void checkPartDescription() throws InterruptedException {
         spliceEditorPage.checkPartDescription();
     }
 

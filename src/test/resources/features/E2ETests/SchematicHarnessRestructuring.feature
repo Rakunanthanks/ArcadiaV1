@@ -18,6 +18,9 @@ Feature: Verify harness created from schematic can be restructured
     And user move wire leads to restructure the wire linked to components
     And user toggle on the connector label option for all connectors
     And User add the label to connector label from config page
+    And user add the wire table in the new frame adjacent to existing frame
+    And user made some changes in wires connected to components
+    And changes should be visible in wire table
 
 
 

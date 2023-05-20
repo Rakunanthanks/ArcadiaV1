@@ -421,9 +421,50 @@ public class HarnessPage extends BasePage{
                     driver.findElement(By.cssSelector("input.nodehide[name='node_AttachedPartsVariants']")).click();
                 }
                 break;
+            case "bundle tolerance":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input.bundleshow[name='bundle_Tolerances']")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input.bundlehide[name='bundle_Tolerances']")).click();
+                }
+                break;
+            case "bundle wire bundle diameter":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input.bundleshow[name='bundle_WireBundleDia']")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input.bundlehide[name='bundle_WireBundleDia']")).click();
+                }
+                break;
+            case "bundle pieceid length":
+                if (showHide.equalsIgnoreCase("show")){
+                    System.out.println("123");
+                    driver.findElement(By.cssSelector("input.bundleshow[name='bundle_PieceIDLength']")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input.bundlehide[name='bundle_PieceIDLength']")).click();
+                }
+                break;
+            case "bundle covering part variant":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input.bundleshow[name='bundle_CoveringsPartVariants']")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input.bundlehide[name='bundle_CoveringsPartVariants']")).click();
+                }
+                break;
+            case "bundle covering length":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input.bundleshow[name='bundle_CoveringsLength']")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input.bundlehide[name='bundle_CoveringsLength']")).click();
+                }
+                break;
         }
         customCommand.javaScriptClick(driver,buttonSubmitDetails);
-        Thread.sleep(2000);
+        Thread.sleep(8000);
     }
 
     public void clickConnectorPlug(String connectorPlugId) throws InterruptedException {

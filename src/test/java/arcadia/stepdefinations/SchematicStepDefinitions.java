@@ -345,7 +345,7 @@ public class SchematicStepDefinitions {
     @And("User imports schematic harness")
     public void userImportsSchematicHarness() throws InterruptedException {
         schematicsDrawingPage.verifyDrawingsListPageLoaded();
-        String harnessFilePath = "src/test/resources/drawingboard/Harness_Harness_Harness_1684066729.hrx";
+        String harnessFilePath = "src/test/resources/drawingboard/baselineHarness.hrx";
         schematicsDrawingPage.importHarness(harnessFilePath);
     }
 
@@ -405,7 +405,7 @@ public class SchematicStepDefinitions {
         Point p=schematicsDrawingPage.getCurrentPositionOfNode();
         ExtentCucumberAdapter.addTestStepLog(String.format("Current Location of node, X: "+p.getX()+" and Y: "+p.getY()));
         String id=schematicsDrawingPage.getIdOfRelativeNode();
-        String command="moverelative "+id+" 151.25mm,242.5mm";
+        String command="moverelative "+id+" 182.5mm,238.75mm";
         HarnessPage harnessPage = new HarnessPage(context.driver);
         harnessPage.fillCommandLine(command);
         harnessPage.clickOnCommandLineOK();
@@ -418,7 +418,7 @@ public class SchematicStepDefinitions {
     @And("User imports harness")
     public void userImportsHarness() throws InterruptedException {
         schematicsDrawingPage.verifyDrawingsListPageLoaded();
-        String harnessFilePath = "src/test/resources/drawingboard/SchematicHarness_8575_Harness_Harness_1684067377.hrx";
+        String harnessFilePath = "src/test/resources/drawingboard/SchematicHarness_Restructuring.hrx";
         schematicsDrawingPage.importHarness(harnessFilePath);
     }
 
@@ -479,6 +479,24 @@ public class SchematicStepDefinitions {
     public void userVerifiesColumnsCanBeHiddenAndShownOnWireEditor() throws InterruptedException {
         schematicsDrawingPage.verifyShowHideWireEditorColumns();
     }
+
+    @And("user add the wire table in the new frame adjacent to existing frame")
+    public void userAddTheWireTableInTheNewFrameAdjacentToExistingFrame() throws InterruptedException {
+        schematicsDrawingPage.addNewFrame();
+        schematicsDrawingPage.addWireTable();
+        schematicsDrawingPage.updateWireTable();
+    }
+
+    @And("user made some changes in wires connected to components")
+    public void userMadeSomeChangesInWiresConnectedToComponents() {
+
+    }
+    @And("changes should be visible in wire table")
+    public void changesShouldBeVisibleInWireTable() {
+
+    }
+
+
 
     @When("User verifies wires can be loaded from schematic on drawing page succesfully")
     public void userTriesToLoadWiresFromSchematicOnDrawingPage() throws InterruptedException {
