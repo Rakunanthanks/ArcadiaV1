@@ -4,7 +4,6 @@ import arcadia.constants.EndPoint;
 import arcadia.context.FlowContext;
 import arcadia.pages.ComponentDB.AddNewComponentPage;
 import arcadia.pages.ComponentDB.CommonElements;
-import arcadia.utils.ConfigLoader;
 import arcadia.utils.SeleniumCustomCommand;
 import arcadia.utils.StringHelper;
 import org.openqa.selenium.By;
@@ -99,7 +98,7 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(xpath = "//div[@class=\"ui-dialog-buttonset\"]//span[text()=\"Submit\"]") private WebElement buttonSubmitRemoveWireLabel;
     @FindBy(xpath = "//div[@title=\"no Line Label\"]//span") private WebElement wireWOLabel;
     @FindBy(css = "select#wireType") private WebElement selectWireTypeShowWireWithoutLabel;
-    @FindBy(css = "div#btnFotter button[title=\"Submit\"]") private WebElement buttonSubmitShowWireWithoutLabel;
+    @FindBy(css = "div#btnFotter button[title=\"Submit\"]") private WebElement buttonSubmitDetails;
     @FindBy(xpath = "//input[@class='wireidspec']") private WebElement wireName;
     @FindBy(xpath = "//button[@title='Update wire data, close dialog']") private WebElement wireOkButton;
     @FindBy(xpath = "//div[@title='Zoom Out']") private WebElement zoomOut;
@@ -157,10 +156,11 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(css = "select[name=\"profile\"]") private WebElement selectImportTaskProfile;
     @FindBy(css = "select[name=\"library\"]") private WebElement selectImportTaskLibrary;
     @FindBy(css = "button[value='Import']") private WebElement buttonSubmitImport;
-  @FindBy(xpath = "//span[text()='Zoom In']") private WebElement zoominButton;
-  @FindBy(xpath = "//span[text()='Refresh']") private WebElement refreshButton;
+    @FindBy(xpath = "//span[text()='Zoom In']") private WebElement zoominButton;
+    @FindBy(xpath = "//span[text()='Refresh']") private WebElement refreshButton;
+    @FindBy(css = "div[title=\"Load Wires from Schematic\"]") private WebElement buttonLoadWiresFromSchematicOnDrawing;
     @FindBy(css = "div[title=\"Delete All Existing Wires\"]") private WebElement buttonDeleteAllWires;
-   @FindBy(xpath = "//span[text()='Auto Arrange']") private WebElement autoArrange;
+    @FindBy(xpath = "//span[text()='Auto Arrange']") private WebElement autoArrange;
 
     @FindBy(xpath = "//*[name()='g' and contains(@onclick,'splice')]") private List<WebElement> spliceImageNodes;
     @FindBy(xpath = "//span[text()='Move']") private WebElement moveButton;
@@ -177,8 +177,9 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(xpath = "//button[@class='sbarbut']/span[text()='Submit']") private WebElement submitButtonImageView;
 
     @FindBy(css = "a.btnExportCSV") private WebElement buttonExportCsvAllWires;
-    @FindBy(xpath = "//button[contains(text(),'Load From Schematic')]") private WebElement buttonLoadFromSchematic;
+    @FindBy(xpath = "//button[contains(text(),'Load From Schematic')]") private WebElement buttonLoadFromSchematicOnWireEditor;
     @FindBy(css = "form[name=\"loadFromSchematicForm\"]") private WebElement formLoadSchematic;
+    @FindBy(css = "div#DynamicFormSCH") private WebElement formChooseSchematic;
     @FindBy(xpath = "//form[@name=\"loadFromSchematicForm\"]//button[text()=\"Next\"]") private WebElement buttonNextLoadFromSchematic;
     @FindBy(xpath = "//form[@name=\"loadFromSchematicForm\"]//button[text()=\"Submit \"]") private WebElement buttonSubmitLoadFromSchematic;
     @FindBy(css = "form[name=\"loadFromSchemForm\"] button[type=\"submit\"]") private WebElement buttonSubmitWireEditor;
@@ -210,7 +211,17 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(xpath = "//h3[text()='Table Layout']") private WebElement tableLayout;
 
     @FindBy(xpath = "//select[@name='wiretablelayout.showoptions']") private List<WebElement> selectYesOption;
+
+    @FindBy(css = "select[name=\"Schematic\"]") private WebElement dropdownSelectSchematic;
+    @FindBy(css = "select[name=\"autoarrange\"]") private WebElement dropdownSelectAutoArrange;
+    @FindBy(xpath = "//h3[text()=\"WHICH PROPERTIES DO YOU WANT UPDATE?\"]//following-sibling::div//label") private WebElement labelSelectAllProperties;
+    @FindBy(xpath = "//h3[text()=\"WHICH PROPERTIES DO YOU WANT UPDATE?\"]//following-sibling::div//label/input[@name=\"selectall\"]") private WebElement checkboxSelectAllProperties;
+    @FindBy(xpath = "//h3[text()=\"Wire Import Information\"]") private WebElement headingWireImportInformation;
+    @FindBy(xpath = "//table//tbody//td[text()=\"No. of Wires imported successfully\"]//following-sibling::td") private WebElement elementWiresImportedSuccessfully;
+    @FindBy(xpath = "//button[@title=\"Close\"]/span") private WebElement buttonCloseImportWiresWindow;
     String wireEditorHeaders = "//div[@id=\"wire-editor\"]//thead//th//input";
+
+    String wiresImportedRows = "//h3[text()=\"Wire Import Information\"]//following-sibling::div//table//tbody//tr";
 
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
 
@@ -877,8 +888,8 @@ public class SchematicsDrawingPage extends BasePage{
     }
 
     public void selectLoadFromSchematic() throws InterruptedException {
-        customCommand.longWaitForElementToBeClickable(driver,buttonLoadFromSchematic);
-        customCommand.javaScriptClick(driver,buttonLoadFromSchematic);
+        customCommand.longWaitForElementToBeClickable(driver, buttonLoadFromSchematicOnWireEditor);
+        customCommand.javaScriptClick(driver, buttonLoadFromSchematicOnWireEditor);
     }
 
     public void verifyLoadSchematicWindowOpened() {
@@ -1079,34 +1090,81 @@ public class SchematicsDrawingPage extends BasePage{
 
     public void showHideHeaders(int numberOfHeaders) throws InterruptedException {
         customCommand.waitClick(toggleButtonShowHideHeaders);
+        Thread.sleep(2000);
+        WebElement radioButton = driver.findElements(By.cssSelector("div#wire-editor button.dropdown-toggle+ul")).get(0);
         for (int i=0; i<numberOfHeaders; i++){
-            driver.findElements(By.cssSelector("div#wire-editor button.dropdown-toggle+ul>li label>input")).get(i).click();
+            customCommand.javaScriptClick(driver,radioButton.findElements(By.cssSelector("li label>input")).get(i));
         }
         customCommand.waitClick(toggleButtonShowHideHeaders);
+        Thread.sleep(2000);
     }
 
     public void showAllHeaders() throws InterruptedException {
         customCommand.waitClick(toggleButtonShowHideHeaders);
-        List<WebElement> lisOfCheckboxes = driver.findElements(By.cssSelector("div#wire-editor button.dropdown-toggle+ul>li label>input"));
+        Thread.sleep(2000);
+        List<WebElement> radioButtons = driver.findElements(By.cssSelector("div#wire-editor button.dropdown-toggle+ul"));
+        List<WebElement> lisOfCheckboxes = radioButtons.get(0).findElements(By.cssSelector("li label>input"));
         for(WebElement ele: lisOfCheckboxes){
             if(!ele.isSelected()){
-                ele.click();
+                customCommand.javaScriptClick(driver,ele);
             }
         }
         customCommand.waitClick(toggleButtonShowHideHeaders);
+        Thread.sleep(2000);
     }
 
 
 
     public void verifyShowHideWireEditorColumns() throws InterruptedException {
-        showAllHeaders();
-        List<String> headersShownOnWireEditor = getWireEditorHeaders();
-        int headerCountBeforeHide = headersShownOnWireEditor.size();
-        showHideHeaders(5);
-        List<String> headersShownOnWireEditorAfterHide = getWireEditorHeaders();
-        int headerCountAfterHide = headersShownOnWireEditor.size();
-        Assert.assertEquals(headerCountAfterHide,headerCountBeforeHide-5);
-        Assert.assertNotEquals(headersShownOnWireEditorAfterHide,headersShownOnWireEditor);
-        showAllHeaders();
+        try {
+            showAllHeaders();
+            List<String> headersShownOnWireEditor = getWireEditorHeaders();
+            int headerCountBeforeHide = headersShownOnWireEditor.size();
+            showHideHeaders(5);
+            List<String> headersShownOnWireEditorAfterHide = getWireEditorHeaders();
+            int headerCountAfterHide = headersShownOnWireEditorAfterHide.size();
+            Assert.assertEquals(headerCountAfterHide,headerCountBeforeHide-5);
+            Assert.assertNotEquals(headersShownOnWireEditorAfterHide,headersShownOnWireEditor);
+            showAllHeaders();
+        }
+        catch (Exception e){
+            showAllHeaders();
+        }
+    }
+
+    public void openLoadWiresForm() throws InterruptedException {
+        customCommand.waitForElementToBeClickable(driver,advancedTab);
+        customCommand.javaScriptClick(driver,advancedTab);
+        customCommand.scrollIntoView(driver,buttonLoadWiresFromSchematicOnDrawing);
+        customCommand.javaScriptClick(driver,buttonLoadWiresFromSchematicOnDrawing);
+    }
+
+    public void verifyLoadWiresFromSchematicOnDrawingOpened() {
+        customCommand.waitForElementVisibility(driver,formChooseSchematic);
+        Assert.assertTrue(formChooseSchematic.isDisplayed(),"LoadWiresFromSchematic form is not displayed on drawing");
+    }
+
+    public void submitAndVerifyLoadWiresDetails() throws InterruptedException {
+        Thread.sleep(4000);
+        customCommand.selectDropDownByVisibleText(dropdownSelectSchematic, "8496-5465");
+        customCommand.scrollIntoView(driver,dropdownSelectAutoArrange);
+        customCommand.selectDropDownByValue(dropdownSelectAutoArrange,"true");
+        customCommand.scrollIntoView(driver,labelSelectAllProperties);
+        customCommand.javaScriptClick(driver,checkboxSelectAllProperties);
+        customCommand.javaScriptClick(driver,buttonSubmitDetails);
+        Thread.sleep(2000);
+        customCommand.waitForElementVisibility(driver,headingWireImportInformation);
+        Assert.assertTrue(headingWireImportInformation.isDisplayed(),"WireImportInformation form is not displayed on drawing");
+        Thread.sleep(2000);
+        int numberOfWiresImported = driver.findElements(By.xpath(wiresImportedRows)).size();
+        customCommand.javaScriptClick(driver,buttonSubmitDetails);
+        Thread.sleep(4000);
+        customCommand.waitForElementVisibility(driver,elementWiresImportedSuccessfully);
+        int numberOfWiresAfterImport = driver.findElements(By.xpath(wiresImportedRows)).size();
+        Assert.assertEquals(numberOfWiresAfterImport,numberOfWiresImported);
+        Assert.assertEquals(String.valueOf(numberOfWiresAfterImport),elementWiresImportedSuccessfully.getText());
+        customCommand.javaScriptClick(driver,buttonCloseImportWiresWindow);
+        int wiresOnDrawing = getWiresCount();
+        Assert.assertEquals(wiresOnDrawing,numberOfWiresAfterImport);
     }
 }

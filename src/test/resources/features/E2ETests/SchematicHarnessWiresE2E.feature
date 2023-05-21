@@ -25,3 +25,7 @@ Feature: Verify schematics harness wires functionality
   Scenario: Verifies that columns can be hidden and shown on wire editor
     And User moved to wire editor
     Then user verifies columns can be hidden and shown on wire editor
+
+  @VerifySchematicHarnessWires
+  Scenario: Verifies that wires can be loaded on drawing of schematic harness
+    Then User verifies wires can be loaded from schematic on drawing page succesfully

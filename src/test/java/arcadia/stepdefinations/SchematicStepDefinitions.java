@@ -497,4 +497,15 @@ public class SchematicStepDefinitions {
     }
 
 
+
+    @When("User verifies wires can be loaded from schematic on drawing page succesfully")
+    public void userTriesToLoadWiresFromSchematicOnDrawingPage() throws InterruptedException {
+        int initialWiresCount = schematicsDrawingPage.getWiresCount();
+        if (initialWiresCount>0){
+            schematicsDrawingPage.verifyWiresCanBeDeleted(initialWiresCount);
+        }
+        schematicsDrawingPage.openLoadWiresForm();
+        schematicsDrawingPage.verifyLoadWiresFromSchematicOnDrawingOpened();
+        schematicsDrawingPage.submitAndVerifyLoadWiresDetails();
+    }
 }
