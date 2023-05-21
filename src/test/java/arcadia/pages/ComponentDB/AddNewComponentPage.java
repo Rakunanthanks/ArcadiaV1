@@ -200,6 +200,7 @@ public class AddNewComponentPage extends BasePage {
     }
 
     public void acceptConfirmationPopup() {
+        customCommand.waitForElementToBeClickable(driver,confirmationPopUpOkButton);
         confirmationPopUpOkButton.click();
     }
 

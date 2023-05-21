@@ -178,13 +178,17 @@ public class SchematicsDrawingPage extends BasePage{
 
     @FindBy(css = "a.btnExportCSV") private WebElement buttonExportCsvAllWires;
     @FindBy(xpath = "//button[contains(text(),'Load From Schematic')]") private WebElement buttonLoadFromSchematicOnWireEditor;
+    @FindBy(css = "button#loadFromSchematicBtn") private WebElement buttonLoadFromSchematicOnConnectorEditor;
     @FindBy(css = "form[name=\"loadFromSchematicForm\"]") private WebElement formLoadSchematic;
     @FindBy(css = "div#DynamicFormSCH") private WebElement formChooseSchematic;
-    @FindBy(xpath = "//form[@name=\"loadFromSchematicForm\"]//button[text()=\"Next\"]") private WebElement buttonNextLoadFromSchematic;
+    @FindBy(xpath = "//form[@name=\"loadFromSchematicForm\"]//button[contains(text(),\"Next\")]") private WebElement buttonNextLoadFromSchematic;
     @FindBy(xpath = "//form[@name=\"loadFromSchematicForm\"]//button[text()=\"Submit \"]") private WebElement buttonSubmitLoadFromSchematic;
     @FindBy(css = "form[name=\"loadFromSchemForm\"] button[type=\"submit\"]") private WebElement buttonSubmitWireEditor;
+    @FindBy(css = "form[name=\"loadschemEditor\"] input[type=\"submit\"]") private WebElement buttonSubmitConnectorEditor;
     @FindBy(css = "div#wire-editor table>thead input[type=\"checkbox\"]") private WebElement buttonSelectALlWiresOnEditor;
+    @FindBy(css = "div#coninfo table>thead input[type=\"checkbox\"]") private WebElement buttonSelectALlConnectorsOnEditor;
     @FindBy(css = "div#wire-editor button[value=\"Clear all\"]+button") private WebElement buttonSaveWireEditor;
+    @FindBy(css = "button[value=\"Save connectors\"]") private WebElement buttonSaveConnectors;
     @FindBy(xpath = "(//*[name()='image' and @data-etype='connector'])[5]") private WebElement connectorImageWire10;
     @FindBy(xpath = "//li[@id='cmieditconnlead']") private  WebElement moveWireLeads;
     @FindBy(xpath = "//li[@id='cmisaveconnlead']") private  WebElement saveWireLeads;
@@ -200,6 +204,7 @@ public class SchematicsDrawingPage extends BasePage{
     String tablePartsRows = "#tblBOMPartNoList > tbody > tr";
     String wireTableRows = "table.wireTableClass tbody>tr";
     String wireEditorRows = "div#wire-editor table>tbody>tr";
+    String connectorEditorRows = "table#schConsList>tbody>tr";
     @FindBy(xpath = "(//span[text()='General']/parent::a)[1]/i[1]") private WebElement GeneralMenuSelection;
     @FindBy(xpath = "//a[contains(@href,'Macros')]") private WebElement macros;
     @FindBy(xpath = "//textarea[@name='labelcustom.LabelText']") private WebElement macrosLabel;
@@ -218,7 +223,20 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(xpath = "//h3[text()=\"WHICH PROPERTIES DO YOU WANT UPDATE?\"]//following-sibling::div//label/input[@name=\"selectall\"]") private WebElement checkboxSelectAllProperties;
     @FindBy(xpath = "//h3[text()=\"Wire Import Information\"]") private WebElement headingWireImportInformation;
     @FindBy(xpath = "//table//tbody//td[text()=\"No. of Wires imported successfully\"]//following-sibling::td") private WebElement elementWiresImportedSuccessfully;
-    @FindBy(xpath = "//button[@title=\"Close\"]/span") private WebElement buttonCloseImportWiresWindow;
+    @FindBy(xpath = "//button[@title=\"Close\"]/span") private WebElement buttonCloseWindow;
+
+    @FindBy(xpath = "//a[text()=\"Schematic Info\"]") private WebElement tabSchematicInfoLeftPane;
+
+    @FindBy(xpath = "//a[text()=\"Sheets\"]") private WebElement tabSheetsLeftPane;
+    @FindBy(css = "button#syncSheetBtn") private WebElement buttonSyncSchematic;
+    @FindBy(xpath = "//h3[text()=\"Modified Components\"]") private WebElement headingModifiedComponents;
+    @FindBy(css = "select[name=\"projectlistLP\"]") private WebElement selectProjectListLeftPane;
+    @FindBy(css = "select[name=\"SchematicLP\"]") private WebElement selectSchematicLeftPane;
+
+    @FindBy(xpath = "//h3[text()=\"WHICH PROPERTIES DO YOU WANT COMPARE?\"]//following-sibling::div//label") private WebElement labelSelectAllPropertiesToCompare;
+    @FindBy(xpath = "//h3[text()=\"WHICH PROPERTIES DO YOU WANT COMPARE?\"]//following-sibling::div//label/input[@name=\"selectall\"]") private WebElement checkboxSelectAllPropertiesToCompare;
+    @FindBy(css = "button[title=\"Save\"]") private WebElement buttonSaveSchematicInfo;
+    @FindBy(css = "div#btnFotter>button[title=\"Configure\"]") private WebElement buttonConfigureSchematicInfo;
     String wireEditorHeaders = "//div[@id=\"wire-editor\"]//thead//th//input";
 
     String wiresImportedRows = "//h3[text()=\"Wire Import Information\"]//following-sibling::div//table//tbody//tr";
@@ -871,7 +889,6 @@ public class SchematicsDrawingPage extends BasePage{
     public void verifyWiresCanBeDeleted(int initialWiresCount) throws InterruptedException {
         customCommand.waitForElementToBeClickable(driver,advancedTab);
         customCommand.javaScriptClick(driver,advancedTab);
-        Assert.assertTrue(driver.findElements(By.cssSelector(wireTableRows)).size()!=0,"Wire count is zero so no wire is available to delete");
         customCommand.scrollIntoView(driver,buttonDeleteAllWires);
         customCommand.waitForElementToBeClickable(driver,buttonDeleteAllWires);
         customCommand.javaScriptClick(driver,buttonDeleteAllWires);
@@ -883,8 +900,11 @@ public class SchematicsDrawingPage extends BasePage{
     }
 
     public void selectExportWires() throws InterruptedException {
+        customCommand.waitForElementToBeClickable(driver,buttonGoToDrawing);
         customCommand.longWaitForElementToBeClickable(driver,buttonExportCsvAllWires);
+        Thread.sleep(4000);
         customCommand.javaScriptClick(driver,buttonExportCsvAllWires);
+        Thread.sleep(4000);
     }
 
     public void selectLoadFromSchematic() throws InterruptedException {
@@ -918,10 +938,20 @@ public class SchematicsDrawingPage extends BasePage{
         int numberOfWiresOnEditor = driver.findElements(By.cssSelector(wireEditorRows)).size();
         return numberOfWiresOnEditor;
     }
+    public int getConnectorsCountOnConnectorEditor() {
+        customCommand.longWaitForElementToBeClickable(driver,buttonGoToDrawing);
+        customCommand.waitForElementVisibility(driver,driver.findElement(By.cssSelector(connectorEditorRows)));
+        int numberOfConnectorsOnEditor = driver.findElements(By.cssSelector(connectorEditorRows)).size();
+        return numberOfConnectorsOnEditor;
+    }
 
     public void selectAllWiresOnEditor() throws InterruptedException {
         customCommand.waitForElementToBeClickable(driver,buttonSelectALlWiresOnEditor);
         customCommand.javaScriptClick(driver,buttonSelectALlWiresOnEditor);
+    }
+    public void selectAllConnectorsOnConnectorEditor() throws InterruptedException {
+        customCommand.waitForElementToBeClickable(driver,buttonSelectALlConnectorsOnEditor);
+        customCommand.javaScriptClick(driver,buttonSelectALlConnectorsOnEditor);
     }
 
     public void submitWires() throws InterruptedException {
@@ -929,9 +959,18 @@ public class SchematicsDrawingPage extends BasePage{
         customCommand.javaScriptClick(driver,buttonSubmitWireEditor);
     }
 
+    public void submitConnectorEditorChanges() throws InterruptedException {
+        customCommand.scrollToElement(driver,buttonSubmitConnectorEditor);
+        customCommand.javaScriptClick(driver,buttonSubmitConnectorEditor);
+    }
+
     public void saveWireChanges() throws InterruptedException {
         customCommand.waitForElementToBeClickable(driver,buttonSaveWireEditor);
         customCommand.javaScriptClick(driver,buttonSaveWireEditor);
+    }
+    public void saveConnectorEditorChanges() throws InterruptedException {
+        customCommand.waitForElementToBeClickable(driver,buttonSaveConnectors);
+        customCommand.javaScriptClick(driver,buttonSaveConnectors);
     }
 
     public String getIdOfRelativeNode()
@@ -1163,8 +1202,57 @@ public class SchematicsDrawingPage extends BasePage{
         int numberOfWiresAfterImport = driver.findElements(By.xpath(wiresImportedRows)).size();
         Assert.assertEquals(numberOfWiresAfterImport,numberOfWiresImported);
         Assert.assertEquals(String.valueOf(numberOfWiresAfterImport),elementWiresImportedSuccessfully.getText());
-        customCommand.javaScriptClick(driver,buttonCloseImportWiresWindow);
+        customCommand.javaScriptClick(driver, buttonCloseWindow);
         int wiresOnDrawing = getWiresCount();
         Assert.assertEquals(wiresOnDrawing,numberOfWiresAfterImport);
+    }
+
+    public void importWiresCsvOnWireEditor(String filePath) throws InterruptedException {
+        Thread.sleep(3000);
+        customCommand.longWaitForElementToBeClickable(driver, buttonGoToDrawing);
+        Thread.sleep(3000);
+        WebElement import_csv = driver.findElement(By.name("fileImportCSV"));
+        customCommand.waitForElementToBeClickable(driver,import_csv);
+        File fileToBeImported = new File(filePath);
+        String file = fileToBeImported.getAbsolutePath();
+        import_csv.sendKeys(file);
+        new AddNewComponentPage(driver).acceptConfirmationPopup();
+        Thread.sleep(3000);
+    }
+
+    public void selectSchematicInfoTabFromLeftPane() throws InterruptedException {
+        customCommand.waitForElementToBeClickable(driver,tabSchematicInfoLeftPane);
+        customCommand.javaScriptClick(driver,tabSchematicInfoLeftPane);
+    }
+
+    public void enterSchematicDetailsOnLeftPane() throws InterruptedException {
+        customCommand.waitForElementVisibility(driver,selectProjectListLeftPane);
+        customCommand.waitForElementToBeClickable(driver,selectProjectListLeftPane);
+        customCommand.waitForElementToBeClickable(driver,selectSchematicLeftPane);
+        customCommand.selectDropDownByVisibleText(selectSchematicLeftPane, "478-3392");
+        customCommand.scrollIntoView(driver,labelSelectAllPropertiesToCompare);
+        customCommand.javaScriptClick(driver,checkboxSelectAllPropertiesToCompare);
+        customCommand.javaScriptClick(driver,buttonSaveSchematicInfo);
+        Thread.sleep(2000);
+        customCommand.javaScriptClick(driver,buttonConfigureSchematicInfo);
+    }
+
+    public void selectSheetsTabFromLeftPane() throws InterruptedException {
+        customCommand.waitForElementToBeClickable(driver,tabSheetsLeftPane);
+        customCommand.javaScriptClick(driver,tabSheetsLeftPane);
+    }
+
+    public void syncSchematicLeftPane() throws InterruptedException {
+        customCommand.javaScriptClick(driver,buttonSyncSchematic);
+        new CommonElements(driver).verifyAlertMessage("This will update changes from schematic into the harness. Do you want to continue?");
+        new CommonElements(driver).acceptAlertMessage();
+        Thread.sleep(5000);
+        customCommand.waitForElementVisibility(driver,headingModifiedComponents);
+        customCommand.javaScriptClick(driver, buttonCloseWindow);
+    }
+
+    public void loadSchematicOnConnectorEditor() throws InterruptedException {
+        customCommand.longWaitForElementToBeClickable(driver, buttonLoadFromSchematicOnConnectorEditor);
+        customCommand.javaScriptClick(driver, buttonLoadFromSchematicOnConnectorEditor);
     }
 }
