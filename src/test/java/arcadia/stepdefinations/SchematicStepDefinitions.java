@@ -325,7 +325,7 @@ public class SchematicStepDefinitions {
         schematicsDrawingPage.selectSnap(snap.toUpperCase());
     }
 
-    @And("user opens left pane on harness")
+    @And("User opens left pane on harness")
     public void userOpensLeftPaneOnHarness() throws InterruptedException {
         schematicsDrawingPage.openLeftPanel();
     }
@@ -362,7 +362,7 @@ public class SchematicStepDefinitions {
         schematicsDrawingPage.importtask(schematicFilePath);
     }
 
-    @Then("user verifies wires can be exported succesfully on schematic harness")
+    @Then("User verifies wires can be exported successfully on schematic harness")
     public void userVerifiesWiresCanBeExportedSuccesfullyOnSchematicHarness() throws InterruptedException {
         int initialWiresCount = schematicsDrawingPage.getWiresCount();
         Assert.assertTrue(initialWiresCount!=0,"No wires are available on drawing to export");
@@ -507,5 +507,52 @@ public class SchematicStepDefinitions {
         schematicsDrawingPage.openLoadWiresForm();
         schematicsDrawingPage.verifyLoadWiresFromSchematicOnDrawingOpened();
         schematicsDrawingPage.submitAndVerifyLoadWiresDetails();
+    }
+
+    @And("User verifies wires can be imported successfully")
+    public void userVerifiesWiresCanBeExportedAndImportedSuccessfully() throws InterruptedException {
+        int initialWiresCount = schematicsDrawingPage.getWiresCount();
+        schematicsDrawingPage.verifyWiresCanBeDeleted(initialWiresCount);
+        schematicsDrawingPage.moveToWireEditor();
+        String wiresFilePath = "src/test/resources/drawingboard/wires.csv";
+        schematicsDrawingPage.importWiresCsvOnWireEditor(wiresFilePath);
+        int wiresImportedCount = schematicsDrawingPage.getWiresCountOnWireEditor();
+        Assert.assertTrue(wiresImportedCount!=0,"Wires imported count is zero");
+        schematicsDrawingPage.saveWireChanges();
+        new AddNewComponentPage(context.driver).verifyAlertMessage("Wires imported successfully.");
+        new AddNewComponentPage(context.driver).closeAlertPopUp();
+        schematicsDrawingPage.goToDrawingFromWireEditor();
+        int finalWiresCount = schematicsDrawingPage.getWiresCount();
+        Assert.assertTrue(wiresImportedCount!=0,"Wires count is zero on drawing page");
+
+    }
+
+    @And("User schematic data can be synced on harness drawing")
+    public void userSyncsSchematicDataOnHarnessDrawing() throws InterruptedException {
+        schematicsDrawingPage.selectSchematicInfoTabFromLeftPane();
+        schematicsDrawingPage.enterSchematicDetailsOnLeftPane();
+        schematicsDrawingPage.selectSheetsTabFromLeftPane();
+        schematicsDrawingPage.syncSchematicLeftPane();
+    }
+
+    @And("user loads schematic data on connector editor")
+    public void userLoadsSchematicDataOnConnectorEditor() throws InterruptedException {
+        schematicsDrawingPage.loadSchematicOnConnectorEditor();
+        schematicsDrawingPage.verifyLoadSchematicWindowOpened();
+//        String schematicTaskName = FlowContext.drawingTaskName;
+        String schematicTaskName = "3392";
+        schematicsDrawingPage.selectTaskToBeLoaded(schematicTaskName);
+    }
+
+    @Then("user verifies schematic is loaded on connector editor successfully")
+    public void userVerifiesSchematicIsLoadedOnConnectorEditorSuccessfully() throws InterruptedException {
+        int connectorsRowCount = schematicsDrawingPage.getConnectorsCountOnConnectorEditor();
+        Assert.assertEquals(connectorsRowCount,6);
+        schematicsDrawingPage.selectAllConnectorsOnConnectorEditor();
+        schematicsDrawingPage.submitConnectorEditorChanges();
+        schematicsDrawingPage.saveConnectorEditorChanges();
+        new AddNewComponentPage(context.driver).verifyAlertMessage("Connector details imported successfully.");
+        new AddNewComponentPage(context.driver).closeAlertPopUp();
+        schematicsDrawingPage.goToDrawingFromWireEditor();
     }
 }
