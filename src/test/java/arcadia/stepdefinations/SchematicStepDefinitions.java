@@ -436,6 +436,7 @@ public class SchematicStepDefinitions {
     @And("User move the splice images to restructure the harness")
     public void userMoveTheSpliceImagesToRestructureTheHarness() throws InterruptedException {
         schematicsDrawingPage.moveSpliceImages();
+        Thread.sleep(3000);
     }
 
     @And("user change select the Show to locations from context menu of splice")

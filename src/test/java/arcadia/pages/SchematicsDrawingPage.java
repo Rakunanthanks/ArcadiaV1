@@ -175,6 +175,7 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(xpath = "//input[@name='Loading']") private WebElement LoadingInputBox;
     @FindBy(xpath = "//input[@name='Side']") private WebElement sideInputBox;
     @FindBy(xpath = "//button[@class='sbarbut']/span[text()='Submit']") private WebElement submitButtonImageView;
+    @FindBy(xpath = "//input[@class='msgButton' and @name='Yes']") private WebElement yesButton;
 
     @FindBy(css = "a.btnExportCSV") private WebElement buttonExportCsvAllWires;
     @FindBy(xpath = "//button[contains(text(),'Load From Schematic')]") private WebElement buttonLoadFromSchematic;
@@ -954,11 +955,13 @@ public class SchematicsDrawingPage extends BasePage{
         for(WebElement ele:spliceImageNodes)
         {
             String id="DN"+ele.getAttribute("data-uid");
-            WebElement node=driver.findElement(By.xpath("//*[name()='g' and @id='"+id+"']/*[name()='use']"));
+            id=id.substring(2);
+            WebElement node=driver.findElement(By.xpath("(//*[name()='g' and @data-uid='"+id+"'])[1]/*[name()='rect'][1]"));
             customCommand.javaScriptClick(driver,moveButton);
-           zoomIn.click();
+            zoomIn.click();
             node.click();
-            customCommand.moveByOffsetOfElementAndClick(driver,node,node.getLocation().getX(),node.getLocation().getY()-50);
+//            customCommand.clickAtLocation(driver,node.getLocation().getX(),node.getLocation().getY()+50);
+            customCommand.moveByOffsetOfElementAndClick(driver,node,0,-50);
         }
     }
 
@@ -981,6 +984,7 @@ public class SchematicsDrawingPage extends BasePage{
         customCommand.clearAndEnterText(LoadingInputBox,"1.5");
         customCommand.clearAndEnterText(sideInputBox,"1.5");
         customCommand.javaScriptClick(driver,submitButtonImageView);
+        customCommand.javaScriptClick(driver,yesButton);
     }
 
     public void moveWireLeads() throws InterruptedException {

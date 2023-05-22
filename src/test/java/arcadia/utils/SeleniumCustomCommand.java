@@ -268,4 +268,12 @@ public class SeleniumCustomCommand {
         }
         return null;
     }
+
+    public void clickAtLocation(WebDriver driver,int x, int y)
+    {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        String script = "document.elementFromPoint(" + x + ", " + y + ").click();";
+        js.executeScript(script);
+    }
+
 }
