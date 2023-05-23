@@ -212,7 +212,7 @@ public class SchematicStepDefinitions {
 
     @And("add the wire label for few of the wire and verify")
     public void addTheWireLabelForOneOfThwWireAndVerify() throws InterruptedException {
-        schematicsDrawingPage.drawWireLabel(4,90,0,"C1");
+        schematicsDrawingPage.drawWireLabel(4,40,0,"C1");
         schematicsDrawingPage.showWireWOLabel();
         int no=schematicsDrawingPage.numberOfWireLabels();
         if(no>0)
@@ -339,7 +339,6 @@ public class SchematicStepDefinitions {
     @And("user click on part {string} to drag and drop to {string}")
     public void userClickOnPartCToDragAndDropToNode(String connectorIndex , String nodeindex) throws InterruptedException {
         schematicsDrawingPage.selectConnectorToChangeNode(nodeindex,connectorIndex);
-
     }
 
     @And("User imports schematic harness")
