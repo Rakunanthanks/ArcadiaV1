@@ -39,6 +39,15 @@ public class SeleniumCustomCommand {
         }
     }
 
+    public void selectDropDownByContainsText(WebElement element ,String value) throws InterruptedException {
+        if (value != null || !value.isEmpty() || !value.trim().isEmpty()){
+            Select dropDownElement = new Select(element);
+            dropDownElement.getOptions().parallelStream().filter(option -> option.getText().toLowerCase().contains(value.toLowerCase()))
+                    .findFirst().ifPresent(option -> dropDownElement.selectByVisibleText(option.getText()));
+            Thread.sleep(2000);
+        }
+    }
+
     public void waitForElementVisibility(WebDriver driver , WebElement element){
         new WebDriverWait(driver, Duration.ofSeconds(40)).until(ExpectedConditions.visibilityOf(element));
     }
