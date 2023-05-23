@@ -163,6 +163,7 @@ public class HarnessPage extends BasePage{
     }
 
     public void fillCommandLine(String command){
+        customCommand.longWaitForElementToBeClickable(driver,commandLine);
         commandLine.clear();
         customCommand.enterText(commandLine,command);
     }

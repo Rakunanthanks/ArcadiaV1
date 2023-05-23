@@ -1,4 +1,4 @@
-
+@E2E
 Feature: Verify schematics harness wires functionality
   Background: User is Logged In
     Given I'm on Arcadia test environment
@@ -6,6 +6,7 @@ Feature: Verify schematics harness wires functionality
     And User imports base schematic
     And User imports schematic harness
     And user navigated to newly created harness
+    And user add the wire table in the new frame adjacent to existing frame
 
   @VerifySchematicHarnessWires
   Scenario: Verify that wires can be deleted on schematic harness
@@ -17,7 +18,7 @@ Feature: Verify schematics harness wires functionality
     Then User verifies wires can be exported successfully on schematic harness
 
   @VerifySchematicHarnessWires
-  Scenario: Verify that wires can be loaded from schematic on harness
+  Scenario: Verify that wires can be loaded from schematic on harness wireeditor
     And user loades wires from schematic on harness wireeditor
     Then user verifies wires are loaded from schematic succesfully
 

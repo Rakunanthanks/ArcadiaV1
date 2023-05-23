@@ -486,6 +486,7 @@ public class SchematicsDrawingPage extends BasePage{
     public void zoomFit() throws InterruptedException {
         customCommand.longWaitForElementToBeClickable(driver,zoomFit);
         customCommand.javaScriptClick(driver,zoomFit);
+        Thread.sleep(2000);
     }
 
     public void connectWire(String name,WebElement left,WebElement right) throws InterruptedException {
@@ -923,7 +924,6 @@ public class SchematicsDrawingPage extends BasePage{
     public void selectTaskToBeLoaded(String schematicTaskName) throws InterruptedException {
         Thread.sleep(2000);
         WebElement eleTaskRadio = driver.findElement(By.xpath("//form[@name=\"loadFromSchematicForm\"]//input[@name=\"schtask\"][contains(@value,'"+schematicTaskName+"')]"));
-        //form[@name="loadFromSchematicForm"]//input[@name="schtask"][contains(@value,'TestTask 4941')]
         customCommand.scrollIntoView(driver,eleTaskRadio);
         customCommand.javaScriptClick(driver,eleTaskRadio);
         Thread.sleep(2000);
@@ -1116,6 +1116,7 @@ public class SchematicsDrawingPage extends BasePage{
     public void updateWireTable() throws InterruptedException {
         customCommand.javaScriptClick(driver,inspectButton);
         customCommand.javaScriptClick(driver,serialNoTable);
+        customCommand.waitForElementVisibility(driver,tableLayout);
         customCommand.javaScriptClick(driver,tableLayout);
         for(WebElement ele:selectYesOption)
         {
@@ -1189,9 +1190,9 @@ public class SchematicsDrawingPage extends BasePage{
         Assert.assertTrue(formChooseSchematic.isDisplayed(),"LoadWiresFromSchematic form is not displayed on drawing");
     }
 
-    public void submitAndVerifyLoadWiresDetails() throws InterruptedException {
+    public void submitAndVerifyLoadWiresDetails(String schematicTaskName) throws InterruptedException {
         Thread.sleep(4000);
-        customCommand.selectDropDownByVisibleText(dropdownSelectSchematic, "8496-5465");
+        customCommand.selectDropDownByContainsText(dropdownSelectSchematic, schematicTaskName);
         customCommand.scrollIntoView(driver,dropdownSelectAutoArrange);
         customCommand.selectDropDownByValue(dropdownSelectAutoArrange,"true");
         customCommand.scrollIntoView(driver,labelSelectAllProperties);
@@ -1231,11 +1232,11 @@ public class SchematicsDrawingPage extends BasePage{
         customCommand.javaScriptClick(driver,tabSchematicInfoLeftPane);
     }
 
-    public void enterSchematicDetailsOnLeftPane() throws InterruptedException {
+    public void enterSchematicDetailsOnLeftPane(String schematicTaskName) throws InterruptedException {
         customCommand.waitForElementVisibility(driver,selectProjectListLeftPane);
         customCommand.waitForElementToBeClickable(driver,selectProjectListLeftPane);
         customCommand.waitForElementToBeClickable(driver,selectSchematicLeftPane);
-        customCommand.selectDropDownByVisibleText(selectSchematicLeftPane, "478-3392");
+        customCommand.selectDropDownByContainsText(selectSchematicLeftPane, schematicTaskName);
         customCommand.scrollIntoView(driver,labelSelectAllPropertiesToCompare);
         customCommand.javaScriptClick(driver,checkboxSelectAllPropertiesToCompare);
         customCommand.javaScriptClick(driver,buttonSaveSchematicInfo);
