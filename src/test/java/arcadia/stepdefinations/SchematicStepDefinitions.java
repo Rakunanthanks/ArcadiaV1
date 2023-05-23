@@ -351,6 +351,7 @@ public class SchematicStepDefinitions {
 
     @Then("user verifies wires can be deleted succesfully on schematic harness")
     public void userVerifiesWiresCanBeDeletedSuccesfullyOnSchematicHarness() throws InterruptedException {
+        schematicsDrawingPage.zoomFit();
         int initialWiresCount = schematicsDrawingPage.getWiresCount();
         schematicsDrawingPage.verifyWiresCanBeDeleted(initialWiresCount);
     }
@@ -358,12 +359,13 @@ public class SchematicStepDefinitions {
     @And("User imports base schematic")
     public void userImportsBaseSchematic() throws InterruptedException {
         schematicsDrawingPage.verifyDrawingsListPageLoaded();
-        String schematicFilePath = "src/test/resources/baseSchematic/5465_8496_8414_1684070728.srx";
+        String schematicFilePath = "src/test/resources/baseSchematic/7612_6530_7413_1684754979.srx";
         schematicsDrawingPage.importtask(schematicFilePath);
     }
 
     @Then("User verifies wires can be exported successfully on schematic harness")
     public void userVerifiesWiresCanBeExportedSuccesfullyOnSchematicHarness() throws InterruptedException {
+        schematicsDrawingPage.zoomFit();
         int initialWiresCount = schematicsDrawingPage.getWiresCount();
         Assert.assertTrue(initialWiresCount!=0,"No wires are available on drawing to export");
         schematicsDrawingPage.moveToWireEditor();
@@ -387,6 +389,7 @@ public class SchematicStepDefinitions {
 
     @And("user loades wires from schematic on harness wireeditor")
     public void userLoadesWiresFromSchematicOnHarnessWireeditor() throws InterruptedException {
+        schematicsDrawingPage.zoomFit();
         int initialWiresCount = schematicsDrawingPage.getWiresCount();
         if (initialWiresCount>0){
             schematicsDrawingPage.verifyWiresCanBeDeleted(initialWiresCount);
@@ -395,8 +398,7 @@ public class SchematicStepDefinitions {
         Thread.sleep(4000);
         schematicsDrawingPage.selectLoadFromSchematic();
         schematicsDrawingPage.verifyLoadSchematicWindowOpened();
-//        String schematicTaskName = FlowContext.drawingTaskName;
-        String schematicTaskName = "5465";
+        String schematicTaskName = FlowContext.drawingTaskName;
         schematicsDrawingPage.selectTaskToBeLoaded(schematicTaskName);
     }
 
@@ -472,6 +474,7 @@ public class SchematicStepDefinitions {
 
     @And("User moved to wire editor")
     public void userMovedToWireEditor() throws InterruptedException {
+        schematicsDrawingPage.zoomFit();
         schematicsDrawingPage.moveToWireEditor();
     }
 
@@ -484,6 +487,9 @@ public class SchematicStepDefinitions {
     public void userAddTheWireTableInTheNewFrameAdjacentToExistingFrame() throws InterruptedException {
         schematicsDrawingPage.addNewFrame();
         schematicsDrawingPage.addWireTable();
+    }
+    @And("user updates wiretable")
+    public void userUpdatesWireTable() throws InterruptedException {
         schematicsDrawingPage.updateWireTable();
     }
 
@@ -500,17 +506,20 @@ public class SchematicStepDefinitions {
 
     @When("User verifies wires can be loaded from schematic on drawing page succesfully")
     public void userTriesToLoadWiresFromSchematicOnDrawingPage() throws InterruptedException {
+        schematicsDrawingPage.zoomFit();
         int initialWiresCount = schematicsDrawingPage.getWiresCount();
         if (initialWiresCount>0){
             schematicsDrawingPage.verifyWiresCanBeDeleted(initialWiresCount);
         }
         schematicsDrawingPage.openLoadWiresForm();
         schematicsDrawingPage.verifyLoadWiresFromSchematicOnDrawingOpened();
-        schematicsDrawingPage.submitAndVerifyLoadWiresDetails();
+        String schematicTaskName = FlowContext.drawingTaskName;
+        schematicsDrawingPage.submitAndVerifyLoadWiresDetails(schematicTaskName);
     }
 
     @And("User verifies wires can be imported successfully")
     public void userVerifiesWiresCanBeExportedAndImportedSuccessfully() throws InterruptedException {
+        schematicsDrawingPage.zoomFit();
         int initialWiresCount = schematicsDrawingPage.getWiresCount();
         schematicsDrawingPage.verifyWiresCanBeDeleted(initialWiresCount);
         schematicsDrawingPage.moveToWireEditor();
@@ -530,7 +539,8 @@ public class SchematicStepDefinitions {
     @And("User schematic data can be synced on harness drawing")
     public void userSyncsSchematicDataOnHarnessDrawing() throws InterruptedException {
         schematicsDrawingPage.selectSchematicInfoTabFromLeftPane();
-        schematicsDrawingPage.enterSchematicDetailsOnLeftPane();
+        String schematicTaskName = FlowContext.drawingTaskName;
+        schematicsDrawingPage.enterSchematicDetailsOnLeftPane(schematicTaskName);
         schematicsDrawingPage.selectSheetsTabFromLeftPane();
         schematicsDrawingPage.syncSchematicLeftPane();
     }
