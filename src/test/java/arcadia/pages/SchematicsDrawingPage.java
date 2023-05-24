@@ -20,6 +20,7 @@ import org.testng.Assert;
 import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -100,6 +101,7 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(css = "select#wireType") private WebElement selectWireTypeShowWireWithoutLabel;
     @FindBy(css = "div#btnFotter button[title=\"Submit\"]") private WebElement buttonSubmitDetails;
     @FindBy(xpath = "//input[@class='wireidspec']") private WebElement wireName;
+  @FindBy(xpath = "//label[text()='Wire ID:']") private WebElement wireId;
     @FindBy(xpath = "//button[@title='Update wire data, close dialog']") private WebElement wireOkButton;
     @FindBy(xpath = "//div[@title='Zoom Out']") private WebElement zoomOut;
     @FindBy(id = "izoom_in") private WebElement zoomIn;
@@ -175,6 +177,7 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(xpath = "//input[@name='Loading']") private WebElement LoadingInputBox;
     @FindBy(xpath = "//input[@name='Side']") private WebElement sideInputBox;
     @FindBy(xpath = "//button[@class='sbarbut']/span[text()='Submit']") private WebElement submitButtonImageView;
+    @FindBy(xpath = "//input[@class='msgButton' and @name='Yes']") private WebElement yesButton;
 
     @FindBy(css = "a.btnExportCSV") private WebElement buttonExportCsvAllWires;
     @FindBy(xpath = "//button[contains(text(),'Load From Schematic')]") private WebElement buttonLoadFromSchematicOnWireEditor;
@@ -494,9 +497,8 @@ public class SchematicsDrawingPage extends BasePage{
         customCommand.moveByOffsetOfElementAndClick(driver,left,90,0);
         Thread.sleep(2000);
         actions.moveToElement(right).click().perform();
-        Thread.sleep(2000);
-        (new WebDriverWait(driver, 10))
-                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@class='wireidspec']")));
+        (new WebDriverWait(driver, 10)).until(ExpectedConditions.visibilityOf(wireId));
+        wireName.click();
         customCommand.clearAndEnterText(wireName,name);
         customCommand.javaScriptClick(driver,wireOkButton);
         Thread.sleep(2000);
@@ -731,7 +733,8 @@ public class SchematicsDrawingPage extends BasePage{
     public void selectNodeToAddPart(String nodeIndex,String partNameIndex) throws InterruptedException {
         customCommand.javaScriptClick(driver,selectButton);
         int nIndex= Integer.parseInt(nodeIndex.substring(4));
-        WebElement node=nodes.get(nIndex);
+        List<WebElement> nodesList = new LinkedList<>(driver.findElements(By.xpath("//*[name()='use' and contains(@onmouseenter,'#HEHBnode3')]")));
+        WebElement node=nodesList.get(nIndex);
         new HarnessPage(driver).getContextMenu("",node);
         customCommand.javaScriptClick(driver,linkParts);
         customCommand.javaScriptClick(driver,existingButton);
@@ -1004,11 +1007,13 @@ public class SchematicsDrawingPage extends BasePage{
         for(WebElement ele:spliceImageNodes)
         {
             String id="DN"+ele.getAttribute("data-uid");
-            WebElement node=driver.findElement(By.xpath("//*[name()='g' and @id='"+id+"']/*[name()='use']"));
+            id=id.substring(2);
+            WebElement node=driver.findElement(By.xpath("(//*[name()='g' and @data-uid='"+id+"'])[1]/*[name()='rect'][1]"));
             customCommand.javaScriptClick(driver,moveButton);
-           zoomIn.click();
+            zoomIn.click();
             node.click();
-            customCommand.moveByOffsetOfElementAndClick(driver,node,node.getLocation().getX(),node.getLocation().getY()-50);
+//            customCommand.clickAtLocation(driver,node.getLocation().getX(),node.getLocation().getY()+50);
+            customCommand.moveByOffsetOfElementAndClick(driver,node,0,-50);
         }
     }
 
@@ -1031,6 +1036,7 @@ public class SchematicsDrawingPage extends BasePage{
         customCommand.clearAndEnterText(LoadingInputBox,"1.5");
         customCommand.clearAndEnterText(sideInputBox,"1.5");
         customCommand.javaScriptClick(driver,submitButtonImageView);
+        customCommand.javaScriptClick(driver,yesButton);
     }
 
     public void moveWireLeads() throws InterruptedException {
