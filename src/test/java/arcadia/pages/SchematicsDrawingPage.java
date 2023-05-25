@@ -833,7 +833,6 @@ public class SchematicsDrawingPage extends BasePage{
         }
         customCommand.javaScriptClick(driver,selectButton);
         WebElement ele=driver.findElement(By.xpath("//*[name()='text' and text()='"+connectorIndex+"']/ancestor::*[name()='g']/*[name()='rect' and @etype='connector']"));
-        ele=driver.findElement(By.xpath("//*[name()='text' and text()='"+connectorIndex+"']/ancestor::*[name()='g']/*[name()='rect' and @etype='connector']"));
         new HarnessPage(driver).getContextMenu("",ele);
         customCommand.javaScriptClick(driver,changeNode);
         int nIndex= Integer.parseInt(nodeIndex.substring(4));

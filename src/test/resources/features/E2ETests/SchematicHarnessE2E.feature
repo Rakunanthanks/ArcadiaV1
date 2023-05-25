@@ -14,20 +14,20 @@ Feature: Verify schematics harness
     And user sets label 'node' to "Show"
     And user add nodes to schematic harness
     And user selects footer snap "Minor"
-    And user select the 'node1' to add the part "C1"
-    And user verifies the 'search' filter to link part "C1"
-    And user select the 'node3' to add the part "SP-BK"
-    And user verifies the 'splices' filter to link part "SP-BK"
-    And user select the 'node2' to add the part "C2"
-    And user verifies the 'search' filter to link part "C2"
-    And user select the 'node4' to add the part "SP-YE"
-    And user verifies the 'splices' filter to link part "SP-YE"
-    And user select the 'node5' to add the part "SP-GN"
-    And user verifies the 'splices' filter to link part "SP-GN"
-    And user select the 'node6' to add the part "C3"
+    And user select the 'node10' to add the part "SP-BK"
+    And user verifies the 'search' filter to link part "SP-BK"
+    And user select the 'node9' to add the part "SP-001"
+    And user verifies the 'splices' filter to link part "SP-001"
+    And user select the 'node8' to add the part "SP-GN"
+    And user verifies the 'search' filter to link part "SP-GN"
+    And user select the 'node6' to add the part "C1"
+    And user verifies the 'connector' filter to link part "C1"
+    And user select the 'node5' to add the part "C2"
+    And user verifies the 'connector' filter to link part "C2"
+    And user select the 'node3' to add the part "C3"
     And user verifies the 'connector' filter to link part "C3"
-    And user select the 'node7' to add the part "C4"
+    And user select the 'node2' to add the part "C4"
     And user verifies the 'connector' filter to link part "C4"
-    And user click on part 'C5' to drag and drop to 'node8'
-    And user click on part 'C6' to drag and drop to 'node9'
+    And user click on part 'C6' to drag and drop to 'node1'
+    And user click on part 'C5' to drag and drop to 'node0'
 
