@@ -20,6 +20,7 @@ public enum EndPoint {
     TASKUNITS("/index.lp?app=generaledit&appoption=3&section=Units&mainsection=General&profilecode=profileName"),
     NEWPROJECT("/index.lp?app=projects2&appoption=10&project=29&projName=projectName"),
     LABELVISIBILITY("/index.lp?app=generaledit&appoption=3&section=Label%20Visibility%20Harness&mainsection=Harness&profilecode=profileName"),
+    FORMBOARDLABELVISIBILITY("/index.lp?app=generaledit&appoption=3&section=Label%20Visibility%20Formboard&mainsection=Formboard&profilecode=profileName"),
     SCHEMATICWIREPROPERTIES("/index.lp?app=generaledit&appoption=3&section=Signal%20Properties&mainsection=Schematic&profilecode=profileName");
     public final String url;
     EndPoint(String url) {

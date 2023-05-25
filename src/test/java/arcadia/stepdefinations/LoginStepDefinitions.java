@@ -67,7 +67,11 @@ public class LoginStepDefinitions {
     @And("Navigating to Company profile page")
     public void navigateToSettings() throws InterruptedException {
         loginPage.load(EndPoint.SETTINGS.url);
-        context.driver.switchTo( ).alert( ).accept();
+        try {
+            context.driver.switchTo().alert().accept();
+        }catch(org.openqa.selenium.NoSuchElementException e){
+            Thread.sleep(2000);
+        }
         loginPage.load(EndPoint.BUNDLEDEFAULTDISPLAY.url.replace("profileName",System.getProperty("profileName")));
         Thread.sleep(1000);
         new DefineBundleTolerance(context.driver).CaptureModifyBundleTolerance();
@@ -241,5 +245,9 @@ public class LoginStepDefinitions {
     @And("Navigated to Label visibility in profile page")
     public void navigatedToLabelVisibility() {
         loginPage.load(EndPoint.LABELVISIBILITY.url.replace("profileName",System.getProperty("profileName")));
+    }
+    @And("Navigated to Label visibility in profile page for formboard")
+    public void navigatedToLabelVisibilityFormboard() {
+        loginPage.load(EndPoint.FORMBOARDLABELVISIBILITY.url.replace("profileName",System.getProperty("profileName")));
     }
 }
