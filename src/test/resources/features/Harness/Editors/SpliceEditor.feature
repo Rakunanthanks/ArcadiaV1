@@ -45,6 +45,7 @@ Feature: Splice Editor
     Then Check editor detail that undo has been performed or not
     And Perform redo operation
     Then Check editor detail that redo operation has been performed or not
+    And go to drawing
     And User exits the drawing page
     And User deletes Harness 'Splice Editor' successfully
 

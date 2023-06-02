@@ -58,7 +58,6 @@ public class NodeLabelStepDefinitions {
     @And("user sets label in profile {string} to {string}")
     public void userSetsLabelInProfileNodeToShow(String labelName, String showHide) throws InterruptedException {
        nodeLabelVisibilityPage.userSetsLabelInProfileNodeToShow(labelName,showHide);
-
     }
 
 }

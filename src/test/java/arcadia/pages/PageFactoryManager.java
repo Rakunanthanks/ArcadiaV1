@@ -25,6 +25,9 @@ public class PageFactoryManager {
     private static WireEditorPage wireEditorPage;
     private static NodeLabelVisibilityPage nodeLabelVisibilityPage;
     private static BundleLabelVisibilityPage bundleLabelVisibilityPage;
+    private static ConnectorCavityTablePage connectorCavityTablePage;
+    private static SpliceCavityTablePage spliceCavityTablePage;
+    private static FormboardPage formboardPage;
 
 
     public static SearchPartsDatabasePage getPartsDatabasePage(WebDriver driver){
@@ -91,5 +94,14 @@ public class PageFactoryManager {
     }
     public static BundleLabelVisibilityPage getBundleLabelVisibilityPage(WebDriver driver){
         return bundleLabelVisibilityPage == null ? new BundleLabelVisibilityPage(driver) :bundleLabelVisibilityPage;
+    }
+    public static ConnectorCavityTablePage getConnectorCavityTablePage(WebDriver driver){
+        return connectorCavityTablePage == null ? new ConnectorCavityTablePage(driver) :connectorCavityTablePage;
+    }
+    public static SpliceCavityTablePage getSpliceCavityTablePage(WebDriver driver){
+        return spliceCavityTablePage == null ? new SpliceCavityTablePage(driver) :spliceCavityTablePage;
+    }
+    public static FormboardPage getFormboardPage(WebDriver driver){
+        return formboardPage == null ? new FormboardPage(driver) :formboardPage;
     }
 }
