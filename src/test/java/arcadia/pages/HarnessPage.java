@@ -48,10 +48,7 @@ public class HarnessPage extends BasePage{
     @FindBy(css = "input#nodeshow") private WebElement buttonShowNode;
 
     @FindBy(css = "div[title=\"Label Visibility\"]>span") private WebElement buttonVisibility;
-
     @FindBy(css = "button[title=\"Submit\"]") private WebElement buttonSubmitDetails;
-
-
     @FindBy(xpath = "//div[@id='appContextMenu']/li") private  List<WebElement> operations;
     @FindBy(xpath = "//div[@title='Draw Select']") private  WebElement drawSelectPointer;
 
@@ -215,7 +212,6 @@ public class HarnessPage extends BasePage{
         customCommand.rightClick(driver,ele);
         Thread.sleep(2000);
     }
-
     public void getCavityTableContextMenu(String id) throws InterruptedException {
         customCommand.javaScriptClick(driver,drawSelectPointer);
         WebElement ele = driver.findElement(By.xpath("//*[name()='g' and @id='"+id+"']//table//tbody/tr/td"));

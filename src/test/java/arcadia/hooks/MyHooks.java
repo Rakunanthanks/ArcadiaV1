@@ -60,6 +60,7 @@ public class MyHooks {
         schematicDescription = "";
         schematicHarnessName = "";
         drawingTaskName = "";
+        bomTableIdentifier ="";
     }
 
     @After

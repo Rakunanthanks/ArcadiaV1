@@ -1,5 +1,5 @@
 @Regression @BundleLabelVisibility
-Feature: Bundle Label Visibility
+Feature: Bundle Label Visibility and Update Fonts
   Background: User is Logged In
     Given I'm on Arcadia test environment
 
@@ -9,15 +9,23 @@ Feature: Bundle Label Visibility
     And user sets label in profile 'node' to 'hide'
     And Navigated to Label visibility in profile page
     And user sets label in profile 'bundle' to 'hide'
-    And Navigating to Company profile page
+    And Navigated to harness update font in profile page
+    And Change font size in profile and capture the font size in 'bundle' 'harness'
+    And Save the profile settings
+    And Navigated to form board update font in profile page
+    And Change font size in profile and capture the font size in 'bundle' 'formboard'
+    And Save the profile settings
 
-   Scenario: To verify bundle name label visibility
+   Scenario: To verify bundle name label visibility and update fonts
       And Navigated to quickstart project
       And harness with name 'Bundle label Visibility' is launched successfully
       And test data config loaded for test identifier test12
       And based on drawing orchestrator components are created
       And user sets label 'Bundle name' to "show"
       Then Verify bundle 'name' label is 'visible' or not
+      And click Update fonts
+      And Change font size and colour in the task for 'bundle name'
+      Then Check 'bundle name' is as per updated font size and font colour in the task
       And user sets label 'Bundle name' to "Hide"
       Then Verify bundle 'Bundle name' label is 'hide' or not
       And User exits the drawing page
@@ -25,6 +33,9 @@ Feature: Bundle Label Visibility
       And Generating Formboard
       And user sets label 'Bundle name' to "show" in formboard
       Then Verify bundle 'name' label is 'visible' or not
+      And click Update fonts in formboard
+      Then check the font size is as per the profile or not in bundle
+      Then Check 'bundle name' is as per updated font size and font colour in the formboard
       And user sets label 'Bundle name' to "Hide" in formboard
       Then Verify bundle 'Bundle name' label is 'hide' or not
       And User exits the drawing page
@@ -84,6 +95,9 @@ Feature: Bundle Label Visibility
     And based on drawing orchestrator components are created
     And user sets label 'bundle wire bundle diameter' to "show"
     Then Verify bundle 'wire bundle diameter inch' label is 'visible' or not
+    And click Update fonts
+    And Change font size and colour in the task for 'bundle length'
+    Then Check 'bundle length' is as per updated font size and font colour in the task
     And user sets label 'bundle wire bundle diameter' to "Hide"
     Then Verify bundle 'wire bundle diameter inch' label is 'hide' or not
     And User exits the drawing page
@@ -91,6 +105,7 @@ Feature: Bundle Label Visibility
     And Generating Formboard
     And user sets label 'bundle wire bundle diameter' to "show" in formboard
     Then Verify bundle 'wire bundle diameter inch' label is 'visible' or not
+    Then Check 'bundle length' is as per updated font size and font colour in the formboard
     And user sets label 'bundle wire bundle diameter' to "Hide" in formboard
     Then Verify bundle 'wire bundle diameter inch' label is 'hide' or not
     And User exits the drawing page
@@ -172,6 +187,9 @@ Feature: Bundle Label Visibility
     And user sets label 'bundle pieceid' to "show"
     When User try operation 'Add covering' for bundle
     Then Verify bundle 'bundle pieceid' label is 'visible' or not
+    And click Update fonts
+    And Change font size and colour in the task for 'bundle length'
+    Then Check 'bundle length' is as per updated font size and font colour in the task
     And user sets label 'bundle pieceid' to "Hide"
     Then Verify bundle 'bundle pieceid' label is 'hide covering details' or not
     And User exits the drawing page
@@ -263,6 +281,9 @@ Feature: Bundle Label Visibility
     And user sets label 'bundle covering partdescription' to "show"
     When User try operation 'Add covering' for bundle
     Then Verify bundle 'bundle covering partdescription' label is 'visible' or not
+    And click Update fonts
+    And Change font size and colour in the task for 'bundle coverings'
+    Then Check 'bundle coverings' is as per updated font size and font colour in the task
     And user sets label 'bundle covering partdescription' to "Hide"
     Then Verify bundle 'bundle covering partdescription' label is 'hide covering details' or not
     And User exits the drawing page
@@ -270,6 +291,7 @@ Feature: Bundle Label Visibility
     And Generating Formboard
     And user sets label 'bundle covering partdescription' to "show" in formboard
     Then Verify bundle 'formboard bundle covering partdescription' label is 'visible' or not
+    Then Check 'bundle coverings' is as per updated font size and font colour in the formboard
     And user sets label 'bundle covering partdescription' to "Hide" in formboard
     Then Verify bundle 'formboard bundle covering partdescription' label is 'hide covering details' or not
     And User exits the drawing page
