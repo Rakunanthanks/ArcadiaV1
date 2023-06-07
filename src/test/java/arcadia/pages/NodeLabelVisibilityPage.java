@@ -166,6 +166,37 @@ public class NodeLabelVisibilityPage extends BasePage {
                    Assert.assertEquals(layer85.getText().replaceAll("\\s+", ""),"","By enabling all values to show is not visible as expected");
                    break;
                }
+               case "formboard node":{
+                   customCommand.waitForElementVisibility(driver,layer85);
+                   String description = otherPartsAPIData().get(0).getDescription().replaceAll("\\s+", "");
+                   System.out.println("NODE1"+testValue+"1x"+otherPartNumberValue+"-"+otherPartsAPIData().get(0).getDescription()+"-BASIC"+testValue);
+                   Assert.assertEquals(layer85.getText().replaceAll("\\s+", ""),"NODE1"+testValue+"1x"+otherPartNumberValue+"-"+description+"-BASIC"+testValue,"By enabling all values to show is not visible as expected");
+                   break;
+               }
+               case "formboard node functional description":{
+                   Assert.assertEquals(complabel.getText(), testValue, "Functional description is not Visible as expected");
+                   System.out.println(complabel.getText());
+                   break;
+               }
+               case "formboard attached parts":{
+                   System.out.println(attachPartsDetails.getText());
+                   Assert.assertEquals(attachPartsDetails.getText(), "1x "+otherPartNumberValue, "Attach parts label is not Visible as expected");
+                   break;
+               }
+               case "formboard attached parts name":{
+                   System.out.println(complabel.getText());
+                   Assert.assertEquals(complabel.getText(),testValue,"Attach parts name comp label is not as expected");
+                   break;
+               }
+               case "formboard attached part description":{
+                   Assert.assertEquals(attachPartsDetails.getText(),"1x - "+otherPartsAPIData().get(0).getDescription(),"Attach parts description is not as expected");
+                   break;
+               }
+               case "formboard attached part variants":{
+                   Assert.assertEquals(attachPartsDetails.getText(),"1x - BASIC","Attach parts variants is not displaying as expected");
+                   break;
+               }
+
            }
        } else if (visibileHide.equalsIgnoreCase("hide")){
            try {
@@ -235,6 +266,22 @@ public class NodeLabelVisibilityPage extends BasePage {
                 }
                 else {
                     driver.findElement(By.cssSelector("input#bundlehide")).click();
+                }
+                break;
+            case "connector cavity table" :
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input#connectorcavityshow")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input#connectorcavityhide")).click();
+                }
+                break;
+            case "splice cavity table" :
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input#splicecavityshow")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input#splicecavityhide")).click();
                 }
                 break;
         }

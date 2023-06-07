@@ -463,7 +463,233 @@ public class HarnessPage extends BasePage{
                     driver.findElement(By.cssSelector("input.bundlehide[name='bundle_CoveringsLength']")).click();
                 }
                 break;
+            case "connector cavity table name":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input.connectorcavityshow[name='connectorcavity_Name']")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input.connectorcavityhide[name='connectorcavity_Name']")).click();
+                }
+                break;
+            case "connector cavity table functional description":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input.connectorcavityshow[name='connectorcavity_FuncDescription']")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input.connectorcavityhide[name='connectorcavity_FuncDescription']")).click();
+                }
+                break;
+            case "connector cavity table node description":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input.connectorcavityshow[name='connectorcavity_NodeDescription']")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input.connectorcavityhide[name='connectorcavity_NodeDescription']")).click();
+                }
+                break;
+            case "connector cavity table part number":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input.connectorcavityshow[name='connectorcavity_PartNumber']")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input.connectorcavityhide[name='connectorcavity_PartNumber']")).click();
+                }
+                break;
+            case "connector cavity table part number description":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input.connectorcavityshow[name='connectorcavity_PartNumberDescription']")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input.connectorcavityhide[name='connectorcavity_PartNumberDescription']")).click();
+                }
+                break;
+            case "connector cavity table company name":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input.connectorcavityshow[name='connectorcavity_CompanyName']")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input.connectorcavityhide[name='connectorcavity_CompanyName']")).click();
+                }
+                break;
+            case "connector cavity table variant":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input.connectorcavityshow[name='connectorcavity_PartNumberVariants']")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input.connectorcavityhide[name='connectorcavity_PartNumberVariants']")).click();
+                }
+                break;
+            case "connector cavity table attach parts":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input.connectorcavityshow[name='connectorcavity_AttachedParts']")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input.connectorcavityhide[name='connectorcavity_AttachedParts']")).click();
+                }
+                break;
+            case "connector cavity table attach parts description":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input.connectorcavityshow[name='connectorcavity_AttachedPartsDescription']")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input.connectorcavityhide[name='connectorcavity_AttachedPartsDescription']")).click();
+                }
+                break;
+            case "connector cavity table attach parts variants":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input.connectorcavityshow[name='connectorcavity_AttachedPartsVariants']")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input.connectorcavityhide[name='connectorcavity_AttachedPartsVariants']")).click();
+                }
+                break;
+            case "connector cavity table terminal":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input.connectorcavityshow[name='connectorcavity_Terminals']")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input.connectorcavityhide[name='connectorcavity_Terminals']")).click();
+                }
+                break;
+                case "connector cavity table terminal description":
+                    if (showHide.equalsIgnoreCase("show")){
+                        driver.findElement(By.cssSelector("input.connectorcavityshow[name='connectorcavity_TerminalsDescription']")).click();
+                    }
+                    else {
+                        driver.findElement(By.cssSelector("input.connectorcavityhide[name='connectorcavity_TerminalsDescription']")).click();
+                    }
+                    break;
+            case "connector cavity table seal part number":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input.connectorcavityshow[name='connectorcavity_Seals']")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input.connectorcavityhide[name='connectorcavity_Seals']")).click();
+                }
+                break;
+            case "connector cavity table seal part number description":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input.connectorcavityshow[name='connectorcavity_SealsDescription']")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input.connectorcavityhide[name='connectorcavity_SealsDescription']")).click();
+                }
+                break;
+            case "connector cavity table plug part number":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input.connectorcavityshow[name='connectorcavity_Plugs']")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input.connectorcavityhide[name='connectorcavity_Plugs']")).click();
+                }
+                break;
+            case "connector cavity table plug part number description":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input.connectorcavityshow[name='connectorcavity_PlugsDescription']")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input.connectorcavityhide[name='connectorcavity_PlugsDescription']")).click();
+                }
+                break;
+            case "connector cavity table connector group id":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input.connectorcavityshow[name='connectorcavity_ConnectorGroupID']")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input.connectorcavityhide[name='connectorcavity_ConnectorGroupID']")).click();
+                }
+                break;
+            case "connector cavity table terminal image quantity":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input.connectorcavityshow[name='connectorcavity_TerminalImage']")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input.connectorcavityhide[name='connectorcavity_TerminalImage']")).click();
+                }
+                break;
+            case "connector cavity table terminal image part number":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input.connectorcavityshow[name='connectorcavity_TerminalImagePN']")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input.connectorcavityhide[name='connectorcavity_TerminalImagePN']")).click();
+                }
+                break;
+            case "splice cavity table name":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input.splicecavityshow[name='splicecavity_Name']")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input.splicecavityhide[name='splicecavity_Name']")).click();
+                }
+                break;
+            case "splice cavity table functional description":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input.splicecavityshow[name='splicecavity_FuncDescription']")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input.splicecavityhide[name='splicecavity_FuncDescription']")).click();
+                }
+                break;
+            case "splice cavity table node description":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input.splicecavityshow[name='splicecavity_NodeDescription']")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input.splicecavityhide[name='splicecavity_NodeDescription']")).click();
+                }
+                break;
+            case "splice cavity table part number":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input.splicecavityshow[name='splicecavity_PartNumber']")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input.splicecavityhide[name='splicecavity_PartNumber']")).click();
+                }
+                break;
+            case "splice cavity table part number description":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input.splicecavityshow[name='splicecavity_PartNumberDescription']")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input.splicecavityhide[name='splicecavity_PartNumberDescription']")).click();
+                }
+                break;
+            case "splice cavity table variants":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input.splicecavityshow[name='splicecavity_PartNumberVariants']")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input.splicecavityhide[name='splicecavity_PartNumberVariants']")).click();
+                }
+                break;
+            case "splice cavity table attached parts":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input.splicecavityshow[name='splicecavity_AttachedParts']")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input.splicecavityhide[name='splicecavity_AttachedParts']")).click();
+                }
+                break;
+            case "splice cavity table attached parts description":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input.splicecavityshow[name='splicecavity_AttachedPartsDescription']")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input.splicecavityhide[name='splicecavity_AttachedPartsDescription']")).click();
+                }
+                break;
+            case "splice cavity table attached parts variants":
+                if (showHide.equalsIgnoreCase("show")){
+                    driver.findElement(By.cssSelector("input.splicecavityshow[name='splicecavity_AttachedPartsVariants']")).click();
+                }
+                else {
+                    driver.findElement(By.cssSelector("input.splicecavityhide[name='splicecavity_AttachedPartsVariants']")).click();
+                }
+                break;
+
         }
+
         customCommand.javaScriptClick(driver,buttonSubmitDetails);
         Thread.sleep(8000);
     }

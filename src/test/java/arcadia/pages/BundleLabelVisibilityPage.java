@@ -37,11 +37,11 @@ public class BundleLabelVisibilityPage  extends BasePage {
     @FindBy(css="#ui-id-2")private WebElement variantOptions;
     @FindBy(css="#VO > fieldset > p:nth-child(1) > label:nth-child(2) > span > label > span.switch-label")private WebElement variants;
     @FindBy(css = "#layer_85 > g.DG5.bundleGroup")private WebElement layer85;
-
+    @FindBy(css = "#layer_85")private WebElement formboardLayer85;
     String pieceIDValue = "1234";
     String coveringPartNumberValue = "ES2000-NO.3-B9-0-40MM";
-    String bundleLengthInch = "5.01";
-    String bundleLengthMM = "127.26";
+    String bundleLengthInch = "5.15";
+    String bundleLengthMM = "130.83";
     HarnessPage harnessPage = new HarnessPage(driver);
     private  BundlePage bundlePage;
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
@@ -58,11 +58,11 @@ public class BundleLabelVisibilityPage  extends BasePage {
                     System.out.println(complabel.getText());
                 }
                 case "length inch" -> {
-                    Assert.assertEquals(complabel.getText(), "5.01", "Bundle length is not visible as expected");
+                    Assert.assertEquals(complabel.getText(), "5.15", "Bundle length is not visible as expected");
                     System.out.println(complabel.getText());
                 }
                 case "bundle tolerance inch" -> {
-                    Assert.assertEquals(complabel.getText(),"5.01 (+/-0.39)","Bundle tolerance is not visible as expected");
+                    Assert.assertEquals(complabel.getText(),"5.15 (+/-0.39)","Bundle tolerance is not visible as expected");
                     System.out.println(complabel.getText());
                 }
                 case "wire bundle diameter inch" ->{
@@ -70,11 +70,11 @@ public class BundleLabelVisibilityPage  extends BasePage {
                     System.out.println(complabel.getText());
                 }
                 case "length mm" -> {
-                    Assert.assertEquals(complabel.getText(), "127.26", "Bundle length metric is not visible as expected");
+                    Assert.assertEquals(complabel.getText(), "130.83", "Bundle length metric is not visible as expected");
                     System.out.println(complabel.getText());
                 }
                 case "bundle tolerance mm" -> {
-                    Assert.assertEquals(complabel.getText(),"127.26 (+/- 10)","Bundle tolerance metric is not visible as expected");
+                    Assert.assertEquals(complabel.getText(),"130.83 (+/-10)","Bundle tolerance metric is not visible as expected");
                     System.out.println(complabel.getText());
                 }
                 case "wire bundle diameter mm" ->{
@@ -88,14 +88,13 @@ public class BundleLabelVisibilityPage  extends BasePage {
                 }
                 case "bundle piece id length mm" ->{
                     addCovering();
-                    Thread.sleep(12000);
                     System.out.println(coveringDetails.getText());
-                    Assert.assertEquals(coveringDetails.getText(),"127.26","Bundle Piece length in metric task is not visible as expected");
+                    Assert.assertEquals(coveringDetails.getText(),"130.83","Bundle Piece length in metric task is not visible as expected");
                 }
                 case "bundle piece id length inch" ->{
                     addCovering();
                     System.out.println(coveringDetails.getText());
-                    Assert.assertEquals(coveringDetails.getText(),"5.01","Bundle Piece length in imperial is not visible as expected");
+                    Assert.assertEquals(coveringDetails.getText(),"5.15","Bundle Piece length in imperial is not visible as expected");
                 }
                 case "bundle covering pn" -> {
                     addCovering();
@@ -117,12 +116,12 @@ public class BundleLabelVisibilityPage  extends BasePage {
                 case "bundle covering length mm" ->{
                     addCovering();
                     System.out.println(coveringDetails.getText());
-                    Assert.assertEquals(coveringDetails.getText(),"127.26","Covering attach length is not visible as expected");
+                    Assert.assertEquals(coveringDetails.getText(),"130.83","Covering attach length is not visible as expected");
                 }
                 case "bundle covering length inch" ->{
                     addCovering();
                     System.out.println(coveringDetails.getText());
-                    Assert.assertEquals(coveringDetails.getText(),"5.01","Covering attach length is not visible as expected");
+                    Assert.assertEquals(coveringDetails.getText(),"5.15","Covering attach length is not visible as expected");
                 }
                 case "bundle inch" ->{
                     addCovering();
@@ -139,6 +138,45 @@ public class BundleLabelVisibilityPage  extends BasePage {
                     enableVariant();
                     System.out.println(layer85.getText().replaceAll("\\s+", ""));
                     Assert.assertEquals(layer85.getText().replaceAll("\\s+", ""),"BUNDLE1"+bundleLengthMM+"∅0mm(+/-10)HEATSHRINK_ES2000_40mm_NATURAL-"+coveringPartNumberValue+"-"+bundleLengthMM+pieceIDValue+"-"+bundleLengthMM+"mm-BASIC","all bundle label values are not visible as expected in imperial task");
+                }
+                case "formboard bundle pieceid" ->{
+                    System.out.println(coveringDetails.getText());
+                    Assert.assertEquals(coveringDetails.getText(),pieceIDValue,"Bundle Piece ID is not visible as expected in formboard");
+                }
+                case "formboard bundle piece id length mm" ->{
+                    System.out.println(coveringDetails.getText());
+                    Assert.assertEquals(coveringDetails.getText(),"130.83","Bundle Piece length in metric task is not visible as expected");
+                }
+                case "formboard bundle piece id length inch" ->{
+                    System.out.println(coveringDetails.getText());
+                    Assert.assertEquals(coveringDetails.getText(),"5.15","Bundle Piece length in imperial is not visible as expected");
+                }
+                case "formboard bundle covering pn" -> {
+                    System.out.println(coveringDetails.getText());
+                    Assert.assertEquals(coveringDetails.getText(),coveringPartNumberValue,"Bundle covering part number is not visible as expected");
+                }
+                case "formboard bundle covering partdescription" -> {
+                    Assert.assertEquals(coveringDetails.getText(),"HEATSHRINK_ES2000_40mm_NATURAL","Bundle covering part description is not visible as expected");
+                }
+                case "formboard bundle covering part variant" ->{
+                    System.out.println(coveringDetails.getText());
+                    Assert.assertEquals(coveringDetails.getText(),"BASIC","Covering attach variant is not visible as expected");
+                }
+                case "formboard bundle covering length mm" ->{
+                    System.out.println(coveringDetails.getText());
+                    Assert.assertEquals(coveringDetails.getText(),"130.83","Covering attach length is not visible as expected");
+                }
+                case "formboard bundle covering length inch" ->{
+                    System.out.println(coveringDetails.getText());
+                    Assert.assertEquals(coveringDetails.getText(),"5.15","Covering attach length is not visible as expected");
+                }
+                case "formboard inch" ->{
+                    System.out.println(formboardLayer85.getText().replaceAll("\\s+", ""));
+                    Assert.assertEquals(formboardLayer85.getText().replaceAll("\\s+", ""), "BUNDLE1"+bundleLengthInch+"∅0\"(+/-0.39)HEATSHRINK_ES2000_40mm_NATURAL-"+coveringPartNumberValue+"-"+bundleLengthInch+pieceIDValue+"-"+bundleLengthInch+"\"-BASIC","all bundle label values are not visible as expected in imperial task");
+                }
+                case "formboard mm" ->{
+                    System.out.println(formboardLayer85.getText().replaceAll("\\s+", ""));
+                    Assert.assertEquals(formboardLayer85.getText().replaceAll("\\s+", ""),"BUNDLE1"+bundleLengthMM+"∅0mm(+/-10)HEATSHRINK_ES2000_40mm_NATURAL-"+coveringPartNumberValue+"-"+bundleLengthMM+pieceIDValue+"-"+bundleLengthMM+"mm-BASIC","all bundle label values are not visible as expected in imperial task");
                 }
             }
         }
@@ -165,7 +203,14 @@ public class BundleLabelVisibilityPage  extends BasePage {
                 Assert.fail();
             }
         }
-
+        else if (visibleHide.equalsIgnoreCase("formboard hide all details")) {
+            System.out.println("Bundle details :"+ formboardLayer85.getText());
+            if (Objects.equals(formboardLayer85.getText(), "")) {
+                assert true;
+            }else {
+                Assert.fail();
+            }
+        }
     }
     public void addCovering () throws InterruptedException {
         customCommand.waitForElementVisibility(driver,windowSearchCovering);
