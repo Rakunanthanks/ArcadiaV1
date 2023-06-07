@@ -344,7 +344,7 @@ public class SchematicStepDefinitions {
     @And("User imports schematic harness")
     public void userImportsSchematicHarness() throws InterruptedException {
         schematicsDrawingPage.verifyDrawingsListPageLoaded();
-        String harnessFilePath = "src/test/resources/drawingboard/baselineHarness.hrx";
+        String harnessFilePath = "src/test/resources/drawingboard/SchematicHarness_4308_7696_4492_1685634948.hrx";
         schematicsDrawingPage.importHarness(harnessFilePath);
     }
 
@@ -467,9 +467,9 @@ public class SchematicStepDefinitions {
         }
     }
 
-    @And("User add the label to connector label from config page")
-    public void userAddTheLabelToConnectorLabelFromConfigPage() throws InterruptedException {
-        schematicsDrawingPage.openProfileSettingPage();
+    @And("User add the label to connector label from config page {word}")
+    public void userAddTheLabelToConnectorLabelFromConfigPage(String function) throws InterruptedException {
+        schematicsDrawingPage.openProfileSettingPage(function.toLowerCase());
     }
 
     @And("User moved to wire editor")
@@ -564,5 +564,83 @@ public class SchematicStepDefinitions {
         new AddNewComponentPage(context.driver).verifyAlertMessage("Connector details imported successfully.");
         new AddNewComponentPage(context.driver).closeAlertPopUp();
         schematicsDrawingPage.goToDrawingFromWireEditor();
+    }
+
+    @And("User imports harness {string}")
+    public void userImportsHarnessSchematicHarness_Restructuring(String harnessName) throws InterruptedException {
+        schematicsDrawingPage.verifyDrawingsListPageLoaded();
+        String harnessFilePath="";
+        switch (harnessName){
+            case "SchematicHarness_Restructuring":
+                harnessFilePath = "src/test/resources/drawingboard/SchematicHarness_Restructuring.hrx";
+                break;
+            case "NewScenarioHarness":
+                 harnessFilePath = "src/test/resources/drawingboard/NewScenarioHarness.hrx";
+                break;
+        }
+        schematicsDrawingPage.importHarness(harnessFilePath);
+    }
+
+    @And("user move to connector cavity table Harness page and enable hide empty column and make some column visible")
+    public void userMoveToConnectorCavityTableHarnessPage() throws InterruptedException {
+        userAddTheLabelToConnectorLabelFromConfigPage("harness_cavity");
+    }
+
+
+    @And("user verifies that empty columns are {string} in table")
+    public void userVerifiesThatEmptyColumnsAreVisibleInTable(String condition) {
+        int columns=schematicsDrawingPage.varifyHiddenColumns();
+        if(condition.equalsIgnoreCase("visible"))
+        {
+            if(columns==7)
+            ExtentCucumberAdapter.addTestStepLog(String.format("Empty columns are visible"));
+            else
+            {
+                ExtentCucumberAdapter.addTestStepLog(String.format("Empty columns are not visible"));
+                Assert.fail();
+            }}
+        else if(condition.equalsIgnoreCase("not visible"))
+        {
+            if(columns==5)
+                ExtentCucumberAdapter.addTestStepLog(String.format("Empty columns are not visible"));
+            else {
+                ExtentCucumberAdapter.addTestStepLog(String.format("Empty columns are visible"));
+                Assert.fail();
+            }
+        }
+    }
+
+    @And("user add the terminal part number to check if new column is coming on adding the details")
+    public void userAddTheTerminalPartNumberToCheckIfNewColumnIsComingOnAddingTheDetails() throws InterruptedException {
+        schematicsDrawingPage.addTerminalPartNo();
+        int columns=schematicsDrawingPage.varifyHiddenColumns();
+            if(columns==6)
+                ExtentCucumberAdapter.addTestStepLog(String.format("terminal part number column is visible"));
+            else
+            {
+                ExtentCucumberAdapter.addTestStepLog(String.format("terminal part number column is not visible"));
+                Assert.fail();
+            }
+            schematicsDrawingPage.undo();
+    }
+
+    @And("user verifies terminal in harness cavity is updated with default db hierarchy")
+    public void userVerifiesTerminalInHarnessCavityIsUpdatedWithDefaultDbHierarchy() throws InterruptedException {
+        schematicsDrawingPage.updateTerminal("db hierarchy");
+    }
+
+    @And("user verifies if error is coming if updated with invalid part number")
+    public void userVerifiesIfErrorIsComingIfUpdatedWithInvalidPartNumber() throws InterruptedException {
+        schematicsDrawingPage.addInvalidFieldInCavity();
+        schematicsDrawingPage.updateTerminal("select");
+
+        int errorCount=schematicsDrawingPage.checkErrors();
+        if(errorCount==5)
+            ExtentCucumberAdapter.addTestStepLog(String.format("Test Passed as invalid part number can not be linked to terminal"));
+        else
+        {
+            ExtentCucumberAdapter.addTestStepLog(String.format("Test Failed as invalid part number linked to terminal"));
+            Assert.fail();
+        }
     }
 }

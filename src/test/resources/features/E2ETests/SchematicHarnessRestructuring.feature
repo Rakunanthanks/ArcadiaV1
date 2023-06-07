@@ -4,7 +4,7 @@ Feature: Verify harness created from schematic can be restructured
     Given I'm on Arcadia test environment
     And test data config loaded for test identifier test15
     And Navigated to 'Aut_Integration' project
-    And User imports harness
+    And User imports harness 'SchematicHarness_Restructuring'
     And user navigated to newly created harness
 
   @SchematicToHarness
@@ -17,7 +17,7 @@ Feature: Verify harness created from schematic can be restructured
     And user scale up the image size for some components
     And user move wire leads to restructure the wire linked to components
     And user toggle on the connector label option for all connectors
-    And User add the label to connector label from config page
+    And User add the label to connector label from config page 'macro'
     And user add the wire table in the new frame adjacent to existing frame
     And user updates wiretable
     And user made some changes in wires connected to components

@@ -6,6 +6,7 @@ import arcadia.pages.ComponentDB.AddNewComponentPage;
 import arcadia.pages.ComponentDB.CommonElements;
 import arcadia.utils.SeleniumCustomCommand;
 import arcadia.utils.StringHelper;
+import org.bouncycastle.jcajce.provider.asymmetric.X509;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
@@ -14,6 +15,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.python.antlr.ast.Str;
 import org.testng.Assert;
 
 
@@ -160,6 +162,8 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(css = "button[value='Import']") private WebElement buttonSubmitImport;
     @FindBy(xpath = "//span[text()='Zoom In']") private WebElement zoominButton;
     @FindBy(xpath = "//span[text()='Refresh']") private WebElement refreshButton;
+    @FindBy(xpath = "//span[text()='Undo' and @class='button-title']") private WebElement undoButton;
+
     @FindBy(css = "div[title=\"Load Wires from Schematic\"]") private WebElement buttonLoadWiresFromSchematicOnDrawing;
     @FindBy(css = "div[title=\"Delete All Existing Wires\"]") private WebElement buttonDeleteAllWires;
     @FindBy(xpath = "//span[text()='Auto Arrange']") private WebElement autoArrange;
@@ -201,19 +205,39 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(xpath = "(//*[name()='text' and text()='WIRE4'])[2]") private WebElement wire4;
     @FindBy(xpath = "//span[text()='Connector Label']") private WebElement connectorLabel;
     @FindBy(xpath = "//*[name()='text']/*[name()='tspan']") private List<WebElement> connectorLabelsCount;
-
+    @FindBy(xpath = "(//table[contains(@class,'cavityTableGFX')])[9]//tbody/tr[1]/td") private List<WebElement> cavityTableColumn;
     @FindBy(css = "table.wireTableClass thead") private WebElement wiretableHeader;
+    @FindBy(xpath = "(//*[name()='rect'  and @etype='connector'])[1]") private WebElement connector;
     @FindBy(css = "div#wire-editor button.dropdown-toggle") private WebElement toggleButtonShowHideHeaders;
     String tablePartsRows = "#tblBOMPartNoList > tbody > tr";
     String wireTableRows = "table.wireTableClass tbody>tr";
     String wireEditorRows = "div#wire-editor table>tbody>tr";
     String connectorEditorRows = "table#schConsList>tbody>tr";
     @FindBy(xpath = "(//span[text()='General']/parent::a)[1]/i[1]") private WebElement GeneralMenuSelection;
+    @FindBy(xpath = "(//span[text()='General']/parent::a)[1]/i[1]") private WebElement HarnessMenuSelection;
+
     @FindBy(xpath = "//a[contains(@href,'Macros')]") private WebElement macros;
+    @FindBy(xpath = "//select[@name='hideEmptyColumn']") private WebElement hideEmptyColmn;
+    @FindBy(xpath = "(//a[text()='Connector Cavity Table'])[1]") private WebElement connectorCavityTable;
+
     @FindBy(xpath = "//textarea[@name='labelcustom.LabelText']") private WebElement macrosLabel;
     @FindBy(xpath = "//input[@placeholder='Search']") private WebElement searchInput;
    @FindBy(xpath = "//button[@type='submit']") private WebElement submitButtonType;
     @FindBy(xpath = "//span[text()='Inspect']") private WebElement inspectButton;
+    @FindBy(xpath = "(//li[@id='cmigettermsandseals'])[2]") private WebElement updateCavity;
+    @FindBy(xpath = "//select[@name='overwrite']") private WebElement overwriteSelect;
+    @FindBy(xpath = "//select[@name='checkod']") private WebElement checkOD;
+    @FindBy(xpath = "//select[@name='termfamily']") private WebElement termfamily;
+    @FindBy(xpath = "//select[@name='termtype']") private WebElement termtype;
+    @FindBy(xpath = "//select[@name='termfinish']") private WebElement termfinish;
+    @FindBy(xpath = "//select[@name='termmaterial']") private WebElement termmaterial;
+    @FindBy(xpath = "//select[@name='termgender']") private WebElement termgender;
+    @FindBy(xpath = "//input[@class='selectall']") private WebElement selectAll;
+
+    @FindBy(xpath = "//h3[text()='Cavity Table']") private WebElement cavityTable;
+    @FindBy(xpath = "(//select[@name='cavitytable.terminalpn']/following-sibling::div/div[1])[1]") private WebElement terminalPN;
+    @FindBy(xpath = "(//input[@rel='termfamily'])[1]") private WebElement termFamily;
+    @FindBy(xpath = "(//table[@class='tablesorter'])[2]//tr") private List<WebElement> errorTableRows;
     @FindBy(xpath = "//th[@class='imageClick' and text()='S.No']") private WebElement serialNoTable;
 
     @FindBy(xpath = "//h3[text()='Table Layout']") private WebElement tableLayout;
@@ -833,7 +857,6 @@ public class SchematicsDrawingPage extends BasePage{
         }
         customCommand.javaScriptClick(driver,selectButton);
         WebElement ele=driver.findElement(By.xpath("//*[name()='text' and text()='"+connectorIndex+"']/ancestor::*[name()='g']/*[name()='rect' and @etype='connector']"));
-        ele=driver.findElement(By.xpath("//*[name()='text' and text()='"+connectorIndex+"']/ancestor::*[name()='g']/*[name()='rect' and @etype='connector']"));
         new HarnessPage(driver).getContextMenu("",ele);
         customCommand.javaScriptClick(driver,changeNode);
         int nIndex= Integer.parseInt(nodeIndex.substring(4));
@@ -1010,9 +1033,11 @@ public class SchematicsDrawingPage extends BasePage{
             id=id.substring(2);
             WebElement node=driver.findElement(By.xpath("(//*[name()='g' and @data-uid='"+id+"'])[1]/*[name()='rect'][1]"));
             customCommand.javaScriptClick(driver,moveButton);
+            Thread.sleep(2000);
             zoomIn.click();
+            Thread.sleep(2000);
             node.click();
-//            customCommand.clickAtLocation(driver,node.getLocation().getX(),node.getLocation().getY()+50);
+            Thread.sleep(2000);
             customCommand.moveByOffsetOfElementAndClick(driver,node,0,-50);
         }
     }
@@ -1058,7 +1083,7 @@ public class SchematicsDrawingPage extends BasePage{
         return connectorLabelsCount.size();
     }
 
-    public void openProfileSettingPage() throws InterruptedException {
+    public void openProfileSettingPage(String function) throws InterruptedException {
         String currentWindowHandle = driver.getWindowHandle();
         String URL= driver.getCurrentUrl();
         String taskID=customCommand.extractTaskID(URL);
@@ -1071,8 +1096,15 @@ public class SchematicsDrawingPage extends BasePage{
             }
         }
         new LoginPage(driver).load(EndPoint.PROFILE.url.replace("profileName",System.getProperty("profileName")));
-        openMacrosSetting();
-        addMacrosLabel(taskID);
+        if(function.toLowerCase().contains("macro"))
+        {
+            openMacrosSetting();
+            addMacrosLabel(taskID);
+        } else if (function.toLowerCase().contains("harness_cavity"))
+        {
+            openHarnessSetting();
+            changeConfigOnHarnessCavity(taskID);
+        }
         driver.switchTo().window(currentWindowHandle);
         customCommand.javaScriptClick(driver,refreshButton);
     }
@@ -1084,6 +1116,26 @@ public class SchematicsDrawingPage extends BasePage{
         customCommand.javaScriptClick(driver,macros);
     }
 
+    public void changeConfigOnHarnessCavity(String task) throws InterruptedException {
+        customCommand.selectDropDownByValue(hideEmptyColmn,"yes");
+        WebElement sealPN=driver.findElement(By.xpath("//span[text()='Seal PN']/../..//select[@name='showhide']"));
+        WebElement plugPN=driver.findElement(By.xpath("//span[text()='Plug PN']/../..//select[@name='showhide']"));
+        customCommand.scrollToElement(driver,plugPN);
+        customCommand.selectDropDownByValue(plugPN,"yes");
+        customCommand.scrollToElement(driver,sealPN);
+        customCommand.selectDropDownByValue(sealPN,"yes");
+        new GeneralMacrosPage(driver).clickSaveButton();
+        saveTask(task);
+    }
+
+    public void openHarnessSetting() throws InterruptedException {
+        Thread.sleep(2000);
+        customCommand.javaScriptClick(driver,HarnessMenuSelection);
+        customCommand.mouseHover(driver,HarnessMenuSelection);
+        Thread.sleep(2000);
+        customCommand.javaScriptClick(driver,connectorCavityTable);
+    }
+
     public void addMacrosLabel(String task) throws InterruptedException {
         customCommand.scrollToElement(driver,macrosLabel);
         customCommand.clearAndEnterText(macrosLabel,"@@ConnectorID#\n" +
@@ -1091,6 +1143,10 @@ public class SchematicsDrawingPage extends BasePage{
                 "@@Short Name#\n" +
                 "@@Connector Part Description#");
         new GeneralMacrosPage(driver).clickSaveButton();
+        saveTask(task);
+    }
+
+    public void saveTask(String task) throws InterruptedException {
         customCommand.clearAndEnterText(searchInput,task);
         WebElement ele=driver.findElement(By.xpath("//input[@id='"+task+"']"));
         ele.click();
@@ -1262,4 +1318,63 @@ public class SchematicsDrawingPage extends BasePage{
         customCommand.longWaitForElementToBeClickable(driver, buttonLoadFromSchematicOnConnectorEditor);
         customCommand.javaScriptClick(driver, buttonLoadFromSchematicOnConnectorEditor);
     }
+
+    public int varifyHiddenColumns()
+    {
+       return cavityTableColumn.size();
+    }
+
+    public void addTerminalPartNo() throws InterruptedException {
+        customCommand.javaScriptClick(driver,refreshButton);
+        new HarnessPage(driver).getContextMenu("",connector);
+        customCommand.javaScriptClick(driver,inspectButton);
+        customCommand.scrollToElement(driver,cavityTable);
+        customCommand.javaScriptClick(driver,cavityTable);
+        terminalPN.click();
+        customCommand.clearAndEnterText(terminalPN,"0-0444335-2");
+        customCommand.javaScriptClick(driver,submitFontUpdate);
+    }
+
+    public void undo() throws InterruptedException {
+        Thread.sleep(2000);
+        customCommand.javaScriptClick(driver,undoButton);
+        Thread.sleep(2000);
+    }
+
+    public void updateTerminal(String selectType) throws InterruptedException {
+        String yesno="no";
+        if(selectType.equalsIgnoreCase("select"))
+        {
+            yesno="yes";
+        }
+        customCommand.javaScriptClick(driver,refreshButton);
+        new HarnessPage(driver).getContextMenu("",connector);
+        customCommand.javaScriptClick(driver,updateCavity);
+        customCommand.selectDropDownByValue(overwriteSelect,"yes");
+        customCommand.selectDropDownByValue(checkOD,"yes");
+        customCommand.selectDropDownByValue(termfamily,yesno);
+        customCommand.selectDropDownByValue(termtype,yesno);
+        customCommand.selectDropDownByValue(termfinish,yesno);
+        customCommand.selectDropDownByValue(termmaterial,yesno);
+        customCommand.selectDropDownByValue(termgender,yesno);
+        customCommand.javaScriptClick(driver,SubmitWire);
+        customCommand.javaScriptClick(driver,selectAll);
+        customCommand.javaScriptClick(driver,buttonSubmitDetails);
+    }
+
+    public void addInvalidFieldInCavity() throws InterruptedException {
+        customCommand.javaScriptClick(driver,refreshButton);
+        new HarnessPage(driver).getContextMenu("",connector);
+        customCommand.javaScriptClick(driver,inspectButton);
+        customCommand.scrollToElement(driver,cavityTable);
+        customCommand.javaScriptClick(driver,cavityTable);
+        customCommand.clearAndEnterText(termFamily,"autoamtionUser");
+        customCommand.javaScriptClick(driver,submitFontUpdate);
+    }
+
+    public int checkErrors()
+    {
+        return errorTableRows.size();
+    }
+
 }
