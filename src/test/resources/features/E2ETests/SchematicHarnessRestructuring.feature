@@ -4,7 +4,7 @@ Feature: Verify harness created from schematic can be restructured
     Given I'm on Arcadia test environment
     And test data config loaded for test identifier test15
     And Navigated to 'Aut_Integration' project
-    And User imports harness
+    And User imports harness 'SchematicHarness_Restructuring'
     And user navigated to newly created harness
 
   @SchematicToHarness
