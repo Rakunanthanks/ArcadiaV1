@@ -103,7 +103,10 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(css = "select#wireType") private WebElement selectWireTypeShowWireWithoutLabel;
     @FindBy(css = "div#btnFotter button[title=\"Submit\"]") private WebElement buttonSubmitDetails;
     @FindBy(xpath = "//input[@class='wireidspec']") private WebElement wireName;
-  @FindBy(xpath = "//label[text()='Wire ID:']") private WebElement wireId;
+    @FindBy(xpath = "//h1[text()='SUMMARY REPORT']") private WebElement summaryReport;
+    @FindBy(xpath = "//div[@id='btnFotter']//span[text()='Close']") private WebElement footerCLoseButton;
+    @FindBy(xpath = "//a[text()='automation']") private List<WebElement> columnChangedTable;
+    @FindBy(xpath = "//label[text()='Wire ID:']") private WebElement wireId;
     @FindBy(xpath = "//button[@title='Update wire data, close dialog']") private WebElement wireOkButton;
     @FindBy(xpath = "//div[@title='Zoom Out']") private WebElement zoomOut;
     @FindBy(id = "izoom_in") private WebElement zoomIn;
@@ -126,6 +129,7 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(xpath = "(//table[@class='tablesorter'])[1]//td[4]//input") private List<WebElement> updateFontCheckBox;
     @FindBy(xpath = "(//table[@class='tablesorter'])[1]//td[3]/input") private List<WebElement> updateFontColor;
     @FindBy(xpath = "//button[@class='sbarbut']/span[text()='Submit']") private WebElement submitFontUpdate;
+    @FindBy(xpath = "//button[@class='sbarbut' and text()='Submit']") private WebElement submitButtonCavity;
     @FindBy(xpath = "//span[text()='Colour On/Off']") private WebElement colourOnOff;
     @FindBy(xpath = "//*[name()='g' and @title='WIRE2']//*[name()='path' and contains(@id,'outer')]") private WebElement verifyColor;
 
@@ -208,6 +212,7 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(xpath = "(//table[contains(@class,'cavityTableGFX')])[9]//tbody/tr[1]/td") private List<WebElement> cavityTableColumn;
     @FindBy(css = "table.wireTableClass thead") private WebElement wiretableHeader;
     @FindBy(xpath = "(//*[name()='rect'  and @etype='connector'])[1]") private WebElement connector;
+    @FindBy(xpath = "(//*[name()='rect'  and @etype='connector'])[2]") private WebElement connector2;
     @FindBy(css = "div#wire-editor button.dropdown-toggle") private WebElement toggleButtonShowHideHeaders;
     String tablePartsRows = "#tblBOMPartNoList > tbody > tr";
     String wireTableRows = "table.wireTableClass tbody>tr";
@@ -224,6 +229,7 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(xpath = "//input[@placeholder='Search']") private WebElement searchInput;
    @FindBy(xpath = "//button[@type='submit']") private WebElement submitButtonType;
     @FindBy(xpath = "//span[text()='Inspect']") private WebElement inspectButton;
+    @FindBy(xpath = "(//li[@id='cmicprop'])[2]") private WebElement inspectContextMenu;
     @FindBy(xpath = "(//li[@id='cmigettermsandseals'])[2]") private WebElement updateCavity;
     @FindBy(xpath = "//select[@name='overwrite']") private WebElement overwriteSelect;
     @FindBy(xpath = "//select[@name='checkod']") private WebElement checkOD;
@@ -235,9 +241,18 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(xpath = "//input[@class='selectall']") private WebElement selectAll;
 
     @FindBy(xpath = "//h3[text()='Cavity Table']") private WebElement cavityTable;
+
     @FindBy(xpath = "(//select[@name='cavitytable.terminalpn']/following-sibling::div/div[1])[1]") private WebElement terminalPN;
     @FindBy(xpath = "(//input[@rel='termfamily'])[1]") private WebElement termFamily;
+    @FindBy(xpath = "(//table[@id='cavitytable']//input[@class='getDetails'])[1]") private WebElement terminalGetDetails;
+    @FindBy(xpath = "//table[@id='termfilters']//input[@name='nPartNumber']") private WebElement terminalartNo;
+    @FindBy(xpath = "//input[@id='btnFetchcavityPartInfo']") private WebElement arrowButton;
+    @FindBy(xpath = "(//div[@class='ui-dialog-buttonset']//span[text()='Populate'])[6]") private WebElement populate;
+
     @FindBy(xpath = "(//table[@class='tablesorter'])[2]//tr") private List<WebElement> errorTableRows;
+    @FindBy(xpath = "//select[@name='updateType']") private WebElement updateType;
+    @FindBy(xpath = "//input[@name='uploadFile']") private WebElement uploadFile;
+    @FindBy(xpath = "//span[text()=' Export']") private WebElement exportButton;
     @FindBy(xpath = "//th[@class='imageClick' and text()='S.No']") private WebElement serialNoTable;
 
     @FindBy(xpath = "//h3[text()='Table Layout']") private WebElement tableLayout;
@@ -1083,7 +1098,7 @@ public class SchematicsDrawingPage extends BasePage{
         return connectorLabelsCount.size();
     }
 
-    public void openProfileSettingPage(String function) throws InterruptedException {
+    public void openProfileSettingPage(String function,String word) throws InterruptedException {
         String currentWindowHandle = driver.getWindowHandle();
         String URL= driver.getCurrentUrl();
         String taskID=customCommand.extractTaskID(URL);
@@ -1103,7 +1118,7 @@ public class SchematicsDrawingPage extends BasePage{
         } else if (function.toLowerCase().contains("harness_cavity"))
         {
             openHarnessSetting();
-            changeConfigOnHarnessCavity(taskID);
+            changeConfigOnHarnessCavity(taskID,word);
         }
         driver.switchTo().window(currentWindowHandle);
         customCommand.javaScriptClick(driver,refreshButton);
@@ -1116,15 +1131,29 @@ public class SchematicsDrawingPage extends BasePage{
         customCommand.javaScriptClick(driver,macros);
     }
 
-    public void changeConfigOnHarnessCavity(String task) throws InterruptedException {
-        customCommand.selectDropDownByValue(hideEmptyColmn,"yes");
+    public void changeConfigOnHarnessCavity(String task,String yes_no) throws InterruptedException {
+        customCommand.selectDropDownByValue(hideEmptyColmn,yes_no);
         WebElement sealPN=driver.findElement(By.xpath("//span[text()='Seal PN']/../..//select[@name='showhide']"));
         WebElement plugPN=driver.findElement(By.xpath("//span[text()='Plug PN']/../..//select[@name='showhide']"));
+        WebElement terminalPN=driver.findElement(By.xpath("//span[text()='Terminal PN']/../..//select[@name='showhide']"));
+        WebElement terminalMaterial=driver.findElement(By.xpath("//span[text()='Terminal Material']/../..//select[@name='showhide']"));
+        WebElement terminalLength=driver.findElement(By.xpath("//span[text()='Terminal Strip Length']/../..//select[@name='showhide']"));
+        WebElement terminalFinish=driver.findElement(By.xpath("//span[text()='Terminal Finish']/../..//select[@name='showhide']"));
+
         customCommand.scrollToElement(driver,plugPN);
-        customCommand.selectDropDownByValue(plugPN,"yes");
+        customCommand.selectDropDownByValue(plugPN,yes_no);
         customCommand.scrollToElement(driver,sealPN);
-        customCommand.selectDropDownByValue(sealPN,"yes");
-        new GeneralMacrosPage(driver).clickSaveButton();
+        customCommand.selectDropDownByValue(sealPN,yes_no);
+        customCommand.scrollToElement(driver,terminalPN);
+        customCommand.selectDropDownByValue(terminalPN,yes_no);
+        customCommand.scrollToElement(driver,terminalMaterial);
+        customCommand.selectDropDownByValue(terminalMaterial,yes_no);
+        customCommand.scrollToElement(driver,terminalLength);
+        customCommand.selectDropDownByValue(terminalLength,yes_no);
+        customCommand.scrollToElement(driver,terminalFinish);
+        customCommand.selectDropDownByValue(terminalFinish,yes_no);
+        customCommand.scrollToElement(driver,submitButtonType);
+        customCommand.javaScriptClick(driver,submitButtonType);
         saveTask(task);
     }
 
@@ -1148,6 +1177,7 @@ public class SchematicsDrawingPage extends BasePage{
 
     public void saveTask(String task) throws InterruptedException {
         customCommand.clearAndEnterText(searchInput,task);
+        Thread.sleep(2000);
         WebElement ele=driver.findElement(By.xpath("//input[@id='"+task+"']"));
         ele.click();
         customCommand.javaScriptClick(driver,submitButtonType);
@@ -1326,13 +1356,18 @@ public class SchematicsDrawingPage extends BasePage{
 
     public void addTerminalPartNo() throws InterruptedException {
         customCommand.javaScriptClick(driver,refreshButton);
+        customCommand.javaScriptClick(driver,selectButton);
         new HarnessPage(driver).getContextMenu("",connector);
-        customCommand.javaScriptClick(driver,inspectButton);
+        Thread.sleep(2000);
+        customCommand.javaScriptClick(driver,inspectContextMenu);
         customCommand.scrollToElement(driver,cavityTable);
         customCommand.javaScriptClick(driver,cavityTable);
-        terminalPN.click();
-        customCommand.clearAndEnterText(terminalPN,"0-0444335-2");
-        customCommand.javaScriptClick(driver,submitFontUpdate);
+        customCommand.javaScriptClick(driver,terminalGetDetails);
+        customCommand.clearAndEnterText(terminalartNo,"0-0444335-2");
+        customCommand.javaScriptClick(driver,arrowButton);
+        customCommand.javaScriptClick(driver,populate);
+        Thread.sleep(2000);
+        customCommand.javaScriptClick(driver,submitButtonCavity);
     }
 
     public void undo() throws InterruptedException {
@@ -1343,38 +1378,73 @@ public class SchematicsDrawingPage extends BasePage{
 
     public void updateTerminal(String selectType) throws InterruptedException {
         String yesno="no";
+        customCommand.javaScriptClick(driver,selectButton);
         if(selectType.equalsIgnoreCase("select"))
         {
             yesno="yes";
         }
-        customCommand.javaScriptClick(driver,refreshButton);
         new HarnessPage(driver).getContextMenu("",connector);
         customCommand.javaScriptClick(driver,updateCavity);
         customCommand.selectDropDownByValue(overwriteSelect,"yes");
         customCommand.selectDropDownByValue(checkOD,"yes");
         customCommand.selectDropDownByValue(termfamily,yesno);
-        customCommand.selectDropDownByValue(termtype,yesno);
+        customCommand.selectDropDownByValue(termtype,"no");
         customCommand.selectDropDownByValue(termfinish,yesno);
         customCommand.selectDropDownByValue(termmaterial,yesno);
         customCommand.selectDropDownByValue(termgender,yesno);
         customCommand.javaScriptClick(driver,SubmitWire);
         customCommand.javaScriptClick(driver,selectAll);
         customCommand.javaScriptClick(driver,buttonSubmitDetails);
+        Thread.sleep(2000);
     }
 
     public void addInvalidFieldInCavity() throws InterruptedException {
+        Thread.sleep(2000);
         customCommand.javaScriptClick(driver,refreshButton);
-        new HarnessPage(driver).getContextMenu("",connector);
+        Thread.sleep(2000);
+//        new HarnessPage(driver).getContextMenu("",connector2);
         customCommand.javaScriptClick(driver,inspectButton);
+        customCommand.javaScriptClick(driver,connector);
         customCommand.scrollToElement(driver,cavityTable);
         customCommand.javaScriptClick(driver,cavityTable);
         customCommand.clearAndEnterText(termFamily,"autoamtionUser");
         customCommand.javaScriptClick(driver,submitFontUpdate);
     }
 
-    public int checkErrors()
-    {
-        return errorTableRows.size();
+    public int checkErrors() throws InterruptedException {
+        int count= errorTableRows.size();
+        customCommand.javaScriptClick(driver,footerCLoseButton);
+        Thread.sleep(2000);
+        return count;
+    }
+
+    public void exportHarnessCavity() throws InterruptedException {
+        String path = System.getProperty("user.dir") + File.separator + "externalFiles" + File.separator + "downloadFiles";
+        customCommand.clearFolder(path);
+        customCommand.javaScriptClick(driver,refreshButton);
+        new HarnessPage(driver).getContextMenu("",connector);
+        customCommand.javaScriptClick(driver,updateCavity);
+        customCommand.selectDropDownByValue(updateType,"manual");
+        customCommand.javaScriptClick(driver,exportButton);
+    }
+
+    public boolean importHarnessCavity() throws InterruptedException {
+        String path="src/test/resources/drawingboard/HAR_cavity_Import_New.csv";
+        new HarnessPage(driver).getContextMenu("",connector);
+        customCommand.javaScriptClick(driver,updateCavity);
+        customCommand.selectDropDownByValue(updateType,"manual");
+        File file = new File(path);
+        String absolutePath = file.getAbsolutePath();
+        uploadFile.sendKeys(absolutePath);
+        customCommand.javaScriptClick(driver,buttonSubmitDetails);
+        Thread.sleep(5000);
+        return summaryReport.isDisplayed();
+    }
+
+    public int validateImportOnUI() throws InterruptedException {
+        customCommand.javaScriptClick(driver,footerCLoseButton);
+        return columnChangedTable.size();
+
     }
 
 }

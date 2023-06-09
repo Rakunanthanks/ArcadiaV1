@@ -1,5 +1,6 @@
 package arcadia.utils;
 
+import org.apache.poi.ss.usermodel.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
@@ -7,11 +8,17 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.python.antlr.ast.Str;
-
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.awt.*;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 import java.net.URI;
@@ -263,17 +270,11 @@ public class SeleniumCustomCommand {
     }
 
     public String extractTaskID(String url) {
-        try {
-            URI uri = new URI(url);
-            String query = uri.getQuery();
-            String[] queryParams = query.split("&");
-            for (String param : queryParams) {
-                if (param.startsWith("taskID=")) {
-                    return param.substring("taskID=".length());
-                }
+        String[] queryParams = url.split("&");
+        for (String param : queryParams) {
+            if (param.startsWith("taskID=")) {
+                return param.substring("taskID=".length());
             }
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
         }
         return null;
     }
@@ -283,6 +284,53 @@ public class SeleniumCustomCommand {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         String script = "document.elementFromPoint(" + x + ", " + y + ").click();";
         js.executeScript(script);
+    }
+
+    public void clearFolder(String folderPath) {
+        File folder = new File(folderPath);
+
+        // Check if the folder exists
+        if (folder.exists() && folder.isDirectory()) {
+            // Get all files in the folder
+            File[] files = folder.listFiles();
+
+            // Iterate over the files and delete them
+            if (files != null) {
+                for (File file : files) {
+                    file.delete();
+                }
+            }
+
+            System.out.println("Folder cleared successfully.");
+        } else {
+            System.out.println("Folder does not exist or is not a directory.");
+        }
+    }
+
+    public void updateCSVColumn(String inputFilePath,String outputFilePath,String oldValue,String newValue)
+    {
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(inputFilePath));
+             BufferedWriter writer = new BufferedWriter(new FileWriter(outputFilePath))) {
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] values = line.split(",");
+                for (int i = 0; i < values.length; i++) {
+                    if (values[i].equals(oldValue)) {
+                        values[i] = newValue;
+                    }
+                }
+                String updatedLine = String.join(",", values);
+                writer.write(updatedLine);
+                writer.newLine();
+            }
+
+            System.out.println("New CSV file created successfully.");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
