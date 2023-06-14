@@ -23,4 +23,10 @@ public class FormboardStepDefinition{
         new HarnessPage(context.driver).showHideComponentLabel(labelName,showHide);
     }
 
+
+    @And("click Update fonts in formboard")
+    public void clickUpdateFontsInFormboard() throws InterruptedException {
+        formboardPage.selectHeader("Formboard");
+        formboardPage.clickUpdateFonts();
+    }
 }

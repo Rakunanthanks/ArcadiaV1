@@ -8,11 +8,13 @@ import org.openqa.selenium.support.FindBy;
 
 public class FormboardPage extends BasePage{
     @FindBy(css = "div[title=\"Label Visibility\"]>span") private WebElement buttonVisibility;
+    @FindBy(css="#iupdatefonts")private WebElement buttonUpdateFonts;
     @FindBy(css = "input#nodeshow") private WebElement buttonShowNode;
     public FormboardPage (WebDriver driver) {
         super(driver);
     }
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
+    HarnessPage harnessPage = new HarnessPage(driver);
     public WebElement getHeaderElement(String headerName) throws InterruptedException {
         Thread.sleep(3000);
         WebElement ele = driver.findElement(By.xpath("//div[@id=\"ribbon-tab-header-strip\"]//span[text()=\""+headerName+"\"]"));
@@ -23,5 +25,12 @@ public class FormboardPage extends BasePage{
         customCommand.waitForElementVisibility(driver,ele);
         customCommand.waitForElementToBeClickable(driver,ele);
         customCommand.waitClick(ele);
+    }
+
+    public void clickUpdateFonts() throws InterruptedException {
+        customCommand.waitForElementVisibility(driver,buttonUpdateFonts);
+        customCommand.waitForElementToBeClickable(driver,buttonUpdateFonts);
+        buttonUpdateFonts.click();
+        Thread.sleep(2000);
     }
 }

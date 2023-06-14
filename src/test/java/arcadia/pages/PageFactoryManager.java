@@ -28,7 +28,7 @@ public class PageFactoryManager {
     private static ConnectorCavityTablePage connectorCavityTablePage;
     private static SpliceCavityTablePage spliceCavityTablePage;
     private static FormboardPage formboardPage;
-
+    private static UpdateFontsPage updateFontsPage;
 
     public static SearchPartsDatabasePage getPartsDatabasePage(WebDriver driver){
         return searchPartsDatabasePage == null ? new SearchPartsDatabasePage(driver) : searchPartsDatabasePage;
@@ -103,5 +103,8 @@ public class PageFactoryManager {
     }
     public static FormboardPage getFormboardPage(WebDriver driver){
         return formboardPage == null ? new FormboardPage(driver) :formboardPage;
+    }
+    public static UpdateFontsPage getUpdateFontsPage(WebDriver driver){
+        return updateFontsPage == null ? new UpdateFontsPage(driver) :updateFontsPage;
     }
 }

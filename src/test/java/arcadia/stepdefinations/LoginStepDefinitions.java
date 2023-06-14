@@ -250,4 +250,12 @@ public class LoginStepDefinitions {
     public void navigatedToLabelVisibilityFormboard() {
         loginPage.load(EndPoint.FORMBOARDLABELVISIBILITY.url.replace("profileName",System.getProperty("profileName")));
     }
+    @And("Navigated to harness update font in profile page")
+    public void navigatedToHarnessUpdateFonts() {
+        loginPage.load(EndPoint.HARNESSUPDATEFONTS.url.replace("profileName",System.getProperty("profileName")));
+    }
+    @And("Navigated to form board update font in profile page")
+    public void navigatedToFormBoardUpdateFonts() {
+        loginPage.load(EndPoint.FORMBOARDUPDATFONTS.url.replace("profileName",System.getProperty("profileName")));
+    }
 }

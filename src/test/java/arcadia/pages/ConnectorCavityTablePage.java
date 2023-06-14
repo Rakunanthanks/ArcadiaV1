@@ -156,14 +156,14 @@ public class ConnectorCavityTablePage extends BasePage {
                 case "plug part number description" ->
                 {
                     addCavity();
-                    customCommand.scrollIntoView(driver,sealPN);
-                    sealPN.click();
-                    sealPN.sendKeys("15324980");
+                    customCommand.scrollIntoView(driver,plugPN);
+                    plugPN.click();
+                    plugPN.sendKeys("15324980");
                     customCommand.pressKey(driver,"enter");
                     Thread.sleep(2000);
                     customCommand.javaScriptClick(driver,buttonSubmitDetails);
                     System.out.println(partNumberDescription.getText());
-                    Assert.assertEquals(partNumberDescription.getText()," ","plug part number description is not visible as expected");
+                    Assert.assertEquals(partNumberDescription.getText(),"1x","plug part number description is not visible as expected");
                 }
                 case "connector group id" -> {
                    conGroupID.click();
@@ -235,7 +235,7 @@ public class ConnectorCavityTablePage extends BasePage {
                 case "formboard plug part number description" ->
                 {
                     System.out.println(partNumberDescription.getText());
-                    Assert.assertEquals(partNumberDescription.getText()," ","plug part number description is not visible as expected");
+                    Assert.assertEquals(partNumberDescription.getText(),"1x","plug part number description is not visible as expected");
                 }
                 case "formboard connector group id" -> {
                     System.out.println(complabel.getText());

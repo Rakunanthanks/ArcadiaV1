@@ -266,7 +266,6 @@ public class ConnectorPage extends BasePage {
         }
         return  FlowContext.spliceIdentifierList;
     }
-
     public List<BundleIdentifier> getBundleElementIdsFromDrawingPage() {
         String bundleId;
         List<WebElement> bundleElements = driver.findElements(By.cssSelector("#layer_55 >g>g[class$=\"bundleGroup\"]"));
@@ -277,7 +276,12 @@ public class ConnectorPage extends BasePage {
         }
         return  FlowContext.bundleIdentifierList;
     }
-
+    public String getBomTableElementsIdsFromDrawingPage() {
+        String bomTableId;
+        WebElement bomTableElement = driver.findElement(By.cssSelector("#layer_52 >g>g>foreignObject table"));
+        bomTableId = bomTableElement.getAttribute("data-tableuid");
+        return bomTableId;
+    }
 
     public void enterConnectorDescription(String description){
         customCommand.waitForElementVisibility(driver,connectorDescription);
