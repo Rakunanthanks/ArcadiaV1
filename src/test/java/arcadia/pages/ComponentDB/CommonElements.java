@@ -22,6 +22,7 @@ public class CommonElements extends BasePage {
     }
 
     @FindBy(id = "idaddrow")
+    public
     WebElement buttonAddRow;
     @FindBy(id = "loadDataDb")
     WebElement buttonLoadDataDB;
@@ -113,7 +114,7 @@ public class CommonElements extends BasePage {
     @FindBy(css = "input[rel=\"partnumber\"]+div input")
     private WebElement linkPartNumber;
     @FindBy(css = "#idMsg.alert-success")
-    private WebElement alertSuccessMessage;
+    public WebElement alertSuccessMessage;
     @FindBy(xpath = "//input[@name='Cavity_Seal.cavityplug']/following-sibling::div/div/input")
     private WebElement cavityPlugInput;
     @FindBy(xpath = "//input[@name='Tags.termsused.Tag']/following-sibling::div/div/input")

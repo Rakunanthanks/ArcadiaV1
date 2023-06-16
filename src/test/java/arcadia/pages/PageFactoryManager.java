@@ -29,6 +29,7 @@ public class PageFactoryManager {
     private static SpliceCavityTablePage spliceCavityTablePage;
     private static FormboardPage formboardPage;
     private static UpdateFontsPage updateFontsPage;
+    private static UpdateCrossReference updateCrossReference;
 
     public static SearchPartsDatabasePage getPartsDatabasePage(WebDriver driver){
         return searchPartsDatabasePage == null ? new SearchPartsDatabasePage(driver) : searchPartsDatabasePage;
@@ -107,4 +108,8 @@ public class PageFactoryManager {
     public static UpdateFontsPage getUpdateFontsPage(WebDriver driver){
         return updateFontsPage == null ? new UpdateFontsPage(driver) :updateFontsPage;
     }
+    public static UpdateCrossReference  getUpdateCrossReference(WebDriver driver){
+        return updateCrossReference == null ? new UpdateCrossReference(driver) :updateCrossReference;
+    }
+
 }

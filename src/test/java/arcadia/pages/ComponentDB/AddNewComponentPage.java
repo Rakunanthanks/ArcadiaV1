@@ -111,7 +111,6 @@ public class AddNewComponentPage extends BasePage {
     @FindBy(css = "div.bootbox button.close")
     private WebElement btnClosePopUp;
 
-
     public void createComponent(AddComponentForm addComponentForm, String componentName) throws InterruptedException {
         //Details
         customCommand.LongWaitForElementVisibility(driver,componentDescription);
