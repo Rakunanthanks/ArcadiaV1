@@ -735,15 +735,18 @@ public class SchematicStepDefinitions {
     @And("user update the images with loading and side view from image views option")
     public void userUpdateTheImagesWithLoadingAndSideViewFromImageViewsOption() throws InterruptedException {
         schematicsDrawingPage.ImageViewsLoadingSide();
+        Thread.sleep(2000);
     }
 
     @And("user update the images with Top and Isometric view from image views option")
     public void userUpdateTheImagesWithTopAndIsometricViewFromImageViewsOption() throws InterruptedException {
         schematicsDrawingPage.ImageViewsTopIsometric();
+        Thread.sleep(2000);
     }
 
     @And("user update the images with Mating and catalogue view from image views option")
     public void userUpdateTheImagesWithMatingAndCatalogueViewFromImageViewsOption() throws InterruptedException {
         schematicsDrawingPage.ImageViewsMatingCatalogue();
+        Thread.sleep(2000);
     }
 }

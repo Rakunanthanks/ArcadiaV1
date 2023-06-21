@@ -1097,9 +1097,6 @@ public class SchematicsDrawingPage extends BasePage{
         customCommand.javaScriptClick(driver,updateView);
         customCommand.javaScriptClick(driver,loadingCheckBox);
         customCommand.javaScriptClick(driver,sideCheckBox);
-        customCommand.javaScriptClick(driver,updateScale);
-        customCommand.clearAndEnterText(LoadingInputBox,"2");
-        customCommand.clearAndEnterText(sideInputBox,"2");
         customCommand.javaScriptClick(driver,submitButtonImageView);
         customCommand.javaScriptClick(driver,yesButton);
     }
@@ -1111,9 +1108,6 @@ public class SchematicsDrawingPage extends BasePage{
             topInput.get(i).click();
             isometricInput.get(i).click();
         }
-        customCommand.javaScriptClick(driver,updateScale);
-        customCommand.clearAndEnterText(LoadingInputBox,"2");
-        customCommand.clearAndEnterText(sideInputBox,"2");
         customCommand.javaScriptClick(driver,submitButtonImageView);
         customCommand.javaScriptClick(driver,yesButton);
     }
@@ -1128,9 +1122,6 @@ public class SchematicsDrawingPage extends BasePage{
         {
             catalogueInput.get(i).click();
         }
-        customCommand.javaScriptClick(driver,updateScale);
-        customCommand.clearAndEnterText(LoadingInputBox,"2");
-        customCommand.clearAndEnterText(sideInputBox,"2");
         customCommand.javaScriptClick(driver,submitButtonImageView);
         customCommand.javaScriptClick(driver,yesButton);
     }
