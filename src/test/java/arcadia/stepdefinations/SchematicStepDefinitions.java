@@ -583,6 +583,9 @@ public class SchematicStepDefinitions {
             case "NewScenarioHarness":
                  harnessFilePath = "src/test/resources/drawingboard/NewScenarioHarness.hrx";
                 break;
+            case "CrossRef_UpdateImage":
+                harnessFilePath = "src/test/resources/drawingboard/CrossRef_UpdateImage.hrx";
+                break;
         }
         schematicsDrawingPage.importHarness(harnessFilePath);
     }
@@ -711,5 +714,36 @@ public class SchematicStepDefinitions {
             Assert.fail();
         }
 
+    }
+
+    @And("User verifies the cross ref for {string}")
+    public void userVerifiesTheCrossRefForManufacture(String type) throws InterruptedException {
+        schematicsDrawingPage.crossRef(type);
+    }
+
+    @And("user verifies the changes made for {string}")
+    public void userVerifiesTheChangesMadeForManufacture(String type) {
+        boolean flag=schematicsDrawingPage.checkCrossRef(type);
+        if (flag) {
+            ExtentCucumberAdapter.addTestStepLog(String.format("Cross Ref is successfully updated for"+ type));
+        } else {
+            ExtentCucumberAdapter.addTestStepLog(String.format("Cross Ref is falied to be updated for"+ type));
+            Assert.fail();
+        }
+    }
+
+    @And("user update the images with loading and side view from image views option")
+    public void userUpdateTheImagesWithLoadingAndSideViewFromImageViewsOption() throws InterruptedException {
+        schematicsDrawingPage.ImageViewsLoadingSide();
+    }
+
+    @And("user update the images with Top and Isometric view from image views option")
+    public void userUpdateTheImagesWithTopAndIsometricViewFromImageViewsOption() throws InterruptedException {
+        schematicsDrawingPage.ImageViewsTopIsometric();
+    }
+
+    @And("user update the images with Mating and catalogue view from image views option")
+    public void userUpdateTheImagesWithMatingAndCatalogueViewFromImageViewsOption() throws InterruptedException {
+        schematicsDrawingPage.ImageViewsMatingCatalogue();
     }
 }

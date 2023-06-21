@@ -181,6 +181,10 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(xpath = "//input[@name='updateviews']") private WebElement updateView;
     @FindBy(xpath = "//input[@name='updatescale']") private WebElement updateScale;
     @FindBy(xpath = "//div[@class='dynformrowexpand']//div[@value='Loading']//input[@name='autorotate.connector']") private WebElement loadingCheckBox;
+    @FindBy(xpath = "//div[@class='dynformrowexpand']//div[@value='Mating']//input") private List<WebElement> matingInput;
+    @FindBy(xpath = "//div[@class='dynformrowexpand']//div[@value='Catalogue']//input") private List<WebElement> catalogueInput;
+    @FindBy(xpath = "//div[@class='dynformrowexpand']//div[@value='Top']//input") private List<WebElement> topInput;
+    @FindBy(xpath = "//div[@class='dynformrowexpand']//div[@value='Isometric']//input") private List<WebElement> isometricInput;
     @FindBy(xpath = "//div[@class='dynformrowexpand']//div[@value='Side']//input[@name='colocate.connector']") private WebElement sideCheckBox;
     @FindBy(xpath = "//input[@name='Loading']") private WebElement LoadingInputBox;
     @FindBy(xpath = "//input[@name='Side']") private WebElement sideInputBox;
@@ -279,6 +283,15 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(xpath = "//h3[text()=\"WHICH PROPERTIES DO YOU WANT COMPARE?\"]//following-sibling::div//label/input[@name=\"selectall\"]") private WebElement checkboxSelectAllPropertiesToCompare;
     @FindBy(css = "button[title=\"Save\"]") private WebElement buttonSaveSchematicInfo;
     @FindBy(css = "div#btnFotter>button[title=\"Configure\"]") private WebElement buttonConfigureSchematicInfo;
+    @FindBy(xpath = "(//span[text()='Update Cross Ref'])") private WebElement updateCrossRef;
+    @FindBy(xpath = "(//select[@name='library'])[1]") private WebElement componentDB;
+    @FindBy(xpath = "(//select[@name='company'])[1]") private WebElement companyDropdwon;
+    @FindBy(xpath = "((//div[@class='dynformrow'])[1]//input)[1]") private WebElement manufactureInput;
+    @FindBy(xpath = "((//div[@class='dynformrow'])[1]//input)[3]") private WebElement supplierInput;
+    @FindBy(xpath = "(//*[@data-partnumber='MANU'])[2]") private WebElement ManuLabel;
+    @FindBy(xpath = "(//*[@data-partnumber='SUPPLIER'])[2]") private WebElement SupplierLabel;
+
+
     String wireEditorHeaders = "//div[@id=\"wire-editor\"]//thead//th//input";
 
     String wiresImportedRows = "//h3[text()=\"Wire Import Information\"]//following-sibling::div//table//tbody//tr";
@@ -1079,6 +1092,49 @@ public class SchematicsDrawingPage extends BasePage{
         customCommand.javaScriptClick(driver,yesButton);
     }
 
+    public void ImageViewsLoadingSide() throws InterruptedException {
+        customCommand.javaScriptClick(driver,imageViews);
+        customCommand.javaScriptClick(driver,updateView);
+        customCommand.javaScriptClick(driver,loadingCheckBox);
+        customCommand.javaScriptClick(driver,sideCheckBox);
+        customCommand.javaScriptClick(driver,updateScale);
+        customCommand.clearAndEnterText(LoadingInputBox,"2");
+        customCommand.clearAndEnterText(sideInputBox,"2");
+        customCommand.javaScriptClick(driver,submitButtonImageView);
+        customCommand.javaScriptClick(driver,yesButton);
+    }
+    public void ImageViewsTopIsometric() throws InterruptedException {
+        customCommand.javaScriptClick(driver,imageViews);
+        customCommand.javaScriptClick(driver,updateView);
+        for(int i=0;i<3;i++)
+        {
+            topInput.get(i).click();
+            isometricInput.get(i).click();
+        }
+        customCommand.javaScriptClick(driver,updateScale);
+        customCommand.clearAndEnterText(LoadingInputBox,"2");
+        customCommand.clearAndEnterText(sideInputBox,"2");
+        customCommand.javaScriptClick(driver,submitButtonImageView);
+        customCommand.javaScriptClick(driver,yesButton);
+    }
+    public void ImageViewsMatingCatalogue() throws InterruptedException {
+        customCommand.javaScriptClick(driver,imageViews);
+        customCommand.javaScriptClick(driver,updateView);
+       for(WebElement we:matingInput)
+       {
+           we.click();
+       }
+        for(int i=0;i<3;i++)
+        {
+            catalogueInput.get(i).click();
+        }
+        customCommand.javaScriptClick(driver,updateScale);
+        customCommand.clearAndEnterText(LoadingInputBox,"2");
+        customCommand.clearAndEnterText(sideInputBox,"2");
+        customCommand.javaScriptClick(driver,submitButtonImageView);
+        customCommand.javaScriptClick(driver,yesButton);
+    }
+
     public void moveWireLeads() throws InterruptedException {
         new HarnessPage(driver).getContextMenu("",connectorImageWire10);
         customCommand.javaScriptClick(driver,moveWireLeads);
@@ -1444,7 +1500,33 @@ public class SchematicsDrawingPage extends BasePage{
     public int validateImportOnUI() throws InterruptedException {
         customCommand.javaScriptClick(driver,footerCLoseButton);
         return columnChangedTable.size();
+    }
 
+    public void crossRef(String type) throws InterruptedException {
+        customCommand.javaScriptClick(driver,updateCrossRef);
+        customCommand.selectDropDownByValue(componentDB,"quickstart");
+        if(type.equalsIgnoreCase("manufacture"))
+        {
+            customCommand.selectDropDownByValue(companyDropdwon,"Manufacturer");
+            manufactureInput.click();
+        }
+        else{
+            customCommand.selectDropDownByValue(companyDropdwon,"Supplier");
+            supplierInput.click();
+        }
+        customCommand.javaScriptClick(driver,submitButton);
+        Thread.sleep(2000);
+    }
+
+    public boolean checkCrossRef(String type)
+    {
+        if(type.equalsIgnoreCase("manufacture"))
+        {
+            return ManuLabel.isDisplayed();
+        }
+        else{
+           return SupplierLabel.isDisplayed();
+        }
     }
 
 }
