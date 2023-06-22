@@ -19,8 +19,8 @@ public class ConnectorCavityTablePage extends BasePage {
     @FindBy(css = ".ignoreClick[data-extlink='false']")private WebElement cavityLabelDetails;
     @FindBy(css="#ui-accordion-accordion-panel-0 > div:nth-child(3) > input")private WebElement connectorDescription;
     @FindBy(css = "button[title=\"Submit\"]") private WebElement buttonSubmitDetails;
-    @FindBy(css=".hyperlink")private WebElement partNumber;
-    @FindBy(css =".ignoreClick[text-anchor='start']")private WebElement partNumberDescription;
+    @FindBy(css=".hyperlink") WebElement partNumber;
+    @FindBy(css =".ignoreClick[text-anchor='start']") WebElement partNumberDescription;
     @FindBy(css="#ui-id-2")private WebElement variantOptions;
     @FindBy(css="#VO > fieldset > p:nth-child(1) > label:nth-child(2) > span > label > span.switch-label")private WebElement variants;
     @FindBy(css = "#itree")private WebElement leftToggle;
@@ -28,9 +28,10 @@ public class ConnectorCavityTablePage extends BasePage {
     @FindBy(css="#node_attachpart > tbody > tr:nth-child(1) > td:nth-child(27) > div > div.selectize-input.items.not-full.has-options > input")private WebElement connectorAttachPartVariants;
     @FindBy(css="#ui-accordion-accordion-header-4")private WebElement cavityTable;
     @FindBy(css= "#no")private WebElement attachPartsConnectorCheckBox;
-    @FindBy(xpath="//tbody/tr[@class='used']/td[11]/div[1]/div[1]")private WebElement terminalPN;
+    @FindBy(xpath="//tbody/tr[@class='used']/td[11]/div[1]/div[1]") WebElement terminalPN;
     @FindBy(xpath="//*[@id=\"cavitytable\"]/tbody/tr[1]/td[23]/div/div[1]/input")private WebElement sealPN;
-    @FindBy(xpath="//*[@id=\"cavitytable\"]/tbody/tr[1]/td[26]/div/div[1]/input")private WebElement plugPN;
+    @FindBy(xpath="//*[@id=\"cavitytable\"]/tbody/tr[1]/td[26]/div/div[1]/input")
+    WebElement plugPN;
     @FindBy(xpath = "//table[@id='cavitytable']//input[@class='addRow']") WebElement addRowCavity;
     @FindBy(css ="#ui-accordion-accordion-panel-0 > div:nth-child(26) > div > div.selectize-input.items.not-full > input")private WebElement conGroupID;
     @FindBy(css ="#ui-accordion-accordion-panel-0 > div:nth-child(23) > select")private WebElement terminalImageDisplay;
