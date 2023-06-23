@@ -528,7 +528,7 @@ public class WireEditorPage extends BasePage {
     public void validateCoreIDMCIDAlertMessage() throws InterruptedException {
         customCommand.waitForElementToBeClickable(driver, saveButton);
         customCommand.javaScriptClick(driver, saveButton);
-        new AddNewComponentPage(driver).verifyAlertMessage("Please enter highlighted field.");
+        new AddNewComponentPage(driver).verifyAlertMessage("Please enter highlighted field: [Part Number]");
         Thread.sleep(5000);
         new AddNewComponentPage(driver).closeAlertPopUp();
         Thread.sleep(2000);

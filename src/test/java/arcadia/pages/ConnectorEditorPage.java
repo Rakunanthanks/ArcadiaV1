@@ -760,7 +760,7 @@ public class ConnectorEditorPage extends BasePage {
     public void checkWhetherAbleToSaveOrNotWithoutAnyErrors() throws InterruptedException {
         customCommand.waitClick(saveConnectors);
         driver.manage().timeouts().implicitlyWait(Duration.ofMinutes(1));
-        Thread.sleep(3000);
+        customCommand.waitForElementVisibility(driver,clearValueMessage);
         Assert.assertEquals(clearValueMessage.getText(), "Connector details imported successfully.", "There is issue in saving connector editor");
         customCommand.waitClick(okayButton);
     }
