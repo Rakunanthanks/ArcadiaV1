@@ -11,12 +11,13 @@ import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 
 import java.awt.*;
+import java.beans.IntrospectionException;
 import java.util.List;
 
 
 public class HarnessPage extends BasePage{
-    @FindBy(id = "commandline") private WebElement commandLine;
-    @FindBy(css = "button[title=\"OK\"]") private WebElement commandOK;
+    @FindBy(id = "commandline")  WebElement commandLine;
+    @FindBy(css = "button[title=\"OK\"]")  WebElement commandOK;
     @FindBy(css = "div[title=\"Insert Connector\"]") private WebElement insertConnector;
     @FindBy(css = "div[title=\"Insert Node\"]") private WebElement insertNode;
     @FindBy(id = "ifreebundle") private WebElement bundle;
@@ -83,9 +84,10 @@ public class HarnessPage extends BasePage{
     @FindBy(xpath = "//input[@name='bundle.override']") private WebElement radiusOverride;
     @FindBy(xpath = "//div[@id='rightBarContents']//input[@type='color']") private List<WebElement> color;
     @FindBy(xpath = "//div[@id='rightBarContents']//input[@class='posnumeric']") private List<WebElement> textSize;
-
+    @FindBy(css = "#iloadwires>span") private WebElement buttonLoadWires;
     @FindBy(css = "div#iupdatefonts>span") private WebElement buttonFonts;
     @FindBy(css = "input[name='Nodechildelesize']") private WebElement inputNodeChildSize;
+    @FindBy(css= "#iclearwires")private WebElement buttonRemoveWires;
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
     public HarnessPage(WebDriver driver) {
         super(driver);
@@ -731,6 +733,13 @@ public class HarnessPage extends BasePage{
         new AddNewComponentPage(driver).verifyAlertMessage("Task Deleted Successfully!");
         new AddNewComponentPage(driver).closeAlertPopUp();
     }
+    public void deleteSchematic(String description){
+        driver.findElement(By.xpath("//table[@id=\"tableSCH\"]/tbody//tr//td[contains(text(),\""+description+"\")]/following-sibling::td[last()]//a[@title=\"Delete Task\"]")).click();
+        new AddNewComponentPage(driver).verifyConfirmationMessage("Do you want to delete?");
+        new AddNewComponentPage(driver).acceptConfirmationPopup();
+        new AddNewComponentPage(driver).verifyAlertMessage("Task Deleted Successfully!");
+        new AddNewComponentPage(driver).closeAlertPopUp();
+    }
 
     public void exitDrawingPage() throws InterruptedException {
         Thread.sleep(2000);
@@ -1171,5 +1180,13 @@ public class HarnessPage extends BasePage{
     public void openUpdateImageView() throws InterruptedException {
         customCommand.scrollIntoView(driver,buttonImageView);
         customCommand.javaScriptClick(driver,buttonImageView);
+    }
+    public void openLoadWires() throws InterruptedException {
+        customCommand.scrollIntoView(driver,buttonLoadWires);
+        customCommand.javaScriptClick(driver,buttonLoadWires);
+    }
+    public void clickRemoveWires() throws InterruptedException {
+        customCommand.scrollIntoView(driver,buttonRemoveWires);
+        customCommand.javaScriptClick(driver,buttonRemoveWires);
     }
 }

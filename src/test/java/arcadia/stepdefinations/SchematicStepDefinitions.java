@@ -596,6 +596,9 @@ public class SchematicStepDefinitions {
             case "baselineHarness":
                 harnessFilePath = "src/test/resources/drawingboard/baselineHarness.hrx";
                 break;
+             case "Load Wires":
+                harnessFilePath = "src/test/resources/drawingboard/loadwires.hrx";
+                break;
 
         }
         schematicsDrawingPage.importHarness(harnessFilePath);

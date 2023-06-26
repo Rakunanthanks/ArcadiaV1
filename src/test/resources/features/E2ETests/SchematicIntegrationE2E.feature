@@ -129,4 +129,3 @@ Feature: Verify schematics
     Then User verifies schematic tree can be expanded
     And User verifies schematic tree can be collapsed
     And user verifies search view functionality on schematic tree view
-

@@ -26,6 +26,3 @@ Feature: Verify cavity harness can be restructured, imported and exported
     And user make some changes in the downloaded harness cavity table
     And user import the downloaded harness cavity file
     And user validate the changes done in file on UI
-
-
-

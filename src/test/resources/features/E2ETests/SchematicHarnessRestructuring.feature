@@ -22,7 +22,3 @@ Feature: Verify harness created from schematic can be restructured
     And user updates wiretable
     And user made some changes in wires connected to components
     And changes should be visible in wire table
-
-
-
-

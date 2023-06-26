@@ -160,6 +160,14 @@ public class HarnessStepDefinitions {
         }
         harnessPage.deleteHarness(harnessDescription);
     }
+    @And("User deletes Schematic {string} successfully")
+    public void schematicIsDeletedSuccessfully(String schematicDescription) {
+        if(schematicDescription==""){
+            schematicDescription = FlowContext.testDescription;
+        }
+        harnessPage.deleteSchematic(schematicDescription);
+    }
+
 
     @And("User exits the drawing page")
     public void userExitsTheDrawingPage() throws InterruptedException {
@@ -484,6 +492,14 @@ public class HarnessStepDefinitions {
         harnessPage.openConnectorEditor();
         new ConnectorEditorPage(context.driver).verifyConnectorEditorOpened();
     }
+       @And("Load wires is opened")
+   public void loadWiresIsOpened() throws InterruptedException {
+               Thread.sleep(5000);
+                harnessPage.selectHeader("Advanced");
+                harnessPage.openLoadWires();
+                new LoadWiresPage(context.driver).verifyLoadWiresOpened();
+            }
+
     @And("wire editor is opened")
     public void wirerEditorIsOpened() throws InterruptedException {
         Thread.sleep(9000);
@@ -552,6 +568,11 @@ public class HarnessStepDefinitions {
         harnessPage.selectHeader("Advanced");
         harnessPage.openSpliceEditor();
         new SpliceEditorPage(context.driver).verifySpliceEditorOpened();
+    }
+    @And("Click remove wires")
+    public void removeWiresIsCLicked() throws InterruptedException {
+        harnessPage.selectHeader("Advanced");
+        harnessPage.clickRemoveWires();
     }
 
 

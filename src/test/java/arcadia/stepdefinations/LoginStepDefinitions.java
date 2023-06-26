@@ -55,6 +55,10 @@ public class LoginStepDefinitions {
     public void navigateToProjectQuickStart(){
         loginPage.load(EndPoint.PROJECT.url.replace("projectName",System.getProperty("projectName")));
     }
+    @And("Navigated to project home page")
+    public void navigateToProjectHomePage(){
+        loginPage.load(EndPoint.PROJECTHOMEPAGE.url);
+    }
     @And("Navigated to General task units")
     public void navigatedToGeneralTaskUnits() {
         loginPage.load(EndPoint.TASKUNITS.url.replace("profileName",System.getProperty("profileName")));

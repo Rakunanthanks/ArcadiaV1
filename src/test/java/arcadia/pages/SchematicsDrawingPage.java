@@ -27,8 +27,8 @@ import static org.sikuli.hotkey.Keys.*;
 public class SchematicsDrawingPage extends BasePage{
 
     @FindBy(css = "a[title=\"Create Schematic\"]") private WebElement createSchematic;
-    @FindBy(css = "button[title=\"Import Tools\"]") private WebElement importTools;
-    @FindBy(xpath = "//a[text()='Import Task']") private WebElement importTask;
+    @FindBy(css = "button[title=\"Import Tools\"]")  WebElement importTools;
+    @FindBy(xpath = "//a[text()='Import Task']")  WebElement importTask;
     @FindBy(xpath = "//div[@Title = 'Insert Connector']") private WebElement inlineConnector;
     @FindBy(xpath = "//div[@Title = 'Insert Splice']") private WebElement insertInlineSplice;
     @FindBy(xpath = "//div[@Title = 'Draw Select']") private WebElement selectButton;
@@ -142,7 +142,7 @@ public class SchematicsDrawingPage extends BasePage{
 
     @FindBy(xpath = "(//ul[@class='dropdown-menu']//a[@title='Create Harness'])[2]") private WebElement createharness;
 
-    @FindBy(xpath = "//a[text()='Click here to return to projects']") private WebElement returnProject;
+    @FindBy(xpath = "//a[text()='Click here to return to projects']")  WebElement returnProject;
     @FindBy(xpath = "//*[name()='use' and contains(@onmouseenter,'#HEHBnode3')]") private List<WebElement> nodes;
     @FindBy(xpath = "//li[@id='cmiLinkParts']") private WebElement linkParts;
     @FindBy(xpath = "(//li[text()='Change Node'])[2]") private WebElement changeNode;
@@ -164,11 +164,11 @@ public class SchematicsDrawingPage extends BasePage{
 
     //Import task form
     @FindBy(css = "form#frmImportLibrary") private WebElement formImportTask;
-    @FindBy(css = "input[name=\"title\"]") private WebElement inputImportTaskName;
-    @FindBy(css = "input[name=\"file\"]") private WebElement inputUploadFile;
-    @FindBy(css = "select[name=\"profile\"]") private WebElement selectImportTaskProfile;
-    @FindBy(css = "select[name=\"library\"]") private WebElement selectImportTaskLibrary;
-    @FindBy(css = "button[value='Import']") private WebElement buttonSubmitImport;
+    @FindBy(css = "input[name=\"title\"]")  WebElement inputImportTaskName;
+    @FindBy(css = "input[name=\"file\"]")  WebElement inputUploadFile;
+    @FindBy(css = "select[name=\"profile\"]")  WebElement selectImportTaskProfile;
+    @FindBy(css = "select[name=\"library\"]")  WebElement selectImportTaskLibrary;
+    @FindBy(css = "button[value='Import']")  WebElement buttonSubmitImport;
     @FindBy(xpath = "//span[text()='Zoom In']") private WebElement zoominButton;
     @FindBy(xpath = "//span[text()='Refresh']") private WebElement refreshButton;
     @FindBy(xpath = "//span[text()='Undo' and @class='button-title']") private WebElement undoButton;
@@ -968,7 +968,7 @@ public class SchematicsDrawingPage extends BasePage{
         customCommand.moveToElementAndClick(driver,importTask);
         switchToFrame();
         customCommand.longWaitForElementToBeClickable(driver,inputImportTaskName);
-        String taskName = "TestTask " + new StringHelper().generateRandomDigit();
+        String taskName = "TestTask ";
         FlowContext.drawingTaskName = taskName;
         inputImportTaskName.sendKeys(taskName);
         File file = new File(filePath);

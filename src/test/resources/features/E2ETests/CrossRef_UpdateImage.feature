@@ -19,9 +19,3 @@ Feature: This feature verifies the Cross Reference Part Updation and Update Imag
     And user update the images with loading and side view from image views option
     And user update the images with Mating and catalogue view from image views option
     And user update the images with Top and Isometric view from image views option
-
-
-
-
-
-
