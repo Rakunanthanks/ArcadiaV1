@@ -586,6 +586,9 @@ public class SchematicStepDefinitions {
             case "CrossRef_UpdateImage":
                 harnessFilePath = "src/test/resources/drawingboard/CrossRef_UpdateImage.hrx";
                 break;
+            case "drawskeleton":
+                harnessFilePath = "src/test/resources/drawingboard/drawskeleton.hrx";
+                break;
         }
         schematicsDrawingPage.importHarness(harnessFilePath);
     }
@@ -748,5 +751,32 @@ public class SchematicStepDefinitions {
     public void userUpdateTheImagesWithMatingAndCatalogueViewFromImageViewsOption() throws InterruptedException {
         schematicsDrawingPage.ImageViewsMatingCatalogue();
         Thread.sleep(2000);
+    }
+
+    @And("User move the skeleton relatively")
+    public void userMoveTheSkeletonRelatively() throws InterruptedException {
+        schematicsDrawingPage.moveSkeletonRelatively();
+    }
+
+    @And("user set length and verifies it")
+    public void userSetLengthAndVerifiesIt() throws InterruptedException {
+        boolean flag=schematicsDrawingPage.setLength();
+        if (flag) {
+            ExtentCucumberAdapter.addTestStepLog(String.format("Set Length functionality is working"));
+        } else {
+            ExtentCucumberAdapter.addTestStepLog(String.format("Set Length functionality is failing"));
+            Assert.fail();
+        }
+    }
+
+    @And("user drawn length and verified it")
+    public void userDrawnLengthAndVerifiedIt() throws InterruptedException {
+        boolean flag=schematicsDrawingPage.drawnLength();
+        if (flag) {
+            ExtentCucumberAdapter.addTestStepLog(String.format("Drawn Length functionality is working"));
+        } else {
+            ExtentCucumberAdapter.addTestStepLog(String.format("Drawn Length functionality is failing"));
+            Assert.fail();
+        }
     }
 }

@@ -21,10 +21,8 @@ import org.testng.Assert;
 
 import java.awt.*;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.List;
-import java.util.Set;
 
 import static org.sikuli.hotkey.Keys.*;
 
@@ -290,7 +288,12 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(xpath = "((//div[@class='dynformrow'])[1]//input)[3]") private WebElement supplierInput;
     @FindBy(xpath = "(//*[@data-partnumber='MANU'])[2]") private WebElement ManuLabel;
     @FindBy(xpath = "(//*[@data-partnumber='SUPPLIER'])[2]") private WebElement SupplierLabel;
+    @FindBy(xpath = "//span[text()='Move Relative']") private WebElement relativeButton;
 
+    @FindBy(xpath = "//input[@placeholder='Set Length']") private WebElement setLength;
+    @FindBy(xpath = "//input[@name='bundle.length']") private  WebElement setLengthInput;
+    @FindBy(xpath = "//p[text()='Drawn Length:']/..") private WebElement drawnLength;
+    @FindBy(xpath = "//*[name()='g' and contains(@class,'DG27')]//*[name()='use']") private WebElement bundle;
 
     String wireEditorHeaders = "//div[@id=\"wire-editor\"]//thead//th//input";
 
@@ -1520,4 +1523,46 @@ public class SchematicsDrawingPage extends BasePage{
         }
     }
 
+    public void moveSkeletonRelatively() throws InterruptedException {
+        customCommand.javaScriptClick(driver,zoomFit);
+        WebElement we=driver.findElement(By.xpath("//*[name()='g' and contains(@class,'DG28')]/*[name()='g']/*[name()='g']"));
+        customCommand.javaScriptClick(driver,relativeButton);
+        we.click();
+        customCommand.moveByOffsetOfElementAndClick(driver,we,25,-20);
+        we.click();
+    }
+
+    public boolean setLength() throws InterruptedException {
+        Thread.sleep(2000);
+        customCommand.javaScriptClick(driver,selectButton);
+        customCommand.javaScriptClick(driver,zoomIn);
+        customCommand.javaScriptClick(driver,zoomIn);
+
+        customCommand.moveRightOfElementAndContextClick(driver,bundle,40);
+
+        setLength.click();
+        setLength.sendKeys("100");
+        customCommand.javaScriptClick(driver,inspectButton);
+        customCommand.moveByOffsetOfElementAndClick(driver,bundle,40,0);
+        String text=setLengthInput.getAttribute("value");
+        if(text.contains("100"))
+            return true;
+        else
+            return false;
+    }
+
+    public boolean drawnLength() throws InterruptedException {
+        Thread.sleep(2000);
+        customCommand.javaScriptClick(driver,moveButton);
+        bundle.click();
+        customCommand.moveByOffsetOfElementAndClick(driver,bundle,-40,0);
+        customCommand.javaScriptClick(driver,inspectButton);
+        customCommand.moveByOffsetOfElementAndClick(driver,bundle,40,0);
+        String text=drawnLength.getText();
+        text= Arrays.stream(text.split("m")).findFirst().toString();
+        if(text.contains("170"))
+            return true;
+        else
+            return false;
+    }
 }
