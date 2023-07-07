@@ -29,6 +29,7 @@ Feature: Bundle Tolerance
     Then Check the component label value
     Then Check by printing the drawing in Metric Task units
     And User exits the drawing page
+    And Accept alert
     And User deletes Harness <taskDescription> successfully
     Examples:
       | string | taskDescription   | units  |

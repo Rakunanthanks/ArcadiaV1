@@ -106,8 +106,9 @@ public class DefineBundleTolerance extends BasePage {
         visibility.click();
         WebElement bundletoleranceon =wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("input[value='true'][name='bundle_Tolerances']")));
         bundletoleranceon.click();
-        WebElement submit = driver.findElement(By.cssSelector("button[title='Submit'] span"));
-        submit.click();
+        WebElement submit = driver.findElement(By.cssSelector("#btnFotter > button:nth-child(1)"));
+        customCommand.scrollToElement(driver,submit);
+        customCommand.waitClick(submit);
     }
 
     public static void CaptureBundleTollerance() throws InterruptedException {

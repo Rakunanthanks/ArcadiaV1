@@ -70,7 +70,7 @@ public class HarnessPage extends BasePage{
     @FindBy(css = "#iconneditor>span") private WebElement buttonConnectorEditor;
     @FindBy(css = "#ispliceeditor>span") private WebElement buttonSpliceEditor;
     @FindBy(css = "#iwireeditor>span") private WebElement buttonWireEditor;
-
+    @FindBy(css = "#iupdatecrossref") private WebElement buttonUpdateCrossRef;
     @FindBy(css = "#cEditor table.htCore") private WebElement tableConnectorEditor;
     @FindBy(xpath="//*[name()='g' and @id='layer_drawNodes']/*[name()='g'][6]") private WebElement bendRadius;
     @FindBy(xpath="//*[name()='g' and @id='layer_drawNodes']/*[name()='g'][7]") private WebElement bundleNode;
@@ -1161,5 +1161,10 @@ public class HarnessPage extends BasePage{
     public void openWireEditor() throws InterruptedException {
         customCommand.scrollIntoView(driver,buttonWireEditor);
         customCommand.javaScriptClick(driver,buttonWireEditor);
+    }
+
+    public void clickUpdateCrossRef() throws InterruptedException {
+        customCommand.scrollIntoView(driver,buttonUpdateCrossRef);
+        customCommand.javaScriptClick(driver,buttonUpdateCrossRef);
     }
 }

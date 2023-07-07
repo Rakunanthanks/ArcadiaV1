@@ -168,7 +168,7 @@ public class ComponentDBStepDefinitions {
 
     @Then("{string} component with additionalreferencetype {string} is created successfully")
     public void component_with_additionalreferencetype_is_created_successfully(String componentName, String additionalRefernceType) throws InterruptedException, SQLException, ClassNotFoundException {
-        ExtentCucumberAdapter.addTestStepLog(String.format("Component Name is "+ componentName+" additional Refernce Type is "+additionalRefernceType));
+        //ExtentCucumberAdapter.addTestStepLog(String.format("Component Name is "+ componentName+" additional Refernce Type is "+additionalRefernceType));
         AddComponentForm addComponentForm = null;
         ComponentDetails componentDetails = null;
         List<AdditionalReferences> additionalReferencesList = null;
@@ -448,6 +448,9 @@ public class ComponentDBStepDefinitions {
             case "partnumber":
 //                ExtentCucumberAdapter.addTestStepLog(String.format("Searched component is ", componentName+ ", Searched type is "+searchType));
                 new CommonElements(context.driver).filterComponentBasedOnPartNumber(FlowContext.referencesPartNumber);
+                break;
+            default:
+                new CommonElements(context.driver).filterComponentBasedOnPartNumber(searchType);
                 break;
         }
     }
