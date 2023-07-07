@@ -4,12 +4,22 @@ Feature: Verify schematics harness
     Given I'm on Arcadia test environment
     And test data config loaded for test identifier test15
     And Navigated to 'Aut_Integration' project
-    And User imports schematic harness
+
+  @VerifySchematicHarness @fix123
+  Scenario: Verifies that bundle skeleton can be created, moved relatively
+    And User imports harness 'drawskeleton'
     And user navigated to newly created harness
+    And based on drawing orchestrator components are created
+    And User move the skeleton relatively
+    And user set length and verifies it
+    And user drawn length and verified it
+
 
   @VerifySchematicHarness
   Scenario: Verifies that in Harness parts can be linked to node by searching, filtering connector or splices
-    And based on drawing orchestrator components are created
+    And User imports schematic harness
+    And user navigated to newly created harness
+#    And based on drawing orchestrator components are created
     And user sets label 'bundle' to "Show"
     And user sets label 'node' to "Show"
     And user add nodes to schematic harness

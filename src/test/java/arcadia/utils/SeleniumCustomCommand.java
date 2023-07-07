@@ -239,6 +239,12 @@ public class SeleniumCustomCommand {
         js.executeScript("arguments[0].scrollBy(50,0);", ele);
     }
 
+    public void scrollToBottom(WebDriver driver)
+    {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("window.scrollBy(0,document.body.scrollHeight)");
+    }
+
     public void pressKey(WebDriver driver,String keyName) throws AWTException {
         String key="";
         switch (keyName.toLowerCase()){
