@@ -779,4 +779,69 @@ public class SchematicStepDefinitions {
             Assert.fail();
         }
     }
+
+    @And("wires with bend are added between connectors")
+    public void wiresWithBendAreAddedBetweenConnectors() throws InterruptedException {
+        Thread.sleep(5000);
+        List<String> leftConnector=new ArrayList<>();
+        List<String> rightConnector=new ArrayList<>();
+        List<String> connectorC1= (schematicsDrawingPage.getInlineConnectorCircles("C1")).stream().map(x -> x.getAttribute("id")).toList();
+        leftConnector.addAll(connectorC1);
+        List<String> connectorC4=(schematicsDrawingPage.getInlineConnectorCircles("C4")).stream().map(x -> x.getAttribute("id")).toList();
+        List<String> connectorC5=(schematicsDrawingPage.getInlineConnectorCircles("C5")).stream().map(x -> x.getAttribute("id")).toList();
+        rightConnector.addAll(connectorC4);
+        rightConnector.addAll(connectorC5);
+        for(int i=0;i<rightConnector.size();i++)
+        {
+            WebElement left=context.driver.findElement(By.xpath("(//*[name()='circle' and @comp='"+leftConnector.get(i)+"'])[2]"));
+            WebElement right=context.driver.findElement(By.xpath("(//*[name()='circle' and @comp='"+rightConnector.get(i)+"'])[1]"));
+            String wireName="wire"+i;
+            schematicsDrawingPage.connectWire(wireName,left,right);
+        }
+    }
+
+    @Then("verify wire bend can be removed successfully")
+    public void verifyWireBendCanBeRemovedSuccessfully() throws InterruptedException {
+        int numberOfVertexLinesBeforeWireBendRemoved = schematicsDrawingPage.getNumberOfVertexLinesOnScehematic();
+        schematicsDrawingPage.removeBend();
+        int numberOfVertexLinesAfterWireBendRemoved = schematicsDrawingPage.getNumberOfVertexLinesOnScehematic();
+        Assert.assertNotEquals(numberOfVertexLinesAfterWireBendRemoved,numberOfVertexLinesBeforeWireBendRemoved,"Wire bend was not removed successfully");
+    }
+
+    @And("user navigated to newly created schematic")
+    public void userNavigatedToNewlyCreatedSchematic() throws InterruptedException {
+        schematicsDrawingPage.verifyDrawingsListPageLoaded();
+        schematicsDrawingPage.goToSchematic();
+    }
+
+
+    @And("User verifies drawing page is open")
+    public void userVerifiesDrawingPageIsOpen() {
+        schematicsDrawingPage.verifyDrawingPageIsOpen();
+    }
+
+    @Then("user verifies search view functionality on schematic tree view")
+    public void userVerifiesSearchViewFunctionalityOnSchematicTreeView() throws InterruptedException {
+        schematicsDrawingPage.verifyConnectorAndPinsCanBeSearchedOnTreeView("C1");
+        schematicsDrawingPage.verifyConnectorAndPinsCanBeSearchedOnTreeView("C2");
+        schematicsDrawingPage.verifyConnectorAndPinsCanBeSearchedOnTreeView("C3");
+        schematicsDrawingPage.verifyConnectorAndPinsCanBeSearchedOnTreeView("C4");
+        schematicsDrawingPage.verifyConnectorAndPinsCanBeSearchedOnTreeView("C5");
+        schematicsDrawingPage.verifyConnectorAndPinsCanBeSearchedOnTreeView("C6");
+        schematicsDrawingPage.verifyComponentCanBeSearchedOnTreeView("SP-BK");
+        schematicsDrawingPage.verifyComponentCanBeSearchedOnTreeView("SP-GN");
+        schematicsDrawingPage.verifyComponentCanBeSearchedOnTreeView("SP-YE");
+        schematicsDrawingPage.verifyComponentCanBeSearchedOnTreeView("WIRE0");
+        schematicsDrawingPage.verifyComponentCanBeSearchedOnTreeView("WIRE1");
+    }
+
+    @Then("User verifies schematic tree can be expanded")
+    public void userVerifiesSchematicTreeCanBeExpanded() {
+        schematicsDrawingPage.verifySchematicTreeExpanded();
+    }
+
+    @And("User verifies schematic tree can be collapsed")
+    public void userVerifiesSchematicTreeCanBeCollapsed() throws InterruptedException {
+        schematicsDrawingPage.verifySchematicTreeCollapsed();
+    }
 }
