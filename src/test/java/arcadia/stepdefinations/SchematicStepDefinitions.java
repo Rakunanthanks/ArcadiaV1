@@ -589,6 +589,10 @@ public class SchematicStepDefinitions {
             case "drawskeleton":
                 harnessFilePath = "src/test/resources/drawingboard/drawskeleton.hrx";
                 break;
+            case "baselineHarness":
+                harnessFilePath = "src/test/resources/drawingboard/baselineHarness.hrx";
+                break;
+
         }
         schematicsDrawingPage.importHarness(harnessFilePath);
     }
@@ -843,5 +847,30 @@ public class SchematicStepDefinitions {
     @And("User verifies schematic tree can be collapsed")
     public void userVerifiesSchematicTreeCanBeCollapsed() throws InterruptedException {
         schematicsDrawingPage.verifySchematicTreeCollapsed();
+    }
+
+    @And("user convert splices to virtual node")
+    public void userConvertSplicesToVirtualNode() {
+        System.out.println("Could not find this option");
+    }
+
+    @And("user validate color label visibility")
+    public void userValidateColorLabelVisibility() throws InterruptedException {
+        schematicsDrawingPage.updateFont();
+        schematicsDrawingPage.setVisibility();
+        boolean flag=schematicsDrawingPage.verifySpliceFont();
+        if (flag) {
+            ExtentCucumberAdapter.addTestStepLog(String.format("Splice font and label visibility verified successfully"));
+        } else {
+            ExtentCucumberAdapter.addTestStepLog(String.format("Splice font and label visibility verification failed"));
+            Assert.fail();
+        }
+        boolean flag1=schematicsDrawingPage.verifyConnectorFont();
+        if (flag1) {
+            ExtentCucumberAdapter.addTestStepLog(String.format("Connector font and label visibility verified successfully"));
+        } else {
+            ExtentCucumberAdapter.addTestStepLog(String.format("Connector font and label visibility verification failed"));
+            Assert.fail();
+        }
     }
 }
