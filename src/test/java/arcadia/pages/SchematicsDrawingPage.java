@@ -6,7 +6,6 @@ import arcadia.pages.ComponentDB.AddNewComponentPage;
 import arcadia.pages.ComponentDB.CommonElements;
 import arcadia.utils.SeleniumCustomCommand;
 import arcadia.utils.StringHelper;
-import org.bouncycastle.jcajce.provider.asymmetric.X509;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
@@ -15,7 +14,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.python.antlr.ast.Str;
 import org.testng.Assert;
 
 
@@ -72,6 +70,11 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(xpath = "//input[@class='refCodeSpec']") private WebElement editSpliceName;
     @FindBy(xpath = "//button[contains(@title,'Update component data, close dialog')]") private WebElement okButtonEditSplice;
     @FindBy(xpath = "//span[@class='ribbon-title' and text()='Advanced']") private WebElement advancedTab;
+    @FindBy(xpath = "//span[text()='Visibility']") private WebElement visibility;
+    @FindBy(xpath = "(//input[@name='parentnode'])[1]") private WebElement nodeVisibility;
+    @FindBy(xpath = "(//input[@name='parentbundle'])[1]") private WebElement parentbundleVisibility;
+    @FindBy(xpath = "(//input[@name='parentconnectorcavity'])[1]") private WebElement parentconnectorcavityVisibility;
+
     @FindBy(xpath = "//span[@class='button-title' and text()='Wire Editor']") private WebElement wireEditor;
     @FindBy(id = "wire-editor") private WebElement divWireEditorPage;
     @FindBy(xpath = "//div[@id='wire-editor']//label[contains(text(),'Component DB')]//following-sibling::select") private WebElement selectComponentDBWireEditor;
@@ -123,6 +126,8 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(css = "#tblBOMPartNoList>tbody>tr") private WebElement eleFirstRow;
     @FindBy(xpath = "//div[@class='ui-dialog-buttonset']//span[text()='Yes']")  private WebElement buttonYesWarning;
     @FindBy(xpath = "//span[text()='Update Font']") private WebElement updateFont;
+    @FindBy(xpath = "//span[text()='Fonts']") private  WebElement fontSetting;
+    @FindBy(xpath = "(//table[@class='tablesorter'])[1]//td[2]") private List<WebElement> fontList;
     @FindBy(xpath = "(//table[@class='tablesorter'])[1]//td[2]/input") private List<WebElement> updateFontSize;
     @FindBy(xpath = "(//table[@class='tablesorter'])[1]//td[4]//input") private List<WebElement> updateFontCheckBox;
     @FindBy(xpath = "(//table[@class='tablesorter'])[1]//td[3]/input") private List<WebElement> updateFontColor;
@@ -772,15 +777,15 @@ public class SchematicsDrawingPage extends BasePage{
     }
 
     public void addNodesToHarness() throws InterruptedException, AWTException {
-        WebElement eleNode = driver.findElement(By.cssSelector("#layer_80 >g[class=\"DG28 bundleGroup\"]>g>g"));
+        WebElement eleNode = driver.findElement(By.cssSelector("#layer_80 >g[class=\"DG28 bundleGroup\"]>g>g>use"));
         customCommand.moveRightOfElementAndClick(driver,eleNode,28);
         Thread.sleep(1000);
         new HarnessPage(driver).clickOnNode();
-        WebElement eleNode1 = driver.findElement(By.cssSelector("#layer_80 >g[class=\"DG28 bundleGroup\"]>g>g"));
+        WebElement eleNode1 = driver.findElement(By.cssSelector("#layer_80 >g[class=\"DG28 bundleGroup\"]>g>g>use"));
         customCommand.moveRightOfElementAndClick(driver,eleNode1,56);
         Thread.sleep(1000);
         new HarnessPage(driver).clickOnNode();
-        WebElement eleNode2 = driver.findElement(By.cssSelector("#layer_80 >g[class=\"DG28 bundleGroup\"]>g>g"));
+        WebElement eleNode2 = driver.findElement(By.cssSelector("#layer_80 >g[class=\"DG28 bundleGroup\"]>g>g>use"));
         customCommand.moveRightOfElementAndClick(driver,eleNode2,84);
         Thread.sleep(1000);
     }
@@ -1565,4 +1570,62 @@ public class SchematicsDrawingPage extends BasePage{
         else
             return false;
     }
+
+    public void setVisibility() throws InterruptedException {
+        customCommand.javaScriptClick(driver,advancedTab);
+        customCommand.javaScriptClick(driver,visibility);
+        customCommand.javaScriptClick(driver,nodeVisibility);
+        customCommand.javaScriptClick(driver,parentbundleVisibility);
+        customCommand.javaScriptClick(driver,parentconnectorcavityVisibility);
+        customCommand.javaScriptClick(driver,SubmitWire);
+    }
+
+    public void updateFont() throws InterruptedException {
+        customCommand.javaScriptClick(driver,fontSetting);
+        for(WebElement w:fontList)
+        {
+            customCommand.clearAndEnterText(w,"3");
+        }
+        customCommand.javaScriptClick(driver,SubmitWire);
+    }
+    public boolean verifySpliceFont()
+    {
+        WebElement sp1=driver.findElement(By.xpath("(//*[name()='text' and contains(text(),'SP-GN')])[1]"));
+        WebElement sp2=driver.findElement(By.xpath("(//*[name()='text' and contains(text(),'SP-001')])[1]"));
+        WebElement sp3=driver.findElement(By.xpath("(//*[name()='text' and contains(text(),'SP-BK')])[1]"));
+        String s1=sp1.getAttribute("font-size");
+        String s2=sp2.getAttribute("font-size");
+        String s3=sp3.getAttribute("font-size");
+        if(s1.equalsIgnoreCase("3")&&s2.equalsIgnoreCase("3")&&s3.equalsIgnoreCase("3"))
+        {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    public boolean verifyConnectorFont()
+    {
+        WebElement c1=driver.findElement(By.xpath("(//*[name()='text' and contains(text(),'C1')])[1]"));
+        WebElement c2=driver.findElement(By.xpath("(//*[name()='text' and contains(text(),'C2')])[1]"));
+        WebElement c3=driver.findElement(By.xpath("(//*[name()='text' and contains(text(),'C3')])[1]"));
+        WebElement c4=driver.findElement(By.xpath("(//*[name()='text' and contains(text(),'C4')])[1]"));
+        WebElement c5=driver.findElement(By.xpath("(//*[name()='text' and contains(text(),'C5')])[1]"));
+        WebElement c6=driver.findElement(By.xpath("(//*[name()='text' and contains(text(),'C6')])[1]"));
+        String C1=c1.getAttribute("font-size");
+        String C2=c2.getAttribute("font-size");
+        String C3=c3.getAttribute("font-size");
+        String C4=c4.getAttribute("font-size");
+        String C5=c5.getAttribute("font-size");
+        String C6=c6.getAttribute("font-size");
+        if(C4.equalsIgnoreCase("3")&&C5.equalsIgnoreCase("3")&&C5.equalsIgnoreCase("3")&&C1.equalsIgnoreCase("3")&&C2.equalsIgnoreCase("3")&&C3.equalsIgnoreCase("3"))
+        {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+
 }
