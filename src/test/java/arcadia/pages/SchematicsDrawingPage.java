@@ -94,6 +94,7 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(xpath = "//a[contains(text(),'Go to Drawing')]") private WebElement buttonGoToDrawing;
     @FindBy(xpath = "//div[@title='Insert Wire']") private WebElement insertWire;
     @FindBy(xpath = "//div[@Title = 'Wire Label Inline']") private WebElement wireLabelInline;
+    @FindBy(xpath = "//div[@Title = 'Remove Bend']") private WebElement removeWireBend;
     @FindBy(xpath = "//div[@Title = 'Remove All Wire Labels']") private WebElement removeAllWireLabels;
     @FindBy(xpath = "//div[@id=\"dialog\" and text()=\"Remove all labels for wires?\"]") private WebElement popupMessageRemoveLabelsFromWires;
     @FindBy(xpath = "//div[@Title = 'Line Label']") private WebElement wireLabel;
@@ -299,6 +300,7 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(xpath = "//input[@name='bundle.length']") private  WebElement setLengthInput;
     @FindBy(xpath = "//p[text()='Drawn Length:']/..") private WebElement drawnLength;
     @FindBy(xpath = "//*[name()='g' and contains(@class,'DG27')]//*[name()='use']") private WebElement bundle;
+    @FindBy(css = "input#sheetsTreeListSearch2") private WebElement inputComponentSearchTee;
 
     String wireEditorHeaders = "//div[@id=\"wire-editor\"]//thead//th//input";
 
@@ -557,6 +559,7 @@ public class SchematicsDrawingPage extends BasePage{
         customCommand.moveByOffsetOfElementAndClick(driver,left,90,0);
         Thread.sleep(2000);
         actions.moveToElement(right).click().perform();
+        Thread.sleep(3000);
         (new WebDriverWait(driver, 10)).until(ExpectedConditions.visibilityOf(wireId));
         wireName.click();
         customCommand.clearAndEnterText(wireName,name);
@@ -754,6 +757,20 @@ public class SchematicsDrawingPage extends BasePage{
         String name= FlowContext.schematicHarnessName;
 //        String name= "AB_TestWires";
         WebElement ele=driver.findElement(By.xpath("//table[@id='tableHAR']//td[text()='"+name+"']"));
+        customCommand.scrollIntoView(driver,ele);
+        customCommand.javaScriptClick(driver,ele);
+        try{
+            new AddNewComponentPage(driver).verifyConfirmationMessage("It appears you are already editing this task! It is advised that you only edit a single instance of this task");
+            new AddNewComponentPage(driver).acceptConfirmationPopup();
+        }
+        catch (Exception e){
+            customCommand.waitForElementVisibility(driver, inlineConnector);
+        }
+    }
+
+    public void goToSchematic() throws InterruptedException {
+        String name= FlowContext.schematicDescription;
+        WebElement ele=driver.findElement(By.xpath("//table[@id='tableSCH']//td[text()='"+name+"']"));
         customCommand.scrollIntoView(driver,ele);
         customCommand.javaScriptClick(driver,ele);
         try{
@@ -1627,5 +1644,70 @@ public class SchematicsDrawingPage extends BasePage{
         }
     }
 
+    public int getNumberOfVertexLinesOnScehematic() {
+        List<WebElement> numberOfVertexLineElements = driver.findElements(By.xpath("//*[name()='g' and @class=\"vertex\"]//*[name()='line']"));
+        return numberOfVertexLineElements.size();
+    }
 
+    public void removeBend() throws InterruptedException {
+        customCommand.waitForElementToBeClickable(driver,removeWireBend);
+        customCommand.javaScriptClick(driver,removeWireBend);
+        Thread.sleep(2000);
+        WebElement elePin = driver.findElements(By.xpath("//*[name()='circle' and @title=\"PIN 5\"]")).get(3);
+        customCommand.moveRightOfElementAndClick(driver,elePin,20);
+        Thread.sleep(3000);
+    }
+
+    public void verifyDrawingPageIsOpen() {
+        customCommand.longWaitForElementToBeClickable(driver,selectButton);
+        Assert.assertTrue(selectButton.isDisplayed(),"Select button is not displayed on drawing");
+    }
+
+    public void verifyConnectorAndPinsCanBeSearchedOnTreeView(String connectorName) throws InterruptedException {
+        customCommand.waitForElementToBeClickable(driver,inputComponentSearchTee);
+        inputComponentSearchTee.clear();
+        customCommand.simulateKeyEnterWithValue(inputComponentSearchTee,connectorName);
+        Thread.sleep(4000);
+        WebElement ele = driver.findElement(By.xpath("//div[@id=\"leftTreeWrapper\"]//span[@class=\"conInlineItem\" and contains(text(),\""+connectorName+"\")]"));
+        Assert.assertTrue(ele.isDisplayed(),"Connector is not displayed in schematic tree view when it was searched in a collapsed tree");
+    }
+    public void verifyComponentCanBeSearchedOnTreeView(String compName) throws InterruptedException {
+        customCommand.waitForElementToBeClickable(driver,inputComponentSearchTee);
+        inputComponentSearchTee.clear();
+        customCommand.simulateKeyEnterWithValue(inputComponentSearchTee,compName);
+        Thread.sleep(2000);
+        WebElement ele = driver.findElement(By.xpath("//div[@id=\"leftTreeWrapper\"]//span[text()=\""+compName+"\"]"));
+        Assert.assertTrue(ele.isDisplayed(),"Expected component is not displayed in schematic tree view when it was searched in a collapsed tree");
+    }
+
+    public void verifySchematicTreeExpanded() {
+        driver.findElement(By.xpath("//div[contains(@class,\"lastExpandable-hitarea\")]")).click();
+        WebElement eleInline = driver.findElement(By.xpath("//div[@id=\"leftTreeWrapper\"]//span[text()=\" Inline\"]"));
+        Assert.assertTrue(eleInline.isDisplayed(),"Connectors are not displayed under schematic tree");
+        eleInline.click();
+        Assert.assertTrue(driver.findElement(By.xpath("//div[@id=\"leftTreeWrapper\"]//span[@class=\"conInlineItem\" and contains(text(),\"C1 (5)\")]")).isDisplayed(),"Connector is not displayed in schematic tree view");
+        Assert.assertTrue(driver.findElement(By.xpath("//div[@id=\"leftTreeWrapper\"]//span[@class=\"conInlineItem\" and contains(text(),\"C2 (4)\")]")).isDisplayed(),"Connector is not displayed in schematic tree view");
+        Assert.assertTrue(driver.findElement(By.xpath("//div[@id=\"leftTreeWrapper\"]//span[@class=\"conInlineItem\" and contains(text(),\"C3 (3)\")]")).isDisplayed(),"Connector is not displayed in schematic tree view");
+        Assert.assertTrue(driver.findElement(By.xpath("//div[@id=\"leftTreeWrapper\"]//span[@class=\"conInlineItem\" and contains(text(),\"C4 (2)\")]")).isDisplayed(),"Connector is not displayed in schematic tree view");
+        Assert.assertTrue(driver.findElement(By.xpath("//div[@id=\"leftTreeWrapper\"]//span[@class=\"conInlineItem\" and contains(text(),\"C5 (3)\")]")).isDisplayed(),"Connector is not displayed in schematic tree view");
+        Assert.assertTrue(driver.findElement(By.xpath("//div[@id=\"leftTreeWrapper\"]//span[@class=\"conInlineItem\" and contains(text(),\"C6 (6)\")]")).isDisplayed(),"Connector is not displayed in schematic tree view");
+        WebElement eleSplice = driver.findElement(By.xpath("//div[@id=\"leftTreeWrapper\"]//span[text()=\" Splices\"]"));
+        Assert.assertTrue(eleSplice.isDisplayed(),"Splices are not displayed under schematic tree");
+        eleSplice.click();
+        Assert.assertTrue(driver.findElement(By.xpath("//div[@id=\"leftTreeWrapper\"]//span[text()=\"SP-BK\"]")).isDisplayed(),"Splice is not displayed in schematic tree view");
+        Assert.assertTrue(driver.findElement(By.xpath("//div[@id=\"leftTreeWrapper\"]//span[text()=\"SP-GN\"]")).isDisplayed(),"Splice is not displayed in schematic tree view");
+        Assert.assertTrue(driver.findElement(By.xpath("//div[@id=\"leftTreeWrapper\"]//span[text()=\"SP-YE\"]")).isDisplayed(),"Splice is not displayed in schematic tree view");
+        WebElement eleWires = driver.findElement(By.xpath("//div[@id=\"leftTreeWrapper\"]//span[text()=\" Wires\"]"));
+        Assert.assertTrue(eleWires.isDisplayed(),"Wires are not displayed under schematic tree");
+        eleWires.click();
+        Assert.assertTrue(driver.findElement(By.xpath("//div[@id=\"leftTreeWrapper\"]//span[text()=\"WIRE0\"]")).isDisplayed(),"Wire is not displayed in schematic tree view");
+    }
+
+    public void verifySchematicTreeCollapsed() throws InterruptedException {
+        driver.findElement(By.xpath("//div[contains(@class,\"lastCollapsable-hitarea\")]")).click();
+        Thread.sleep(2000);
+        List<WebElement> eleInline = driver.findElements(By.xpath("//div[@id=\"leftTreeWrapper\"]//span[text()=\" Inline\"]"));
+        Assert.assertFalse(eleInline.get(0).isDisplayed(),"Schematic tree view is not collapsed");
+    }
 }
+
