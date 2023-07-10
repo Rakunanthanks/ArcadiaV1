@@ -182,18 +182,18 @@ public class SchematicsDrawingPage extends BasePage{
 
     @FindBy(xpath = "//*[name()='rect' and @etype='splice']") private List<WebElement> splices;
     @FindBy(xpath = "//li[@id='cmishowToLocation']") private WebElement showLocation;
-    @FindBy(xpath = "//input[@name='updateviews']") private WebElement updateView;
-    @FindBy(xpath = "//input[@name='updatescale']") private WebElement updateScale;
-    @FindBy(xpath = "//div[@class='dynformrowexpand']//div[@value='Loading']//input[@name='autorotate.connector']") private WebElement loadingCheckBox;
+    @FindBy(xpath = "//input[@name='updateviews']")  WebElement updateView;
+    @FindBy(xpath = "//input[@name='updatescale']")  WebElement updateScale;
+    @FindBy(xpath = "//div[@class='dynformrowexpand']//div[@value='Loading']//input[@name='autorotate.connector']") WebElement loadingCheckBox;
     @FindBy(xpath = "//div[@class='dynformrowexpand']//div[@value='Mating']//input") private List<WebElement> matingInput;
     @FindBy(xpath = "//div[@class='dynformrowexpand']//div[@value='Catalogue']//input") private List<WebElement> catalogueInput;
     @FindBy(xpath = "//div[@class='dynformrowexpand']//div[@value='Top']//input") private List<WebElement> topInput;
     @FindBy(xpath = "//div[@class='dynformrowexpand']//div[@value='Isometric']//input") private List<WebElement> isometricInput;
     @FindBy(xpath = "//div[@class='dynformrowexpand']//div[@value='Side']//input[@name='colocate.connector']") private WebElement sideCheckBox;
-    @FindBy(xpath = "//input[@name='Loading']") private WebElement LoadingInputBox;
+    @FindBy(xpath = "//input[@name='Loading']")  WebElement LoadingInputBox;
     @FindBy(xpath = "//input[@name='Side']") private WebElement sideInputBox;
-    @FindBy(xpath = "//button[@class='sbarbut']/span[text()='Submit']") private WebElement submitButtonImageView;
-    @FindBy(xpath = "//input[@class='msgButton' and @name='Yes']") private WebElement yesButton;
+    @FindBy(xpath = "//button[@class='sbarbut']/span[text()='Submit']")  WebElement submitButtonImageView;
+    @FindBy(xpath = "//input[@class='msgButton' and @name='Yes']")  WebElement yesButton;
 
     @FindBy(css = "a.btnExportCSV") private WebElement buttonExportCsvAllWires;
     @FindBy(xpath = "//button[contains(text(),'Load From Schematic')]") private WebElement buttonLoadFromSchematicOnWireEditor;

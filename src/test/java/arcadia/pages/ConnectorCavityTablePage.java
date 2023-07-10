@@ -18,7 +18,8 @@ public class ConnectorCavityTablePage extends BasePage {
     @FindBy(css = ".complabel") private WebElement complabel;
     @FindBy(css = ".ignoreClick[data-extlink='false']")private WebElement cavityLabelDetails;
     @FindBy(css="#ui-accordion-accordion-panel-0 > div:nth-child(3) > input")private WebElement connectorDescription;
-    @FindBy(css = "button[title=\"Submit\"]") private WebElement buttonSubmitDetails;
+    @FindBy(css = "button[title=\"Submit\"]")
+    public WebElement buttonSubmitDetails;
     @FindBy(css=".hyperlink") WebElement partNumber;
     @FindBy(css =".ignoreClick[text-anchor='start']") WebElement partNumberDescription;
     @FindBy(css="#ui-id-2")private WebElement variantOptions;
@@ -27,14 +28,16 @@ public class ConnectorCavityTablePage extends BasePage {
     @FindBy(css = "#ui-accordion-accordion-panel-0 > div:nth-child(28) > div > div.selectize-input.items.not-full.has-options > input")private WebElement connectorVariantOptions;
     @FindBy(css="#node_attachpart > tbody > tr:nth-child(1) > td:nth-child(27) > div > div.selectize-input.items.not-full.has-options > input")private WebElement connectorAttachPartVariants;
     @FindBy(css="#ui-accordion-accordion-header-4")private WebElement cavityTable;
-    @FindBy(css= "#no")private WebElement attachPartsConnectorCheckBox;
+    @FindBy(css= "#no")
+    public WebElement attachPartsConnectorCheckBox;
     @FindBy(xpath="//tbody/tr[@class='used']/td[11]/div[1]/div[1]") WebElement terminalPN;
     @FindBy(xpath="//*[@id=\"cavitytable\"]/tbody/tr[1]/td[23]/div/div[1]/input")private WebElement sealPN;
     @FindBy(xpath="//*[@id=\"cavitytable\"]/tbody/tr[1]/td[26]/div/div[1]/input")
     WebElement plugPN;
     @FindBy(xpath = "//table[@id='cavitytable']//input[@class='addRow']") WebElement addRowCavity;
     @FindBy(css ="#ui-accordion-accordion-panel-0 > div:nth-child(26) > div > div.selectize-input.items.not-full > input")private WebElement conGroupID;
-    @FindBy(css ="#ui-accordion-accordion-panel-0 > div:nth-child(23) > select")private WebElement terminalImageDisplay;
+    @FindBy(css ="#ui-accordion-accordion-panel-0 > div:nth-child(23) > select")
+    public WebElement terminalImageDisplay;
 
     SeleniumCustomCommand customCommand = new SeleniumCustomCommand();
     String testvalue = "AutomationTest";
@@ -315,6 +318,13 @@ public class ConnectorCavityTablePage extends BasePage {
     }
     public void enterTerminalPartNumber() throws AWTException, InterruptedException {
         terminalPN.click();
+        customCommand.pressKey(driver,"down");
+        customCommand.pressKey(driver,"enter");
+        Thread.sleep(2000);
+        customCommand.javaScriptClick(driver,buttonSubmitDetails);
+    }
+    public void enterSealPartNumber() throws AWTException, InterruptedException {
+        sealPN.click();
         customCommand.pressKey(driver,"down");
         customCommand.pressKey(driver,"enter");
         Thread.sleep(2000);

@@ -471,6 +471,12 @@ public class HarnessStepDefinitions {
                 break;
         }
     }
+    @And("Image view is opened")
+    public void updateImageViewIsOpened() throws InterruptedException {
+        harnessPage.selectHeader("Harness");
+        harnessPage.openUpdateImageView();
+        new UpdateImagePage(context.driver).verifyUpdateImageViewOpened();
+    }
 
     @And("connector editor is opened")
     public void connectorEditorIsOpened() throws InterruptedException {

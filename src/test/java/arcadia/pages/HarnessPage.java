@@ -48,7 +48,7 @@ public class HarnessPage extends BasePage{
     @FindBy(css = "input#nodeshow") private WebElement buttonShowNode;
 
     @FindBy(css = "div[title=\"Label Visibility\"]>span") private WebElement buttonVisibility;
-    @FindBy(css = "button[title=\"Submit\"]") private WebElement buttonSubmitDetails;
+    @FindBy(css = "button[title=\"Submit\"]")  WebElement buttonSubmitDetails;
     @FindBy(xpath = "//div[@id='appContextMenu']/li") private  List<WebElement> operations;
     @FindBy(xpath = "//div[@title='Draw Select']") private  WebElement drawSelectPointer;
 
@@ -71,6 +71,7 @@ public class HarnessPage extends BasePage{
     @FindBy(css = "#ispliceeditor>span") private WebElement buttonSpliceEditor;
     @FindBy(css = "#iwireeditor>span") private WebElement buttonWireEditor;
     @FindBy(css = "#iupdatecrossref") private WebElement buttonUpdateCrossRef;
+    @FindBy(css = "#iresetimageviews>span") private WebElement buttonImageView;
     @FindBy(css = "#cEditor table.htCore") private WebElement tableConnectorEditor;
     @FindBy(xpath="//*[name()='g' and @id='layer_drawNodes']/*[name()='g'][6]") private WebElement bendRadius;
     @FindBy(xpath="//*[name()='g' and @id='layer_drawNodes']/*[name()='g'][7]") private WebElement bundleNode;
@@ -1166,5 +1167,9 @@ public class HarnessPage extends BasePage{
     public void clickUpdateCrossRef() throws InterruptedException {
         customCommand.scrollIntoView(driver,buttonUpdateCrossRef);
         customCommand.javaScriptClick(driver,buttonUpdateCrossRef);
+    }
+    public void openUpdateImageView() throws InterruptedException {
+        customCommand.scrollIntoView(driver,buttonImageView);
+        customCommand.javaScriptClick(driver,buttonImageView);
     }
 }
