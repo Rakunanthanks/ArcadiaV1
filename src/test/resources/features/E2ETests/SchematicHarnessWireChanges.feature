@@ -14,6 +14,8 @@ Feature: Verify cavity harness can be restructured, imported and exported
     And user move to connector cavity table Harness page and 'enable' hide empty column and make some column visible
     And user verifies that empty columns are 'not visible' in table
     And user add the terminal part number to check if new column is coming on adding the details
+    And user validate the terminal strip length
+    And user enable the label visibility and verify them
 
   @SchematicToHarness
   Scenario: Verifies that terminal in harness cavity can be updated, Cavity Imported and Exported

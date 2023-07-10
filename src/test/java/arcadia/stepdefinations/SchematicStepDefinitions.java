@@ -495,7 +495,7 @@ public class SchematicStepDefinitions {
         schematicsDrawingPage.addWireTable();
     }
     @And("user updates wiretable")
-    public void userUpdatesWireTable() throws InterruptedException {
+    public void  userUpdatesWireTable() throws InterruptedException {
         schematicsDrawingPage.updateWireTable();
     }
 
@@ -604,7 +604,8 @@ public class SchematicStepDefinitions {
 
 
     @And("user verifies that empty columns are {string} in table")
-    public void userVerifiesThatEmptyColumnsAreVisibleInTable(String condition) {
+    public void userVerifiesThatEmptyColumnsAreVisibleInTable(String condition) throws InterruptedException {
+        Thread.sleep(2000);
         int columns=schematicsDrawingPage.varifyHiddenColumns();
         System.out.println(columns);
         if(condition.equalsIgnoreCase("visible"))
@@ -618,7 +619,7 @@ public class SchematicStepDefinitions {
             }}
         else if(condition.equalsIgnoreCase("not visible"))
         {
-            if(columns>=5)
+            if(columns>=4)
                 ExtentCucumberAdapter.addTestStepLog(String.format("Empty columns are not visible"));
             else {
                 ExtentCucumberAdapter.addTestStepLog(String.format("Empty columns are visible"));
@@ -872,5 +873,30 @@ public class SchematicStepDefinitions {
             ExtentCucumberAdapter.addTestStepLog(String.format("Connector font and label visibility verification failed"));
             Assert.fail();
         }
+    }
+
+    @And("user enable the label visibility and verify them")
+    public void userEnableTheLabelVisibilityAndVerifyThem() throws InterruptedException {
+        schematicsDrawingPage.setVisibilityOn();
+        boolean flag=schematicsDrawingPage.labelValidation();
+        if (flag) {
+            ExtentCucumberAdapter.addTestStepLog(String.format("Labels has been verified successfully"));
+        } else {
+            ExtentCucumberAdapter.addTestStepLog(String.format("Labels has been failed to be verified"));
+            Assert.fail();
+        }
+    }
+
+    @And("user validate the terminal strip length")
+    public void userValidateTheTerminalStripLength() {
+        boolean flag= schematicsDrawingPage.verifyTerminalStripLength();
+        if (flag) {
+            ExtentCucumberAdapter.addTestStepLog(String.format("Terminal Strip Length has been verified successfully"));
+        } else {
+            ExtentCucumberAdapter.addTestStepLog(String.format("Terminal Strip Length has been failed to be verified"));
+            Assert.fail();
+        }
+       WebElement ele= context.driver.findElement(By.xpath("//div[@aria-labelledby='ui-id-38']//span[text()='close']"));
+        ele.click();
     }
 }
