@@ -331,6 +331,10 @@ public class SchematicStepDefinitions {
     public void userOpensLeftPaneOnHarness() throws InterruptedException {
         schematicsDrawingPage.openLeftPanel();
     }
+    @And("User closes left pane on harness")
+    public void userClosesLeftPaneOnHarness() throws InterruptedException {
+        schematicsDrawingPage.closeLeftPanel();
+    }
 
     @And("user adds connector and splice to node from tree view")
     public void userAddsConnectorAndSpliceToNodeFromTreeView() throws InterruptedException {
@@ -350,8 +354,8 @@ public class SchematicStepDefinitions {
         schematicsDrawingPage.importHarness(harnessFilePath);
     }
 
-    @Then("user verifies wires can be deleted succesfully on schematic harness")
-    public void userVerifiesWiresCanBeDeletedSuccesfullyOnSchematicHarness() throws InterruptedException {
+    @Then("user verifies wires can be deleted successfully on schematic harness")
+    public void userVerifiesWiresCanBeDeletedSuccessfullyOnSchematicHarness() throws InterruptedException {
         schematicsDrawingPage.zoomFit();
         int initialWiresCount = schematicsDrawingPage.getWiresCount();
         schematicsDrawingPage.verifyWiresCanBeDeleted(initialWiresCount);
@@ -555,8 +559,8 @@ public class SchematicStepDefinitions {
     public void userLoadsSchematicDataOnConnectorEditor() throws InterruptedException {
         schematicsDrawingPage.loadSchematicOnConnectorEditor();
         schematicsDrawingPage.verifyLoadSchematicWindowOpened();
-//        String schematicTaskName = FlowContext.drawingTaskName;
-        String schematicTaskName = "3392";
+        String schematicTaskName = FlowContext.drawingTaskName;
+//        String schematicTaskName = "3392";
         schematicsDrawingPage.selectTaskToBeLoaded(schematicTaskName);
     }
 
@@ -872,5 +876,39 @@ public class SchematicStepDefinitions {
             ExtentCucumberAdapter.addTestStepLog(String.format("Connector font and label visibility verification failed"));
             Assert.fail();
         }
+    }
+
+    @When("User expands schematic harness tree")
+    public void userExpandsSchematicHarnessTree() throws InterruptedException {
+        schematicsDrawingPage.expandLeftTree();
+    }
+
+    @Then("Verify components displayed in expanded schematic harness tree")
+    public void verifyThatTheHarnessTreeIsExpandedSuccessfully() throws InterruptedException {
+        schematicsDrawingPage.verifySchematicHarnessTreeExpandedComponents();
+    }
+
+    @And("user verifies search view functionality on schematic harness tree view")
+    public void userVerifiesSearchViewFunctionalityOnSchematicHarnessTreeView() throws InterruptedException {
+        schematicsDrawingPage.verifySearchSchematicHarnessTree("C1");
+        schematicsDrawingPage.verifySearchSchematicHarnessTree("SP-YE");
+        schematicsDrawingPage.verifySearchSchematicHarnessTree("BUNDLE3");
+        schematicsDrawingPage.verifySearchSchematicHarnessTree("WIRE5");
+        schematicsDrawingPage.verifySearchSchematicHarnessTree("TestMCore");
+    }
+
+    @When("user updates sleevetube details on schematic harness")
+    public void userUpdatesSleevetubeDetailsOnSchematicHarness() throws InterruptedException {
+        schematicsDrawingPage.updateSleeveTubeOnSchematicHarness("conduit_slit","PA6");
+    }
+
+    @Then("verify that coverings are updated successfully on schematic harness")
+    public void verifyThatCoveringsAreUpdatedSuccessfullyOnSchematicHarness() throws InterruptedException {
+        schematicsDrawingPage.verifyCoveringsUpdatedOnSchematicHarness();
+    }
+
+    @And("user links multicore to schematic harness")
+    public void userLinksMulticoreToSchematicHarness() throws InterruptedException {
+        schematicsDrawingPage.linkMulticoreToSchematicHarness();
     }
 }
