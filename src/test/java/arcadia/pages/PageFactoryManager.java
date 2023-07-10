@@ -30,6 +30,7 @@ public class PageFactoryManager {
     private static FormboardPage formboardPage;
     private static UpdateFontsPage updateFontsPage;
     private static UpdateCrossReference updateCrossReference;
+    private static UpdateImagePage updateImagePage;
 
     public static SearchPartsDatabasePage getPartsDatabasePage(WebDriver driver){
         return searchPartsDatabasePage == null ? new SearchPartsDatabasePage(driver) : searchPartsDatabasePage;
@@ -111,5 +112,7 @@ public class PageFactoryManager {
     public static UpdateCrossReference  getUpdateCrossReference(WebDriver driver){
         return updateCrossReference == null ? new UpdateCrossReference(driver) :updateCrossReference;
     }
-
+     public static UpdateImagePage getUpdateImagePage(WebDriver driver){
+        return updateImagePage == null ? new UpdateImagePage(driver) :updateImagePage;
+    }
 }
