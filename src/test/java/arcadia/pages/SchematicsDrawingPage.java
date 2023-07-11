@@ -250,6 +250,7 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(xpath = "//input[@class='selectall']") private WebElement selectAll;
 
     @FindBy(xpath = "//h3[text()='Cavity Table']") private WebElement cavityTable;
+    @FindBy(xpath = "//h3[text()='Wire Table']") private WebElement connectorWireTable;
 
     @FindBy(xpath = "(//select[@name='cavitytable.terminalpn']/following-sibling::div/div[1])[1]") private WebElement terminalPN;
     @FindBy(xpath = "(//input[@rel='termfamily'])[1]") private WebElement termFamily;
@@ -302,6 +303,16 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(xpath = "//p[text()='Drawn Length:']/..") private WebElement drawnLength;
     @FindBy(xpath = "//*[name()='g' and contains(@class,'DG27')]//*[name()='use']") private WebElement bundle;
     @FindBy(css = "input#sheetsTreeListSearch2") private WebElement inputComponentSearchTee;
+    @FindBy(css = "input#linkPartsSearchlistSheet") private WebElement inputCompSearchSchematicHarnessTee;
+    @FindBy(xpath = "//div[@Title = 'Update Sleeve Tube']") private WebElement updateSleeveTube;
+    @FindBy(css = "form#globalSleeveTube") private WebElement formUpdateSleeveTube;
+    @FindBy(css = "form#globalSleeveTube select[name=\"library\"]") private WebElement selectCompDbSleeveTube;
+    @FindBy(css = "form#globalSleeveTube select[name=\"covering\"]") private WebElement selectCoveringSleeveTube;
+    @FindBy(css = "form#globalSleeveTube select[name=\"material\"]") private WebElement selectMaterialSleeveTube;
+    @FindBy(css = "form#globalSleeveTube select[name=\"replace\"]") private WebElement selectReplaceSleeveTube;
+    @FindBy(css = "form#globalSleeveTube select[name=\"colour\"]") private WebElement selectColourSleeveTube;
+    @FindBy(css = "form#globalSleeveTube button[title=\"Submit\"]") private WebElement submitUpdateSleeveTube;
+    @FindBy(css = "form#frmBundleSelection button[title=\"Submit\"]") private WebElement submitBundleList;
     @FindBy(xpath = "//*[name()='text' and contains(text(),'-DELPHI-PLUG_2WY_METRI-PACK 280_BK_SLD_FEM TERMS')]") private WebElement label1;
     @FindBy(xpath = "//*[@data-text='12020807']") private WebElement label2;
     @FindBy(xpath = "//*[@data-text='12020807']") private WebElement label3;
@@ -857,6 +868,13 @@ public class SchematicsDrawingPage extends BasePage{
     public void openLeftPanel() throws InterruptedException {
         Boolean leftPanelDisplayed = driver.findElements(By.cssSelector("div#leftTabs")).get(0).isDisplayed();
         if (!leftPanelDisplayed){
+            leftPanelProjectNavigator.click();
+        }
+    }
+
+    public void closeLeftPanel() {
+        Boolean leftPanelDisplayed = driver.findElements(By.cssSelector("div#leftTabs")).get(0).isDisplayed();
+        if (leftPanelDisplayed){
             leftPanelProjectNavigator.click();
         }
     }
@@ -1723,6 +1741,132 @@ public class SchematicsDrawingPage extends BasePage{
         Thread.sleep(2000);
         List<WebElement> eleInline = driver.findElements(By.xpath("//div[@id=\"leftTreeWrapper\"]//span[text()=\" Inline\"]"));
         Assert.assertFalse(eleInline.get(0).isDisplayed(),"Schematic tree view is not collapsed");
+    }
+
+    public void expandLeftTree() throws InterruptedException {
+        Thread.sleep(2000);
+        driver.findElement(By.xpath("//div[contains(@class,\"lastExpandable-hitarea\")]")).click();
+        Thread.sleep(2000);
+    }
+
+    public void verifySchematicHarnessTreeExpandedComponents() throws InterruptedException {
+        WebElement eleConnectors = driver.findElement(By.xpath("//div[@id=\"leftTreeWrapper\"]//span[text()=\"Connectors (6)\"]"));
+        Assert.assertTrue(eleConnectors.isDisplayed(),"Connectors are not displayed in schematic harness tree view");
+        WebElement eleSplices = driver.findElement(By.xpath("//div[@id=\"leftTreeWrapper\"]//span[text()=\"Splices (3)\"]"));
+        Assert.assertTrue(eleSplices.isDisplayed(),"Splices are not displayed in schematic harness tree view");
+        WebElement eleNodes = driver.findElement(By.xpath("//div[@id=\"leftTreeWrapper\"]//span[contains(text(),\"Nodes\")]"));
+        Assert.assertTrue(eleNodes.isDisplayed(),"Nodes are not displayed in schematic harness tree view");
+        WebElement eleBundles = driver.findElement(By.xpath("//div[@id=\"leftTreeWrapper\"]//span[text()=\"Bundles (7)\"]"));
+        Assert.assertTrue(eleBundles.isDisplayed(),"Bundles are not displayed in schematic harness tree view");
+        WebElement eleWires = driver.findElement(By.xpath("//div[@id=\"leftTreeWrapper\"]//span[contains(text(),\"Wires\")]"));
+        Assert.assertTrue(eleWires.isDisplayed(),"Wires are not displayed in schematic harness tree view");
+        WebElement eleMulticore = driver.findElement(By.xpath("//div[@id=\"leftTreeWrapper\"]//span[contains(text(),\"Mcore\")]"));
+        Assert.assertTrue(eleMulticore.isDisplayed(),"Multicore are not displayed in schematic harness tree view");
+        customCommand.scrollIntoView(driver,eleConnectors);
+        customCommand.javaScriptClick(driver,eleConnectors);
+        Assert.assertTrue(driver.findElement(By.xpath("//div[@id=\"leftTreeWrapper\"]//span[text()=\"C1 - Main\"]")).isDisplayed(),"Expected connector is not displayed in schematic harness tree view");
+        Assert.assertTrue(driver.findElement(By.xpath("//div[@id=\"leftTreeWrapper\"]//span[contains(text(),\"C2\")]")).isDisplayed(),"Expected connector is not displayed in schematic harness tree view");
+        Assert.assertTrue(driver.findElement(By.xpath("//div[@id=\"leftTreeWrapper\"]//span[contains(text(),\"C3\")]")).isDisplayed(),"Expected connector is not displayed in schematic harness tree view");
+        Assert.assertTrue(driver.findElement(By.xpath("//div[@id=\"leftTreeWrapper\"]//span[text()=\"C4\"]")).isDisplayed(),"Expected connector is not displayed in schematic harness tree view");
+        Assert.assertTrue(driver.findElement(By.xpath("//div[@id=\"leftTreeWrapper\"]//span[text()=\"C5\"]")).isDisplayed(),"Expected connector is not displayed in schematic harness tree view");
+        Assert.assertTrue(driver.findElement(By.xpath("//div[@id=\"leftTreeWrapper\"]//span[text()=\"C6\"]")).isDisplayed(),"Expected connector is not displayed in schematic harness tree view");
+        customCommand.scrollIntoView(driver,eleSplices);
+        customCommand.javaScriptClick(driver,eleSplices);
+        Assert.assertTrue(driver.findElement(By.xpath("//div[@id=\"leftTreeWrapper\"]//span[text()=\"SP-BK - Splice\"]")).isDisplayed(),"Expected splice is not displayed in schematic harness tree view");
+        Assert.assertTrue(driver.findElement(By.xpath("//div[@id=\"leftTreeWrapper\"]//span[text()=\"SP-GN - Splice\"]")).isDisplayed(),"Expected splice is not displayed in schematic harness tree view");
+        Assert.assertTrue(driver.findElement(By.xpath("//div[@id=\"leftTreeWrapper\"]//span[text()=\"SP-YE - Splice\"]")).isDisplayed(),"Expected splice is not displayed in schematic harness tree view");
+        customCommand.scrollIntoView(driver,eleNodes);
+        customCommand.javaScriptClick(driver,eleNodes);
+        Assert.assertTrue(driver.findElement(By.xpath("//div[@id=\"leftTreeWrapper\"]//span[text()=\"NODE1\"]")).isDisplayed(),"Expected node is not displayed in schematic harness tree view");
+        customCommand.scrollIntoView(driver,eleBundles);
+        customCommand.javaScriptClick(driver,eleBundles);
+        Assert.assertTrue(driver.findElement(By.xpath("//div[@id=\"leftTreeWrapper\"]//span[text()=\"BUNDLE1\"]")).isDisplayed(),"Expected bundle is not displayed in schematic harness tree view");
+        customCommand.scrollIntoView(driver,eleWires);
+        customCommand.javaScriptClick(driver,eleWires);
+        Assert.assertTrue(driver.findElement(By.xpath("//div[@id=\"leftTreeWrapper\"]//span[text()=\"WIRE1\"]")).isDisplayed(),"Expected wire is not displayed in schematic harness tree view");
+        Assert.assertTrue(driver.findElement(By.xpath("//div[@id=\"leftTreeWrapper\"]//span[text()=\"WIRE2\"]")).isDisplayed(),"Expected wire is not displayed in schematic harness tree view");
+        Assert.assertTrue(driver.findElement(By.xpath("//div[@id=\"leftTreeWrapper\"]//span[text()=\"WH\"]")).isDisplayed(),"Expected wire colour is not displayed in schematic harness tree view");
+        customCommand.scrollIntoView(driver,eleMulticore);
+        if(driver.findElements(By.xpath("//div[contains(@class,\"lastCollapsable-hitarea\")]//following-sibling::span[contains(text(),\"Mcore\")]")).size()==0){
+            customCommand.javaScriptClick(driver,eleMulticore);
+        }
+        customCommand.scrollIntoView(driver,driver.findElement(By.xpath("//div[@id=\"leftTreeWrapper\"]//span[contains(text(),\"TestMCore\")]")));
+        Assert.assertTrue(driver.findElement(By.xpath("//div[@id=\"leftTreeWrapper\"]//span[contains(text(),\"TestMCore\")]")).isDisplayed(),"Expected multicore is not displayed in schematic harness tree view");
+    }
+
+    public void verifySearchSchematicHarnessTree(String componentName) throws InterruptedException {
+        customCommand.waitForElementToBeClickable(driver,inputCompSearchSchematicHarnessTee);
+        inputCompSearchSchematicHarnessTee.clear();
+        customCommand.simulateKeyEnterWithValue(inputCompSearchSchematicHarnessTee,componentName);
+        Thread.sleep(4000);
+        WebElement ele = driver.findElement(By.xpath("//div[@id=\"leftTreeWrapper\"]//span[contains(text(),\""+componentName+"\")]"));
+        Assert.assertTrue(ele.isDisplayed(),"Expected component is not displayed in schematic harness tree view when it was searched in tree");
+    }
+
+    public void updateSleeveTubeOnSchematicHarness(String coveringType, String materialValue) throws InterruptedException {
+        customCommand.longWaitForElementToBeClickable(driver,selectButton);
+        customCommand.scrollIntoView(driver,updateSleeveTube);
+        customCommand.javaScriptClick(driver,updateSleeveTube);
+        customCommand.waitForElementVisibility(driver,formUpdateSleeveTube);
+
+        customCommand.waitClick(selectCompDbSleeveTube);
+        customCommand.selectDropDownByValue(selectCompDbSleeveTube,System.getProperty("componentDB"));
+        customCommand.waitClick(selectCoveringSleeveTube);
+        customCommand.selectDropDownByValue(selectCoveringSleeveTube,coveringType);
+        Thread.sleep(3000);
+        customCommand.waitClick(selectMaterialSleeveTube);
+        customCommand.selectDropDownByValue(selectMaterialSleeveTube,materialValue);
+        Thread.sleep(3000);
+        customCommand.waitClick(selectColourSleeveTube);
+        customCommand.selectDropDownByValue(selectColourSleeveTube,"BLACK");
+        Thread.sleep(3000);
+        customCommand.waitClick(selectReplaceSleeveTube);
+        customCommand.selectDropDownByValue(selectReplaceSleeveTube,"yes");
+        customCommand.waitClick(submitUpdateSleeveTube);
+        Thread.sleep(2000);
+        customCommand.longWaitForElementToBeClickable(driver,driver.findElement(By.cssSelector("form#frmBundleSelection input#searchText")));
+    }
+
+    public void verifyCoveringsUpdatedOnSchematicHarness() throws InterruptedException {
+        customCommand.waitForElementToBeClickable(driver,driver.findElement(By.cssSelector("form#frmBundleSelection input[title=\"selectall\"]")));
+        driver.findElement(By.cssSelector("form#frmBundleSelection input[title=\"selectall\"]")).click();
+        Thread.sleep(2000);
+        customCommand.javaScriptClick(driver,submitBundleList);
+        Thread.sleep(5000);
+        customCommand.waitForElementVisibility(driver,driver.findElement(By.xpath("//h1[text()=\"SUMMARY REPORT\"]")));
+        WebElement eleUpdateSummary = driver.findElement(By.xpath("//h3[text()=\"Update Summary\"]"));
+        Assert.assertTrue(eleUpdateSummary.isDisplayed(),"Update summary is not displayed for update sleevetube");
+        customCommand.javaScriptClick(driver,eleUpdateSummary);
+        Assert.assertTrue(driver.findElement(By.xpath("//h3[text()=\"Update Summary\"]//following-sibling::div//thead//tr//th[text()=\"Bundle ID\"]")).isDisplayed(),"BundleId header is not displayed in update sleeve tube summary");
+        List<WebElement> eleBundleData = driver.findElements(By.xpath("//h3[text()=\"Update Summary\"]//following-sibling::div//tbody//tr//td[1]"));
+        Assert.assertTrue(eleBundleData.size()!=0,"Bundle data is not displayed");
+        Assert.assertTrue(driver.findElement(By.xpath("//h3[text()=\"Update Summary\"]//following-sibling::div//thead//tr//th[text()=\"Covering Partnumber\"]")).isDisplayed(),"CoveringPartNumber header is not displayed in update sleeve tube summary");
+        Assert.assertTrue(driver.findElement(By.xpath("//h3[text()=\"Update Summary\"]//following-sibling::div//thead//tr//th[text()=\"Covering Type\"]")).isDisplayed(),"CoveringType header is not displayed in update sleeve tube summary");
+        Assert.assertTrue(driver.findElement(By.xpath("//h3[text()=\"Update Summary\"]//following-sibling::div//thead//tr//th[text()=\"Internal Dia\"]")).isDisplayed(),"InternalDia header is not displayed in update sleeve tube summary");
+        Assert.assertTrue(driver.findElement(By.xpath("//h3[text()=\"Update Summary\"]//following-sibling::div//thead//tr//th[text()=\"External Dia\"]")).isDisplayed(),"ExternalDia header is not displayed in update sleeve tube summary");
+        Assert.assertTrue(driver.findElement(By.xpath("//h3[text()=\"Update Summary\"]//following-sibling::div//thead//tr//th[text()=\"Colour\"]")).isDisplayed(),"Colour header is not displayed in update sleeve tube summary");
+        Assert.assertTrue(driver.findElement(By.xpath("//h3[text()=\"Update Summary\"]//following-sibling::div//thead//tr//th[text()=\"Piece ID\"]")).isDisplayed(),"PieceID header is not displayed in update sleeve tube summary");
+        Assert.assertTrue(driver.findElement(By.xpath("//h3[text()=\"Update Summary\"]//following-sibling::div//thead//tr//th[text()=\"Variant\"]")).isDisplayed(),"Variant header is not displayed in update sleeve tube summary");
+        Assert.assertTrue(driver.findElement(By.xpath("//h3[text()=\"Update Summary\"]//following-sibling::div//tbody//tr//td//a[text()=\"BUNDLE1\"]")).isDisplayed(),"Bundle1 data is not displayed in update sleeve tube summary");
+        Assert.assertNotEquals(driver.findElement(By.xpath("//h3[text()=\"Update Summary\"]//following-sibling::div//tbody//tr//td[2]")).getText(),"","Covering part number for bundle is not as expected");
+        Assert.assertEquals(driver.findElement(By.xpath("//h3[text()=\"Update Summary\"]//following-sibling::div//tbody//tr//td[3]")).getText(),"conduit_slit","Covering type for bundle is not as expected");
+        Assert.assertEquals(driver.findElement(By.xpath("//h3[text()=\"Update Summary\"]//following-sibling::div//tbody//tr//td[6]")).getText(),"BLACK","Covering colour for bundle is not as expected");
+    }
+
+    public void linkMulticoreToSchematicHarness() throws InterruptedException {
+        customCommand.longWaitForElementToBeClickable(driver,selectButton);
+        customCommand.javaScriptClick(driver,selectButton);
+        new HarnessPage(driver).getContextMenu("",connector);
+        Thread.sleep(2000);
+        customCommand.javaScriptClick(driver,inspectContextMenu);
+        new ConnectorPage(driver).verifyConnectorDetailsWindowOpened();
+        customCommand.scrollToElement(driver,connectorWireTable);
+        WebElement eleMulticore = driver.findElement(By.cssSelector("input[name=\"wiretable.multicore\"]"));
+        customCommand.scrollIntoView(driver,eleMulticore);
+        customCommand.clearAndEnterText(eleMulticore,"TestMCore");
+        customCommand.javaScriptClick(driver,buttonSubmitDetails);
+        Thread.sleep(2000);
+        customCommand.waitForElementToBeClickable(driver,selectButton);
     }
 
     public boolean verifyTerminalStripLength()

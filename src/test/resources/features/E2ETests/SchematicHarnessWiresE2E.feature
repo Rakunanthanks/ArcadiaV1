@@ -46,3 +46,18 @@ Feature: Verify schematics harness wires functionality
     And connector editor is opened
     And user loads schematic data on connector editor
     Then user verifies schematic is loaded on connector editor successfully
+
+  @VerifySchematicHarnessWires
+  Scenario: Verify tree view functionality on schematic harness left pane
+    And user links multicore to schematic harness
+    And User opens left pane on harness
+    And User expands schematic harness tree
+    Then Verify components displayed in expanded schematic harness tree
+    And user verifies search view functionality on schematic harness tree view
+
+
+  @VerifySchematicHarnessWires
+  Scenario: Verify sleeve tube and coverings can be successfully updated on schematic harness
+    When user updates sleevetube details on schematic harness
+    Then verify that coverings are updated successfully on schematic harness
+
