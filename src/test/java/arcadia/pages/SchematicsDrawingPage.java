@@ -74,6 +74,7 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(xpath = "(//input[@name='parentnode'])[1]") private WebElement nodeVisibility;
     @FindBy(xpath = "(//input[@name='parentbundle'])[1]") private WebElement parentbundleVisibility;
     @FindBy(xpath = "(//input[@name='parentconnectorcavity'])[1]") private WebElement parentconnectorcavityVisibility;
+    @FindBy(xpath = "(//input[@name='parentsplicecavity'])[1]") private WebElement parentsplicecavityVisibility;
 
     @FindBy(xpath = "//span[@class='button-title' and text()='Wire Editor']") private WebElement wireEditor;
     @FindBy(id = "wire-editor") private WebElement divWireEditorPage;
@@ -217,7 +218,7 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(xpath = "(//*[name()='text' and text()='WIRE4'])[2]") private WebElement wire4;
     @FindBy(xpath = "//span[text()='Connector Label']") private WebElement connectorLabel;
     @FindBy(xpath = "//*[name()='text']/*[name()='tspan']") private List<WebElement> connectorLabelsCount;
-    @FindBy(xpath = "(//table[contains(@class,'cavityTableGFX')])[9]//tbody/tr[1]/td") private List<WebElement> cavityTableColumn;
+    @FindBy(xpath = "(//table[contains(@class,'cavityTableGFX')])[7]//tbody/tr[1]/td") private List<WebElement> cavityTableColumn;
     @FindBy(css = "table.wireTableClass thead") private WebElement wiretableHeader;
     @FindBy(xpath = "(//*[name()='rect'  and @etype='connector'])[1]") private WebElement connector;
     @FindBy(xpath = "(//*[name()='rect'  and @etype='connector'])[2]") private WebElement connector2;
@@ -312,6 +313,10 @@ public class SchematicsDrawingPage extends BasePage{
     @FindBy(css = "form#globalSleeveTube select[name=\"colour\"]") private WebElement selectColourSleeveTube;
     @FindBy(css = "form#globalSleeveTube button[title=\"Submit\"]") private WebElement submitUpdateSleeveTube;
     @FindBy(css = "form#frmBundleSelection button[title=\"Submit\"]") private WebElement submitBundleList;
+    @FindBy(xpath = "//*[name()='text' and contains(text(),'-DELPHI-PLUG_2WY_METRI-PACK 280_BK_SLD_FEM TERMS')]") private WebElement label1;
+    @FindBy(xpath = "//*[@data-text='12020807']") private WebElement label2;
+    @FindBy(xpath = "//*[@data-text='12020807']") private WebElement label3;
+
 
     String wireEditorHeaders = "//div[@id=\"wire-editor\"]//thead//th//input";
 
@@ -1615,6 +1620,16 @@ public class SchematicsDrawingPage extends BasePage{
         customCommand.javaScriptClick(driver,SubmitWire);
     }
 
+    public void setVisibilityOn() throws InterruptedException {
+        customCommand.javaScriptClick(driver,advancedTab);
+        customCommand.javaScriptClick(driver,visibility);
+        customCommand.javaScriptClick(driver,nodeVisibility);
+        customCommand.javaScriptClick(driver,parentbundleVisibility);
+        customCommand.javaScriptClick(driver,parentconnectorcavityVisibility);
+        customCommand.javaScriptClick(driver,parentsplicecavityVisibility);
+        customCommand.javaScriptClick(driver,SubmitWire);
+    }
+
     public void updateFont() throws InterruptedException {
         customCommand.javaScriptClick(driver,fontSetting);
         for(WebElement w:fontList)
@@ -1853,5 +1868,33 @@ public class SchematicsDrawingPage extends BasePage{
         Thread.sleep(2000);
         customCommand.waitForElementToBeClickable(driver,selectButton);
     }
+
+    public boolean verifyTerminalStripLength()
+    {
+        WebElement terminalstripLength=driver.findElement(By.xpath("//a[@data-text='0-0444335-2']"));
+        terminalstripLength.click();
+        WebElement length=driver.findElement(By.xpath("//td[text()='Strip Length']/../th"));
+        String l=length.getText();
+        if(l.equalsIgnoreCase("3"))
+        {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public boolean labelValidation(){
+        boolean flag=label1.isDisplayed();
+        boolean flag1=label2.isDisplayed();
+        if(flag&&flag1)
+        {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
 }
 

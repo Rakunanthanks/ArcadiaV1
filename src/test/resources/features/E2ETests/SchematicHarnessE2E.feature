@@ -32,7 +32,7 @@ Feature: Verify schematics harness
     And user verifies the 'search' filter to link part "SP-GN"
     And user convert splices to virtual node
 
-  @VerifySchematicHarness @fix123
+  @VerifySchematicHarness
   Scenario: Verifies that in Harness parts can be linked to node by searching, filtering connector or splices
     And User imports harness 'baselineHarness'
     And user navigated to newly created harness
